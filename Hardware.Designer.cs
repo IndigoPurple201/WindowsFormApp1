@@ -38,28 +38,23 @@
             txtFolio = new TextBox();
             label2 = new Label();
             label3 = new Label();
-            txtArea = new TextBox();
             label4 = new Label();
             txtDidecon = new TextBox();
             label5 = new Label();
-            txtResponsable = new TextBox();
             txtDireccion = new TextBox();
             label7 = new Label();
             label8 = new Label();
             boxMarca = new ComboBox();
             label9 = new Label();
-            textNumSerie = new TextBox();
             label10 = new Label();
             label11 = new Label();
             txtProcesador = new TextBox();
             boxModelo = new ComboBox();
             label12 = new Label();
             label13 = new Label();
-            textDisco = new TextBox();
             boxMemoria = new ComboBox();
             boxDepartamento = new ComboBox();
             label6 = new Label();
-            txtActivo = new TextBox();
             boxArea = new ComboBox();
             panelBarra.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)buttonSalir).BeginInit();
@@ -163,17 +158,6 @@
             label3.TabIndex = 7;
             label3.Text = "Area";
             // 
-            // txtArea
-            // 
-            txtArea.BorderStyle = BorderStyle.FixedSingle;
-            txtArea.Font = new Font("Segoe UI", 9F);
-            txtArea.Location = new Point(444, 111);
-            txtArea.Name = "txtArea";
-            txtArea.Size = new Size(228, 23);
-            txtArea.TabIndex = 8;
-            txtArea.TextChanged += txtArea_TextChanged;
-            txtArea.KeyPress += txtArea_KeyPress;
-            // 
             // label4
             // 
             label4.AutoSize = true;
@@ -203,28 +187,6 @@
             label5.Size = new Size(98, 21);
             label5.TabIndex = 11;
             label5.Text = "Responsable";
-            // 
-            // txtResponsable
-            // 
-            txtResponsable.BorderStyle = BorderStyle.FixedSingle;
-            txtResponsable.Font = new Font("Segoe UI", 9F);
-            txtResponsable.Location = new Point(139, 193);
-            txtResponsable.Name = "txtResponsable";
-            txtResponsable.Size = new Size(245, 23);
-            txtResponsable.TabIndex = 12;
-            txtResponsable.TextChanged += txtResponsable_TextChanged;
-            txtResponsable.KeyPress += txtResponsable_KeyPress;
-            // 
-            // txtDireccion
-            // 
-            txtDireccion.BorderStyle = BorderStyle.FixedSingle;
-            txtDireccion.Font = new Font("Segoe UI", 9F);
-            txtDireccion.Location = new Point(139, 235);
-            txtDireccion.Name = "txtDireccion";
-            txtDireccion.Size = new Size(245, 23);
-            txtDireccion.TabIndex = 14;
-            txtDireccion.TextChanged += txtDireccion_TextChanged;
-            txtDireccion.KeyPress += txtDireccion_KeyPress;
             // 
             // label7
             // 
@@ -265,16 +227,6 @@
             label9.Size = new Size(87, 21);
             label9.TabIndex = 19;
             label9.Text = "Num. Serie";
-            // 
-            // textNumSerie
-            // 
-            textNumSerie.BorderStyle = BorderStyle.FixedSingle;
-            textNumSerie.Font = new Font("Segoe UI", 9F);
-            textNumSerie.Location = new Point(139, 320);
-            textNumSerie.Name = "textNumSerie";
-            textNumSerie.Size = new Size(245, 23);
-            textNumSerie.TabIndex = 20;
-            textNumSerie.TextChanged += textNumSerie_TextChanged;
             // 
             // label10
             // 
@@ -336,16 +288,6 @@
             label13.TabIndex = 28;
             label13.Text = "Disco Duro";
             // 
-            // textDisco
-            // 
-            textDisco.BorderStyle = BorderStyle.FixedSingle;
-            textDisco.Font = new Font("Segoe UI", 9F);
-            textDisco.Location = new Point(139, 488);
-            textDisco.Name = "textDisco";
-            textDisco.Size = new Size(245, 23);
-            textDisco.TabIndex = 29;
-            textDisco.KeyPress += textDisco_KeyPress;
-            // 
             // boxMemoria
             // 
             boxMemoria.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -376,16 +318,6 @@
             label6.TabIndex = 33;
             label6.Text = "Act. Contraloria";
             // 
-            // txtActivo
-            // 
-            txtActivo.BorderStyle = BorderStyle.FixedSingle;
-            txtActivo.Font = new Font("Segoe UI", 9F);
-            txtActivo.Location = new Point(519, 150);
-            txtActivo.Name = "txtActivo";
-            txtActivo.Size = new Size(153, 23);
-            txtActivo.TabIndex = 34;
-            txtActivo.KeyPress += txtActivo_KeyPress;
-            // 
             // boxArea
             // 
             boxArea.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -403,13 +335,11 @@
             BackColor = Color.WhiteSmoke;
             ClientSize = new Size(694, 580);
             Controls.Add(boxArea);
-            Controls.Add(txtActivo);
             Controls.Add(label6);
             Controls.Add(panelBarra);
             Controls.Add(boxDepartamento);
             Controls.Add(boxMemoria);
             Controls.Add(txtFolio);
-            Controls.Add(textDisco);
             Controls.Add(btnNuevo);
             Controls.Add(label13);
             Controls.Add(btnAceptar);
@@ -422,15 +352,12 @@
             Controls.Add(label11);
             Controls.Add(label3);
             Controls.Add(label10);
-            Controls.Add(txtArea);
-            Controls.Add(textNumSerie);
             Controls.Add(label4);
             Controls.Add(label9);
             Controls.Add(txtDidecon);
             Controls.Add(boxMarca);
             Controls.Add(label5);
             Controls.Add(label8);
-            Controls.Add(txtResponsable);
             Controls.Add(label7);
             Controls.Add(txtDireccion);
             FormBorderStyle = FormBorderStyle.None;
@@ -452,29 +379,24 @@
         private TextBox txtFolio;
         private Label label2;
         private Label label3;
-        private TextBox txtArea;
         private Label label4;
         private TextBox txtDidecon;
         private Label label5;
-        private TextBox txtResponsable;
         private TextBox txtDireccion;
         private Label label7;
         private Label label8;
         private ComboBox boxMarca;
         private Label label9;
-        private TextBox textNumSerie;
         private Label label10;
         private Label label11;
         private TextBox txtProcesador;
         private ComboBox boxModelo;
         private Label label12;
         private Label label13;
-        private TextBox textDisco;
         private ComboBox boxMemoria;
         private ComboBox boxDepartamento;
         private PictureBox buttonSalir;
         private Label label6;
-        private TextBox txtActivo;
         private ComboBox boxArea;
     }
 }

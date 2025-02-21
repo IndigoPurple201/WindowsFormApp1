@@ -75,44 +75,6 @@ namespace WinFormsApp1
                 e.Handled = true;
             }
         }
-        private void txtDireccion_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            TextBox txt = sender as TextBox;
-
-            // Evitar que se ingresen más de 15 dígitos
-            if (!char.IsControl(e.KeyChar) && txt.Text.Length >= 15)
-            {
-                e.Handled = true;
-            }
-
-            //Permitirsolo numerosy puntos
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
-            {
-                e.Handled = true;
-            }
-
-            // Evitar que haya puntos seguidos
-            if (e.KeyChar == '.' && (txt.Text.EndsWith(".") || txt.Text.Split('.').Length > 3))
-            {
-                e.Handled = true;
-            }
-
-        }
-
-        private void txtDireccion_TextChanged(object sender, EventArgs e)
-        {
-            TextBox txt = sender as TextBox;
-            //Expresion regular para validar una direccion IP
-            string pattern = @"^(25[0-5]|2[0-4][0-9]|1?[0-9]?[0-9])(\.(25[0-5]|2[0-4][0-9]|1?[0-9]?[0-9])){3}$";
-            if (!Regex.IsMatch(txt.Text, pattern) && txt.Text.Length > 0)
-            {
-                txt.ForeColor = Color.Red; // Indicar error en rojo
-            }
-            else
-            {
-                txt.ForeColor = Color.Black; // IP válida en negro
-            }
-        }
 
         private void txtDidecon_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -127,33 +89,6 @@ namespace WinFormsApp1
             {
                 e.Handled = true;
             }
-        }
-
-        private void txtResponsable_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            // Permitir solo letras, espacios y teclas de control (como Backspace)
-            if (!char.IsControl(e.KeyChar) && !char.IsLetter(e.KeyChar) && e.KeyChar != ' ')
-            {
-                e.Handled = true; // Bloquea la entrada
-            }
-        }
-
-        private void txtResponsable_TextChanged(object sender, EventArgs e)
-        {
-            TextBox txt = sender as TextBox;
-            // Convertir todo el texto a mayúsculas
-            txt.Text = txt.Text.ToUpper();
-            // Mover el cursor al final para evitar que vuelva atrás
-            txt.SelectionStart = txt.Text.Length;
-        }
-
-        private void textNumSerie_TextChanged(object sender, EventArgs e)
-        {
-            TextBox txt = sender as TextBox;
-            // Convertir todo el texto a mayúsculas
-            txt.Text = txt.Text.ToUpper();
-            // Mover el cursor al final para evitar que vuelva atrás
-            txt.SelectionStart = txt.Text.Length;
         }
 
         private void textBox3_TextChanged(object sender, EventArgs e)
@@ -174,37 +109,6 @@ namespace WinFormsApp1
             }
             // Evitar que se ingresen más de 3 dígitos
             if (!char.IsControl(e.KeyChar) && txt.Text.Length >= 3)
-            {
-                e.Handled = true;
-            }
-        }
-        private void txtArea_TextChanged(object sender, EventArgs e)
-        {
-            TextBox txt = sender as TextBox;
-            // Convertir todo el texto a mayúsculas
-            txt.Text = txt.Text.ToUpper();
-            // Mover el cursor al final para evitar que vuelva atrás
-            txt.SelectionStart = txt.Text.Length;
-        }
-
-        private void txtArea_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            // Permitir solo letras, espacios y teclas de control (como Backspace)
-            if (!char.IsControl(e.KeyChar) && !char.IsLetter(e.KeyChar) && e.KeyChar != ' ')
-            {
-                e.Handled = true; // Bloquea la entrada
-            }
-        }
-
-        private void txtActivo_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            TextBox txt = sender as TextBox;
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
-            {
-                e.Handled = true; // Bloquear entrada no numérica
-            }
-            // Evitar que se ingresen más de 10 dígitos
-            if (!char.IsControl(e.KeyChar) && txt.Text.Length >= 10)
             {
                 e.Handled = true;
             }
