@@ -22,7 +22,7 @@ public class ConexionSQL
             {
                 connection.Open();
                 // Si la conexión es exitosa, muestra un mensaje de éxito
-                MessageBox.Show("Conexión exitosa con la base de datos.");
+                MessageBox.Show("Conexión exitosa con la base de datos jeje.");
             }
             catch (Exception ex)
             {
