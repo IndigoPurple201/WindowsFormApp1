@@ -59,6 +59,7 @@
             boxMemoria = new ComboBox();
             boxDepartamento = new ComboBox();
             label6 = new Label();
+            txtActivo = new TextBox();
             panelBarra.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)buttonSalir).BeginInit();
             SuspendLayout();
@@ -70,14 +71,14 @@
             panelBarra.Controls.Add(buttonSalir);
             panelBarra.Location = new Point(-1, 0);
             panelBarra.Name = "panelBarra";
-            panelBarra.Size = new Size(686, 35);
+            panelBarra.Size = new Size(696, 35);
             panelBarra.TabIndex = 32;
             // 
             // buttonSalir
             // 
             buttonSalir.Cursor = Cursors.Hand;
             buttonSalir.Image = (Image)resources.GetObject("buttonSalir.Image");
-            buttonSalir.Location = new Point(656, 2);
+            buttonSalir.Location = new Point(665, 3);
             buttonSalir.Name = "buttonSalir";
             buttonSalir.Size = new Size(24, 27);
             buttonSalir.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -368,18 +369,29 @@
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label6.Location = new Point(396, 147);
+            label6.Location = new Point(396, 152);
             label6.Name = "label6";
-            label6.Size = new Size(135, 21);
+            label6.Size = new Size(117, 21);
             label6.TabIndex = 33;
-            label6.Text = "Activo Contraloria";
+            label6.Text = "Act. Contraloria";
+            // 
+            // txtActivo
+            // 
+            txtActivo.BorderStyle = BorderStyle.FixedSingle;
+            txtActivo.Font = new Font("Segoe UI", 9F);
+            txtActivo.Location = new Point(519, 150);
+            txtActivo.Name = "txtActivo";
+            txtActivo.Size = new Size(153, 23);
+            txtActivo.TabIndex = 34;
+            txtActivo.KeyPress += txtActivo_KeyPress;
             // 
             // Hardware
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.WhiteSmoke;
-            ClientSize = new Size(684, 580);
+            ClientSize = new Size(694, 580);
+            Controls.Add(txtActivo);
             Controls.Add(label6);
             Controls.Add(panelBarra);
             Controls.Add(boxDepartamento);
@@ -450,5 +462,6 @@
         private ComboBox boxDepartamento;
         private PictureBox buttonSalir;
         private Label label6;
+        private TextBox txtActivo;
     }
 }

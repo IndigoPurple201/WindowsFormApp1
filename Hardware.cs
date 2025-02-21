@@ -196,6 +196,20 @@ namespace WinFormsApp1
             }
         }
 
+        private void txtActivo_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true; // Bloquear entrada no numérica
+            }
+            // Evitar que se ingresen más de 10 dígitos
+            if (!char.IsControl(e.KeyChar) && txt.Text.Length >= 10)
+            {
+                e.Handled = true;
+            }
+        }
+
         private void LlenarBoxMarca()
         {
             try
@@ -325,7 +339,7 @@ namespace WinFormsApp1
         {
             foreach (Control ctrl in this.Controls)
             {
-                if(ctrl is TextBox || ctrl is ComboBox)
+                if (ctrl is TextBox || ctrl is ComboBox)
                 {
                     ctrl.Enabled = !bloquear; // Deshabilita o habilita los controles
                 }
@@ -339,7 +353,7 @@ namespace WinFormsApp1
         {
             foreach (Control ctrl in this.Controls)
             {
-                if(ctrl is TextBox && !string.IsNullOrEmpty((ctrl as TextBox).Text))
+                if (ctrl is TextBox && !string.IsNullOrEmpty((ctrl as TextBox).Text))
                 {
                     (ctrl as TextBox).Clear();
                 }
