@@ -60,6 +60,7 @@
             boxDepartamento = new ComboBox();
             label6 = new Label();
             txtActivo = new TextBox();
+            boxArea = new ComboBox();
             panelBarra.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)buttonSalir).BeginInit();
             SuspendLayout();
@@ -385,12 +386,23 @@
             txtActivo.TabIndex = 34;
             txtActivo.KeyPress += txtActivo_KeyPress;
             // 
+            // boxArea
+            // 
+            boxArea.DropDownStyle = ComboBoxStyle.DropDownList;
+            boxArea.Font = new Font("Segoe UI", 9F);
+            boxArea.FormattingEnabled = true;
+            boxArea.Location = new Point(444, 82);
+            boxArea.Name = "boxArea";
+            boxArea.Size = new Size(228, 23);
+            boxArea.TabIndex = 35;
+            // 
             // Hardware
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.WhiteSmoke;
             ClientSize = new Size(694, 580);
+            Controls.Add(boxArea);
             Controls.Add(txtActivo);
             Controls.Add(label6);
             Controls.Add(panelBarra);
@@ -463,5 +475,6 @@
         private PictureBox buttonSalir;
         private Label label6;
         private TextBox txtActivo;
+        private ComboBox boxArea;
     }
 }
