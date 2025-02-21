@@ -56,6 +56,11 @@
             boxDepartamento = new ComboBox();
             label6 = new Label();
             boxArea = new ComboBox();
+            boxResponsable = new ComboBox();
+            boxDireccion = new ComboBox();
+            boxNumSerie = new ComboBox();
+            textDisco = new TextBox();
+            boxActivo = new ComboBox();
             panelBarra.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)buttonSalir).BeginInit();
             SuspendLayout();
@@ -187,6 +192,13 @@
             label5.Size = new Size(98, 21);
             label5.TabIndex = 11;
             label5.Text = "Responsable";
+            // 
+            // txtDireccion
+            // 
+            txtDireccion.Location = new Point(0, 0);
+            txtDireccion.Name = "txtDireccion";
+            txtDireccion.Size = new Size(100, 23);
+            txtDireccion.TabIndex = 38;
             // 
             // label7
             // 
@@ -323,10 +335,59 @@
             boxArea.DropDownStyle = ComboBoxStyle.DropDownList;
             boxArea.Font = new Font("Segoe UI", 9F);
             boxArea.FormattingEnabled = true;
-            boxArea.Location = new Point(444, 82);
+            boxArea.Location = new Point(444, 110);
             boxArea.Name = "boxArea";
             boxArea.Size = new Size(228, 23);
             boxArea.TabIndex = 35;
+            // 
+            // boxResponsable
+            // 
+            boxResponsable.DropDownStyle = ComboBoxStyle.DropDownList;
+            boxResponsable.Font = new Font("Segoe UI", 9F);
+            boxResponsable.FormattingEnabled = true;
+            boxResponsable.Location = new Point(139, 197);
+            boxResponsable.Name = "boxResponsable";
+            boxResponsable.Size = new Size(245, 23);
+            boxResponsable.TabIndex = 36;
+            // 
+            // boxDireccion
+            // 
+            boxDireccion.DropDownStyle = ComboBoxStyle.DropDownList;
+            boxDireccion.Font = new Font("Segoe UI", 9F);
+            boxDireccion.FormattingEnabled = true;
+            boxDireccion.Location = new Point(139, 237);
+            boxDireccion.Name = "boxDireccion";
+            boxDireccion.Size = new Size(245, 23);
+            boxDireccion.TabIndex = 37;
+            // 
+            // boxNumSerie
+            // 
+            boxNumSerie.DropDownStyle = ComboBoxStyle.DropDownList;
+            boxNumSerie.Font = new Font("Segoe UI", 9F);
+            boxNumSerie.FormattingEnabled = true;
+            boxNumSerie.Location = new Point(139, 320);
+            boxNumSerie.Name = "boxNumSerie";
+            boxNumSerie.Size = new Size(245, 23);
+            boxNumSerie.TabIndex = 39;
+            // 
+            // textDisco
+            // 
+            textDisco.BorderStyle = BorderStyle.FixedSingle;
+            textDisco.Font = new Font("Segoe UI", 9F);
+            textDisco.Location = new Point(139, 488);
+            textDisco.Name = "textDisco";
+            textDisco.Size = new Size(245, 23);
+            textDisco.TabIndex = 40;
+            // 
+            // boxActivo
+            // 
+            boxActivo.DropDownStyle = ComboBoxStyle.DropDownList;
+            boxActivo.Font = new Font("Segoe UI", 9F);
+            boxActivo.FormattingEnabled = true;
+            boxActivo.Location = new Point(519, 149);
+            boxActivo.Name = "boxActivo";
+            boxActivo.Size = new Size(153, 23);
+            boxActivo.TabIndex = 41;
             // 
             // Hardware
             // 
@@ -334,6 +395,11 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.WhiteSmoke;
             ClientSize = new Size(694, 580);
+            Controls.Add(boxActivo);
+            Controls.Add(textDisco);
+            Controls.Add(boxNumSerie);
+            Controls.Add(boxDireccion);
+            Controls.Add(boxResponsable);
             Controls.Add(boxArea);
             Controls.Add(label6);
             Controls.Add(panelBarra);
@@ -398,5 +464,10 @@
         private PictureBox buttonSalir;
         private Label label6;
         private ComboBox boxArea;
+        private ComboBox boxResponsable;
+        private ComboBox boxDireccion;
+        private ComboBox boxNumSerie;
+        private TextBox textDisco;
+        private ComboBox boxActivo;
     }
 }

@@ -47,6 +47,12 @@ namespace WinFormsApp1
             }
 
             BloquearControles(true);
+
+            ConfigurarBoxArea(boxArea);
+            ConfigurarBoxResponsable(boxResponsable);
+            ConfigurarBoxDireccion(boxDireccion);
+            ConfigurarNumSerie(boxNumSerie);
+            ConfigurarBoxActivo(boxActivo);
         }
         private void btnNuevo_Click(object sender, EventArgs e)
         {
@@ -265,6 +271,173 @@ namespace WinFormsApp1
                 {
                     (ctrl as ComboBox).SelectedIndex = -1; // Limpia la selección
                 }
+            }
+        }
+
+        private void ConfigurarBoxArea(ComboBox boxArea)
+        {
+            boxArea.Items.Clear();
+            boxArea.Items.Add("-");  // Agregar opción por defecto
+            boxArea.DropDownStyle = ComboBoxStyle.DropDown; // Permite escribir manualmente
+            boxArea.SelectedIndex = 0; // Seleccionar "-" por defecto
+
+            boxArea.TextChanged += boxArea_TextChanged;
+            boxArea.KeyPress += boxArea_KeyPress;
+        }
+
+        private void ConfigurarBoxResponsable(ComboBox boxResponsable)
+        {
+            boxResponsable.Items.Clear();
+            boxResponsable.Items.Add("-");  // Agregar opción por defecto
+            boxResponsable.DropDownStyle = ComboBoxStyle.DropDown; // Permite escribir manualmente
+            boxResponsable.SelectedIndex = 0; // Seleccionar "-" por defecto
+
+            boxResponsable.TextChanged += boxResponsable_TextChanged;
+            boxResponsable.KeyPress += boxResponsable_KeyPress;
+        }
+
+        private void ConfigurarBoxDireccion(ComboBox boxDireccion)
+        {
+            boxDireccion.Items.Clear();
+            boxDireccion.Items.Add("-");  // Agregar opción por defecto
+            boxDireccion.Items.Add("SN");
+            boxDireccion.DropDownStyle = ComboBoxStyle.DropDown; // Permite escribir manualmente
+            boxDireccion.SelectedIndex = 0; // Seleccionar "-" por defecto
+
+            boxDireccion.TextChanged += boxDireccion_TextChanged;
+            boxDireccion.KeyPress += boxDireccion_KeyPress;
+        }
+
+        private void ConfigurarNumSerie(ComboBox boxNumSerie)
+        {
+            boxNumSerie.Items.Clear();
+            boxNumSerie.Items.Add("-");  // Agregar opción por defecto
+            boxNumSerie.DropDownStyle = ComboBoxStyle.DropDown; // Permite escribir manualmente
+            boxNumSerie.SelectedIndex = 0; // Seleccionar "-" por defecto
+
+            boxNumSerie.TextChanged += boxNumSerie_TextChanged;
+        }
+
+        private void ConfigurarBoxActivo(ComboBox boxActivo)
+        {
+            boxActivo.Items.Clear();
+            boxActivo.Items.Add("-");  // Agregar opción por defecto
+            boxActivo.DropDownStyle = ComboBoxStyle.DropDown; // Permite escribir manualmente
+            boxActivo.SelectedIndex = 0; // Seleccionar "-" por defecto
+
+            boxActivo.KeyPress += boxActivo_KeyPress;
+        }
+
+        private void boxArea_TextChanged(object sender, EventArgs e)
+        {
+            ComboBox comboBox = sender as ComboBox;
+
+            // Convertir a mayúsculas
+            comboBox.Text = comboBox.Text.ToUpper();
+
+            // Mover el cursor al final
+            comboBox.SelectionStart = comboBox.Text.Length;
+        }
+
+        private void boxArea_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Permitir solo letras, espacios y teclas de control (Backspace)
+            if (!char.IsControl(e.KeyChar) && !char.IsLetter(e.KeyChar) && e.KeyChar != ' ')
+            {
+                e.Handled = true; // Bloquear entrada
+            }
+        }
+
+        private void boxResponsable_TextChanged(object sender, EventArgs e)
+        {
+            ComboBox comboBox = sender as ComboBox;
+
+            // Convertir a mayúsculas
+            comboBox.Text = comboBox.Text.ToUpper();
+
+            // Mover el cursor al final
+            comboBox.SelectionStart = comboBox.Text.Length;
+        }
+
+        private void boxResponsable_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Permitir solo letras, espacios y teclas de control (Backspace)
+            if (!char.IsControl(e.KeyChar) && !char.IsLetter(e.KeyChar) && e.KeyChar != ' ')
+            {
+                e.Handled = true; // Bloquear entrada
+            }
+        }
+        private void boxDireccion_TextChanged(object sender, EventArgs e)
+        {
+            ComboBox comboBox = sender as ComboBox;
+
+            if (comboBox.Text == "-" || comboBox.Text == "SN")
+            {
+                comboBox.ForeColor = Color.Black;
+                return;
+            }
+
+            //Expresion regular para validar una direccion IP
+            string pattern = @"^(25[0-5]|2[0-4][0-9]|1?[0-9]?[0-9])(\.(25[0-5]|2[0-4][0-9]|1?[0-9]?[0-9])){3}$";
+            if (!Regex.IsMatch(comboBox.Text, pattern) && comboBox.Text.Length > 0)
+            {
+                comboBox.ForeColor = Color.Red; // Indicar error en rojo
+            }
+            else
+            {
+                comboBox.ForeColor = Color.Black; // IP válida en negro
+
+            }
+        }
+
+        private void boxDireccion_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            ComboBox comboBox = sender as ComboBox;
+
+            // Evitar que se ingresen más de 15 dígitos
+            if (!char.IsControl(e.KeyChar) && comboBox.Text.Length >= 15)
+            {
+                e.Handled = true;
+            }
+
+            //Permitirsolo numerosy puntos
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
+            {
+                e.Handled = true;
+            }
+
+            // Evitar que haya puntos seguidos
+            if (e.KeyChar == '.' && (comboBox.Text.EndsWith(".") || comboBox.Text.Split('.').Length > 3))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void boxNumSerie_TextChanged(object sender, EventArgs e)
+        {
+            ComboBox comboBox = sender as ComboBox;
+
+            // Convertir a mayúsculas
+            comboBox.Text = comboBox.Text.ToUpper();
+
+            // Mover el cursor al final
+            comboBox.SelectionStart = comboBox.Text.Length;
+        }
+
+        private void boxActivo_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            ComboBox comboBox = sender as ComboBox;
+
+            // Evitar que se ingresen más de 15 dígitos
+            if (!char.IsControl(e.KeyChar) && comboBox.Text.Length >= 15)
+            {
+                e.Handled = true;
+            }
+
+            //Permitirsolo numerosy puntos
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
             }
         }
     }
