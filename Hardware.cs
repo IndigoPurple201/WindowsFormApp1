@@ -274,13 +274,6 @@ namespace WinFormsApp1
             }
         }
 
-        private void ConfigurarBoxArea(ComboBox boxArea)
-        {
-            boxArea.Items.Clear();
-            boxArea.Items.Add("-");  // Agregar opción por defecto
-            boxArea.DropDownStyle = ComboBoxStyle.DropDown; // Permite escribir manualmente
-            boxArea.SelectedIndex = 0; // Seleccionar "-" por defecto
-
             boxArea.TextChanged += boxArea_TextChanged;
             boxArea.KeyPress += boxArea_KeyPress;
         }
@@ -300,7 +293,6 @@ namespace WinFormsApp1
         {
             boxDireccion.Items.Clear();
             boxDireccion.Items.Add("-");  // Agregar opción por defecto
-            boxDireccion.Items.Add("SN");
             boxDireccion.DropDownStyle = ComboBoxStyle.DropDown; // Permite escribir manualmente
             boxDireccion.SelectedIndex = 0; // Seleccionar "-" por defecto
 
