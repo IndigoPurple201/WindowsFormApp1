@@ -141,6 +141,7 @@
             txtFolio.Name = "txtFolio";
             txtFolio.Size = new Size(245, 23);
             txtFolio.TabIndex = 4;
+            //txtFolio.TextChanged += txtFolio_TextChanged;
             txtFolio.KeyPress += txtFolio_KeyPress;
             // 
             // label2

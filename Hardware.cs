@@ -75,11 +75,22 @@ namespace WinFormsApp1
             {
                 e.Handled = true; // Bloquear entrada no numérica
             }
-            // Evitar que se ingresen más de 4 dígitos
+            // Evitar que se ingresen más de 3 dígitos
             if (!char.IsControl(e.KeyChar) && txt.Text.Length >= 3)
             {
                 e.Handled = true;
             }
+
+            // Verificar el color según la longitud antes de permitir la entrada
+            if (txt.Text.Length == 2)
+            {
+                txt.ForeColor = Color.Black; // Color de texto normal si tiene 3 cifras
+            }
+            else
+            {
+                txt.ForeColor = Color.Red; // Color de texto rojo si no tiene 3 cifras
+            }
+
         }
 
         private void txtDidecon_KeyPress(object sender, KeyPressEventArgs e)
