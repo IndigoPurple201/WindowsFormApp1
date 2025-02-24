@@ -18,6 +18,7 @@ namespace WinFormsApp1
         private Control controlActivo = null;
         private Point mouseDownLocation;
         private bool isComboBoxOpen = false;
+        private string connectionString = "Server=COMPRAS-SERV\\SQLEXPRESS; Database=inventarios; Integrated Security=True; Encrypt=False;";
         public Hardware()
         {
             InitializeComponent();
@@ -65,7 +66,21 @@ namespace WinFormsApp1
         }
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("¡Botón 3 clickeado!");
+            //using (SqlConnection conexion = new SqlConnection(connectionString))
+            //{
+            //    try
+            //    {
+            //        conexion.Open();
+            //        String query = @"
+            //        SELECT id_dependencia FROM dependencias WHERE descripcion = @descripcionDependencia;
+            //        SELECT id_marca FROM marcas WHERE descripcion = @descripcionMarca;
+            //        ";
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        MessageBox.Show("Error: " + ex.Message);
+            //    }
+            //}
         }
         private void txtFolio_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -148,7 +163,7 @@ namespace WinFormsApp1
         {
             try
             {
-                using (SqlConnection conn = new SqlConnection("Server=COMPRAS-SERV\\SQLEXPRESS; Database=inventarios; Integrated Security=True; Encrypt=False;"))
+                using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
                     String query = "SELECT marcas.descripcion FROM marcas";
@@ -172,23 +187,41 @@ namespace WinFormsApp1
         {
             try
             {
-                using (SqlConnection conn = new SqlConnection("Server=COMPRAS-SERV\\SQLEXPRESS; Database=inventarios; Integrated Security=True; Encrypt=False;"))
+                using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    String query = "SELECT modelos.descripcion FROM modelos";
-                    using (SqlCommand cmd = new SqlCommand(query, conn))
-                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    String query1 = "SELECT id_marca FROM marcas WHERE descripcion = @marca;";
+                    using (SqlCommand cmd = new SqlCommand(query1, conn))
                     {
-                        while (reader.Read())
-                        {
-                            boxModelo.Items.Add(reader["descripcion"].ToString());
+                        cmd.Parameters.AddWithValue("@marca", boxMarca.Text);
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        { 
+                            int idMarca = 0;
+                            if (reader.Read())
+                            {
+                                idMarca = Convert.ToInt32(reader[0]);
+                            }
+                            String query = "SELECT modelos.descripcion FROM modeloS JOIN marcas ON modelos.marca= marcas.id_marca WHERE marcas.descripcion = @idMarca;";
+                            using (SqlCommand cmd2 = new SqlCommand(query, conn))
+                            {
+                                cmd2.Parameters.AddWithValue("@idMarca", idMarca);
+
+                                using (SqlDataReader reader2 = cmd2.ExecuteReader())
+                                {
+                                    boxModelo.Items.Clear(); // Limpiar antes de agregar nuevos elementos
+                                    while (reader2.Read())
+                                    {
+                                        boxModelo.Items.Add(reader2["descripcion"].ToString());
+                                    }
+                                }
+                            }
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message);
+                MessageBox.Show("Error1: " + ex.Message);
             }
         }
 
@@ -196,7 +229,7 @@ namespace WinFormsApp1
         {
             try
             {
-                using (SqlConnection conn = new SqlConnection("Server=COMPRAS-SERV\\SQLEXPRESS; Database=inventarios; Integrated Security=True; Encrypt=False;"))
+                using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
                     String query = "SELECT dependencias.descripcion FROM dependencias;";
