@@ -136,7 +136,7 @@
             // txtFolio
             // 
             txtFolio.BorderStyle = BorderStyle.FixedSingle;
-            txtFolio.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtFolio.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txtFolio.Location = new Point(139, 68);
             txtFolio.Name = "txtFolio";
             txtFolio.Size = new Size(245, 23);
@@ -268,7 +268,7 @@
             txtProcesador.Name = "txtProcesador";
             txtProcesador.Size = new Size(245, 23);
             txtProcesador.TabIndex = 24;
-            txtProcesador.TextChanged += textBox3_TextChanged;
+            txtProcesador.TextChanged += txtProcesador_TextChanged;
             // 
             // boxModelo
             // 
@@ -378,6 +378,7 @@
             textDisco.Name = "textDisco";
             textDisco.Size = new Size(245, 23);
             textDisco.TabIndex = 40;
+            textDisco.TextChanged += textDisco_TextChanged;
             // 
             // boxActivo
             // 

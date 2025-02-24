@@ -97,26 +97,39 @@ namespace WinFormsApp1
             }
         }
 
-        private void textBox3_TextChanged(object sender, EventArgs e)
+        private void txtProcesador_TextChanged(object sender, EventArgs e)
         {
             TextBox txt = sender as TextBox;
             // Convertir todo el texto a mayúsculas
             txt.Text = txt.Text.ToUpper();
             // Mover el cursor al final para evitar que vuelva atrás
             txt.SelectionStart = txt.Text.Length;
+            // Validación con regex
+            string pattern = @"^(INTEL|AMD|PENTIUM)\s+[A-Za-z0-9]+(\s+[A-Za-z0-9]+)?(\s+PRO)?$";
+            if (!Regex.IsMatch(txt.Text, pattern, RegexOptions.IgnoreCase))
+            {
+                txt.ForeColor = System.Drawing.Color.Red; // Indicar error
+            }
+            else
+            {
+                txt.ForeColor = System.Drawing.Color.Black; // Entrada válida
+            }
         }
 
-        private void textDisco_KeyPress(object sender, KeyPressEventArgs e)
+        private void textDisco_TextChanged(object sender, EventArgs e)
         {
             TextBox txt = sender as TextBox;
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            txt.Text = txt.Text.ToUpper();
+            txt.SelectionStart = txt.Text.Length;
+            string pattern = @"^\d+\s*(GB|TB)$";
+
+            if (!Regex.IsMatch(txt.Text, pattern, RegexOptions.IgnoreCase))
             {
-                e.Handled = true; // Bloquear entrada no numérica
+                txt.ForeColor = System.Drawing.Color.Red; // Indicar error
             }
-            // Evitar que se ingresen más de 3 dígitos
-            if (!char.IsControl(e.KeyChar) && txt.Text.Length >= 3)
+            else
             {
-                e.Handled = true;
+                txt.ForeColor = System.Drawing.Color.Black; // Entrada válida
             }
         }
 
@@ -267,12 +280,21 @@ namespace WinFormsApp1
                 {
                     (ctrl as TextBox).Clear();
                 }
-                else if (ctrl is ComboBox && (ctrl as ComboBox).SelectedIndex != -1)
+                else if (ctrl is ComboBox comboBox)
                 {
-                    (ctrl as ComboBox).SelectedIndex = -1; // Limpia la selección
+                    comboBox.SelectedIndex = -1;
+                    comboBox.Text = string.Empty;
                 }
             }
         }
+
+        private void ConfigurarBoxArea(ComboBox boxArea)
+        {
+            boxArea.Items.Clear();
+            boxArea.Items.Add("-");  // Agregar opción por defecto
+            boxArea.DropDownStyle = ComboBoxStyle.DropDown; // Permite escribir manualmente
+            boxArea.SelectedIndex = 0; // Seleccionar "-" por defecto
+            boxArea.Tag = "limpiar"; // Marcar que debe limpiarse
 
             boxArea.TextChanged += boxArea_TextChanged;
             boxArea.KeyPress += boxArea_KeyPress;
@@ -304,6 +326,7 @@ namespace WinFormsApp1
         {
             boxNumSerie.Items.Clear();
             boxNumSerie.Items.Add("-");  // Agregar opción por defecto
+            boxNumSerie.Items.Add("SN");
             boxNumSerie.DropDownStyle = ComboBoxStyle.DropDown; // Permite escribir manualmente
             boxNumSerie.SelectedIndex = 0; // Seleccionar "-" por defecto
 
