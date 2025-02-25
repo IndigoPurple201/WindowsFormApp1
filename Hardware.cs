@@ -38,7 +38,7 @@ namespace WinFormsApp1
             boxMemoria.Items.Add("12 GB");
 
             LlenarBoxMarca();
-            LlenarBoXModelo();
+            //LlenarBoXModelo();
             LlenarBoxDepartamento();
 
             this.Click += QuitarFoco;
@@ -66,21 +66,68 @@ namespace WinFormsApp1
         }
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-            //using (SqlConnection conexion = new SqlConnection(connectionString))
-            //{
-            //    try
-            //    {
-            //        conexion.Open();
-            //        String query = @"
-            //        SELECT id_dependencia FROM dependencias WHERE descripcion = @descripcionDependencia;
-            //        SELECT id_marca FROM marcas WHERE descripcion = @descripcionMarca;
-            //        ";
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        MessageBox.Show("Error: " + ex.Message);
-            //    }
-            //}
+            if (ValidarCampos())
+            {
+                using (SqlConnection conexion = new SqlConnection(connectionString))
+                {
+                    try
+                    {
+                        conexion.Open();
+                        string idDependencia = "";
+                        string queryDependencia = "SELECT id_dependencia FROM dependencias WHERE descripcion = @descripcion ORDER BY id_dependencia;";
+                        using (SqlCommand cmd = new SqlCommand(queryDependencia, conexion))
+                        {
+                            cmd.Parameters.AddWithValue("@descripcion", boxDepartamento.Text);
+                            object result = cmd.ExecuteScalar();
+                            idDependencia = (result != null) ? result.ToString() : "";
+                        }
+                        //MessageBox.Show(idDependencia.ToString());
+                        int idMarca = 0;
+                        string queryMarca = "SELECT id_marca FROM marcas WHERE descripcion = @marca ORDER BY id_marca;";
+                        using (SqlCommand cmd = new SqlCommand(queryMarca, conexion))
+                        {
+                            cmd.Parameters.AddWithValue("@marca", boxMarca.Text);
+                            object result = cmd.ExecuteScalar();
+                            idMarca = (result != null) ? Convert.ToInt32(result) : 0;
+                        }
+                        //MessageBox.Show(idMarca.ToString());
+                        int idModelo = 0;
+                        string queryModelo = "SELECT id_modelo FROM modelos WHERE descripcion = @modelo ORDER BY id_modelo;";
+                        using (SqlCommand cmd = new SqlCommand(queryModelo, conexion))
+                        {
+                            cmd.Parameters.AddWithValue("@modelo", boxModelo.Text);
+                            object result = cmd.ExecuteScalar();
+                            idModelo = (result != null) ? Convert.ToInt32(result) : 0;
+                        }
+                        //MessageBox.Show(idModelo.ToString());
+                        string insertQuery = @"
+                                             INSERT INTO hardware (folio, depto, area, didecon, responsable, ip, sn, procesador, memoria, disco_duro, grupo, nombre, activos, marca, modelo, activocontraloria, idestatus, fechacaptura, fechaalta, fechafactura, fechabaja, valorfactura, nomproveedor, idtipo, numerofactura) 
+                                             VALUES (@folio, @depto, @area, @didecon, @responsable, @ip, @sn, @procesador, @memoria, @disco_duro, '-', '-', '-', @marca, @modelo, @activocontraloria, 1, GETDATE(), '1900-01-01 00:00:00.000', '1900-01-01 00:00:00.000', '1900-01-01 00:00:00.000', 0.00, '-', 7, '-');";
+                        using (SqlCommand insertCmd = new SqlCommand(insertQuery, conexion))
+                         {
+                                    insertCmd.Parameters.AddWithValue("@folio", txtFolio.Text);
+                                    insertCmd.Parameters.AddWithValue("@depto", idDependencia);
+                                    insertCmd.Parameters.AddWithValue("@area", boxArea.Text);
+                                    insertCmd.Parameters.AddWithValue("@didecon", txtDidecon.Text);
+                                    insertCmd.Parameters.AddWithValue("@responsable", boxResponsable.Text);
+                                    insertCmd.Parameters.AddWithValue("@ip", boxDireccion.Text);
+                                    insertCmd.Parameters.AddWithValue("@sn", boxNumSerie.Text);
+                                    insertCmd.Parameters.AddWithValue("@procesador", txtProcesador.Text);
+                                    insertCmd.Parameters.AddWithValue("@memoria", boxMemoria.Text);
+                                    insertCmd.Parameters.AddWithValue("@disco_duro", textDisco.Text);
+                                    insertCmd.Parameters.AddWithValue("@marca", idMarca);
+                                    insertCmd.Parameters.AddWithValue("@modelo", idModelo);
+                                    insertCmd.Parameters.AddWithValue("@activocontraloria", boxActivo.Text);
+                                    insertCmd.ExecuteNonQuery();
+                                    MessageBox.Show("Registro insertado correctamente.");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error: " + ex.Message);
+                    }
+                }
+            }
         }
         private void txtFolio_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -90,8 +137,8 @@ namespace WinFormsApp1
             {
                 e.Handled = true; // Bloquear entrada no numérica
             }
-            // Evitar que se ingresen más de 3 dígitos
-            if (!char.IsControl(e.KeyChar) && txt.Text.Length >= 3)
+            // Evitar que se ingresen más de 4 dígitos
+            if (!char.IsControl(e.KeyChar) && txt.Text.Length >= 4)
             {
                 e.Handled = true;
             }
@@ -159,6 +206,7 @@ namespace WinFormsApp1
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
+                        boxMarca.Items.Clear();
                         while (reader.Read())
                         {
                             boxMarca.Items.Add(reader["descripcion"].ToString());
@@ -172,6 +220,11 @@ namespace WinFormsApp1
             }
         }
 
+        private void boxMarca_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LlenarBoXModelo();
+        }
+
         private void LlenarBoXModelo()
         {
             try
@@ -180,14 +233,28 @@ namespace WinFormsApp1
                 {
                     conn.Open();
                     String query1 = "SELECT id_marca FROM marcas WHERE descripcion = @marca;";
-                    using (SqlCommand cmd = new SqlCommand(query1, conn))
+                    int idMarca = 0;
+                    using (SqlCommand cmd1 = new SqlCommand(query1, conn))
                     {
-                        cmd.Parameters.AddWithValue("@marca", boxMarca.Text);
-                        using (SqlDataReader reader = cmd.ExecuteReader())
-                        { 
-
-                        }
+                        cmd1.Parameters.AddWithValue("@marca", boxMarca.Text);
+                        object result = cmd1.ExecuteScalar();
+                        idMarca = (result != null) ? Convert.ToInt32(result) : 0;
                     }
+                    if (idMarca == 0)
+                        return;
+                    boxModelo.Items.Clear();
+                    String query2 = "SELECT descripcion from modelos where marca = @idMarca;";
+                    using (SqlCommand cmd2 = new SqlCommand(query2, conn))
+                    {
+                        cmd2.Parameters.AddWithValue("@idMarca", idMarca);
+                        using (SqlDataReader reader2 = cmd2.ExecuteReader())
+                        {
+                            while (reader2.Read())
+                            {
+                                boxModelo.Items.Add(reader2["descripcion"].ToString());
+                            }
+                        }
+                    }                    
                 }
             }
             catch (Exception ex)
@@ -469,6 +536,85 @@ namespace WinFormsApp1
             {
                 e.Handled = true;
             }
+        }
+
+        private bool ValidarCampos()
+        {
+            bool esValido = true;
+            string mensajeError = "Los siguientes campos son inválidos:\n";
+            if (txtFolio.Text.Length != 4 || !int.TryParse(txtFolio.Text, out _))
+            {
+                mensajeError += "- El folio debe tener 4 dígitos.\n";
+                esValido = false;
+            }
+            if (txtDidecon.Text.Length != 7 || !int.TryParse(txtDidecon.Text, out _))
+            {
+                mensajeError += "- El DIDECON debe tener 7 dígitos.\n";
+                esValido = false;
+            }
+            string ipPattern = @"^(25[0-5]|2[0-4][0-9]|1?[0-9]?[0-9])(\.(25[0-5]|2[0-4][0-9]|1?[0-9]?[0-9])){3}$";
+            if (boxDireccion.Text != "-" && boxDireccion.Text != "SN" && !Regex.IsMatch(boxDireccion.Text, ipPattern))
+            {
+                mensajeError += "- La dirección debe ser una IP válida (Ej: 192.168.1.1) o '-' / 'SN'.\n";
+                esValido = false;
+            }
+            string procesadorPattern = @"^(INTEL|AMD|PENTIUM)\s+[A-Za-z0-9]+(\s+[A-Za-z0-9]+)?(\s+PRO)?$";
+            if (!Regex.IsMatch(txtProcesador.Text, procesadorPattern, RegexOptions.IgnoreCase))
+            {
+                mensajeError += "- El procesador debe ser Intel, AMD o Pentium (Ej: 'Intel Core i5').\n";
+                esValido = false;
+            }
+            string discoPattern = @"^\d+\s*(GB|TB)$";
+            if (!Regex.IsMatch(textDisco.Text, discoPattern, RegexOptions.IgnoreCase))
+            {
+                mensajeError += "- El disco duro debe estar en formato correcto (Ej: '500 GB' o '1 TB').\n";
+                esValido = false;
+            }
+            if (boxMarca.SelectedIndex == -1 || string.IsNullOrWhiteSpace(boxMarca.Text))
+            {
+                mensajeError += "- Selecciona una marca válida.\n";
+                esValido = false;
+            }
+            if (boxModelo.SelectedIndex == -1 || string.IsNullOrWhiteSpace(boxModelo.Text))
+            {
+                mensajeError += "- Selecciona un modelo válido.\n";
+                esValido = false;
+            }
+            if (boxDepartamento.SelectedIndex == -1 || string.IsNullOrWhiteSpace(boxDepartamento.Text))
+            {
+                mensajeError += "- Selecciona un departamento válido.\n";
+                esValido = false;
+            }
+            if (boxResponsable.SelectedIndex == -1 || string.IsNullOrWhiteSpace(boxResponsable.Text))
+            {
+                mensajeError += "- Selecciona un responsable válido.\n";
+                esValido = false;
+            }
+            if (boxArea.SelectedIndex == -1 || string.IsNullOrWhiteSpace(boxArea.Text))
+            {
+                mensajeError += "- Selecciona un área válida.\n";
+                esValido = false;
+            }
+            if (boxActivo.SelectedIndex == -1 || string.IsNullOrWhiteSpace(boxActivo.Text))
+            {
+                mensajeError += "- Selecciona un activo válido.\n";
+                esValido = false;
+            }
+            if (boxMemoria.SelectedIndex == -1 || string.IsNullOrWhiteSpace(boxMemoria.Text))
+            {
+                mensajeError += "- Selecciona una memoria válida.\n";
+                esValido = false;
+            }
+            if (boxNumSerie.SelectedIndex == -1 || string.IsNullOrWhiteSpace(boxNumSerie.Text))
+            {
+                mensajeError += "- Selecciona un número de serie válido.\n";
+                esValido = false;
+            }
+            if(!esValido)
+            {
+                MessageBox.Show(mensajeError, "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            return esValido;
         }
     }
 }
