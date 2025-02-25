@@ -95,17 +95,6 @@ namespace WinFormsApp1
             {
                 e.Handled = true;
             }
-
-            // Verificar el color según la longitud antes de permitir la entrada
-            if (txt.Text.Length == 2)
-            {
-                txt.ForeColor = Color.Black; // Color de texto normal si tiene 3 cifras
-            }
-            else
-            {
-                txt.ForeColor = Color.Red; // Color de texto rojo si no tiene 3 cifras
-            }
-
         }
 
         private void txtDidecon_KeyPress(object sender, KeyPressEventArgs e)
@@ -196,25 +185,7 @@ namespace WinFormsApp1
                         cmd.Parameters.AddWithValue("@marca", boxMarca.Text);
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         { 
-                            int idMarca = 0;
-                            if (reader.Read())
-                            {
-                                idMarca = Convert.ToInt32(reader[0]);
-                            }
-                            String query = "SELECT modelos.descripcion FROM modeloS JOIN marcas ON modelos.marca= marcas.id_marca WHERE marcas.descripcion = @idMarca;";
-                            using (SqlCommand cmd2 = new SqlCommand(query, conn))
-                            {
-                                cmd2.Parameters.AddWithValue("@idMarca", idMarca);
 
-                                using (SqlDataReader reader2 = cmd2.ExecuteReader())
-                                {
-                                    boxModelo.Items.Clear(); // Limpiar antes de agregar nuevos elementos
-                                    while (reader2.Read())
-                                    {
-                                        boxModelo.Items.Add(reader2["descripcion"].ToString());
-                                    }
-                                }
-                            }
                         }
                     }
                 }
