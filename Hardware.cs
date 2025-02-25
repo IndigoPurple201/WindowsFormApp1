@@ -102,24 +102,25 @@ namespace WinFormsApp1
                         //MessageBox.Show(idModelo.ToString());
                         string insertQuery = @"
                                              INSERT INTO hardware (folio, depto, area, didecon, responsable, ip, sn, procesador, memoria, disco_duro, grupo, nombre, activos, marca, modelo, activocontraloria, idestatus, fechacaptura, fechaalta, fechafactura, fechabaja, valorfactura, nomproveedor, idtipo, numerofactura) 
-                                             VALUES (@folio, @depto, @area, @didecon, @responsable, @ip, @sn, @procesador, @memoria, @disco_duro, '-', '-', '-', @marca, @modelo, @activocontraloria, 1, GETDATE(), '1900-01-01 00:00:00.000', '1900-01-01 00:00:00.000', '1900-01-01 00:00:00.000', 0.00, '-', 7, '-');";
+                                             VALUES (@folio, @depto, @area, @didecon, @responsable, @ip, @sn, @procesador, @memoria, @disco_duro, '-', '-', '-', @marca, @modelo, @activocontraloria, 1, GETDATE(), '1900-01-01 00:00:00.000', '1900-01-01 00:00:00.000', '1900-01-01 00:00:00.000', 0.00, '-', 1, '-');";
                         using (SqlCommand insertCmd = new SqlCommand(insertQuery, conexion))
-                         {
-                                    insertCmd.Parameters.AddWithValue("@folio", txtFolio.Text);
-                                    insertCmd.Parameters.AddWithValue("@depto", idDependencia);
-                                    insertCmd.Parameters.AddWithValue("@area", boxArea.Text);
-                                    insertCmd.Parameters.AddWithValue("@didecon", txtDidecon.Text);
-                                    insertCmd.Parameters.AddWithValue("@responsable", boxResponsable.Text);
-                                    insertCmd.Parameters.AddWithValue("@ip", boxDireccion.Text);
-                                    insertCmd.Parameters.AddWithValue("@sn", boxNumSerie.Text);
-                                    insertCmd.Parameters.AddWithValue("@procesador", txtProcesador.Text);
-                                    insertCmd.Parameters.AddWithValue("@memoria", boxMemoria.Text);
-                                    insertCmd.Parameters.AddWithValue("@disco_duro", textDisco.Text);
-                                    insertCmd.Parameters.AddWithValue("@marca", idMarca);
-                                    insertCmd.Parameters.AddWithValue("@modelo", idModelo);
-                                    insertCmd.Parameters.AddWithValue("@activocontraloria", boxActivo.Text);
-                                    insertCmd.ExecuteNonQuery();
-                                    MessageBox.Show("Registro insertado correctamente.");
+                        {
+                            insertCmd.Parameters.AddWithValue("@folio", txtFolio.Text);
+                            insertCmd.Parameters.AddWithValue("@depto", idDependencia);
+                            insertCmd.Parameters.AddWithValue("@area", boxArea.Text);
+                            insertCmd.Parameters.AddWithValue("@didecon", txtDidecon.Text);
+                            insertCmd.Parameters.AddWithValue("@responsable", boxResponsable.Text);
+                            insertCmd.Parameters.AddWithValue("@ip", boxDireccion.Text);
+                            insertCmd.Parameters.AddWithValue("@sn", boxNumSerie.Text);
+                            insertCmd.Parameters.AddWithValue("@procesador", txtProcesador.Text);
+                            insertCmd.Parameters.AddWithValue("@memoria", boxMemoria.Text);
+                            insertCmd.Parameters.AddWithValue("@disco_duro", textDisco.Text);
+                            insertCmd.Parameters.AddWithValue("@marca", idMarca);
+                            insertCmd.Parameters.AddWithValue("@modelo", idModelo);
+                            insertCmd.Parameters.AddWithValue("@activocontraloria", boxActivo.Text);
+                            insertCmd.ExecuteNonQuery();
+                            MessageBox.Show("Registro insertado correctamente.");
+                            LimpiarControles();
                         }
                     }
                     catch (Exception ex)
@@ -254,7 +255,7 @@ namespace WinFormsApp1
                                 boxModelo.Items.Add(reader2["descripcion"].ToString());
                             }
                         }
-                    }                    
+                    }
                 }
             }
             catch (Exception ex)
@@ -358,14 +359,21 @@ namespace WinFormsApp1
         {
             foreach (Control ctrl in this.Controls)
             {
-                if (ctrl is TextBox && !string.IsNullOrEmpty((ctrl as TextBox).Text))
+                if (ctrl is TextBox textBox)
                 {
-                    (ctrl as TextBox).Clear();
+                    textBox.Clear();
                 }
                 else if (ctrl is ComboBox comboBox)
                 {
-                    comboBox.SelectedIndex = -1;
-                    comboBox.Text = string.Empty;
+                    if (comboBox.Items.Contains("-"))
+                    {
+                        comboBox.SelectedItem = "-";
+                    }
+                    else
+                    {
+                        comboBox.SelectedIndex = -1;
+                        comboBox.Text = string.Empty;
+                    }
                 }
             }
         }
@@ -397,6 +405,7 @@ namespace WinFormsApp1
         {
             boxDireccion.Items.Clear();
             boxDireccion.Items.Add("-");  // Agregar opción por defecto
+            boxDireccion.Items.Add("SN");
             boxDireccion.DropDownStyle = ComboBoxStyle.DropDown; // Permite escribir manualmente
             boxDireccion.SelectedIndex = 0; // Seleccionar "-" por defecto
 
@@ -521,6 +530,18 @@ namespace WinFormsApp1
             comboBox.SelectionStart = comboBox.Text.Length;
         }
 
+        private void boxNumSerie_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            ComboBox comboBox = sender as ComboBox;
+
+            // Evitar que se ingresen más de 15 dígitos
+            if (!char.IsControl(e.KeyChar) && comboBox.Text.Length >= 25)
+            {
+                e.Handled = true;
+            }
+
+        }
+
         private void boxActivo_KeyPress(object sender, KeyPressEventArgs e)
         {
             ComboBox comboBox = sender as ComboBox;
@@ -585,17 +606,17 @@ namespace WinFormsApp1
                 mensajeError += "- Selecciona un departamento válido.\n";
                 esValido = false;
             }
-            if (boxResponsable.SelectedIndex == -1 || string.IsNullOrWhiteSpace(boxResponsable.Text))
+            if (string.IsNullOrWhiteSpace(boxResponsable.Text))
             {
                 mensajeError += "- Selecciona un responsable válido.\n";
                 esValido = false;
             }
-            if (boxArea.SelectedIndex == -1 || string.IsNullOrWhiteSpace(boxArea.Text))
+            if (string.IsNullOrWhiteSpace(boxArea.Text))
             {
                 mensajeError += "- Selecciona un área válida.\n";
                 esValido = false;
             }
-            if (boxActivo.SelectedIndex == -1 || string.IsNullOrWhiteSpace(boxActivo.Text))
+            if (string.IsNullOrWhiteSpace(boxActivo.Text))
             {
                 mensajeError += "- Selecciona un activo válido.\n";
                 esValido = false;
@@ -605,12 +626,12 @@ namespace WinFormsApp1
                 mensajeError += "- Selecciona una memoria válida.\n";
                 esValido = false;
             }
-            if (boxNumSerie.SelectedIndex == -1 || string.IsNullOrWhiteSpace(boxNumSerie.Text))
+            if (string.IsNullOrWhiteSpace(boxNumSerie.Text))
             {
                 mensajeError += "- Selecciona un número de serie válido.\n";
                 esValido = false;
             }
-            if(!esValido)
+            if (!esValido)
             {
                 MessageBox.Show(mensajeError, "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }

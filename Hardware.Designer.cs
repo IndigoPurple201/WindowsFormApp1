@@ -370,6 +370,8 @@
             boxNumSerie.Name = "boxNumSerie";
             boxNumSerie.Size = new Size(245, 23);
             boxNumSerie.TabIndex = 39;
+            boxNumSerie.TextChanged += boxNumSerie_TextChanged;
+            boxNumSerie.KeyPress += new KeyPressEventHandler(boxNumSerie_KeyPress);
             // 
             // textDisco
             // 
