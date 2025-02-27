@@ -397,15 +397,18 @@
             // 
             // btnNuevoMarca
             // 
+            btnNuevoMarca.Cursor = Cursors.Hand;
             btnNuevoMarca.Location = new Point(386, 281);
             btnNuevoMarca.Name = "btnNuevoMarca";
             btnNuevoMarca.Size = new Size(75, 23);
             btnNuevoMarca.TabIndex = 44;
             btnNuevoMarca.Text = "Nuevo";
             btnNuevoMarca.UseVisualStyleBackColor = true;
+            btnNuevoMarca.Click += btnNuevoMarca_Click;
             // 
             // btnNuevoModelo
             // 
+            btnNuevoModelo.Cursor = Cursors.Hand;
             btnNuevoModelo.Location = new Point(386, 327);
             btnNuevoModelo.Name = "btnNuevoModelo";
             btnNuevoModelo.Size = new Size(75, 23);

@@ -52,6 +52,16 @@ namespace WinFormsApp1
             ConfigurarBoxActivo(boxActivo);
 
             this.MouseDown += new MouseEventHandler(Hardware_MouseDown);
+                
+            foreach (Control ctrl in this.Controls)
+            {
+                if (ctrl is TextBox || ctrl is ComboBox)
+                {
+                    ctrl.Enter += ControlSeleccionado;
+                }
+            }
+
+            this.Click += QuitarFoco;
         }
         private void btnNuevo_Click(object sender, EventArgs e)
         {
@@ -326,8 +336,8 @@ namespace WinFormsApp1
 
         private void Hardware_MouseDown(object sender, MouseEventArgs e)
         {
-            if(validarComboBox())
-            {   
+            if (validarComboBox())
+            {
                 return;
             }
 
@@ -378,6 +388,8 @@ namespace WinFormsApp1
             btnNuevo.Enabled = bloquear;    // "Nuevo" solo está habilitado cuando los demás están bloqueados
             btnAceptar.Enabled = !bloquear; // "Aceptar" solo se habilita cuando los controles están activos
             btnCancelar.Enabled = !bloquear; // "Cancelar" solo se habilita cuando los controles están activos
+            btnNuevoMarca.Enabled = !bloquear;
+            btnNuevoModelo.Enabled = !bloquear;
         }
 
         private void LimpiarControles()
@@ -665,10 +677,16 @@ namespace WinFormsApp1
         }
 
         private bool validarComboBox()
-        { 
-            return boxDepartamento.DroppedDown || boxMarca.DroppedDown || boxModelo.DroppedDown || 
-                boxArea.DroppedDown || boxResponsable.DroppedDown || boxDireccion.DroppedDown || 
+        {
+            return boxDepartamento.DroppedDown || boxMarca.DroppedDown || boxModelo.DroppedDown ||
+                boxArea.DroppedDown || boxResponsable.DroppedDown || boxDireccion.DroppedDown ||
                 boxNumSerie.DroppedDown || boxActivo.DroppedDown;
+        }
+
+        private void btnNuevoMarca_Click(object sender, EventArgs e)
+        {
+            Marca marca = new Marca();
+            marca.ShowDialog();
         }
     }
 }

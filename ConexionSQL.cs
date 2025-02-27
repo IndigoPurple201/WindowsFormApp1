@@ -5,6 +5,7 @@ public class ConexionSQL
 {
     // Cadena de conexión para Windows Authentication
     private string connectionString = "Server=COMPRAS-SERV\\SQLEXPRESS; Database=inventarios; Integrated Security=True; Encrypt=False;";
+    private static bool mensajeMostrado = false;
 
     // Método para obtener la conexión
     public SqlConnection ObtenerConexion()
@@ -21,13 +22,15 @@ public class ConexionSQL
             try
             {
                 connection.Open();
-                // Si la conexión es exitosa, muestra un mensaje de éxito
-                MessageBox.Show("Conexión exitosa con la base de datos jojo.");
+                if (!mensajeMostrado)
+                {
+                    MessageBox.Show("Conexión exitosa a la base de datos.", "Conectado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    mensajeMostrado = true;
+                }
             }
             catch (Exception ex)
             {
-                // Si hay algún error, muestra el mensaje de error
-                MessageBox.Show("Error al conectar a la base de datos: " + ex.Message);
+                MessageBox.Show("Error al conectar: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
