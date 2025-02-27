@@ -61,7 +61,6 @@
             textDisco = new TextBox();
             boxActivo = new ComboBox();
             txtMemoria = new TextBox();
-            btnNuevoDepartamento = new Button();
             btnNuevoMarca = new Button();
             btnNuevoModelo = new Button();
             panelBarra.SuspendLayout();
@@ -396,15 +395,6 @@
             txtMemoria.TabIndex = 42;
             txtMemoria.TextChanged += txtMemoria_TextChanged;
             // 
-            // btnNuevoDepartamento
-            // 
-            btnNuevoDepartamento.Location = new Point(386, 113);
-            btnNuevoDepartamento.Name = "btnNuevoDepartamento";
-            btnNuevoDepartamento.Size = new Size(75, 23);
-            btnNuevoDepartamento.TabIndex = 43;
-            btnNuevoDepartamento.Text = "Nuevo";
-            btnNuevoDepartamento.UseVisualStyleBackColor = true;
-            // 
             // btnNuevoMarca
             // 
             btnNuevoMarca.Location = new Point(386, 281);
@@ -431,7 +421,6 @@
             ClientSize = new Size(777, 574);
             Controls.Add(btnNuevoModelo);
             Controls.Add(btnNuevoMarca);
-            Controls.Add(btnNuevoDepartamento);
             Controls.Add(txtMemoria);
             Controls.Add(boxActivo);
             Controls.Add(textDisco);
@@ -506,7 +495,6 @@
         private TextBox textDisco;
         private ComboBox boxActivo;
         private TextBox txtMemoria;
-        private Button btnNuevoDepartamento;
         private Button btnNuevoMarca;
         private Button btnNuevoModelo;
     }

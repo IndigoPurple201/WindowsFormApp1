@@ -25,7 +25,6 @@ namespace WinFormsApp1
         private const int SC_MOVE = 0xF012;
         private Control controlActivo = null;
         private Point mouseDownLocation;
-        private bool isComboBoxOpen = false;
         private string connectionString = "Server=COMPRAS-SERV\\SQLEXPRESS; Database=inventarios; Integrated Security=True; Encrypt=False;";
         public Hardware()
         {
@@ -43,12 +42,6 @@ namespace WinFormsApp1
             LlenarBoxMarca();
             //LlenarBoXModelo();
             LlenarBoxDepartamento();
-
-            this.Click += QuitarFoco;
-            foreach (Control control in this.Controls)
-            {
-                control.Click += ControlSeleccionado;
-            }
 
             BloquearControles(true);
 
