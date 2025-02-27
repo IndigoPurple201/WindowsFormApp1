@@ -52,7 +52,6 @@
             boxModelo = new ComboBox();
             label12 = new Label();
             label13 = new Label();
-            boxMemoria = new ComboBox();
             boxDepartamento = new ComboBox();
             label6 = new Label();
             boxArea = new ComboBox();
@@ -301,16 +300,6 @@
             label13.TabIndex = 28;
             label13.Text = "Disco Duro";
             // 
-            // boxMemoria
-            // 
-            boxMemoria.DropDownStyle = ComboBoxStyle.DropDownList;
-            boxMemoria.Font = new Font("Segoe UI", 9F);
-            boxMemoria.FormattingEnabled = true;
-            boxMemoria.Location = new Point(139, 448);
-            boxMemoria.Name = "boxMemoria";
-            boxMemoria.Size = new Size(245, 23);
-            boxMemoria.TabIndex = 30;
-            // 
             // boxDepartamento
             // 
             boxDepartamento.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -408,7 +397,6 @@
             Controls.Add(label6);
             Controls.Add(panelBarra);
             Controls.Add(boxDepartamento);
-            Controls.Add(boxMemoria);
             Controls.Add(txtFolio);
             Controls.Add(btnNuevo);
             Controls.Add(label13);
@@ -463,7 +451,6 @@
         private ComboBox boxModelo;
         private Label label12;
         private Label label13;
-        private ComboBox boxMemoria;
         private ComboBox boxDepartamento;
         private PictureBox buttonSalir;
         private Label label6;

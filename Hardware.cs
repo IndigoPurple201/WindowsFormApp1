@@ -32,11 +32,6 @@ namespace WinFormsApp1
             ConexionSQL conexion = new ConexionSQL();
             conexion.ProbarConexion();
 
-            boxMemoria.Items.Clear();
-            boxMemoria.Items.Add("4 GB");
-            boxMemoria.Items.Add("8 GB");
-            boxMemoria.Items.Add("12 GB");
-
             LlenarBoxMarca();
             //LlenarBoXModelo();
             LlenarBoxDepartamento();
@@ -585,35 +580,14 @@ namespace WinFormsApp1
                 mensajeError += "- El procesador debe ser Intel, AMD o Pentium (Ej: 'Intel Core i5').\n";
                 esValido = false;
             }
-            string discoPattern = @"^\d+\s*(GB|TB)$";
-            if (!Regex.IsMatch(textDisco.Text, discoPattern, RegexOptions.IgnoreCase))
-            {
-                mensajeError += "- El disco duro debe estar en formato correcto (Ej: '500 GB' o '1 TB').\n";
-                esValido = false;
-            }
-            if (boxMarca.SelectedIndex == -1 || string.IsNullOrWhiteSpace(boxMarca.Text))
-            {
-                mensajeError += "- Selecciona una marca válida.\n";
-                esValido = false;
-            }
             if (boxModelo.SelectedIndex == -1 || string.IsNullOrWhiteSpace(boxModelo.Text))
             {
                 mensajeError += "- Selecciona un modelo válido.\n";
                 esValido = false;
             }
-            if (boxDepartamento.SelectedIndex == -1 || string.IsNullOrWhiteSpace(boxDepartamento.Text))
-            {
-                mensajeError += "- Selecciona un departamento válido.\n";
-                esValido = false;
-            }
             if (string.IsNullOrWhiteSpace(boxResponsable.Text))
             {
                 mensajeError += "- Selecciona un responsable válido.\n";
-                esValido = false;
-            }
-            if (string.IsNullOrWhiteSpace(boxArea.Text))
-            {
-                mensajeError += "- Selecciona un área válida.\n";
                 esValido = false;
             }
             if (string.IsNullOrWhiteSpace(boxActivo.Text))
