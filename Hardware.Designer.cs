@@ -70,7 +70,7 @@
             // 
             // panelBarra
             // 
-            panelBarra.BackColor = Color.PowderBlue;
+            panelBarra.BackColor = SystemColors.MenuHighlight;
             panelBarra.BorderStyle = BorderStyle.FixedSingle;
             panelBarra.Controls.Add(buttonSalir);
             panelBarra.Location = new Point(-1, 0);
