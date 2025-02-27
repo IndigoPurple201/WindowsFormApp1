@@ -60,6 +60,7 @@
             boxNumSerie = new ComboBox();
             textDisco = new TextBox();
             boxActivo = new ComboBox();
+            txtMemoria = new TextBox();
             panelBarra.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)buttonSalir).BeginInit();
             SuspendLayout();
@@ -360,7 +361,7 @@
             boxNumSerie.Size = new Size(245, 23);
             boxNumSerie.TabIndex = 39;
             boxNumSerie.TextChanged += boxNumSerie_TextChanged;
-            boxNumSerie.KeyPress += new KeyPressEventHandler(boxNumSerie_KeyPress);
+            boxNumSerie.KeyPress += boxNumSerie_KeyPress;
             // 
             // textDisco
             // 
@@ -382,12 +383,23 @@
             boxActivo.Size = new Size(153, 23);
             boxActivo.TabIndex = 41;
             // 
+            // txtMemoria
+            // 
+            txtMemoria.BorderStyle = BorderStyle.FixedSingle;
+            txtMemoria.Font = new Font("Segoe UI", 9F);
+            txtMemoria.Location = new Point(139, 448);
+            txtMemoria.Name = "txtMemoria";
+            txtMemoria.Size = new Size(245, 23);
+            txtMemoria.TabIndex = 42;
+            txtMemoria.TextChanged += txtMemoria_TextChanged;
+            // 
             // Hardware
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.WhiteSmoke;
             ClientSize = new Size(694, 580);
+            Controls.Add(txtMemoria);
             Controls.Add(boxActivo);
             Controls.Add(textDisco);
             Controls.Add(boxNumSerie);
@@ -460,5 +472,6 @@
         private ComboBox boxNumSerie;
         private TextBox textDisco;
         private ComboBox boxActivo;
+        private TextBox txtMemoria;
     }
 }

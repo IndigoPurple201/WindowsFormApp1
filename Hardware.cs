@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -15,6 +16,13 @@ namespace WinFormsApp1
 {
     public partial class Hardware : Form
     {
+        [DllImport("user32.dll")]
+        public static extern bool ReleaseCapture();
+        [DllImport("user32.dll")]
+        public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
+
+        private const int WM_SYSCOMMAND = 0x112;
+        private const int SC_MOVE = 0xF012;
         private Control controlActivo = null;
         private Point mouseDownLocation;
         private bool isComboBoxOpen = false;
@@ -49,6 +57,8 @@ namespace WinFormsApp1
             ConfigurarBoxDireccion(boxDireccion);
             ConfigurarNumSerie(boxNumSerie);
             ConfigurarBoxActivo(boxActivo);
+
+            this.MouseDown += new MouseEventHandler(Hardware_MouseDown);
         }
         private void btnNuevo_Click(object sender, EventArgs e)
         {
@@ -108,7 +118,7 @@ namespace WinFormsApp1
                             insertCmd.Parameters.AddWithValue("@ip", boxDireccion.Text);
                             insertCmd.Parameters.AddWithValue("@sn", boxNumSerie.Text);
                             insertCmd.Parameters.AddWithValue("@procesador", txtProcesador.Text);
-                            insertCmd.Parameters.AddWithValue("@memoria", boxMemoria.Text);
+                            insertCmd.Parameters.AddWithValue("@memoria", txtMemoria.Text);
                             insertCmd.Parameters.AddWithValue("@disco_duro", textDisco.Text);
                             insertCmd.Parameters.AddWithValue("@marca", idMarca);
                             insertCmd.Parameters.AddWithValue("@modelo", idModelo);
@@ -181,6 +191,22 @@ namespace WinFormsApp1
             txt.SelectionStart = txt.Text.Length;
             string pattern = @"^\d+\s*(GB|TB)$";
 
+            if (!Regex.IsMatch(txt.Text, pattern, RegexOptions.IgnoreCase))
+            {
+                txt.ForeColor = System.Drawing.Color.Red; // Indicar error
+            }
+            else
+            {
+                txt.ForeColor = System.Drawing.Color.Black; // Entrada válida
+            }
+        }
+
+        private void txtMemoria_TextChanged(object sender, EventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+            txt.Text = txt.Text.ToUpper();
+            txt.SelectionStart = txt.Text.Length;
+            string pattern = @"^(2|4|8|16|32|64|128|256|512|1024|2048|3072|4096|6144|8192|12288|16384|24576|32768|49152|65536)\s(GB|TB)$";
             if (!Regex.IsMatch(txt.Text, pattern, RegexOptions.IgnoreCase))
             {
                 txt.ForeColor = System.Drawing.Color.Red; // Indicar error
@@ -307,17 +333,28 @@ namespace WinFormsApp1
 
         private void Hardware_MouseDown(object sender, MouseEventArgs e)
         {
+            if(validarComboBox())
+            {   
+                return;
+            }
+
             if (e.Button == MouseButtons.Left)
             {
-                mouseDownLocation = e.Location; // Guarda la posición inicial del mouse
+                ReleaseCapture();
+                SendMessage(this.Handle, WM_SYSCOMMAND, SC_MOVE, 0);
             }
         }
         private void Hardware_MouseMove(object sender, MouseEventArgs e)
         {
+            if (validarComboBox())
+            {
+                return;
+            }
+
             if (e.Button == MouseButtons.Left)
             {
-                this.Left += e.X - mouseDownLocation.X;
-                this.Top += e.Y - mouseDownLocation.Y;
+                ReleaseCapture();
+                SendMessage(this.Handle, WM_SYSCOMMAND, SC_MOVE, 0);
             }
         }
 
@@ -560,12 +597,32 @@ namespace WinFormsApp1
             string mensajeError = "Los siguientes campos son inválidos:\n";
             if (txtFolio.Text.Length != 4 || !int.TryParse(txtFolio.Text, out _))
             {
-                mensajeError += "- El folio debe tener 4 dígitos.\n";
+                mensajeError += "- El CPU debe tener 4 dígitos.\n";
+                esValido = false;
+            }
+            if (boxDepartamento.SelectedIndex == -1 || string.IsNullOrWhiteSpace(boxDepartamento.Text))
+            {
+                mensajeError += "- Selecciona un departamento válido.\n";
+                esValido = false;
+            }
+            if (string.IsNullOrWhiteSpace(boxArea.Text))
+            {
+                mensajeError += "- Selecciona un área válida.\n";
                 esValido = false;
             }
             if (txtDidecon.Text.Length != 7 || !int.TryParse(txtDidecon.Text, out _))
             {
-                mensajeError += "- El DIDECON debe tener 7 dígitos.\n";
+                mensajeError += "- El Didecon debe tener 7 dígitos.\n";
+                esValido = false;
+            }
+            if (string.IsNullOrWhiteSpace(boxActivo.Text))
+            {
+                mensajeError += "- Selecciona un Act. Contraloria válido.\n";
+                esValido = false;
+            }
+            if (string.IsNullOrWhiteSpace(boxResponsable.Text))
+            {
+                mensajeError += "- Selecciona un responsable válido.\n";
                 esValido = false;
             }
             string ipPattern = @"^(25[0-5]|2[0-4][0-9]|1?[0-9]?[0-9])(\.(25[0-5]|2[0-4][0-9]|1?[0-9]?[0-9])){3}$";
@@ -574,10 +631,9 @@ namespace WinFormsApp1
                 mensajeError += "- La dirección debe ser una IP válida (Ej: 192.168.1.1) o '-' / 'SN'.\n";
                 esValido = false;
             }
-            string procesadorPattern = @"^(INTEL|AMD|PENTIUM)\s+[A-Za-z0-9]+(\s+[A-Za-z0-9]+)?(\s+PRO)?$";
-            if (!Regex.IsMatch(txtProcesador.Text, procesadorPattern, RegexOptions.IgnoreCase))
+            if (boxMarca.SelectedIndex == -1 || string.IsNullOrWhiteSpace(boxMarca.Text))
             {
-                mensajeError += "- El procesador debe ser Intel, AMD o Pentium (Ej: 'Intel Core i5').\n";
+                mensajeError += "- Selecciona una marca válida.\n";
                 esValido = false;
             }
             if (boxModelo.SelectedIndex == -1 || string.IsNullOrWhiteSpace(boxModelo.Text))
@@ -585,24 +641,27 @@ namespace WinFormsApp1
                 mensajeError += "- Selecciona un modelo válido.\n";
                 esValido = false;
             }
-            if (string.IsNullOrWhiteSpace(boxResponsable.Text))
-            {
-                mensajeError += "- Selecciona un responsable válido.\n";
-                esValido = false;
-            }
-            if (string.IsNullOrWhiteSpace(boxActivo.Text))
-            {
-                mensajeError += "- Selecciona un activo válido.\n";
-                esValido = false;
-            }
-            if (boxMemoria.SelectedIndex == -1 || string.IsNullOrWhiteSpace(boxMemoria.Text))
-            {
-                mensajeError += "- Selecciona una memoria válida.\n";
-                esValido = false;
-            }
             if (string.IsNullOrWhiteSpace(boxNumSerie.Text))
             {
                 mensajeError += "- Selecciona un número de serie válido.\n";
+                esValido = false;
+            }
+            string procesadorPattern = @"^(INTEL|AMD|PENTIUM)\s+[A-Za-z0-9]+(\s+[A-Za-z0-9]+)?(\s+PRO)?$";
+            if (!Regex.IsMatch(txtProcesador.Text, procesadorPattern, RegexOptions.IgnoreCase))
+            {
+                mensajeError += "- El procesador debe ser Intel, AMD o Pentium (Ej: 'Intel Core i5').\n";
+                esValido = false;
+            }
+            string memoriaPattern = @"^(2|4|8|16|32|64|128|256|512|1024|2048|3072|4096|6144|8192|12288|16384|24576|32768|49152|65536)\s(GB|TB)$";
+            if (!Regex.IsMatch(txtMemoria.Text, memoriaPattern, RegexOptions.IgnoreCase))
+            {
+                mensajeError += "- La memoria debe estar en formato correcto (Ej: '8 GB' o '32 GB').\n";
+                esValido = false;
+            }
+            string discoPattern = @"^\d+\s*(GB|TB)$";
+            if (!Regex.IsMatch(textDisco.Text, discoPattern, RegexOptions.IgnoreCase))
+            {
+                mensajeError += "- El disco duro debe estar en formato correcto (Ej: '500 GB' o '1 TB').\n";
                 esValido = false;
             }
             if (!esValido)
@@ -610,6 +669,13 @@ namespace WinFormsApp1
                 MessageBox.Show(mensajeError, "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             return esValido;
+        }
+
+        private bool validarComboBox()
+        { 
+            return boxDepartamento.DroppedDown || boxMarca.DroppedDown || boxModelo.DroppedDown || 
+                boxArea.DroppedDown || boxResponsable.DroppedDown || boxDireccion.DroppedDown || 
+                boxNumSerie.DroppedDown || boxActivo.DroppedDown;
         }
     }
 }
