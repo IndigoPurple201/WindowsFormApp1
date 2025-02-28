@@ -671,7 +671,7 @@ namespace WinFormsApp1
             }
             if (!esValido)
             {
-                MessageBox.Show(mensajeError, "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(mensajeError, "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             return esValido;
         }
@@ -683,10 +683,29 @@ namespace WinFormsApp1
                 boxNumSerie.DroppedDown || boxActivo.DroppedDown;
         }
 
-        private void btnNuevoMarca_Click(object sender, EventArgs e)
-        {
+            private void btnNuevoMarca_Click(object sender, EventArgs e)
+            {
             Marca marca = new Marca();
+            marca.MarcaAgregada += LlenarBoxMarca;
+
             marca.ShowDialog();
+        }
+
+        private void panelBarra_Paint(object sender, PaintEventArgs e)
+        {
+            using (Pen pen = new Pen(Color.Black, 4)) // Borde negro
+            {
+                e.Graphics.DrawRectangle(pen, new Rectangle(0, 0, panelBarra.Width - 1, panelBarra.Height - 1));
+            }
+        }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+            using (Pen pen = new Pen(Color.Black, 3)) // Borde rojo y grosor de 3px
+            {
+                e.Graphics.DrawRectangle(pen, new Rectangle(0, 0, this.Width - 1, this.Height - 1));
+            }
         }
     }
 }

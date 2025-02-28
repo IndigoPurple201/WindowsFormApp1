@@ -40,7 +40,7 @@
             label3 = new Label();
             dgvMarcas = new DataGridView();
             btnEliminar = new Button();
-            panelBarra.SuspendLayout();
+            btnCerrar2 = new Button();
             ((System.ComponentModel.ISupportInitialize)btnCerrar).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvMarcas).BeginInit();
             SuspendLayout();
@@ -49,7 +49,7 @@
             // 
             btnCerrar.Cursor = Cursors.Hand;
             btnCerrar.Image = (Image)resources.GetObject("btnCerrar.Image");
-            btnCerrar.Location = new Point(559, 3);
+            btnCerrar.Location = new Point(552, 12);
             btnCerrar.Name = "btnCerrar";
             btnCerrar.Size = new Size(25, 27);
             btnCerrar.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -65,6 +65,7 @@
             txtFolio.Name = "txtFolio";
             txtFolio.Size = new Size(245, 23);
             txtFolio.TabIndex = 35;
+            txtFolio.KeyPress += txtFolio_KeyPress;
             // 
             // label1
             // 
@@ -94,6 +95,7 @@
             txtMarca.Name = "txtMarca";
             txtMarca.Size = new Size(245, 23);
             txtMarca.TabIndex = 37;
+            txtMarca.TextChanged += txtMarca_TextChanged;
             // 
             // btnNuevo
             // 
@@ -117,6 +119,7 @@
             btnAceptar.TabIndex = 39;
             btnAceptar.Text = "Aceptar";
             btnAceptar.UseVisualStyleBackColor = true;
+            btnAceptar.Click += btnAceptar_Click;
             // 
             // btnCancelar
             // 
@@ -128,6 +131,7 @@
             btnCancelar.TabIndex = 40;
             btnCancelar.Text = "Cancelar";
             btnCancelar.UseVisualStyleBackColor = true;
+            btnCancelar.Click += btnCancelar_Click;
             // 
             // label3
             // 
@@ -151,18 +155,32 @@
             // 
             btnEliminar.Cursor = Cursors.Hand;
             btnEliminar.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnEliminar.Location = new Point(476, 427);
+            btnEliminar.Location = new Point(381, 417);
             btnEliminar.Name = "btnEliminar";
             btnEliminar.Size = new Size(89, 23);
             btnEliminar.TabIndex = 43;
             btnEliminar.Text = "Eliminar";
             btnEliminar.UseVisualStyleBackColor = true;
             // 
+            // btnCerrar2
+            // 
+            btnCerrar2.Cursor = Cursors.Hand;
+            btnCerrar2.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnCerrar2.Location = new Point(476, 417);
+            btnCerrar2.Name = "btnCerrar2";
+            btnCerrar2.Size = new Size(89, 23);
+            btnCerrar2.TabIndex = 44;
+            btnCerrar2.Text = "Cerrar";
+            btnCerrar2.UseVisualStyleBackColor = true;
+            btnCerrar2.Click += btnCerrar2_Click;
+            // 
             // Marca
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(589, 471);
+            Controls.Add(btnCerrar);
+            Controls.Add(btnCerrar2);
             Controls.Add(btnEliminar);
             Controls.Add(dgvMarcas);
             Controls.Add(label3);
@@ -195,5 +213,6 @@
         private Label label3;
         private DataGridView dgvMarcas;
         private Button btnEliminar;
+        private Button btnCerrar2;
     }
 }

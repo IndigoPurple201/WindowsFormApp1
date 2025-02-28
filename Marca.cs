@@ -14,10 +14,22 @@ namespace WinFormsApp1
 {
     public partial class Marca : Form
     {
+        public event Action MarcaAgregada;  
         [DllImport("user32.dll")]
         public static extern bool ReleaseCapture();
         [DllImport("user32.dll")]
         public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
+
+
+        private System.Windows.Forms.Timer parpadeoTimer;
+        private int parpadeoContador = 0;
+        private Color bordeOriginal = Color.Black;
+        private Color panelOriginal;
+        private bool parpadeoActivo = false;
+
+        [DllImport("user32.dll")]
+        private static extern void MessageBeep(uint uType);
+        private const uint MB_ICONERROR = 0x10; // Sonido de error del sistema
 
         private const int WM_SYSCOMMAND = 0x112;
         private const int SC_MOVE = 0xF012;
@@ -27,10 +39,11 @@ namespace WinFormsApp1
         public Marca()
         {
             InitializeComponent();
+            this.FormBorderStyle = FormBorderStyle.None;
+            this.Padding = new Padding(3);
+
             this.MouseDown += new MouseEventHandler(Marca_MouseDown);
-            this.MouseMove += new MouseEventHandler(Marca_MouseMove);
-            panelBarra.MouseDown += new MouseEventHandler(Marca_MouseDown);
-            panelBarra.MouseMove += new MouseEventHandler(Marca_MouseMove);
+            this.MouseMove += new MouseEventHandler(Marca_MouseMove); ;
         }
 
         private void Marca_Load(object sender, EventArgs e)
@@ -49,6 +62,122 @@ namespace WinFormsApp1
             this.Click += QuitarFoco;
         }
 
+        private void txtFolio_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+            // Permitir solo números y la tecla de retroceso
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true; // Bloquear entrada no numérica
+            }
+            // Evitar que se ingresen más de 4 dígitos
+            if (!char.IsControl(e.KeyChar) && txt.Text.Length >= 4)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtMarca_TextChanged(object sender, EventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+            // Convertir todo el texto a mayúsculas
+            txt.Text = txt.Text.ToUpper();
+            // Mover el cursor al final para evitar que vuelva atrás
+            txt.SelectionStart = txt.Text.Length;
+        }
+
+        private void btnAceptar_Click(object sender, EventArgs e)
+        {
+            if (validarCampos())
+            {
+                using (SqlConnection conexion = new SqlConnection(connectionString))
+                {
+                    try
+                    {
+                        conexion.Open();
+                        string query = "INSERT INTO marcas (id_marca, descripcion) VALUES (@id_marca, @descripcion)";
+                        using (SqlCommand insertCmd = new SqlCommand(query, conexion))
+                        { 
+                            insertCmd.Parameters.AddWithValue("@id_marca", txtFolio.Text);
+                            insertCmd.Parameters.AddWithValue("@descripcion", txtMarca.Text);
+                            insertCmd.ExecuteNonQuery();
+                            MarcaAgregada?.Invoke();
+                            MessageBox.Show("Marca agregada correctamente");
+                            LimpiarControles();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error: " + ex.Message);
+                    }
+                }
+            }
+        }
+
+        protected override void WndProc(ref Message m)
+        {
+            const int WM_NCACTIVATE = 0x86;
+
+            if (m.Msg == WM_NCACTIVATE && m.WParam.ToInt32() == 0 && !parpadeoActivo)
+            {
+                IniciarParpadeo();
+                MessageBeep(MB_ICONERROR);
+            }
+
+            base.WndProc(ref m);
+        }
+
+        private void IniciarParpadeo()
+        {
+            parpadeoActivo = true; // Indica que el parpadeo está en proceso
+            parpadeoContador = 0;
+
+            if (parpadeoTimer == null)
+            {
+                parpadeoTimer = new System.Windows.Forms.Timer();
+                parpadeoTimer.Interval = 150; // 150 ms
+                parpadeoTimer.Tick += (sender, e) =>
+                {
+                    if (parpadeoContador >= 6) // 3 ciclos de parpadeo
+                    {
+                        parpadeoTimer.Stop();
+                        bordeOriginal = Color.Black; // Restaurar borde
+                        this.Invalidate(); // Redibujar
+                        parpadeoActivo = false; // Permitir que se active de nuevo si es necesario
+                    }
+                    else
+                    {
+                        // Alternar entre blanco y negro
+                        bordeOriginal = (bordeOriginal == Color.Black) ? Color.White : Color.Black;
+                        this.Invalidate();
+                        parpadeoContador++;
+                    }
+                };
+            }
+
+            parpadeoTimer.Start();
+        }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+            using (Pen pen = new Pen(bordeOriginal, 3))
+            {
+                e.Graphics.DrawRectangle(pen, new Rectangle(0, 0, this.Width - 1, this.Height - 1));
+            }
+        }
+
+        private void LimpiarControles()
+        {
+            foreach (Control ctrl in this.Controls)
+            {
+                if (ctrl is TextBox textBox)
+                {
+                    textBox.Clear();
+                }
+            }
+        }
+
         private void Marca_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
@@ -59,24 +188,6 @@ namespace WinFormsApp1
         }
 
         private void Marca_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
-                this.Left += e.X - mouseDownLocation.X;
-                this.Top += e.Y - mouseDownLocation.Y;
-            }
-        }
-
-        private void PanelBarra_MouseDown(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
-                ReleaseCapture();
-                SendMessage(Handle, WM_SYSCOMMAND, SC_MOVE, 0);
-            }
-        }
-
-        private void PanelBarra_MouseMove(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
@@ -111,7 +222,7 @@ namespace WinFormsApp1
             BloquearControles(false);
         }
 
-        private void BloquearControles(bool bloquear) 
+        private void BloquearControles(bool bloquear)
         {
             foreach (Control ctrl in this.Controls)
             {
@@ -123,6 +234,39 @@ namespace WinFormsApp1
             btnNuevo.Enabled = bloquear;    // "Nuevo" solo está habilitado cuando los demás están bloqueados
             btnAceptar.Enabled = !bloquear; // "Aceptar" solo se habilita cuando los controles están activos
             btnCancelar.Enabled = !bloquear; // "Cancelar" solo se habilita cuando los controles están activos
+        }
+
+        private void btnCerrar2_Click(object sender, EventArgs e)
+        {
+            LimpiarControles();
+            this.Close();
+        }
+
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            LimpiarControles();
+            BloquearControles(true);
+        }
+
+        private bool validarCampos()
+        { 
+            bool esValido = true;
+            string mensajeError = "Faltan los siguientes campos:\n";
+            if (string.IsNullOrWhiteSpace(txtFolio.Text))
+            {
+                mensajeError += "- Especifique un numero valido.\n";
+                esValido = false;
+            }
+            if (string.IsNullOrWhiteSpace(txtMarca.Text))
+            {
+                mensajeError += "- Especifique un nombre de marca valido.\n";
+                esValido = false;
+            }
+            if(!esValido)
+            {
+                MessageBox.Show(mensajeError, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            return esValido;
         }
     }
 }

@@ -69,13 +69,14 @@
             // 
             // panelBarra
             // 
-            panelBarra.BackColor = SystemColors.MenuHighlight;
+            panelBarra.BackColor = Color.FromArgb(0, 120, 212);
             panelBarra.BorderStyle = BorderStyle.FixedSingle;
             panelBarra.Controls.Add(buttonSalir);
             panelBarra.Location = new Point(-1, 0);
             panelBarra.Name = "panelBarra";
             panelBarra.Size = new Size(779, 37);
             panelBarra.TabIndex = 32;
+            panelBarra.Paint += panelBarra_Paint;
             // 
             // buttonSalir
             // 
@@ -402,7 +403,7 @@
             btnNuevoMarca.Name = "btnNuevoMarca";
             btnNuevoMarca.Size = new Size(75, 23);
             btnNuevoMarca.TabIndex = 44;
-            btnNuevoMarca.Text = "Nuevo";
+            btnNuevoMarca.Text = "Gestionar";
             btnNuevoMarca.UseVisualStyleBackColor = true;
             btnNuevoMarca.Click += btnNuevoMarca_Click;
             // 
@@ -413,7 +414,7 @@
             btnNuevoModelo.Name = "btnNuevoModelo";
             btnNuevoModelo.Size = new Size(75, 23);
             btnNuevoModelo.TabIndex = 45;
-            btnNuevoModelo.Text = "Nuevo";
+            btnNuevoModelo.Text = "Gestionar";
             btnNuevoModelo.UseVisualStyleBackColor = true;
             // 
             // Hardware
