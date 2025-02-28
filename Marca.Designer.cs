@@ -41,6 +41,7 @@
             dgvMarcas = new DataGridView();
             btnEliminar = new Button();
             btnCerrar2 = new Button();
+            btnActualizar = new Button();
             ((System.ComponentModel.ISupportInitialize)btnCerrar).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvMarcas).BeginInit();
             SuspendLayout();
@@ -174,11 +175,24 @@
             btnCerrar2.UseVisualStyleBackColor = true;
             btnCerrar2.Click += btnCerrar2_Click;
             // 
+            // btnActualizar
+            // 
+            btnActualizar.Cursor = Cursors.Hand;
+            btnActualizar.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnActualizar.Location = new Point(286, 417);
+            btnActualizar.Name = "btnActualizar";
+            btnActualizar.Size = new Size(89, 23);
+            btnActualizar.TabIndex = 45;
+            btnActualizar.Text = "Acualizar";
+            btnActualizar.UseVisualStyleBackColor = true;
+            btnActualizar.Click += btnActualizar_Click;
+            // 
             // Marca
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(589, 471);
+            Controls.Add(btnActualizar);
             Controls.Add(btnCerrar);
             Controls.Add(btnCerrar2);
             Controls.Add(btnEliminar);
@@ -214,5 +228,6 @@
         private DataGridView dgvMarcas;
         private Button btnEliminar;
         private Button btnCerrar2;
+        private Button btnActualizar;
     }
 }

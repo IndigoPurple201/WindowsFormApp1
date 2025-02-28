@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -14,7 +15,7 @@ namespace WinFormsApp1
 {
     public partial class Marca : Form
     {
-        public event Action MarcaAgregada;  
+        public event Action MarcaAgregada;
         [DllImport("user32.dll")]
         public static extern bool ReleaseCapture();
         [DllImport("user32.dll")]
@@ -60,7 +61,67 @@ namespace WinFormsApp1
                 }
             }
             this.Click += QuitarFoco;
+            ConfigurarDataGridView();
+            cargarDatosDGV();
         }
+
+        private void cargarDatosDGV()
+        {
+            try
+            {
+                string query = "SELECT marcas.id_marca AS Numero, marcas.descripcion AS Descripcion FROM marcas";
+                using (SqlConnection conexion = new SqlConnection(connectionString))
+                {
+                    conexion.Open();
+                    using (SqlCommand cmd = new SqlCommand(query, conexion))
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        dgvMarcas.Rows.Clear(); // Limpiar las filas existentes antes de agregar nuevas
+
+                        while (reader.Read())
+                        {
+                            int index = dgvMarcas.Rows.Add();
+                            dgvMarcas.Rows[index].Cells["Descripcion"].Value = reader["Descripcion"];
+                            dgvMarcas.Rows[index].Cells["Numero"].Value = reader["Numero"];
+
+                            // Guardamos el valor original en el Tag de la celda "Descripcion"
+                            dgvMarcas.Rows[index].Cells["Descripcion"].Tag = reader["Descripcion"];
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar datos: " + ex.Message);
+            }
+        }
+
+
+        private void ConfigurarDataGridView()
+        {
+            // Estilo general
+            dgvMarcas.BackgroundColor = Color.White;  // Fondo blanco
+            dgvMarcas.BorderStyle = BorderStyle.None;  // Quitar borde exterior
+
+            // Hacer que las columnas ocupen todo el espacio
+            dgvMarcas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            // Estilo para las filas
+            dgvMarcas.RowsDefaultCellStyle.BackColor = Color.LightGray; // Color de fondo de las filas
+            dgvMarcas.AlternatingRowsDefaultCellStyle.BackColor = Color.White; // Filas alternas blancas
+
+            // Cambiar el color de la selección
+            dgvMarcas.DefaultCellStyle.SelectionBackColor = Color.LightSkyBlue; // Fondo de selección
+            dgvMarcas.DefaultCellStyle.SelectionForeColor = Color.White; // Texto seleccionado en blanco
+
+            // Configuración de las filas al seleccionar
+            dgvMarcas.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+
+            // Asegurarse de que las columnas tengan los nombres correctos
+            dgvMarcas.Columns["Descripcion"].ReadOnly = false; // Permitir edición en descripción
+            dgvMarcas.Columns["Numero"].ReadOnly = true;  // No permitir edición en id
+        }
+
 
         private void txtFolio_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -97,7 +158,7 @@ namespace WinFormsApp1
                         conexion.Open();
                         string query = "INSERT INTO marcas (id_marca, descripcion) VALUES (@id_marca, @descripcion)";
                         using (SqlCommand insertCmd = new SqlCommand(query, conexion))
-                        { 
+                        {
                             insertCmd.Parameters.AddWithValue("@id_marca", txtFolio.Text);
                             insertCmd.Parameters.AddWithValue("@descripcion", txtMarca.Text);
                             insertCmd.ExecuteNonQuery();
@@ -105,6 +166,43 @@ namespace WinFormsApp1
                             MessageBox.Show("Marca agregada correctamente");
                             LimpiarControles();
                         }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error: " + ex.Message);
+                    }
+                }
+                cargarDatosDGV();
+            }
+        }
+
+        private void btnActualizar_Click(object sender, EventArgs e)
+        {
+
+            foreach (DataGridViewRow row in dgvMarcas.Rows)
+            {
+                var valorOriginal = row.Cells["Descripcion"].Tag;   
+                var valorNuevo = row.Cells["Descripcion"].Value.ToString();
+                if (valorOriginal != null && !valorOriginal.Equals(valorNuevo))
+                {
+                    MessageBox.Show("Actualizando marcas 2.");
+                    string nuevaDescripcion = valorNuevo;
+                    int idMarca = Convert.ToInt32(row.Cells["Numero"].Value);
+                    try
+                    {
+                        string queryUpdate = "UPDATE marcas SET descripcion = @descripcion WHERE id_marca = @id_marca";
+                        using (SqlConnection conexion = new SqlConnection(connectionString))
+                        {
+                            conexion.Open();
+                            using (SqlCommand updateCmd = new SqlCommand(queryUpdate, conexion))
+                            {
+                                updateCmd.Parameters.AddWithValue("@descripcion", nuevaDescripcion);
+                                updateCmd.Parameters.AddWithValue("@id_marca", idMarca);
+                                updateCmd.ExecuteNonQuery();
+                            }
+                        }
+                        MessageBox.Show("Marca(s) actualizada correctamente");
+                        cargarDatosDGV();
                     }
                     catch (Exception ex)
                     {
@@ -249,7 +347,7 @@ namespace WinFormsApp1
         }
 
         private bool validarCampos()
-        { 
+        {
             bool esValido = true;
             string mensajeError = "Faltan los siguientes campos:\n";
             if (string.IsNullOrWhiteSpace(txtFolio.Text))
@@ -262,7 +360,7 @@ namespace WinFormsApp1
                 mensajeError += "- Especifique un nombre de marca valido.\n";
                 esValido = false;
             }
-            if(!esValido)
+            if (!esValido)
             {
                 MessageBox.Show(mensajeError, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
