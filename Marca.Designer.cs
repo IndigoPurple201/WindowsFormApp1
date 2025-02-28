@@ -29,9 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Marca));
-            panelBarra = new Panel();
             btnCerrar = new PictureBox();
-            buttonSalir = new PictureBox();
             txtFolio = new TextBox();
             label1 = new Label();
             label2 = new Label();
@@ -44,20 +42,8 @@
             btnEliminar = new Button();
             panelBarra.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)btnCerrar).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)buttonSalir).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvMarcas).BeginInit();
             SuspendLayout();
-            // 
-            // panelBarra
-            // 
-            panelBarra.BackColor = SystemColors.MenuHighlight;
-            panelBarra.BorderStyle = BorderStyle.FixedSingle;
-            panelBarra.Controls.Add(btnCerrar);
-            panelBarra.Controls.Add(buttonSalir);
-            panelBarra.Location = new Point(0, 0);
-            panelBarra.Name = "panelBarra";
-            panelBarra.Size = new Size(590, 37);
-            panelBarra.TabIndex = 33;
             // 
             // btnCerrar
             // 
@@ -70,17 +56,6 @@
             btnCerrar.TabIndex = 34;
             btnCerrar.TabStop = false;
             btnCerrar.Click += btnCerrar_Click;
-            // 
-            // buttonSalir
-            // 
-            buttonSalir.Cursor = Cursors.Hand;
-            buttonSalir.Image = (Image)resources.GetObject("buttonSalir.Image");
-            buttonSalir.Location = new Point(745, 3);
-            buttonSalir.Name = "buttonSalir";
-            buttonSalir.Size = new Size(25, 27);
-            buttonSalir.SizeMode = PictureBoxSizeMode.StretchImage;
-            buttonSalir.TabIndex = 32;
-            buttonSalir.TabStop = false;
             // 
             // txtFolio
             // 
@@ -198,23 +173,17 @@
             Controls.Add(label2);
             Controls.Add(txtFolio);
             Controls.Add(label1);
-            Controls.Add(panelBarra);
             FormBorderStyle = FormBorderStyle.None;
             Name = "Marca";
             Text = "Marca";
             Load += Marca_Load;
-            panelBarra.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)btnCerrar).EndInit();
-            ((System.ComponentModel.ISupportInitialize)buttonSalir).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvMarcas).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
-
-        private Panel panelBarra;
-        private PictureBox buttonSalir;
         private PictureBox btnCerrar;
         private TextBox txtFolio;
         private Label label1;
