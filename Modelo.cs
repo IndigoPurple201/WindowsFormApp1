@@ -73,7 +73,6 @@ namespace WinFormsApp1
                 {
                     conexion.Open();
                     using (SqlCommand cmd = new SqlCommand(query, conexion))
-                    using (SqlDataReader reader = cmd.ExecuteReader())
                     {
                         dgvModelos.Rows.Clear(); // Limpiar las filas existentes antes de agregar nuevas
 
@@ -81,7 +80,6 @@ namespace WinFormsApp1
                         {
                             int index = dgvModelos.Rows.Add();
                             dgvModelos.Rows[index].Cells["Descripcion"].Value = reader["Descripcion"];
-                            dgvModelos.Rows[index].Cells["Numero"].Value = reader["Numero"];
 
                             // Guardamos el valor original en el Tag de la celda "Descripcion"
                             dgvModelos.Rows[index].Cells["Descripcion"].Tag = reader["Descripcion"];
