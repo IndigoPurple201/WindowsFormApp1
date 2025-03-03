@@ -21,7 +21,6 @@ namespace WinFormsApp1
         [DllImport("user32.dll")]
         public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
 
-
         private System.Windows.Forms.Timer parpadeoTimer;
         private int parpadeoContador = 0;
         private Color bordeOriginal = Color.Black;
