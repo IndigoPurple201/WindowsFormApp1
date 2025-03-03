@@ -52,7 +52,7 @@ namespace WinFormsApp1
             ConfigurarBoxActivo(boxActivo);
 
             this.MouseDown += new MouseEventHandler(Hardware_MouseDown);
-                
+
             foreach (Control ctrl in this.Controls)
             {
                 if (ctrl is TextBox || ctrl is ComboBox)
@@ -251,7 +251,14 @@ namespace WinFormsApp1
         private void boxMarca_SelectedIndexChanged(object sender, EventArgs e)
         {
             LlenarBoXModelo();
-            btnNuevoModelo.Enabled = boxMarca.SelectedIndex > 0;
+            if (boxMarca.SelectedItem != null && boxMarca.SelectedItem.ToString() != "-")
+            {
+                btnNuevoModelo.Enabled = true;
+            }
+            else
+            {
+                btnNuevoModelo.Enabled = false;
+            }
         }
 
         private void LlenarBoXModelo()
@@ -696,12 +703,19 @@ namespace WinFormsApp1
                 boxNumSerie.DroppedDown || boxActivo.DroppedDown;
         }
 
-            private void btnNuevoMarca_Click(object sender, EventArgs e)
-            {
+        private void btnNuevoMarca_Click(object sender, EventArgs e)
+        {
             Marca marca = new Marca();
             marca.MarcaAgregada += LlenarBoxMarca;
 
             marca.ShowDialog();
+        }
+
+        private void btnNuevoModelo_Click(object sender, EventArgs e)
+        {
+            string marca = boxMarca.SelectedItem.ToString();
+            Modelo modelo = new Modelo(marca);
+            modelo.ShowDialog();
         }
 
         private void panelBarra_Paint(object sender, PaintEventArgs e)

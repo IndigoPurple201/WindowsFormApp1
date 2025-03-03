@@ -283,6 +283,7 @@
             boxModelo.Name = "boxModelo";
             boxModelo.Size = new Size(245, 23);
             boxModelo.TabIndex = 25;
+            //boxModelo.SelectedIndexChanged += boxModelo_SelectedIndexChanged;
             // 
             // label12
             // 
@@ -416,6 +417,7 @@
             btnNuevoModelo.TabIndex = 45;
             btnNuevoModelo.Text = "Gestionar";
             btnNuevoModelo.UseVisualStyleBackColor = true;
+            btnNuevoModelo.Click += btnNuevoModelo_Click;
             // 
             // Hardware
             // 
