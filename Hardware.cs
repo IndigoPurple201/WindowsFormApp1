@@ -62,6 +62,9 @@ namespace WinFormsApp1
             }
 
             this.Click += QuitarFoco;
+
+            boxMarca.SelectedIndexChanged += boxMarca_SelectedIndexChanged;
+            btnNuevoModelo.Enabled = false;
         }
         private void btnNuevo_Click(object sender, EventArgs e)
         {
@@ -248,6 +251,7 @@ namespace WinFormsApp1
         private void boxMarca_SelectedIndexChanged(object sender, EventArgs e)
         {
             LlenarBoXModelo();
+            btnNuevoModelo.Enabled = boxMarca.SelectedIndex > 0;
         }
 
         private void LlenarBoXModelo()
@@ -401,14 +405,24 @@ namespace WinFormsApp1
                 }
                 else if (ctrl is ComboBox comboBox)
                 {
-                    if (comboBox.Items.Contains("-"))
+                    if (comboBox == boxModelo)
                     {
-                        comboBox.SelectedItem = "-";
+                        // Limpiar completamente el ComboBox de modelos
+                        comboBox.Items.Clear();
+                        comboBox.SelectedIndex = -1;
+                        comboBox.Text = string.Empty;
                     }
                     else
                     {
-                        comboBox.SelectedIndex = -1;
-                        comboBox.Text = string.Empty;
+                        if (comboBox.Items.Contains("-"))
+                        {
+                            comboBox.SelectedItem = "-";
+                        }
+                        else
+                        {
+                            comboBox.SelectedIndex = -1;
+                            comboBox.Text = string.Empty;
+                        }
                     }
                 }
             }
