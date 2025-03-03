@@ -62,27 +62,34 @@ namespace WinFormsApp1
             this.Click += QuitarFoco;
             ConfigurarDataGridView();
             cargarDatosDGV();
+            label7.Text = txtMarca.Text;
         }
 
-        private void CargarDatosDGV()
+        private void cargarDatosDGV()
         {
             try
             {
-                string query = "SELECT marcas.id_marca AS Numero, marcas.descripcion AS Descripcion FROM marcas";
+                string query = "SELECT modelos.id_modelo AS Numero, modelos.descripcion AS Descripcion, tipos.descripcion AS Tipo, tipos.refaccion Refaccion FROM modelos JOIN tipos ON modelos.tipo = tipos.id_tipo JOIN marcas ON marcas.id_marca = modelos.marca WHERE marcas.descripcion = @marca;";
                 using (SqlConnection conexion = new SqlConnection(connectionString))
                 {
                     conexion.Open();
                     using (SqlCommand cmd = new SqlCommand(query, conexion))
                     {
-                        dgvModelos.Rows.Clear(); // Limpiar las filas existentes antes de agregar nuevas
-
-                        while (reader.Read())
+                        cmd.Parameters.AddWithValue("@marca", txtMarca.Text);
+                        using (SqlDataReader reader = cmd.ExecuteReader())
                         {
-                            int index = dgvModelos.Rows.Add();
-                            dgvModelos.Rows[index].Cells["Descripcion"].Value = reader["Descripcion"];
+                            dgvModelos.Rows.Clear();
+                            while (reader.Read())
+                            {
+                                int index = dgvModelos.Rows.Add();
+                                dgvModelos.Rows[index].Cells["Numero"].Value = reader["Numero"];
+                                dgvModelos.Rows[index].Cells["Descripcion"].Value = reader["Descripcion"];
+                                dgvModelos.Rows[index].Cells["Tipo"].Value = reader["Tipo"];
+                                dgvModelos.Rows[index].Cells["Refaccion"].Value = reader["Refaccion"];
 
-                            // Guardamos el valor original en el Tag de la celda "Descripcion"
-                            dgvModelos.Rows[index].Cells["Descripcion"].Tag = reader["Descripcion"];
+                                // Guardamos el valor original en el Tag de la celda "Descripcion"
+                                dgvModelos.Rows[index].Cells["Descripcion"].Tag = reader["Descripcion"];
+                            }
                         }
                     }
                 }
@@ -90,6 +97,54 @@ namespace WinFormsApp1
             catch (Exception ex)
             {
                 MessageBox.Show("Error al cargar datos: " + ex.Message);
+            }
+        }
+
+        private void ConfigurarDataGridView()
+        {
+            dgvModelos.BackgroundColor = Color.White;
+            dgvModelos.BorderStyle = BorderStyle.None;
+
+
+            dgvModelos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+
+            dgvModelos.RowsDefaultCellStyle.BackColor = Color.LightGray;
+            dgvModelos.AlternatingRowsDefaultCellStyle.BackColor = Color.White;
+
+
+            dgvModelos.DefaultCellStyle.SelectionBackColor = Color.LightSkyBlue;
+            dgvModelos.DefaultCellStyle.SelectionForeColor = Color.White;
+
+
+            dgvModelos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+
+            if (dgvModelos.Columns.Count == 0)
+            {
+                dgvModelos.Columns.Add("Numero", "Número");
+                dgvModelos.Columns.Add("Descripcion", "Descripción");
+                dgvModelos.Columns.Add("Tipo", "Tipo");
+                dgvModelos.Columns.Add("Refaccion", "Refaccion");
+            }
+
+            dgvModelos.Columns["Numero"].ReadOnly = false;
+            dgvModelos.Columns["Descripcion"].ReadOnly = true;
+            dgvModelos.Columns["Tipo"].ReadOnly = true;
+            dgvModelos.Columns["Refaccion"].ReadOnly = true;
+        }
+
+        private void LimpiarControles()
+        {
+            foreach (Control ctrl in this.Controls)
+            {
+                if (ctrl is TextBox textBox)
+                {
+                    // Si el TextBox es el de la marca, NO lo limpiamos
+                    if (textBox.Name != "txtMarca")
+                    {
+                        textBox.Clear();
+                    }
+                }
             }
         }
 
@@ -116,16 +171,70 @@ namespace WinFormsApp1
             this.Close();
         }
 
+        private void txtFolio_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+            // Permitir solo números y la tecla de retroceso
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true; // Bloquear entrada no numérica
+            }
+            // Evitar que se ingresen más de 4 dígitos
+            if (!char.IsControl(e.KeyChar) && txt.Text.Length >= 4)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtModelo_TextChanged(object sender, EventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+            // Convertir todo el texto a mayúsculas
+            txt.Text = txt.Text.ToUpper();
+            // Mover el cursor al final para evitar que vuelva atrás
+            txt.SelectionStart = txt.Text.Length;
+        }
+
+        private void btnNuevo_Click(object sender, EventArgs e)
+        {
+            BloquearControles(false); 
+            txtMarca.Enabled = false;
+        }
+
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            LimpiarControles();
+            txtMarca.Enabled = false;
+            BloquearControles(true);
+        }
+
         private void btnCerrar_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void ControlSeleccionado(object sender, EventArgs e)
+        {
+            if (sender is TextBox || sender is ComboBox)
+            {
+                controlActivo = sender as Control;
+            }
+        }
+
+        private void QuitarFoco(object sender, EventArgs e)
+        {
+            if (controlActivo != null && !controlActivo.Bounds.Contains(this.PointToClient(Cursor.Position)))
+            {
+                this.ActiveControl = null;
+                controlActivo = null;
+            }
         }
 
         private void BloquearControles(bool bloquear)
         {
             foreach (Control ctrl in this.Controls)
             {
-                if (ctrl is TextBox)
+                if (ctrl is TextBox || ctrl is ComboBox)
                 {
                     ctrl.Enabled = !bloquear; // Deshabilita o habilita los controles
                 }

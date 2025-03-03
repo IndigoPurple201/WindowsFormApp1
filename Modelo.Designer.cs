@@ -45,6 +45,9 @@
             btnCerrar = new PictureBox();
             label5 = new Label();
             txtMarca = new TextBox();
+            label6 = new Label();
+            boxTipo = new ComboBox();
+            label7 = new Label();
             ((System.ComponentModel.ISupportInitialize)dgvModelos).BeginInit();
             ((System.ComponentModel.ISupportInitialize)btnCerrar).BeginInit();
             SuspendLayout();
@@ -53,16 +56,17 @@
             // 
             txtModelo.BorderStyle = BorderStyle.FixedSingle;
             txtModelo.Font = new Font("Segoe UI", 9F);
-            txtModelo.Location = new Point(133, 119);
+            txtModelo.Location = new Point(133, 96);
             txtModelo.Name = "txtModelo";
             txtModelo.Size = new Size(245, 23);
             txtModelo.TabIndex = 41;
+            txtModelo.TextChanged += txtModelo_TextChanged;
             // 
             // label2
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label2.Location = new Point(36, 121);
+            label2.Location = new Point(36, 98);
             label2.Name = "label2";
             label2.Size = new Size(91, 21);
             label2.TabIndex = 40;
@@ -76,6 +80,7 @@
             txtFolio.Name = "txtFolio";
             txtFolio.Size = new Size(245, 23);
             txtFolio.TabIndex = 39;
+            txtFolio.KeyPress += txtFolio_KeyPress;
             // 
             // label1
             // 
@@ -97,6 +102,7 @@
             btnNuevo.TabIndex = 42;
             btnNuevo.Text = "Nuevo";
             btnNuevo.UseVisualStyleBackColor = true;
+            btnNuevo.Click += btnNuevo_Click;
             // 
             // btnAceptar
             // 
@@ -119,6 +125,7 @@
             btnCancelar.TabIndex = 44;
             btnCancelar.Text = "Cancelar";
             btnCancelar.UseVisualStyleBackColor = true;
+            btnCancelar.Click += btnCancelar_Click;
             // 
             // label4
             // 
@@ -176,11 +183,11 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label3.Location = new Point(36, 215);
+            label3.Location = new Point(37, 215);
             label3.Name = "label3";
-            label3.Size = new Size(156, 21);
+            label3.Size = new Size(207, 21);
             label3.TabIndex = 47;
-            label3.Text = "Marcas Registradas";
+            label3.Text = "Modelos Registrados Para";
             // 
             // btnCerrar
             // 
@@ -213,11 +220,43 @@
             txtMarca.Size = new Size(245, 23);
             txtMarca.TabIndex = 55;
             // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label6.Location = new Point(85, 125);
+            label6.Name = "label6";
+            label6.Size = new Size(40, 21);
+            label6.TabIndex = 56;
+            label6.Text = "Tipo";
+            // 
+            // boxTipo
+            // 
+            boxTipo.DropDownStyle = ComboBoxStyle.DropDownList;
+            boxTipo.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            boxTipo.FormattingEnabled = true;
+            boxTipo.Location = new Point(133, 125);
+            boxTipo.Name = "boxTipo";
+            boxTipo.Size = new Size(245, 23);
+            boxTipo.TabIndex = 57;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Font = new Font("Segoe UI", 12F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
+            label7.Location = new Point(240, 215);
+            label7.Name = "label7";
+            label7.Size = new Size(0, 21);
+            label7.TabIndex = 58;
+            // 
             // Modelo
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(589, 471);
+            Controls.Add(label7);
+            Controls.Add(boxTipo);
+            Controls.Add(label6);
             Controls.Add(txtMarca);
             Controls.Add(label5);
             Controls.Add(btnCerrar);
@@ -262,5 +301,8 @@
         private PictureBox btnCerrar;
         private Label label5;
         private TextBox txtMarca;
+        private Label label6;
+        private ComboBox boxTipo;
+        private Label label7;
     }
 }
