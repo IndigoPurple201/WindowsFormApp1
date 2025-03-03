@@ -61,7 +61,6 @@ namespace WinFormsApp1
                 }
             }
             this.Click += QuitarFoco;
-            ConfigurarDataGridView();
             cargarDatosDGV();
         }
 
@@ -103,18 +102,13 @@ namespace WinFormsApp1
             dgvMarcas.BackgroundColor = Color.White;  // Fondo blanco
             dgvMarcas.BorderStyle = BorderStyle.None;  // Quitar borde exterior
 
-            // Hacer que las columnas ocupen todo el espacio
             dgvMarcas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
-            // Estilo para las filas
-            dgvMarcas.RowsDefaultCellStyle.BackColor = Color.LightGray; // Color de fondo de las filas
-            dgvMarcas.AlternatingRowsDefaultCellStyle.BackColor = Color.White; // Filas alternas blancas
 
             // Cambiar el color de la selección
             dgvMarcas.DefaultCellStyle.SelectionBackColor = Color.LightSkyBlue; // Fondo de selección
             dgvMarcas.DefaultCellStyle.SelectionForeColor = Color.White; // Texto seleccionado en blanco
 
-            // Configuración de las filas al seleccionar
             dgvMarcas.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 
             // Asegurarse de que las columnas tengan los nombres correctos
@@ -185,8 +179,6 @@ namespace WinFormsApp1
                 var valorNuevo = row.Cells["Descripcion"].Value.ToString();
                 if (valorOriginal != null && !valorOriginal.Equals(valorNuevo))
                 {
-                    MessageBox.Show("Actualizando marcas 2.");
-                    string nuevaDescripcion = valorNuevo;
                     int idMarca = Convert.ToInt32(row.Cells["Numero"].Value);
                     try
                     {
@@ -201,7 +193,6 @@ namespace WinFormsApp1
                                 updateCmd.ExecuteNonQuery();
                             }
                         }
-                        MessageBox.Show("Marca(s) actualizada correctamente");
                         cargarDatosDGV();
                     }
                     catch (Exception ex)
