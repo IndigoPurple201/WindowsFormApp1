@@ -389,7 +389,6 @@ namespace WinFormsApp1
             btnAceptar.Enabled = !bloquear; // "Aceptar" solo se habilita cuando los controles están activos
             btnCancelar.Enabled = !bloquear; // "Cancelar" solo se habilita cuando los controles están activos
             btnNuevoMarca.Enabled = !bloquear;
-            btnNuevoModelo.Enabled = !bloquear;
         }
 
         private void LimpiarControles()
