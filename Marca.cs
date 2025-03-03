@@ -61,6 +61,7 @@ namespace WinFormsApp1
                 }
             }
             this.Click += QuitarFoco;
+            ConfigurarDataGridView();
             cargarDatosDGV();
         }
 
@@ -98,22 +99,31 @@ namespace WinFormsApp1
 
         private void ConfigurarDataGridView()
         {
-            // Estilo general
-            dgvMarcas.BackgroundColor = Color.White;  // Fondo blanco
-            dgvMarcas.BorderStyle = BorderStyle.None;  // Quitar borde exterior
+            dgvMarcas.BackgroundColor = Color.White;
+            dgvMarcas.BorderStyle = BorderStyle.None;
+
 
             dgvMarcas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
 
-            // Cambiar el color de la selección
-            dgvMarcas.DefaultCellStyle.SelectionBackColor = Color.LightSkyBlue; // Fondo de selección
-            dgvMarcas.DefaultCellStyle.SelectionForeColor = Color.White; // Texto seleccionado en blanco
+            dgvMarcas.RowsDefaultCellStyle.BackColor = Color.LightGray;
+            dgvMarcas.AlternatingRowsDefaultCellStyle.BackColor = Color.White;
+
+
+            dgvMarcas.DefaultCellStyle.SelectionBackColor = Color.LightSkyBlue;
+            dgvMarcas.DefaultCellStyle.SelectionForeColor = Color.White;
+
 
             dgvMarcas.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 
-            // Asegurarse de que las columnas tengan los nombres correctos
-            dgvMarcas.Columns["Descripcion"].ReadOnly = false; // Permitir edición en descripción
-            dgvMarcas.Columns["Numero"].ReadOnly = true;  // No permitir edición en id
+            if (dgvMarcas.Columns.Count == 0)
+            {
+                dgvMarcas.Columns.Add("Numero", "Número");
+                dgvMarcas.Columns.Add("Descripcion", "Descripción");
+            }
+
+            dgvMarcas.Columns["Descripcion"].ReadOnly = false;
+            dgvMarcas.Columns["Numero"].ReadOnly = true;
         }
 
 
@@ -172,12 +182,13 @@ namespace WinFormsApp1
 
         private void btnActualizar_Click(object sender, EventArgs e)
         {
-
+            bool cambiosRealizados = false;
             foreach (DataGridViewRow row in dgvMarcas.Rows)
             {
-                var valorOriginal = row.Cells["Descripcion"].Tag;   
+                if (row.Cells["Descripcion"].Value == null) continue; // Evitar errores con valores nulos
+                var valorOriginal = row.Cells["Descripcion"].Tag?.ToString() ?? "";
                 var valorNuevo = row.Cells["Descripcion"].Value.ToString();
-                if (valorOriginal != null && !valorOriginal.Equals(valorNuevo))
+                if (!valorOriginal.Equals(valorNuevo))
                 {
                     int idMarca = Convert.ToInt32(row.Cells["Numero"].Value);
                     try
@@ -188,20 +199,70 @@ namespace WinFormsApp1
                             conexion.Open();
                             using (SqlCommand updateCmd = new SqlCommand(queryUpdate, conexion))
                             {
-                                updateCmd.Parameters.AddWithValue("@descripcion", nuevaDescripcion);
+                                updateCmd.Parameters.AddWithValue("@descripcion", valorNuevo);
                                 updateCmd.Parameters.AddWithValue("@id_marca", idMarca);
                                 updateCmd.ExecuteNonQuery();
+                                MarcaAgregada?.Invoke();
                             }
                         }
-                        cargarDatosDGV();
+                        cambiosRealizados = true;
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("Error: " + ex.Message);
+                        MessageBox.Show("Error al actualizar marca ID " + idMarca + ": " + ex.Message);
                     }
                 }
             }
+            if (cambiosRealizados)
+            {
+                MessageBox.Show("Marca(s) actualizada(s) correctamente.");
+                cargarDatosDGV();
+            }
+            else
+            {
+                MessageBox.Show("No se realizaron cambios.");
+                cargarDatosDGV();
+            }
         }
+
+        private void btnEliminar_Click(object sender, EventArgs e)
+        {
+            if (dgvMarcas.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Seleccione una marca para eliminar.");
+                return;
+            }
+            DialogResult confirmacion = MessageBox.Show("¿Está seguro de que desea eliminar la(s) marca(s) seleccionada(s)?",
+                                                        "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (confirmacion != DialogResult.Yes) return;
+            foreach (DataGridViewRow row in dgvMarcas.SelectedRows)
+            {
+                if (row.Cells["Numero"].Value == null) continue;
+                int idMarca = Convert.ToInt32(row.Cells["Numero"].Value);
+                try
+                {
+                    string queryDelete = "DELETE FROM marcas WHERE id_marca = @id_marca";
+                    using (SqlConnection conexion = new SqlConnection(connectionString))
+                    {
+                        conexion.Open();
+                        using (SqlCommand deleteCmd = new SqlCommand(queryDelete, conexion))
+                        {
+                            deleteCmd.Parameters.AddWithValue("@id_marca", idMarca);
+                            deleteCmd.ExecuteNonQuery();
+                            MarcaAgregada?.Invoke();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al eliminar marca ID " + idMarca + ": " + ex.Message);
+                    return;
+                }
+            }
+            MessageBox.Show("Marca(s) eliminada(s) correctamente.");
+            cargarDatosDGV();
+        }
+
 
         protected override void WndProc(ref Message m)
         {
@@ -357,5 +418,6 @@ namespace WinFormsApp1
             }
             return esValido;
         }
+
     }
 }

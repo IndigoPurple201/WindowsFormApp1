@@ -42,6 +42,7 @@
             btnEliminar = new Button();
             btnCerrar2 = new Button();
             btnActualizar = new Button();
+            label4 = new Label();
             ((System.ComponentModel.ISupportInitialize)btnCerrar).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvMarcas).BeginInit();
             SuspendLayout();
@@ -137,37 +138,38 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label3.Location = new Point(36, 228);
+            label3.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label3.Location = new Point(36, 215);
             label3.Name = "label3";
-            label3.Size = new Size(145, 21);
+            label3.Size = new Size(156, 21);
             label3.TabIndex = 41;
             label3.Text = "Marcas Registradas";
             // 
             // dgvMarcas
             // 
             dgvMarcas.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvMarcas.Location = new Point(43, 261);
+            dgvMarcas.Location = new Point(37, 264);
             dgvMarcas.Name = "dgvMarcas";
-            dgvMarcas.Size = new Size(522, 150);
+            dgvMarcas.Size = new Size(528, 150);
             dgvMarcas.TabIndex = 42;
             // 
             // btnEliminar
             // 
             btnEliminar.Cursor = Cursors.Hand;
             btnEliminar.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnEliminar.Location = new Point(381, 417);
+            btnEliminar.Location = new Point(381, 420);
             btnEliminar.Name = "btnEliminar";
             btnEliminar.Size = new Size(89, 23);
             btnEliminar.TabIndex = 43;
             btnEliminar.Text = "Eliminar";
             btnEliminar.UseVisualStyleBackColor = true;
+            btnEliminar.Click += btnEliminar_Click;
             // 
             // btnCerrar2
             // 
             btnCerrar2.Cursor = Cursors.Hand;
             btnCerrar2.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnCerrar2.Location = new Point(476, 417);
+            btnCerrar2.Location = new Point(476, 420);
             btnCerrar2.Name = "btnCerrar2";
             btnCerrar2.Size = new Size(89, 23);
             btnCerrar2.TabIndex = 44;
@@ -179,7 +181,7 @@
             // 
             btnActualizar.Cursor = Cursors.Hand;
             btnActualizar.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnActualizar.Location = new Point(286, 417);
+            btnActualizar.Location = new Point(286, 420);
             btnActualizar.Name = "btnActualizar";
             btnActualizar.Size = new Size(89, 23);
             btnActualizar.TabIndex = 45;
@@ -187,11 +189,22 @@
             btnActualizar.UseVisualStyleBackColor = true;
             btnActualizar.Click += btnActualizar_Click;
             // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label4.Location = new Point(36, 240);
+            label4.Name = "label4";
+            label4.Size = new Size(298, 13);
+            label4.TabIndex = 46;
+            label4.Text = "Seleccione uno o mas registros para actualizar o eliminar";
+            // 
             // Marca
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(589, 471);
+            Controls.Add(label4);
             Controls.Add(btnActualizar);
             Controls.Add(btnCerrar);
             Controls.Add(btnCerrar2);
@@ -229,5 +242,6 @@
         private Button btnEliminar;
         private Button btnCerrar2;
         private Button btnActualizar;
+        private Label label4;
     }
 }
