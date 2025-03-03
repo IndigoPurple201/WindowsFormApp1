@@ -151,6 +151,7 @@
             btnCerrar2.TabIndex = 50;
             btnCerrar2.Text = "Cerrar";
             btnCerrar2.UseVisualStyleBackColor = true;
+            btnCerrar2.Click += btnCerrar2_Click;
             // 
             // btnEliminar
             // 
@@ -191,6 +192,7 @@
             btnCerrar.SizeMode = PictureBoxSizeMode.StretchImage;
             btnCerrar.TabIndex = 53;
             btnCerrar.TabStop = false;
+            btnCerrar.Click += btnCerrar_Click;
             // 
             // label5
             // 
@@ -235,6 +237,7 @@
             FormBorderStyle = FormBorderStyle.None;
             Name = "Modelo";
             Text = "Modelo";
+            Load += Modelo_Load;
             ((System.ComponentModel.ISupportInitialize)dgvModelos).EndInit();
             ((System.ComponentModel.ISupportInitialize)btnCerrar).EndInit();
             ResumeLayout(false);

@@ -43,7 +43,7 @@ namespace WinFormsApp1
             this.Padding = new Padding(3);
 
             this.MouseDown += new MouseEventHandler(Marca_MouseDown);
-            this.MouseMove += new MouseEventHandler(Marca_MouseMove); ;
+            this.MouseMove += new MouseEventHandler(Marca_MouseMove);
         }
 
         private void Marca_Load(object sender, EventArgs e)
