@@ -31,8 +31,6 @@ namespace WinFormsApp1
         private static extern void MessageBeep(uint uType);
         private const uint MB_ICONERROR = 0x10; // Sonido de error del sistema
 
-        private const int WM_SYSCOMMAND = 0x112;
-        private const int SC_MOVE = 0xF012;
         private Control controlActivo = null;
         private Point mouseDownLocation;
         private string connectionString = "Server=COMPRAS-SERV\\SQLEXPRESS; Database=inventarios; Integrated Security=True; Encrypt=False;";
@@ -156,13 +154,6 @@ namespace WinFormsApp1
                 SendMessage(Handle, WM_SYSCOMMAND, SC_MOVE, 0);
             }
         }
-
-        private void Marca_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
-                this.Left += e.X - mouseDownLocation.X;
-                this.Top += e.Y - mouseDownLocation.Y;
             }
         }
 
