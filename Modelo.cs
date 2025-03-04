@@ -104,24 +104,16 @@ namespace WinFormsApp1
                     using (SqlCommand cmd = new SqlCommand(query, conexion))
                     {
                         cmd.Parameters.AddWithValue("@marca", txtMarca.Text);
-                        using (SqlDataReader reader = cmd.ExecuteReader())
-                        {
-                            dgvModelos.Rows.Clear();
                             while (reader.Read())
                             {
                                 int index = dgvModelos.Rows.Add();
                                 dgvModelos.Rows[index].Cells["Numero"].Value = reader["Numero"];
                                 dgvModelos.Rows[index].Cells["Descripcion"].Value = reader["Descripcion"];
-                                dgvModelos.Rows[index].Cells["Tipo"].Value = reader["Tipo"];
                                 dgvModelos.Rows[index].Cells["Refaccion"].Value = reader["Refaccion"];
-
-                                // Guardamos el valor original en el Tag de la celda "Descripcion"
-                                dgvModelos.Rows[index].Cells["Descripcion"].Tag = reader["Descripcion"];
                             }
                         }
                     }
                 }
-            }
             catch (Exception ex)
             {
                 MessageBox.Show("Error al cargar datos: " + ex.Message);
@@ -179,39 +171,6 @@ namespace WinFormsApp1
             {
                 e.Graphics.DrawRectangle(pen, new Rectangle(0, 0, this.Width - 1, this.Height - 1));
             }
-        }
-
-        private void ConfigurarDataGridView()
-        {
-            dgvModelos.BackgroundColor = Color.White;
-            dgvModelos.BorderStyle = BorderStyle.None;
-
-
-            dgvModelos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-
-
-            dgvModelos.RowsDefaultCellStyle.BackColor = Color.LightGray;
-            dgvModelos.AlternatingRowsDefaultCellStyle.BackColor = Color.White;
-
-
-            dgvModelos.DefaultCellStyle.SelectionBackColor = Color.LightSkyBlue;
-            dgvModelos.DefaultCellStyle.SelectionForeColor = Color.White;
-
-
-            dgvModelos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-
-            if (dgvModelos.Columns.Count == 0)
-            {
-                dgvModelos.Columns.Add("Numero", "Número");
-                dgvModelos.Columns.Add("Descripcion", "Descripción");
-                dgvModelos.Columns.Add("Tipo", "Tipo");
-                dgvModelos.Columns.Add("Refaccion", "Refaccion");
-            }
-
-            dgvModelos.Columns["Numero"].ReadOnly = false;
-            dgvModelos.Columns["Descripcion"].ReadOnly = true;
-            dgvModelos.Columns["Tipo"].ReadOnly = true;
-            dgvModelos.Columns["Refaccion"].ReadOnly = true;
         }
 
         private void LimpiarControles()
