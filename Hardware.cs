@@ -30,9 +30,9 @@ namespace WinFormsApp1
         {
             InitializeComponent();
             this.MouseDown += new MouseEventHandler(Hardware_MouseDown);
-            this.MouseMove += new MouseEventHandler(Hardware_MouseMove);
+            //this.MouseMove += new MouseEventHandler(Hardware_MouseMove);
             panelBarra.MouseDown += new MouseEventHandler(Hardware_MouseDown);
-            panelBarra.MouseMove += new MouseEventHandler(Hardware_MouseMove);
+            //panelBarra.MouseMove += new MouseEventHandler(Hardware_MouseMove);
         }
         private void Perifericos_Load_1(object sender, EventArgs e)
         {
@@ -358,19 +358,19 @@ namespace WinFormsApp1
                 SendMessage(this.Handle, WM_SYSCOMMAND, SC_MOVE, 0);
             }
         }
-        private void Hardware_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (validarComboBox())
-            {
-                return;
-            }
+        //private void Hardware_MouseMove(object sender, MouseEventArgs e)
+        //{
+        //    if (validarComboBox())
+        //    {
+        //        return;
+        //    }
 
-            if (e.Button == MouseButtons.Left)
-            {
-                ReleaseCapture();
-                SendMessage(this.Handle, WM_SYSCOMMAND, SC_MOVE, 0);
-            }
-        }
+        //    if (e.Button == MouseButtons.Left)
+        //    {
+        //        ReleaseCapture();
+        //        SendMessage(this.Handle, WM_SYSCOMMAND, SC_MOVE, 0);
+        //    }
+        //}
 
         private void panelBarra_MouseDown(object sender, MouseEventArgs e)
         {
@@ -715,6 +715,7 @@ namespace WinFormsApp1
         {
             string marca = boxMarca.SelectedItem.ToString();
             Modelo modelo = new Modelo(marca);
+            modelo.ModeloAgregada += LlenarBoXModelo;
             modelo.ShowDialog();
         }
 

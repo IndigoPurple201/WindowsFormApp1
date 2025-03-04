@@ -21,6 +21,9 @@ namespace WinFormsApp1
         [DllImport("user32.dll")]
         public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
 
+        private const int WM_SYSCOMMAND = 0x112;
+        private const int SC_MOVE = 0xF012;
+
         private System.Windows.Forms.Timer parpadeoTimer;
         private int parpadeoContador = 0;
         private Color bordeOriginal = Color.Black;
@@ -40,8 +43,8 @@ namespace WinFormsApp1
             txtMarca.Text = marca;
             txtMarca.Enabled = false;
 
-            this.MouseDown += new MouseEventHandler(Marca_MouseDown);
-            this.MouseMove += new MouseEventHandler(Marca_MouseMove);
+            this.MouseDown += new MouseEventHandler(Modelo_MouseDown);
+            //this.MouseMove += new MouseEventHandler(Modelo_MouseMove);
         }
 
         private void Modelo_Load(object sender, EventArgs e)
@@ -49,7 +52,8 @@ namespace WinFormsApp1
             BloquearControles(true);
             ConexionSQL conexion = new ConexionSQL();
             conexion.ProbarConexion();
-
+            
+            this.MouseDown += new MouseEventHandler(Modelo_MouseDown);
             foreach (Control ctrl in this.Controls)
             {
                 if (ctrl is TextBox || ctrl is ComboBox)
@@ -61,6 +65,32 @@ namespace WinFormsApp1
             ConfigurarDataGridView();
             cargarDatosDGV();
             label7.Text = txtMarca.Text;
+            LlenarComboBox();
+        }
+
+        private void LlenarComboBox()
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string query = "SELECT tipos.descripcion FROM tipos;";
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    using (SqlDataReader readear = cmd.ExecuteReader())
+                    {
+                        boxTipo.Items.Clear();
+                        while (readear.Read())
+                        {
+                            boxTipo.Items.Add(readear["descripcion"].ToString());
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
         }
 
         private void cargarDatosDGV()
@@ -95,6 +125,59 @@ namespace WinFormsApp1
             catch (Exception ex)
             {
                 MessageBox.Show("Error al cargar datos: " + ex.Message);
+            }
+        }
+
+        protected override void WndProc(ref Message m)
+        {
+            const int WM_NCACTIVATE = 0x86;
+
+            if (m.Msg == WM_NCACTIVATE && m.WParam.ToInt32() == 0 && !parpadeoActivo)
+            {
+                IniciarParpadeo();
+                MessageBeep(MB_ICONERROR);
+            }
+
+            base.WndProc(ref m);
+        }
+
+        private void IniciarParpadeo()
+        {
+            parpadeoActivo = true; // Indica que el parpadeo está en proceso
+            parpadeoContador = 0;
+
+            if (parpadeoTimer == null)
+            {
+                parpadeoTimer = new System.Windows.Forms.Timer();
+                parpadeoTimer.Interval = 150; // 150 ms
+                parpadeoTimer.Tick += (sender, e) =>
+                {
+                    if (parpadeoContador >= 6) // 3 ciclos de parpadeo
+                    {
+                        parpadeoTimer.Stop();
+                        bordeOriginal = Color.Black; // Restaurar borde
+                        this.Invalidate(); // Redibujar
+                        parpadeoActivo = false; // Permitir que se active de nuevo si es necesario
+                    }
+                    else
+                    {
+                        // Alternar entre blanco y negro
+                        bordeOriginal = (bordeOriginal == Color.Black) ? Color.White : Color.Black;
+                        this.Invalidate();
+                        parpadeoContador++;
+                    }
+                };
+            }
+
+            parpadeoTimer.Start();
+        }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+            using (Pen pen = new Pen(bordeOriginal, 3))
+            {
+                e.Graphics.DrawRectangle(pen, new Rectangle(0, 0, this.Width - 1, this.Height - 1));
             }
         }
 
@@ -143,17 +226,18 @@ namespace WinFormsApp1
                         textBox.Clear();
                     }
                 }
-            }
-        }
-
-        private void Marca_MouseDown(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
-                ReleaseCapture();
-                SendMessage(Handle, WM_SYSCOMMAND, SC_MOVE, 0);
-            }
-        }
+                else if (ctrl is ComboBox comboBox)
+                {
+                    if (comboBox.Items.Contains("-"))
+                    {
+                        comboBox.SelectedItem = "-";
+                    }
+                    else
+                    {
+                        comboBox.SelectedIndex = -1;
+                        comboBox.Text = String.Empty;
+                    }
+                }
             }
         }
 
@@ -186,9 +270,56 @@ namespace WinFormsApp1
             txt.SelectionStart = txt.Text.Length;
         }
 
+        private void btnAceptar_Click(object sender, EventArgs e)
+        {
+            if (ValidarCampos())
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    try
+                    {
+                        connection.Open();
+                        string idMarca = "";
+                        string idTipo = "";
+                        string queryMarca = "SELECT marcas.id_marca FROM marcas WHERE marcas.descripcion = @descripcionMarca;";
+                        using (SqlCommand cmd = new SqlCommand(queryMarca, connection))
+                        {
+                            cmd.Parameters.AddWithValue("@descripcionMarca", txtMarca.Text);
+                            object result = cmd.ExecuteScalar();
+                            idMarca = (result != null) ? result.ToString() : "";
+                        }
+                        string queryTipo = "SELECT tipos.id_tipo FROM tipos WHERE tipos.descripcion = @descripcionModelo;";
+                        using (SqlCommand cmd = new SqlCommand(queryTipo, connection))
+                        {
+                            cmd.Parameters.AddWithValue("@descripcionModelo", boxTipo.Text);
+                            object result = cmd.ExecuteScalar();
+                            idTipo = (result != null) ? result.ToString() : "";
+                        }
+                        string insertQuery = "INSERT INTO modelos(id_modelo, descripcion, marca, cartuchos, tipo) VALUES(@folio, @descripcion, @marca, 0, @tipo);";
+                        using (SqlCommand insertCmd = new SqlCommand(insertQuery,connection))   
+                        {
+                            insertCmd.Parameters.AddWithValue("@folio", txtFolio.Text); 
+                            insertCmd.Parameters.AddWithValue("@descripcion", txtModelo.Text);
+                            insertCmd.Parameters.AddWithValue("@marca", idMarca);
+                            insertCmd.Parameters.AddWithValue("@tipo", idTipo);
+                            insertCmd.ExecuteNonQuery();
+                            ModeloAgregada.Invoke();
+                            MessageBox.Show("Modelo agregado correctamente");
+                            LimpiarControles();
+                        }
+                        cargarDatosDGV();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error: " + ex.Message);
+                    }
+                }
+            }
+        }
+
         private void btnNuevo_Click(object sender, EventArgs e)
         {
-            BloquearControles(false); 
+            BloquearControles(false);
             txtMarca.Enabled = false;
         }
 
@@ -233,6 +364,62 @@ namespace WinFormsApp1
             btnNuevo.Enabled = bloquear;    // "Nuevo" solo está habilitado cuando los demás están bloqueados
             btnAceptar.Enabled = !bloquear; // "Aceptar" solo se habilita cuando los controles están activos
             btnCancelar.Enabled = !bloquear; // "Cancelar" solo se habilita cuando los controles están activos
+        }
+
+        private void Modelo_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (validarComboBox()) // Si el ComboBox está abierto, no mover la ventana
+                return;
+
+            if (e.Button == MouseButtons.Left)
+            {
+                ReleaseCapture();
+                SendMessage(Handle, WM_SYSCOMMAND, SC_MOVE, 0);
+            }
+        }
+
+        //private void Modelo_MouseMove(object sender, MouseEventArgs e)
+        //{
+        //    if (validarComboBox())
+        //    {
+        //        return;
+        //    }
+        //    if (e.Button == MouseButtons.Left)
+        //    {
+        //        this.Left += e.X - mouseDownLocation.X;
+        //        this.Top += e.Y - mouseDownLocation.Y;
+        //    }
+        //}
+
+        private bool ValidarCampos()
+        {
+            bool esValido = true;
+            string mensajeError = "Faltan los siguientes campos:\n";
+            if (string.IsNullOrWhiteSpace(txtFolio.Text))
+            {
+                mensajeError += "- Especifique un numero valido.\n";
+                esValido = false;
+            }
+            if (string.IsNullOrWhiteSpace(txtModelo.Text))
+            {
+                mensajeError += "- Especifique un modelo valido.\n";
+                esValido = false;
+            }
+            if (boxTipo.SelectedIndex == -1 || string.IsNullOrWhiteSpace(boxTipo.Text))
+            {
+                mensajeError += "- Especifique un tipo de modelo valido.\n";
+                esValido = false;
+            }
+            if (!esValido)
+            {
+                MessageBox.Show(mensajeError, "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            return esValido;
+        }
+
+        private bool validarComboBox()
+        {
+            return boxTipo.DroppedDown;
         }
     }
 }

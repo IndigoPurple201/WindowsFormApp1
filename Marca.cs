@@ -43,7 +43,7 @@ namespace WinFormsApp1
             this.Padding = new Padding(3);
 
             this.MouseDown += new MouseEventHandler(Marca_MouseDown);
-            this.MouseMove += new MouseEventHandler(Marca_MouseMove);
+            //this.MouseMove += new MouseEventHandler(Marca_MouseMove);
         }
 
         private void Marca_Load(object sender, EventArgs e)
@@ -336,14 +336,14 @@ namespace WinFormsApp1
             }
         }
 
-        private void Marca_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
-                this.Left += e.X - mouseDownLocation.X;
-                this.Top += e.Y - mouseDownLocation.Y;
-            }
-        }
+        //private void Marca_MouseMove(object sender, MouseEventArgs e)
+        //{
+        //    if (e.Button == MouseButtons.Left)
+        //    {
+        //        this.Left += e.X - mouseDownLocation.X;
+        //        this.Top += e.Y - mouseDownLocation.Y;
+        //    }
+        //}
 
         private void btnCerrar_Click(object sender, EventArgs e)
         {
