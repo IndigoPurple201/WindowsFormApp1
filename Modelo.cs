@@ -52,7 +52,7 @@ namespace WinFormsApp1
             BloquearControles(true);
             ConexionSQL conexion = new ConexionSQL();
             conexion.ProbarConexion();
-            
+
             this.MouseDown += new MouseEventHandler(Modelo_MouseDown);
             foreach (Control ctrl in this.Controls)
             {
@@ -66,6 +66,7 @@ namespace WinFormsApp1
             cargarDatosDGV();
             label7.Text = txtMarca.Text;
             LlenarComboBox();
+            dgvModelos.ClearSelection();
         }
 
         private void LlenarComboBox()
@@ -126,72 +127,72 @@ namespace WinFormsApp1
             dgvModelos.Columns["Refaccion"].ReadOnly = true;
         }
 
-        private void cargarDatosDGV()
-        {
-            try
+            private void cargarDatosDGV()
             {
-                string query = @"SELECT modelos.id_modelo AS Numero, modelos.descripcion AS Descripcion, modelos.tipo AS idTipo, tipos.descripcion AS Tipo, tipos.refaccion AS Refaccion FROM modelos JOIN tipos ON modelos.tipo = tipos.id_tipo JOIN marcas ON marcas.id_marca = modelos.marca WHERE marcas.descripcion = @marca;";
-                using (SqlConnection conexion = new SqlConnection(connectionString))
+                try
                 {
-                    conexion.Open();
-                    using (SqlCommand cmd = new SqlCommand(query, conexion))
+                    string query = @"SELECT modelos.id_modelo AS Numero, modelos.descripcion AS Descripcion, modelos.tipo AS idTipo, tipos.descripcion AS Tipo, tipos.refaccion AS Refaccion FROM modelos JOIN tipos ON modelos.tipo = tipos.id_tipo JOIN marcas ON marcas.id_marca = modelos.marca WHERE marcas.descripcion = @marca;";
+                    using (SqlConnection conexion = new SqlConnection(connectionString))
                     {
-                        cmd.Parameters.AddWithValue("@marca", txtMarca.Text);
-                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        conexion.Open();
+                        using (SqlCommand cmd = new SqlCommand(query, conexion))
                         {
-                            dgvModelos.Rows.Clear();
-                            DataTable dtTipos = new DataTable();
-                            using (SqlConnection conexionTipos = new SqlConnection(connectionString))
+                            cmd.Parameters.AddWithValue("@marca", txtMarca.Text);
+                            using (SqlDataReader reader = cmd.ExecuteReader())
                             {
-                                conexionTipos.Open();
-                                string queryTipos = "SELECT id_tipo, descripcion FROM tipos;";
-                                using (SqlCommand cmdTipos = new SqlCommand(queryTipos, conexionTipos))
-                                using (SqlDataReader readerTipos = cmdTipos.ExecuteReader())
+                                dgvModelos.Rows.Clear();
+                                DataTable dtTipos = new DataTable();
+                                using (SqlConnection conexionTipos = new SqlConnection(connectionString))
                                 {
-                                    dtTipos.Load(readerTipos);
+                                    conexionTipos.Open();
+                                    string queryTipos = "SELECT id_tipo, descripcion FROM tipos;";
+                                    using (SqlCommand cmdTipos = new SqlCommand(queryTipos, conexionTipos))
+                                    using (SqlDataReader readerTipos = cmdTipos.ExecuteReader())
+                                    {
+                                        dtTipos.Load(readerTipos);
+                                    }
                                 }
-                            }
-                            if (dgvModelos.Columns.Count > 0)
-                            {
-                                dgvModelos.Columns.Clear();
-                            }
+                                if (dgvModelos.Columns.Count > 0)
+                                {
+                                    dgvModelos.Columns.Clear();
+                                }
 
-                            dgvModelos.Columns.Add("Numero", "Número");
-                            dgvModelos.Columns.Add("Descripcion", "Descripción");
-                            dgvModelos.Columns.Add("Refaccion", "Refacción");
+                                dgvModelos.Columns.Add("Numero", "Número");
+                                dgvModelos.Columns.Add("Descripcion", "Descripción");
+                                dgvModelos.Columns.Add("Refaccion", "Refacción");
 
-                            DataGridViewComboBoxColumn comboTipo = new DataGridViewComboBoxColumn
-                            {
-                                Name = "Tipo",
-                                HeaderText = "Tipo",
-                                DataPropertyName = "idTipo",
-                                DisplayMember = "descripcion",
-                                ValueMember = "id_tipo",
-                                DataSource = dtTipos,
-                                AutoComplete = true
-                            };
-                            dgvModelos.Columns.Add(comboTipo);
-                            while (reader.Read())
-                            {
-                                int index = dgvModelos.Rows.Add();
-                                dgvModelos.Rows[index].Cells["Numero"].Value = reader["Numero"];
-                                dgvModelos.Rows[index].Cells["Descripcion"].Value = reader["Descripcion"];
-                                dgvModelos.Rows[index].Cells["Tipo"].Value = reader["idTipo"];
-                                dgvModelos.Rows[index].Cells["Refaccion"].Value = reader["Refaccion"];
-                                dgvModelos.Columns["Numero"].DisplayIndex = 0;
-                                dgvModelos.Columns["Descripcion"].DisplayIndex = 1;
-                                dgvModelos.Columns["Tipo"].DisplayIndex = 2;
-                                dgvModelos.Columns["Refaccion"].DisplayIndex = 3;
+                                DataGridViewComboBoxColumn comboTipo = new DataGridViewComboBoxColumn
+                                {
+                                    Name = "Tipo",
+                                    HeaderText = "Tipo",
+                                    DataPropertyName = "idTipo",
+                                    DisplayMember = "descripcion",
+                                    ValueMember = "id_tipo",
+                                    DataSource = dtTipos,
+                                    AutoComplete = true
+                                };
+                                dgvModelos.Columns.Add(comboTipo);
+                                while (reader.Read())
+                                {
+                                    int index = dgvModelos.Rows.Add();
+                                    dgvModelos.Rows[index].Cells["Numero"].Value = reader["Numero"];
+                                    dgvModelos.Rows[index].Cells["Descripcion"].Value = reader["Descripcion"];
+                                    dgvModelos.Rows[index].Cells["Tipo"].Value = reader["idTipo"];
+                                    dgvModelos.Rows[index].Cells["Refaccion"].Value = reader["Refaccion"];
+                                    dgvModelos.Columns["Numero"].DisplayIndex = 0;
+                                    dgvModelos.Columns["Descripcion"].DisplayIndex = 1;
+                                    dgvModelos.Columns["Tipo"].DisplayIndex = 2;
+                                    dgvModelos.Columns["Refaccion"].DisplayIndex = 3;
+                                }
                             }
                         }
                     }
                 }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al cargar datos: " + ex.Message);
+                }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al cargar datos: " + ex.Message);
-            }
-        }
 
 
 
@@ -330,9 +331,9 @@ namespace WinFormsApp1
                             idTipo = (result != null) ? result.ToString() : "";
                         }
                         string insertQuery = "INSERT INTO modelos(id_modelo, descripcion, marca, cartuchos, tipo) VALUES(@folio, @descripcion, @marca, 0, @tipo);";
-                        using (SqlCommand insertCmd = new SqlCommand(insertQuery,connection))   
+                        using (SqlCommand insertCmd = new SqlCommand(insertQuery, connection))
                         {
-                            insertCmd.Parameters.AddWithValue("@folio", txtFolio.Text); 
+                            insertCmd.Parameters.AddWithValue("@folio", txtFolio.Text);
                             insertCmd.Parameters.AddWithValue("@descripcion", txtModelo.Text);
                             insertCmd.Parameters.AddWithValue("@marca", idMarca);
                             insertCmd.Parameters.AddWithValue("@tipo", idTipo);
@@ -348,6 +349,88 @@ namespace WinFormsApp1
                         MessageBox.Show("Error: " + ex.Message);
                     }
                 }
+            }
+        }
+
+        private void btnEliminar_Click(object sender, EventArgs e)
+        {
+            if (dgvModelos.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Seleccione un modelo para eliminar");
+                return;
+            }
+            DialogResult confirmacion = MessageBox.Show("¿Está seguro de que desea eliminar lo(s) modelos(s) seleccionado(s)?",
+                                            "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (confirmacion != DialogResult.Yes) return;
+            foreach (DataGridViewRow row in dgvModelos.SelectedRows)
+            {
+                if (row.Cells["Numero"].Value == null) continue;
+                int idModelo = Convert.ToInt32(row.Cells["Numero"].Value);
+                try
+                {
+                    string queryDelete = "DELETE FROM modelos WHERE id_modelo = @idModelo;";
+                    using (SqlConnection connection = new SqlConnection(connectionString))
+                    {
+                        connection.Open();
+                        using (SqlCommand cmd = new SqlCommand(queryDelete, connection))
+                        {
+                            cmd.Parameters.AddWithValue("@idModelo", idModelo);
+                            cmd.ExecuteNonQuery();
+                        }
+                        ModeloAgregada.Invoke();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al eliminar modelo(s) ID " + idModelo + ": " + ex.Message);
+                    return;
+                }
+            }
+            MessageBox.Show("Modelo(s) eliminado correctamente");
+            cargarDatosDGV();
+        }
+
+        private void btnActualizar_Click(object sender, EventArgs e)
+        {
+            bool cambiosRealizados = false;
+            foreach (DataGridViewRow row in dgvModelos.Rows)
+            {
+                if (row.IsNewRow) continue;
+                int idModelo = Convert.ToInt32(row.Cells["Numero"].Value);
+                string nuevaDescripcion = row.Cells["Descripcion"].Value.ToString();
+                int nuevoIdTipo = Convert.ToInt32(row.Cells["Tipo"].Value);
+                try
+                {
+                    string queryUpdate = "UPDATE modelos SET descripcion = @descripcion, tipo = @tipo WHERE id_modelo = @idModelo;";
+                    using (SqlConnection connection = new SqlConnection(connectionString))
+                    {
+                        connection.Open();
+                        using (SqlCommand cmd = new SqlCommand(queryUpdate, connection))
+                        {
+                            cmd.Parameters.AddWithValue("@descripcion", nuevaDescripcion);
+                            cmd.Parameters.AddWithValue("@tipo", nuevoIdTipo);
+                            cmd.Parameters.AddWithValue("@idModelo", idModelo);
+                            cmd.ExecuteNonQuery();
+                            ModeloAgregada.Invoke();
+                        }
+                    }
+                    cambiosRealizados = true;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al actualizar modelo ID " + idModelo + ": " + ex.Message);
+                    return;
+                }
+            }
+            if (cambiosRealizados)
+            {
+                MessageBox.Show("Modelos(s) actualizado(s) correctamente.");
+                cargarDatosDGV();
+            }
+            else
+            {
+                MessageBox.Show("No se realizaron cambios.");
+                cargarDatosDGV();
             }
         }
 

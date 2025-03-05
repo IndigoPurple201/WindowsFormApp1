@@ -148,6 +148,7 @@
             btnActualizar.TabIndex = 51;
             btnActualizar.Text = "Acualizar";
             btnActualizar.UseVisualStyleBackColor = true;
+            btnActualizar.Click += btnActualizar_Click;
             // 
             // btnCerrar2
             // 
@@ -171,6 +172,7 @@
             btnEliminar.TabIndex = 49;
             btnEliminar.Text = "Eliminar";
             btnEliminar.UseVisualStyleBackColor = true;
+            btnEliminar.Click += btnEliminar_Click;
             // 
             // dgvModelos
             // 

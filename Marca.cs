@@ -230,7 +230,7 @@ namespace WinFormsApp1
             {
                 MessageBox.Show("Seleccione una marca para eliminar.");
                 return;
-            }
+            }   
             DialogResult confirmacion = MessageBox.Show("¿Está seguro de que desea eliminar la(s) marca(s) seleccionada(s)?",
                                                         "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (confirmacion != DialogResult.Yes) return;
