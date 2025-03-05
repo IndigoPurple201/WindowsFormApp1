@@ -126,68 +126,6 @@ namespace WinFormsApp1
             dgvModelos.Columns["Refaccion"].ReadOnly = true;
         }
 
-        private void cargarDatosDGV()
-        {
-            try
-            {
-                string query = @"SELECT modelos.id_modelo AS Numero, modelos.descripcion AS Descripcion, modelos.tipo AS idTipo, tipos.descripcion AS Tipo, tipos.refaccion AS Refaccion FROM modelos JOIN tipos ON modelos.tipo = tipos.id_tipo JOIN marcas ON marcas.id_marca = modelos.marca WHERE marcas.descripcion = @marca;";
-                using (SqlConnection conexion = new SqlConnection(connectionString))
-                {
-                    conexion.Open();
-                    using (SqlCommand cmd = new SqlCommand(query, conexion))
-                    {
-                        cmd.Parameters.AddWithValue("@marca", txtMarca.Text);
-                        using (SqlDataReader reader = cmd.ExecuteReader())
-                        {
-                            dgvModelos.Rows.Clear();
-
-                            if (dgvModelos.Columns.Count == 0)
-                            {
-                                dgvModelos.Columns.Add("Numero", "Número");
-                                dgvModelos.Columns.Add("Descripcion", "Descripción");
-                                dgvModelos.Columns.Add("Refaccion", "Refacción");
-                                DataGridViewComboBoxColumn comboTipo = new DataGridViewComboBoxColumn
-                                {
-                                    Name = "Tipo",
-                                    HeaderText = "Tipo",
-                                    DataPropertyName = "idTipo",
-                                    DisplayMember = "descripcionTipo",
-                                    ValueMember = "id_tipo"
-                                };
-                                using (SqlConnection conexionTipos = new SqlConnection(connectionString))
-                                {
-                                    conexionTipos.Open();
-                                    string queryTipos = "SELECT id_tipo, descripcion FROM tipos;";
-                                    using (SqlCommand cmdTipos = new SqlCommand(queryTipos, conexionTipos))
-                                    using (SqlDataReader readerTipos = cmdTipos.ExecuteReader())
-                                    {
-                                        DataTable dtTipos = new DataTable();
-                                        dtTipos.Load(readerTipos);
-                                        comboTipo.DataSource = dtTipos;
-                                    }
-                                }
-                                dgvModelos.Columns.Add(comboTipo);
-                            }
-                            while (reader.Read())
-                            {
-                                int index = dgvModelos.Rows.Add();
-                                dgvModelos.Rows[index].Cells["Numero"].Value = reader["Numero"];
-                                dgvModelos.Rows[index].Cells["Descripcion"].Value = reader["Descripcion"];
-                                dgvModelos.Rows[index].Cells["Refaccion"].Value = reader["Refaccion"];
-                                dgvModelos.Rows[index].Cells["Tipo"].Value = reader["Tipo"];
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al cargar datos: " + ex.Message);
-            }
-        }
-
-
-
         protected override void WndProc(ref Message m)
         {
             const int WM_NCACTIVATE = 0x86;
