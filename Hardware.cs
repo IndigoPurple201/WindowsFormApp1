@@ -610,7 +610,7 @@ namespace WinFormsApp1
             ComboBox comboBox = sender as ComboBox;
 
             // Evitar que se ingresen más de 15 dígitos
-            if (!char.IsControl(e.KeyChar) && comboBox.Text.Length >= 25)
+            if (!char.IsControl(e.KeyChar) && comboBox.Text.Length >= 15)
             {
                 e.Handled = true;
             }

@@ -40,9 +40,12 @@ namespace WinFormsApp1
 
         private void Perifericos_Load(object sender, EventArgs e)
         {
+            BloquearControles(true);
             this.MouseDown += new MouseEventHandler(Periferico_MouseDown);
             ConfigurarDataGridView();
             CargarDatosDGV();
+            ConfigurarNumSerie(boxNumSerie);
+            ConfigurarBoxActivo(boxActivo);
         }
 
         private void CargarDatosDGV()
@@ -113,6 +116,61 @@ namespace WinFormsApp1
             //dgvPerifericos.Columns["Numero"].ReadOnly = true;
         }
 
+        private void BloquearControles(bool bloquear)
+        {
+            btnNuevo.Enabled = bloquear;
+            btnAceptar.Enabled = !bloquear;
+            btnCancelar.Enabled = !bloquear;
+            btnNuevoMarca.Enabled = !bloquear;
+            btnNuevoModelo.Enabled = !bloquear;
+            txtFolio.Enabled = !bloquear;
+            boxDidecon.Enabled = !bloquear;
+            boxTipo.Enabled = !bloquear;
+            boxTipo.Enabled = !bloquear;
+            boxNumSerie.Enabled = !bloquear;
+            boxModelo.Enabled = !bloquear;
+            boxMarca.Enabled = !bloquear;
+            boxActivo.Enabled = !bloquear;
+        }
+
+        private void btnNuevo_Click(object sender, EventArgs e)
+        {
+            BloquearControles(false);
+        }
+
+        private void LimpiarControles()
+        {
+            List<Control> controlesALimpiar = new List<Control> { txtFolio, boxDidecon, boxTipo, boxNumSerie, boxModelo, boxModelo, boxActivo };
+            foreach (Control ctrl in this.Controls)
+            {
+                if (controlesALimpiar.Contains(ctrl))
+                {
+                    if (ctrl is TextBox textBox)
+                    {
+                        textBox.Clear();
+                    }
+                    else if (ctrl is ComboBox comboBox)
+                    {
+                        if (comboBox.Items.Contains("-"))
+                        {
+                            comboBox.SelectedItem = "-";
+                        }
+                        else
+                        {
+                            comboBox.SelectedIndex = -1;
+                            comboBox.Text = string.Empty;
+                        }
+                    }
+                }
+            }
+        }
+
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            LimpiarControles();
+            BloquearControles(true);
+        }
+
         private void Periferico_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
@@ -173,6 +231,82 @@ namespace WinFormsApp1
         private void buttonSalir_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void txtFolio_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+            // Permitir solo números y la tecla de retroceso
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true; // Bloquear entrada no numérica
+            }
+            // Evitar que se ingresen más de 4 dígitos
+            if (!char.IsControl(e.KeyChar) && txt.Text.Length >= 4)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void boxNumSerie_TextChanged(object sender, EventArgs e)
+        {
+            ComboBox comboBox = sender as ComboBox;
+
+            // Convertir a mayúsculas
+            comboBox.Text = comboBox.Text.ToUpper();
+
+            // Mover el cursor al final
+            comboBox.SelectionStart = comboBox.Text.Length;
+        }
+
+        private void boxNumSerie_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            ComboBox comboBox = sender as ComboBox;
+
+            // Evitar que se ingresen más de 15 dígitos
+            if (!char.IsControl(e.KeyChar) && comboBox.Text.Length >= 15)
+            {
+                e.Handled = true;
+            }
+
+        }
+
+        private void boxActivo_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            ComboBox comboBox = sender as ComboBox;
+
+            // Evitar que se ingresen más de 15 dígitos
+            if (!char.IsControl(e.KeyChar) && comboBox.Text.Length >= 15)
+            {
+                e.Handled = true;
+            }
+
+            //Permitirsolo numerosy puntos
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void ConfigurarNumSerie(ComboBox boxNumSerie)
+        {
+            boxNumSerie.Items.Clear();
+            boxNumSerie.Items.Add("-");  // Agregar opción por defecto
+            boxNumSerie.Items.Add("SN");
+            boxNumSerie.DropDownStyle = ComboBoxStyle.DropDown; // Permite escribir manualmente
+            boxNumSerie.SelectedIndex = 0; // Seleccionar "-" por defecto
+
+            boxNumSerie.TextChanged += boxNumSerie_TextChanged;
+        }
+
+        private void ConfigurarBoxActivo(ComboBox boxActivo)
+        {
+            boxActivo.Items.Clear();
+            boxActivo.Items.Add("-");  // Agregar opción por defecto
+            boxActivo.DropDownStyle = ComboBoxStyle.DropDown; // Permite escribir manualmente
+            boxActivo.SelectedIndex = 0; // Seleccionar "-" por defecto
+
+            boxActivo.KeyPress += boxActivo_KeyPress;
         }
     }
 }

@@ -115,6 +115,7 @@
             txtFolio.Name = "txtFolio";
             txtFolio.Size = new Size(216, 23);
             txtFolio.TabIndex = 35;
+            txtFolio.KeyPress += txtFolio_KeyPress;
             // 
             // Numero
             // 
@@ -237,6 +238,8 @@
             boxNumSerie.Name = "boxNumSerie";
             boxNumSerie.Size = new Size(216, 23);
             boxNumSerie.TabIndex = 53;
+            boxNumSerie.TextChanged += boxNumSerie_TextChanged;
+            boxNumSerie.KeyPress += boxNumSerie_KeyPress;
             // 
             // label9
             // 
@@ -257,6 +260,7 @@
             boxActivo.Name = "boxActivo";
             boxActivo.Size = new Size(233, 23);
             boxActivo.TabIndex = 55;
+            boxActivo.KeyPress += boxActivo_KeyPress;
             // 
             // label6
             // 
@@ -278,6 +282,7 @@
             btnNuevo.TabIndex = 56;
             btnNuevo.Text = "NUEVO";
             btnNuevo.UseVisualStyleBackColor = true;
+            btnNuevo.Click += btnNuevo_Click;
             // 
             // btnAceptar
             // 
@@ -296,10 +301,11 @@
             btnCancelar.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnCancelar.Location = new Point(319, 217);
             btnCancelar.Name = "btnCancelar";
-            btnCancelar.Size = new Size(75, 23);
+            btnCancelar.Size = new Size(85, 23);
             btnCancelar.TabIndex = 58;
             btnCancelar.Text = "CANCELAR";
             btnCancelar.UseVisualStyleBackColor = true;
+            btnCancelar.Click += btnCancelar_Click;
             // 
             // btnActualizar
             // 
@@ -426,7 +432,7 @@
             // 
             button1.Cursor = Cursors.Hand;
             button1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button1.Location = new Point(506, 362);
+            button1.Location = new Point(495, 362);
             button1.Name = "button1";
             button1.Size = new Size(75, 23);
             button1.TabIndex = 71;
@@ -437,9 +443,9 @@
             // 
             button2.Cursor = Cursors.Hand;
             button2.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button2.Location = new Point(587, 362);
+            button2.Location = new Point(577, 362);
             button2.Name = "button2";
-            button2.Size = new Size(97, 23);
+            button2.Size = new Size(107, 23);
             button2.TabIndex = 72;
             button2.Text = "REESTABLECER";
             button2.UseVisualStyleBackColor = true;
