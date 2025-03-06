@@ -443,6 +443,7 @@
             btnPerifericos.TabIndex = 46;
             btnPerifericos.Text = "PERIFERICOS";
             btnPerifericos.UseVisualStyleBackColor = true;
+            btnPerifericos.Click += btnPerifericos_Click;
             // 
             // Hardware
             // 

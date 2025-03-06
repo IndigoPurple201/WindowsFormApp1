@@ -345,6 +345,14 @@ namespace WinFormsApp1
             Application.Exit();
         }
 
+        private void btnPerifericos_Click(object sender, EventArgs e)
+        {
+            Perifericos perifericos = new Perifericos(this);
+            perifericos.Show();
+            this.Hide();
+            //perifericos.FormClosed += (s, args) => Application.Exit();
+        }
+
         private void Hardware_MouseDown(object sender, MouseEventArgs e)
         {
             if (validarComboBox())
