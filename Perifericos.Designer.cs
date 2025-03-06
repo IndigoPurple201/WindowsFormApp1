@@ -81,6 +81,7 @@
             panelBarra.Name = "panelBarra";
             panelBarra.Size = new Size(777, 37);
             panelBarra.TabIndex = 33;
+            panelBarra.Paint += panelBarra_Paint;
             // 
             // label1
             // 
@@ -95,14 +96,16 @@
             // 
             // buttonSalir
             // 
+            buttonSalir.BackColor = Color.FromArgb(0, 120, 212);
             buttonSalir.Cursor = Cursors.Hand;
             buttonSalir.Image = (Image)resources.GetObject("buttonSalir.Image");
-            buttonSalir.Location = new Point(745, 4);
+            buttonSalir.Location = new Point(745, 5);
             buttonSalir.Name = "buttonSalir";
             buttonSalir.Size = new Size(25, 27);
             buttonSalir.SizeMode = PictureBoxSizeMode.StretchImage;
             buttonSalir.TabIndex = 32;
             buttonSalir.TabStop = false;
+            buttonSalir.Click += buttonSalir_Click;
             // 
             // txtFolio
             // 
@@ -509,6 +512,7 @@
             FormBorderStyle = FormBorderStyle.None;
             Name = "Perifericos";
             Text = "Perifericos";
+            Load += Perifericos_Load;
             panelBarra.ResumeLayout(false);
             panelBarra.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)buttonSalir).EndInit();

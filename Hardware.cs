@@ -32,9 +32,10 @@ namespace WinFormsApp1
             this.MouseDown += new MouseEventHandler(Hardware_MouseDown);
             //this.MouseMove += new MouseEventHandler(Hardware_MouseMove);
             panelBarra.MouseDown += new MouseEventHandler(Hardware_MouseDown);
+            label1.MouseDown += new MouseEventHandler(Hardware_MouseDown);
             //panelBarra.MouseMove += new MouseEventHandler(Hardware_MouseMove);
         }
-        private void Perifericos_Load_1(object sender, EventArgs e)
+        private void Hardware_Load_1(object sender, EventArgs e)
         {
             ConexionSQL conexion = new ConexionSQL();
             conexion.ProbarConexion();
@@ -387,14 +388,23 @@ namespace WinFormsApp1
                 mouseDownLocation = e.Location; // Guarda la posición del mouse al hacer clic
             }
         }
-        private void panelBarra_MouseMove(object sender, MouseEventArgs e)
+
+        private void label1_MouseDown(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left) // Si el botón del mouse sigue presionado
+            if (e.Button == MouseButtons.Left) // Verifica que el clic sea con el botón izquierdo
             {
-                this.Left += e.X - mouseDownLocation.X;
-                this.Top += e.Y - mouseDownLocation.Y;
+                mouseDownLocation = e.Location; // Guarda la posición del mouse al hacer clic
             }
         }
+
+        //private void panelBarra_MouseMove(object sender, MouseEventArgs e)
+        //{
+        //    if (e.Button == MouseButtons.Left) // Si el botón del mouse sigue presionado
+        //    {
+        //        this.Left += e.X - mouseDownLocation.X;
+        //        this.Top += e.Y - mouseDownLocation.Y;
+        //    }
+        //}
         private void BloquearControles(bool bloquear)
         {
             foreach (Control ctrl in this.Controls)

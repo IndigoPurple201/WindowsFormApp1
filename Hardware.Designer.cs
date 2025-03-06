@@ -488,7 +488,7 @@
             FormBorderStyle = FormBorderStyle.None;
             Name = "Hardware";
             Text = "Perifericos";
-            Load += Perifericos_Load_1;
+            Load += Hardware_Load_1;
             panelBarra.ResumeLayout(false);
             panelBarra.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)buttonSalir).EndInit();
