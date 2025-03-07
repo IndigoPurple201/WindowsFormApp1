@@ -111,9 +111,9 @@
             // 
             txtFolio.BorderStyle = BorderStyle.FixedSingle;
             txtFolio.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            txtFolio.Location = new Point(128, 66);
+            txtFolio.Location = new Point(156, 66);
             txtFolio.Name = "txtFolio";
-            txtFolio.Size = new Size(216, 23);
+            txtFolio.Size = new Size(188, 23);
             txtFolio.TabIndex = 35;
             txtFolio.KeyPress += txtFolio_KeyPress;
             // 
@@ -121,7 +121,7 @@
             // 
             Numero.AutoSize = true;
             Numero.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            Numero.Location = new Point(16, 59);
+            Numero.Location = new Point(35, 56);
             Numero.Name = "Numero";
             Numero.Size = new Size(106, 30);
             Numero.TabIndex = 34;

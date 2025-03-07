@@ -25,6 +25,7 @@ namespace WinFormsApp1
         private Control controlActivo = null;
         private Point mouseDownLocation;
         private string connectionString = "Server=COMPRAS-SERV\\SQLEXPRESS; Database=inventarios; Integrated Security=True; Encrypt=False;";
+        string didecon = "";
 
         private Hardware hardware;
         public Perifericos(Hardware form1)
@@ -151,16 +152,54 @@ namespace WinFormsApp1
                 {
                     using (SqlConnection connection = new SqlConnection(connectionString))
                     {
+                        connection.Open();
                         String seleccion = boxDidecon.SelectedItem.ToString();
                         string[] partes = seleccion.Split('-');
                         if (partes.Length == 3)
                         {
-                            string didecon = partes[2];
+                            didecon = partes[2];
                         }
                         else
                         {
                             MessageBox.Show("Error al procesar la selección.");
                         }
+                        int idMarca = 0;
+                        string queryMarca = "SELECT id_marca FROM marcas WHERE descripcion = @marca ORDER BY id_marca;";
+                        using (SqlCommand cmd = new SqlCommand(queryMarca, connection))
+                        {
+                            cmd.Parameters.AddWithValue("@marca", boxMarca.Text);
+                            object result = cmd.ExecuteScalar();
+                            idMarca = (result != null) ? Convert.ToInt32(result) : 0;
+                        }
+                        int idTipo = 0;
+                        string queryTipo = "SELECT id_tipo FROM tipos WHERE descripcion = @tipo ORDER BY id_tipo;";
+                        using (SqlCommand cmd = new SqlCommand(queryTipo, connection))
+                        {
+                            cmd.Parameters.AddWithValue("@tipo", boxTipo.Text);
+                            object result = cmd.ExecuteScalar();
+                            idTipo = (result != null) ? Convert.ToInt32(result) : 0;
+                        }
+                        int idModelo = 0;
+                        string queryModelo = "SELECT id_modelo FROM modelos WHERE descripcion = @modelo ORDER BY id_modelo;";
+                        using (SqlCommand cmd = new SqlCommand(queryModelo, connection))
+                        {
+                            cmd.Parameters.AddWithValue("@modelo", boxModelo.Text);
+                            object result = cmd.ExecuteScalar();
+                            idModelo = (result != null) ? Convert.ToInt32(result) : 0;
+                        }
+                        string queryInsert = @"INSERT INTO perifericos (folio, didecon, tipo, marca, modelo, sn, activos, activocontraloria, idestatus, fechacaptura, fechaalta, fechafactura, fechabaja, valorfactura, nomproveedor, numerofactura) VALUES (@folio, @didecon, @tipo, @marca, @modelo, '-', '-', '-', 7, GETDATE(), '1900-01-01 00:00:00.000', '1900-01-01 00:00:00.000', '1900-01-01 00:00:00.000', 0.00, '-', '-');";
+                        using (SqlCommand insertCmd = new SqlCommand(queryInsert, connection))
+                        {
+                            insertCmd.Parameters.AddWithValue("@folio", txtFolio.Text);
+                            insertCmd.Parameters.AddWithValue("@didecon", didecon);
+                            insertCmd.Parameters.AddWithValue("@tipo", idTipo);
+                            insertCmd.Parameters.AddWithValue("@marca", idMarca);
+                            insertCmd.Parameters.AddWithValue("@modelo", idModelo);
+                            insertCmd.ExecuteNonQuery();
+                        }
+                        MessageBox.Show("Registro guardado con éxito.");
+                        LimpiarControles();
+                        CargarDatosDGV();
                     }
                 }
                 catch (Exception ex)
@@ -511,12 +550,12 @@ namespace WinFormsApp1
                 mensajeError += "- Selecciona un Didecon válido.\n";
                 esValido = false;
             }
-            if (boxActivo.SelectedIndex == -1 || string.IsNullOrWhiteSpace(boxActivo.Text))
+            if (string.IsNullOrWhiteSpace(boxActivo.Text))
             {
                 mensajeError += "- Selecciona un Act. Contraloria válido.\n";
                 esValido = false;
             }
-            if (boxNumSerie.SelectedIndex == -1 || string.IsNullOrWhiteSpace(boxNumSerie.Text))
+            if (string.IsNullOrWhiteSpace(boxActivo.Text))
             {
                 mensajeError += "- Selecciona un Num. Serie válido.\n";
                 esValido = false;

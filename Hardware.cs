@@ -112,9 +112,7 @@ namespace WinFormsApp1
                             idModelo = (result != null) ? Convert.ToInt32(result) : 0;
                         }
                         //MessageBox.Show(idModelo.ToString());
-                        string insertQuery = @"
-                                             INSERT INTO hardware (folio, depto, area, didecon, responsable, ip, sn, procesador, memoria, disco_duro, grupo, nombre, activos, marca, modelo, activocontraloria, idestatus, fechacaptura, fechaalta, fechafactura, fechabaja, valorfactura, nomproveedor, idtipo, numerofactura) 
-                                             VALUES (@folio, @depto, @area, @didecon, @responsable, @ip, @sn, @procesador, @memoria, @disco_duro, '-', '-', '-', @marca, @modelo, @activocontraloria, 1, GETDATE(), '1900-01-01 00:00:00.000', '1900-01-01 00:00:00.000', '1900-01-01 00:00:00.000', 0.00, '-', 1, '-');";
+                        string insertQuery = @"INSERT INTO hardware (folio, depto, area, didecon, responsable, ip, sn, procesador, memoria, disco_duro, grupo, nombre, activos, marca, modelo, activocontraloria, idestatus, fechacaptura, fechaalta, fechafactura, fechabaja, valorfactura, nomproveedor, idtipo, numerofactura) VALUES (@folio, @depto, @area, @didecon, @responsable, @ip, @sn, @procesador, @memoria, @disco_duro, '-', '-', '-', @marca, @modelo, @activocontraloria, 1, GETDATE(), '1900-01-01 00:00:00.000', '1900-01-01 00:00:00.000', '1900-01-01 00:00:00.000', 0.00, '-', 1, '-');";
                         using (SqlCommand insertCmd = new SqlCommand(insertQuery, conexion))
                         {
                             insertCmd.Parameters.AddWithValue("@folio", txtFolio.Text);
