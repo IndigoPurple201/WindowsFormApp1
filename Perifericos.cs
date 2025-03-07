@@ -44,15 +44,20 @@ namespace WinFormsApp1
             this.MouseDown += new MouseEventHandler(Periferico_MouseDown);
             ConfigurarDataGridView();
             CargarDatosDGV();
+            LlenarBoxDidecon();
+            LlenarBoxTipo();
+            LlenarBoxMarca();
             ConfigurarNumSerie(boxNumSerie);
             ConfigurarBoxActivo(boxActivo);
+            boxMarca.SelectedIndexChanged += boxMarca_SelectedIndexChanged;
+            btnNuevoModelo.Enabled = false;
         }
 
         private void CargarDatosDGV()
         {
             try
             {
-                string query = "SELECT perifericos.folio AS Numero, perifericos.didecon AS Didecon, tipos.descripcion AS Tipo, marcas.descripcion AS Marca, modelos.descripcion AS Modelo, perifericos.sn AS Num_Serie, perifericos.activocontraloria AS Activo, perifericos.fechacaptura AS Fecha FROM perifericos JOIN tipos ON tipos.id_tipo = perifericos.tipo JOIN marcas ON marcas.id_marca = perifericos.marca JOIN modelos ON modelos.id_modelo = perifericos.modelo;";
+                string query = "SELECT perifericos.folio AS Numero, perifericos.didecon AS Didecon, tipos.descripcion AS Tipo, marcas.descripcion AS Marca, modelos.descripcion AS Modelo, perifericos.sn AS Num_Serie, perifericos.activocontraloria AS Activo, perifericos.fechacaptura AS Fecha FROM perifericos JOIN tipos ON tipos.id_tipo = perifericos.tipo JOIN marcas ON marcas.id_marca = perifericos.marca JOIN modelos ON modelos.id_modelo = perifericos.modelo WHERE tipos.descripcion != 'CPU';";
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
@@ -122,7 +127,7 @@ namespace WinFormsApp1
             btnAceptar.Enabled = !bloquear;
             btnCancelar.Enabled = !bloquear;
             btnNuevoMarca.Enabled = !bloquear;
-            btnNuevoModelo.Enabled = !bloquear;
+            //btnNuevoModelo.Enabled = !bloquear;
             txtFolio.Enabled = !bloquear;
             boxDidecon.Enabled = !bloquear;
             boxTipo.Enabled = !bloquear;
@@ -138,9 +143,36 @@ namespace WinFormsApp1
             BloquearControles(false);
         }
 
+        private void btnAceptar_Click(object sender, EventArgs e)
+        {
+            if(validarCampos())
+            {
+                try 
+                {
+                    using (SqlConnection connection = new SqlConnection(connectionString))
+                    {
+                        String seleccion = boxDidecon.SelectedItem.ToString();
+                        string[] partes = seleccion.Split('-');
+                        if (partes.Length == 3)
+                        {
+                            string didecon = partes[2];
+                        }
+                        else
+                        {
+                            MessageBox.Show("Error al procesar la selección.");
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: " + ex.Message);
+                }
+            }
+        }
+
         private void LimpiarControles()
         {
-            List<Control> controlesALimpiar = new List<Control> { txtFolio, boxDidecon, boxTipo, boxNumSerie, boxModelo, boxModelo, boxActivo };
+            List<Control> controlesALimpiar = new List<Control> { txtFolio, boxDidecon, boxTipo, boxNumSerie, boxMarca, boxModelo, boxModelo, boxActivo };
             foreach (Control ctrl in this.Controls)
             {
                 if (controlesALimpiar.Contains(ctrl))
@@ -151,14 +183,24 @@ namespace WinFormsApp1
                     }
                     else if (ctrl is ComboBox comboBox)
                     {
-                        if (comboBox.Items.Contains("-"))
+                        if (comboBox == boxModelo)
                         {
-                            comboBox.SelectedItem = "-";
+                            // Limpiar completamente el ComboBox de modelos
+                            comboBox.Items.Clear();
+                            comboBox.SelectedIndex = -1;
+                            comboBox.Text = string.Empty;
                         }
                         else
                         {
-                            comboBox.SelectedIndex = -1;
-                            comboBox.Text = string.Empty;
+                            if (comboBox.Items.Contains("-"))
+                            {
+                                comboBox.SelectedItem = "-";
+                            }
+                            else
+                            {
+                                comboBox.SelectedIndex = -1;
+                                comboBox.Text = string.Empty;
+                            }
                         }
                     }
                 }
@@ -248,6 +290,152 @@ namespace WinFormsApp1
             }
         }
 
+        private void LlenarBoxDidecon()
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    String query = "SELECT hardware.folio, hardware.procesador, hardware.didecon FROM hardware;";
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        boxDidecon.Items.Clear();
+                        while (reader.Read())
+                        {
+                            string item = $"{reader["folio"]}-{reader["procesador"]}-{reader["didecon"]}";
+                            boxDidecon.Items.Add(item);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar los datos: " + ex.Message);
+            }
+        }
+
+        private void LlenarBoxMarca()
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string query = "SELECT marcas.descripcion FROM marcas;";
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        boxMarca.Items.Clear();
+                        while (reader.Read())
+                        {
+                            boxMarca.Items.Add(reader["descripcion"].ToString());
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar los datos: " + ex.Message);
+            }
+        }
+
+        private void LlenarBoxTipo()
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string query = "SELECT tipos.descripcion FROM tipos WHERE tipos.descripcion != 'CPU';";
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        boxTipo.Items.Clear();
+                        while (reader.Read())
+                        {
+                            boxTipo.Items.Add(reader["descripcion"].ToString());
+                        }
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar los datos: " + ex.Message);
+            }
+        }
+
+        private void boxMarca_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LlenarBoxModelo();
+            if (boxMarca.SelectedItem != null && boxMarca.SelectedItem.ToString() != "-")
+            {
+                btnNuevoModelo.Enabled = true;
+            }
+            else
+            {
+                btnNuevoModelo.Enabled = false;
+            }
+        }
+
+        private void boxTipo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LlenarBoxModelo();
+        }
+
+        private void LlenarBoxModelo()
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(boxMarca.Text) || string.IsNullOrWhiteSpace(boxTipo.Text))
+                    return;
+
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    int idMarca = 0;
+                    string query1 = "SELECT id_marca FROM marcas WHERE descripcion = @marca;";
+                    using (SqlCommand cmd1 = new SqlCommand(query1, conn))
+                    {
+                        cmd1.Parameters.AddWithValue("@marca", boxMarca.Text);
+                        object result = cmd1.ExecuteScalar();
+                        idMarca = (result != null) ? Convert.ToInt32(result) : 0;
+                    }
+                    int idTipo = 0;
+                    string query2 = "SELECT id_tipo FROM tipos WHERE descripcion = @tipo;";
+                    using (SqlCommand cmd2 = new SqlCommand(query2, conn))
+                    {
+                        cmd2.Parameters.AddWithValue("@tipo", boxTipo.Text);
+                        object result = cmd2.ExecuteScalar();
+                        idTipo = (result != null) ? Convert.ToInt32(result) : 0;
+                    }
+                    if (idMarca == 0 || idTipo == 0)
+                        return;
+                    boxModelo.Items.Clear();
+                    string query3 = "SELECT descripcion FROM modelos WHERE marca = @marca AND tipo = @tipo;";
+                    using (SqlCommand cmd3 = new SqlCommand(query3, conn))
+                    {
+                        cmd3.Parameters.AddWithValue("@marca", idMarca);
+                        cmd3.Parameters.AddWithValue("@tipo", idTipo);
+                        using (SqlDataReader reader = cmd3.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                boxModelo.Items.Add(reader["descripcion"].ToString());
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar los datos: " + ex.Message);
+            }
+        }
+
+
         private void boxNumSerie_TextChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = sender as ComboBox;
@@ -307,6 +495,52 @@ namespace WinFormsApp1
             boxActivo.SelectedIndex = 0; // Seleccionar "-" por defecto
 
             boxActivo.KeyPress += boxActivo_KeyPress;
+        }
+
+        private bool validarCampos()
+        {
+            bool esValido = true;
+            string mensajeError = "Los siguientes campos son inválidos:\n";
+            if (txtFolio.Text.Length != 4 || !int.TryParse(txtFolio.Text, out _))
+            {
+                mensajeError += "- El numero debe tener 4 dígitos.\n";
+                esValido = false;
+            }
+            if (boxDidecon.SelectedIndex == -1 || string.IsNullOrWhiteSpace(boxDidecon.Text))
+            {
+                mensajeError += "- Selecciona un Didecon válido.\n";
+                esValido = false;
+            }
+            if (boxActivo.SelectedIndex == -1 || string.IsNullOrWhiteSpace(boxActivo.Text))
+            {
+                mensajeError += "- Selecciona un Act. Contraloria válido.\n";
+                esValido = false;
+            }
+            if (boxNumSerie.SelectedIndex == -1 || string.IsNullOrWhiteSpace(boxNumSerie.Text))
+            {
+                mensajeError += "- Selecciona un Num. Serie válido.\n";
+                esValido = false;
+            }
+            if (boxMarca.SelectedIndex == -1 || string.IsNullOrWhiteSpace(boxMarca.Text))
+            {
+                mensajeError += "- Selecciona una Marca válida.\n";
+                esValido = false;
+            }
+            if (boxTipo.SelectedIndex == -1 || string.IsNullOrWhiteSpace(boxTipo.Text))
+            {
+                mensajeError += "- Selecciona un Tipo válido.\n";
+                esValido = false;
+            }
+            if (boxModelo.SelectedIndex == -1 || string.IsNullOrWhiteSpace(boxModelo.Text))
+            {
+                mensajeError += "- Selecciona un Modelo válido.\n";
+                esValido = false;
+            }
+            if (!esValido)
+            {
+                MessageBox.Show(mensajeError, "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            return esValido;
         }
     }
 }

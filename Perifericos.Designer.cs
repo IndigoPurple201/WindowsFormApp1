@@ -132,7 +132,7 @@
             boxDidecon.DropDownStyle = ComboBoxStyle.DropDownList;
             boxDidecon.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             boxDidecon.FormattingEnabled = true;
-            boxDidecon.Location = new Point(128, 101);
+            boxDidecon.Location = new Point(128, 102);
             boxDidecon.Name = "boxDidecon";
             boxDidecon.Size = new Size(216, 23);
             boxDidecon.TabIndex = 37;
@@ -141,7 +141,7 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label2.Location = new Point(44, 103);
+            label2.Location = new Point(29, 102);
             label2.Name = "label2";
             label2.Size = new Size(78, 21);
             label2.TabIndex = 36;
@@ -152,16 +152,17 @@
             boxTipo.DropDownStyle = ComboBoxStyle.DropDownList;
             boxTipo.Font = new Font("Segoe UI", 9F);
             boxTipo.FormattingEnabled = true;
-            boxTipo.Location = new Point(128, 139);
+            boxTipo.Location = new Point(528, 104);
             boxTipo.Name = "boxTipo";
-            boxTipo.Size = new Size(216, 23);
+            boxTipo.Size = new Size(233, 23);
             boxTipo.TabIndex = 39;
+            boxTipo.SelectedIndexChanged += boxTipo_SelectedIndexChanged;
             // 
             // label5
             // 
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label5.Location = new Point(79, 141);
+            label5.Location = new Point(479, 106);
             label5.Name = "label5";
             label5.Size = new Size(43, 21);
             label5.TabIndex = 38;
@@ -194,7 +195,7 @@
             boxModelo.DropDownStyle = ComboBoxStyle.DropDownList;
             boxModelo.Font = new Font("Segoe UI", 9F);
             boxModelo.FormattingEnabled = true;
-            boxModelo.Location = new Point(528, 70);
+            boxModelo.Location = new Point(528, 141);
             boxModelo.Name = "boxModelo";
             boxModelo.Size = new Size(233, 23);
             boxModelo.TabIndex = 49;
@@ -203,7 +204,7 @@
             // 
             label10.AutoSize = true;
             label10.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label10.Location = new Point(448, 72);
+            label10.Location = new Point(448, 143);
             label10.Name = "label10";
             label10.Size = new Size(74, 21);
             label10.TabIndex = 48;
@@ -214,16 +215,17 @@
             boxMarca.DropDownStyle = ComboBoxStyle.DropDownList;
             boxMarca.Font = new Font("Segoe UI", 9F);
             boxMarca.FormattingEnabled = true;
-            boxMarca.Location = new Point(528, 104);
+            boxMarca.Location = new Point(528, 68);
             boxMarca.Name = "boxMarca";
             boxMarca.Size = new Size(233, 23);
             boxMarca.TabIndex = 47;
+            boxMarca.SelectedIndexChanged += boxMarca_SelectedIndexChanged;
             // 
             // label8
             // 
             label8.AutoSize = true;
             label8.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label8.Location = new Point(458, 106);
+            label8.Location = new Point(458, 70);
             label8.Name = "label8";
             label8.Size = new Size(64, 21);
             label8.TabIndex = 46;
@@ -256,9 +258,9 @@
             boxActivo.DropDownStyle = ComboBoxStyle.DropDownList;
             boxActivo.Font = new Font("Segoe UI", 9F);
             boxActivo.FormattingEnabled = true;
-            boxActivo.Location = new Point(528, 139);
+            boxActivo.Location = new Point(191, 141);
             boxActivo.Name = "boxActivo";
-            boxActivo.Size = new Size(233, 23);
+            boxActivo.Size = new Size(153, 23);
             boxActivo.TabIndex = 55;
             boxActivo.KeyPress += boxActivo_KeyPress;
             // 
@@ -266,7 +268,7 @@
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label6.Location = new Point(372, 145);
+            label6.Location = new Point(29, 143);
             label6.Name = "label6";
             label6.Size = new Size(150, 21);
             label6.TabIndex = 54;
@@ -294,6 +296,7 @@
             btnAceptar.TabIndex = 57;
             btnAceptar.Text = "ACEPTAR";
             btnAceptar.UseVisualStyleBackColor = true;
+            btnAceptar.Click += btnAceptar_Click;
             // 
             // btnCancelar
             // 
