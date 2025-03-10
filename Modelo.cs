@@ -152,23 +152,16 @@ namespace WinFormsApp1
                 {
                     query += " AND tipos.descripcion <> 'CPU'"; // Excluir CPU si no es Hardware
                 }
-
                 using (SqlConnection conexion = new SqlConnection(connectionString))
                 {
                     conexion.Open();
                     using (SqlCommand cmd = new SqlCommand(query, conexion))
                     {
                         cmd.Parameters.AddWithValue("@marca", txtMarca.Text);
-                        if (!string.IsNullOrEmpty(tipoFiltro))
-                        {
-                            cmd.Parameters.AddWithValue("@tipo", tipoFiltro);
-                        }
 
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
                             dgvModelos.Rows.Clear();
-
-                            // Verificar si es "CPU" para cargar solo los modelos de tipo CPU
                             if (tipoFiltro == "CPU")
                             {
                                 if (dgvModelos.Columns.Count > 0)
@@ -200,7 +193,6 @@ namespace WinFormsApp1
                                 {
                                     dgvModelos.Columns.Clear();
                                 }
-
                                 dgvModelos.Columns.Add("Numero", "Número");
                                 dgvModelos.Columns.Add("Descripcion", "Descripción");
                                 dgvModelos.Columns.Add("Refaccion", "Refacción");
@@ -226,10 +218,6 @@ namespace WinFormsApp1
                                 dgvModelos.Rows[index].Cells["Descripcion"].Value = reader["Descripcion"];
                                 dgvModelos.Rows[index].Cells["Tipo"].Value = reader["idTipo"];
                                 dgvModelos.Rows[index].Cells["Refaccion"].Value = reader["Refaccion"];
-                                dgvModelos.Columns["Numero"].DisplayIndex = 0;
-                                dgvModelos.Columns["Descripcion"].DisplayIndex = 1;
-                                dgvModelos.Columns["Tipo"].DisplayIndex = 2;
-                                dgvModelos.Columns["Refaccion"].DisplayIndex = 3;
                             }
                         }
                     }
