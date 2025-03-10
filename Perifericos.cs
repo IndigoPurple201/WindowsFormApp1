@@ -419,11 +419,6 @@ namespace WinFormsApp1
             }
         }
 
-        private void boxTipo_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            LlenarBoxModelo();
-        }
-
         private void LlenarBoxModelo()
         {
             try

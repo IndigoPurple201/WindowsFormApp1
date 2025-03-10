@@ -154,35 +154,7 @@ namespace WinFormsApp1
                                 }
                                 if (dgvModelos.Columns.Count > 0)
                                 {
-                                    dgvModelos.Columns.Clear();
-                                }
 
-                                dgvModelos.Columns.Add("Numero", "Número");
-                                dgvModelos.Columns.Add("Descripcion", "Descripción");
-                                dgvModelos.Columns.Add("Refaccion", "Refacción");
-
-                                DataGridViewComboBoxColumn comboTipo = new DataGridViewComboBoxColumn
-                                {
-                                    Name = "Tipo",
-                                    HeaderText = "Tipo",
-                                    DataPropertyName = "idTipo",
-                                    DisplayMember = "descripcion",
-                                    ValueMember = "id_tipo",
-                                    DataSource = dtTipos,
-                                    AutoComplete = true
-                                };
-                                dgvModelos.Columns.Add(comboTipo);
-                                while (reader.Read())
-                                {
-                                    int index = dgvModelos.Rows.Add();
-                                    dgvModelos.Rows[index].Cells["Numero"].Value = reader["Numero"];
-                                    dgvModelos.Rows[index].Cells["Descripcion"].Value = reader["Descripcion"];
-                                    dgvModelos.Rows[index].Cells["Tipo"].Value = reader["idTipo"];
-                                    dgvModelos.Rows[index].Cells["Refaccion"].Value = reader["Refaccion"];
-                                    dgvModelos.Columns["Numero"].DisplayIndex = 0;
-                                    dgvModelos.Columns["Descripcion"].DisplayIndex = 1;
-                                    dgvModelos.Columns["Tipo"].DisplayIndex = 2;
-                                    dgvModelos.Columns["Refaccion"].DisplayIndex = 3;
                                 }
                             }
                         }
@@ -193,8 +165,6 @@ namespace WinFormsApp1
                     MessageBox.Show("Error al cargar datos: " + ex.Message);
                 }
             }
-
-
 
         protected override void WndProc(ref Message m)
         {
