@@ -178,6 +178,7 @@
             btnNuevoModelo.TabIndex = 51;
             btnNuevoModelo.Text = "GESTIONAR MODELOS";
             btnNuevoModelo.UseVisualStyleBackColor = true;
+            btnNuevoModelo.Click += btnNuevoModelo_Click;
             // 
             // btnNuevoMarca
             // 
@@ -189,6 +190,7 @@
             btnNuevoMarca.TabIndex = 50;
             btnNuevoMarca.Text = "GESTIONAR MARCAS";
             btnNuevoMarca.UseVisualStyleBackColor = true;
+            btnNuevoMarca.Click += btnNuevoMarca_Click;
             // 
             // boxModelo
             // 

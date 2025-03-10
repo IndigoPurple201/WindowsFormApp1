@@ -29,6 +29,7 @@ namespace WinFormsApp1
         private Color bordeOriginal = Color.Black;
         private Color panelOriginal;
         private bool parpadeoActivo = false;
+        private string tipoFiltro;
 
         [DllImport("user32.dll")]
         private static extern void MessageBeep(uint uType);
@@ -37,11 +38,12 @@ namespace WinFormsApp1
         private Control controlActivo = null;
         private Point mouseDownLocation;
         private string connectionString = "Server=COMPRAS-SERV\\SQLEXPRESS; Database=inventarios; Integrated Security=True; Encrypt=False;";
-        public Modelo(string marca)
+        public Modelo(string marca, string tipo)
         {
             InitializeComponent();
             txtMarca.Text = marca;
             txtMarca.Enabled = false;
+            tipoFiltro = tipo;
 
             this.MouseDown += new MouseEventHandler(Modelo_MouseDown);
             //this.MouseMove += new MouseEventHandler(Modelo_MouseMove);
@@ -127,20 +129,61 @@ namespace WinFormsApp1
             dgvModelos.Columns["Refaccion"].ReadOnly = true;
         }
 
-            private void cargarDatosDGV()
+        private void cargarDatosDGV()
+        {
+            try
             {
-                try
+                string query = @"SELECT modelos.id_modelo AS Numero, 
+                                modelos.descripcion AS Descripcion, 
+                                modelos.tipo AS idTipo, 
+                                tipos.descripcion AS Tipo, 
+                                tipos.refaccion AS Refaccion 
+                         FROM modelos 
+                         JOIN tipos ON modelos.tipo = tipos.id_tipo 
+                         JOIN marcas ON marcas.id_marca = modelos.marca 
+                         WHERE marcas.descripcion = @marca";
+
+                // Filtrar por tipo si existe tipoFiltro
+                if (!string.IsNullOrEmpty(tipoFiltro))
                 {
-                    string query = @"SELECT modelos.id_modelo AS Numero, modelos.descripcion AS Descripcion, modelos.tipo AS idTipo, tipos.descripcion AS Tipo, tipos.refaccion AS Refaccion FROM modelos JOIN tipos ON modelos.tipo = tipos.id_tipo JOIN marcas ON marcas.id_marca = modelos.marca WHERE marcas.descripcion = @marca;";
-                    using (SqlConnection conexion = new SqlConnection(connectionString))
+                    query += " AND tipos.descripcion = @tipo";
+                }
+                else
+                {
+                    query += " AND tipos.descripcion <> 'CPU'"; // Excluir CPU si no es Hardware
+                }
+
+                using (SqlConnection conexion = new SqlConnection(connectionString))
+                {
+                    conexion.Open();
+                    using (SqlCommand cmd = new SqlCommand(query, conexion))
                     {
-                        conexion.Open();
-                        using (SqlCommand cmd = new SqlCommand(query, conexion))
+                        cmd.Parameters.AddWithValue("@marca", txtMarca.Text);
+                        if (!string.IsNullOrEmpty(tipoFiltro))
                         {
-                            cmd.Parameters.AddWithValue("@marca", txtMarca.Text);
-                            using (SqlDataReader reader = cmd.ExecuteReader())
+                            cmd.Parameters.AddWithValue("@tipo", tipoFiltro);
+                        }
+
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            dgvModelos.Rows.Clear();
+
+                            // Verificar si es "CPU" para cargar solo los modelos de tipo CPU
+                            if (tipoFiltro == "CPU")
                             {
-                                dgvModelos.Rows.Clear();
+                                if (dgvModelos.Columns.Count > 0)
+                                {
+                                    dgvModelos.Columns.Clear();
+                                }
+
+                                dgvModelos.Columns.Add("Numero", "Número");
+                                dgvModelos.Columns.Add("Descripcion", "Descripción");
+                                dgvModelos.Columns.Add("Tipo", "Tipo");
+                                dgvModelos.Columns.Add("Refaccion", "Refacción");
+                            }
+                            else
+                            {
+                                // Si no es "CPU", cargar el ComboBox para tipos
                                 DataTable dtTipos = new DataTable();
                                 using (SqlConnection conexionTipos = new SqlConnection(connectionString))
                                 {
@@ -152,19 +195,52 @@ namespace WinFormsApp1
                                         dtTipos.Load(readerTipos);
                                     }
                                 }
+
                                 if (dgvModelos.Columns.Count > 0)
                                 {
-
+                                    dgvModelos.Columns.Clear();
                                 }
+
+                                dgvModelos.Columns.Add("Numero", "Número");
+                                dgvModelos.Columns.Add("Descripcion", "Descripción");
+                                dgvModelos.Columns.Add("Refaccion", "Refacción");
+
+                                DataGridViewComboBoxColumn comboTipo = new DataGridViewComboBoxColumn
+                                {
+                                    Name = "Tipo",
+                                    HeaderText = "Tipo",
+                                    DataPropertyName = "idTipo",
+                                    DisplayMember = "descripcion",
+                                    ValueMember = "id_tipo",
+                                    DataSource = dtTipos,
+                                    AutoComplete = true
+                                };
+                                dgvModelos.Columns.Add(comboTipo);
+                            }
+
+                            // Llenar el DataGridView con los resultados filtrados
+                            while (reader.Read())
+                            {
+                                int index = dgvModelos.Rows.Add();
+                                dgvModelos.Rows[index].Cells["Numero"].Value = reader["Numero"];
+                                dgvModelos.Rows[index].Cells["Descripcion"].Value = reader["Descripcion"];
+                                dgvModelos.Rows[index].Cells["Tipo"].Value = reader["idTipo"];
+                                dgvModelos.Rows[index].Cells["Refaccion"].Value = reader["Refaccion"];
+                                dgvModelos.Columns["Numero"].DisplayIndex = 0;
+                                dgvModelos.Columns["Descripcion"].DisplayIndex = 1;
+                                dgvModelos.Columns["Tipo"].DisplayIndex = 2;
+                                dgvModelos.Columns["Refaccion"].DisplayIndex = 3;
                             }
                         }
                     }
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error al cargar datos: " + ex.Message);
-                }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar datos: " + ex.Message);
+            }
+        }
+
 
         protected override void WndProc(ref Message m)
         {

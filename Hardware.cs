@@ -730,7 +730,7 @@ namespace WinFormsApp1
         private void btnNuevoModelo_Click(object sender, EventArgs e)
         {
             string marca = boxMarca.SelectedItem.ToString();
-            Modelo modelo = new Modelo(marca);
+            Modelo modelo = new Modelo(marca, "CPU");
             modelo.ModeloAgregada += LlenarBoXModelo;
             modelo.ShowDialog();
         }

@@ -146,9 +146,9 @@ namespace WinFormsApp1
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-            if(validarCampos())
+            if (validarCampos())
             {
-                try 
+                try
                 {
                     using (SqlConnection connection = new SqlConnection(connectionString))
                     {
@@ -250,6 +250,20 @@ namespace WinFormsApp1
         {
             LimpiarControles();
             BloquearControles(true);
+        }
+
+        private void btnNuevoMarca_Click(object sender, EventArgs e)
+        {
+            Marca marca = new Marca();
+            marca.MarcaAgregada += LlenarBoxMarca;
+            marca.ShowDialog();
+        }
+
+        private void btnNuevoModelo_Click(object sender, EventArgs e)
+        {
+            string marca = boxMarca.SelectedItem.ToString();
+            Modelo modelo = new Modelo(marca, ""); // No filtra, permite todo excepto CPU
+            modelo.ShowDialog();
         }
 
         private void Periferico_MouseDown(object sender, MouseEventArgs e)
@@ -417,6 +431,11 @@ namespace WinFormsApp1
             {
                 btnNuevoModelo.Enabled = false;
             }
+        }
+
+        private void boxTipo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LlenarBoxModelo();
         }
 
         private void LlenarBoxModelo()
