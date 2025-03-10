@@ -133,25 +133,37 @@ namespace WinFormsApp1
         {
             try
             {
-                string query = @"SELECT modelos.id_modelo AS Numero, 
-                                modelos.descripcion AS Descripcion, 
-                                modelos.tipo AS idTipo, 
-                                tipos.descripcion AS Tipo, 
-                                tipos.refaccion AS Refaccion 
-                         FROM modelos 
-                         JOIN tipos ON modelos.tipo = tipos.id_tipo 
-                         JOIN marcas ON marcas.id_marca = modelos.marca 
-                         WHERE marcas.descripcion = @marca";
+                string query;
 
-                // Filtrar por tipo si existe tipoFiltro
-                if (!string.IsNullOrEmpty(tipoFiltro))
+                // 🔹 Si viene de Hardware, usar una consulta específica para CPU
+                if (tipoFiltro == "CPU")
                 {
-                    query += " AND tipos.descripcion = @tipo";
+                    query = @"SELECT modelos.id_modelo AS Numero, 
+                             modelos.descripcion AS Descripcion, 
+                             modelos.tipo AS idTipo, 
+                             tipos.descripcion AS Tipo, 
+                             tipos.refaccion AS Refaccion 
+                      FROM modelos 
+                      JOIN tipos ON modelos.tipo = tipos.id_tipo 
+                      JOIN marcas ON marcas.id_marca = modelos.marca 
+                      WHERE marcas.descripcion = @marca 
+                      AND tipos.descripcion = 'CPU'";
                 }
                 else
                 {
-                    query += " AND tipos.descripcion <> 'CPU'"; // Excluir CPU si no es Hardware
+                    // 🔹 Si viene de Periféricos, excluir CPUs
+                    query = @"SELECT modelos.id_modelo AS Numero, 
+                             modelos.descripcion AS Descripcion, 
+                             modelos.tipo AS idTipo, 
+                             tipos.descripcion AS Tipo, 
+                             tipos.refaccion AS Refaccion 
+                      FROM modelos 
+                      JOIN tipos ON modelos.tipo = tipos.id_tipo 
+                      JOIN marcas ON marcas.id_marca = modelos.marca 
+                      WHERE marcas.descripcion = @marca 
+                      AND tipos.descripcion <> 'CPU'";
                 }
+
                 using (SqlConnection conexion = new SqlConnection(connectionString))
                 {
                     conexion.Open();
@@ -162,21 +174,19 @@ namespace WinFormsApp1
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
                             dgvModelos.Rows.Clear();
+                            dgvModelos.Columns.Clear();
+
                             if (tipoFiltro == "CPU")
                             {
-                                if (dgvModelos.Columns.Count > 0)
-                                {
-                                    dgvModelos.Columns.Clear();
-                                }
-
+                                // 🔹 Hardware: Solo columnas de texto (sin ComboBox)
                                 dgvModelos.Columns.Add("Numero", "Número");
                                 dgvModelos.Columns.Add("Descripcion", "Descripción");
-                                dgvModelos.Columns.Add("Tipo", "Tipo");
+                                dgvModelos.Columns.Add("Tipo", "Tipo");  // Muestra "CPU" en texto
                                 dgvModelos.Columns.Add("Refaccion", "Refacción");
                             }
                             else
                             {
-                                // Si no es "CPU", cargar el ComboBox para tipos
+                                // 🔹 Periféricos: Agregar ComboBox para 'Tipo'
                                 DataTable dtTipos = new DataTable();
                                 using (SqlConnection conexionTipos = new SqlConnection(connectionString))
                                 {
@@ -189,10 +199,6 @@ namespace WinFormsApp1
                                     }
                                 }
 
-                                if (dgvModelos.Columns.Count > 0)
-                                {
-                                    dgvModelos.Columns.Clear();
-                                }
                                 dgvModelos.Columns.Add("Numero", "Número");
                                 dgvModelos.Columns.Add("Descripcion", "Descripción");
                                 dgvModelos.Columns.Add("Refaccion", "Refacción");
@@ -210,13 +216,24 @@ namespace WinFormsApp1
                                 dgvModelos.Columns.Add(comboTipo);
                             }
 
-                            // Llenar el DataGridView con los resultados filtrados
+                            // 🔹 Llenar el DataGridView con los resultados filtrados
                             while (reader.Read())
                             {
                                 int index = dgvModelos.Rows.Add();
                                 dgvModelos.Rows[index].Cells["Numero"].Value = reader["Numero"];
                                 dgvModelos.Rows[index].Cells["Descripcion"].Value = reader["Descripcion"];
-                                dgvModelos.Rows[index].Cells["Tipo"].Value = reader["idTipo"];
+
+                                if (tipoFiltro == "CPU")
+                                {
+                                    // 🔹 Hardware: Mostrar "CPU" en la columna Tipo en lugar de ID
+                                    dgvModelos.Rows[index].Cells["Tipo"].Value = "CPU";
+                                }
+                                else
+                                {
+                                    // 🔹 Periféricos: Asignar el ID del tipo (debe estar en la lista del ComboBox)
+                                    dgvModelos.Rows[index].Cells["Tipo"].Value = reader["idTipo"];
+                                }
+
                                 dgvModelos.Rows[index].Cells["Refaccion"].Value = reader["Refaccion"];
                             }
                         }
@@ -228,6 +245,8 @@ namespace WinFormsApp1
                 MessageBox.Show("Error al cargar datos: " + ex.Message);
             }
         }
+
+
 
 
         protected override void WndProc(ref Message m)

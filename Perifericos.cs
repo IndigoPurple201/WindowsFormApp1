@@ -263,6 +263,7 @@ namespace WinFormsApp1
         {
             string marca = boxMarca.SelectedItem.ToString();
             Modelo modelo = new Modelo(marca, ""); // No filtra, permite todo excepto CPU
+            modelo.ModeloAgregada += LlenarBoxModelo;
             modelo.ShowDialog();
         }
 
