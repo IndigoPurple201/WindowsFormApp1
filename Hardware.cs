@@ -278,7 +278,7 @@ namespace WinFormsApp1
                     if (idMarca == 0)
                         return;
                     boxModelo.Items.Clear();
-                    String query2 = "SELECT descripcion from modelos where marca = @idMarca;";
+                    String query2 = "SELECT descripcion from modelos where marca = @idMarca AND modelos.tipo = 1;";
                     using (SqlCommand cmd2 = new SqlCommand(query2, conn))
                     {
                         cmd2.Parameters.AddWithValue("@idMarca", idMarca);

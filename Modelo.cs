@@ -69,26 +69,39 @@ namespace WinFormsApp1
             label7.Text = txtMarca.Text;
             LlenarComboBox();
             dgvModelos.ClearSelection();
+            obtenerSiguienteNumero();
         }
 
         private void LlenarComboBox()
         {
             try
             {
+                string query;
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    string query = "SELECT tipos.descripcion FROM tipos;";
-                    using (SqlCommand cmd = new SqlCommand(query, conn))
-                    using (SqlDataReader readear = cmd.ExecuteReader())
+                    if (tipoFiltro == "CPU")
                     {
-                        boxTipo.Items.Clear();
-                        while (readear.Read())
+                        boxTipo.Items.Add("CPU");
+                        boxTipo.SelectedIndex = 0;
+                        boxTipo.DropDownStyle = ComboBoxStyle.DropDownList;
+                        boxTipo.Enabled = false;
+                    }
+                    else
+                    {
+                        query = "SELECT tipos.descripcion FROM tipos WHERE tipos.descripcion <> 'CPU';";
+                        using (SqlCommand cmd = new SqlCommand(query, conn))
+                        using (SqlDataReader readear = cmd.ExecuteReader())
                         {
-                            boxTipo.Items.Add(readear["descripcion"].ToString());
+                            boxTipo.Items.Clear();
+                            while (readear.Read())
+                            {
+                                boxTipo.Items.Add(readear["descripcion"].ToString());
+                            }
                         }
                     }
                 }
+            }
             catch (Exception ex)
             {
                 MessageBox.Show("Error: " + ex.Message);
@@ -128,8 +141,7 @@ namespace WinFormsApp1
             try
             {
                 string query;
-
-                // 🔹 Si viene de Hardware, usar una consulta específica para CPU
+                //Si viene de Hardware, usar una consulta específica para CPU
                 if (tipoFiltro == "CPU")
                 {
                     query = @"SELECT modelos.id_modelo AS Numero, 
@@ -145,7 +157,7 @@ namespace WinFormsApp1
                 }
                 else
                 {
-                    // 🔹 Si viene de Periféricos, excluir CPUs
+                    //Si viene de Periféricos, excluir CPUs
                     query = @"SELECT modelos.id_modelo AS Numero, 
                              modelos.descripcion AS Descripcion, 
                              modelos.tipo AS idTipo, 
@@ -173,7 +185,7 @@ namespace WinFormsApp1
                             {
                                 dgvModelos.Columns.Add("Numero", "Número");
                                 dgvModelos.Columns.Add("Descripcion", "Descripción");
-                                dgvModelos.Columns.Add("Tipo", "Tipo");  // Muestra "CPU" en texto
+                                dgvModelos.Columns.Add("Tipo", "Tipo");
                                 dgvModelos.Columns.Add("Refaccion", "Refacción");
                             }
                             else
@@ -182,7 +194,7 @@ namespace WinFormsApp1
                                 using (SqlConnection conexionTipos = new SqlConnection(connectionString))
                                 {
                                     conexionTipos.Open();
-                                    string queryTipos = "SELECT id_tipo, descripcion FROM tipos;";
+                                    string queryTipos = "SELECT id_tipo, descripcion FROM tipos WHERE tipos.descripcion <> 'CPU';";
                                     using (SqlCommand cmdTipos = new SqlCommand(queryTipos, conexionTipos))
                                     using (SqlDataReader readerTipos = cmdTipos.ExecuteReader())
                                     {
@@ -205,6 +217,7 @@ namespace WinFormsApp1
                                 };
                                 dgvModelos.Columns.Add(comboTipo);
                             }
+
                             while (reader.Read())
                             {
                                 int index = dgvModelos.Rows.Add();
@@ -222,6 +235,21 @@ namespace WinFormsApp1
 
                                 dgvModelos.Rows[index].Cells["Refaccion"].Value = reader["Refaccion"];
                             }
+                            dgvModelos.Columns["Numero"].ReadOnly = true;
+                            dgvModelos.Columns["Descripcion"].ReadOnly = false;
+                            if (tipoFiltro == "CPU")
+                            {
+                                dgvModelos.Columns["Tipo"].ReadOnly = true;
+                            }
+                            else 
+                            {
+                                dgvModelos.Columns["Tipo"].ReadOnly = false;
+                            }
+                            dgvModelos.Columns["Refaccion"].ReadOnly = true;
+                            dgvModelos.Columns["Numero"].DisplayIndex = 0;
+                            dgvModelos.Columns["Descripcion"].DisplayIndex = 1;
+                            dgvModelos.Columns["Refaccion"].DisplayIndex = 2;
+                            dgvModelos.Columns["Tipo"].DisplayIndex = 3;
                         }
                     }
                 }
@@ -299,9 +327,10 @@ namespace WinFormsApp1
                 }
                 else if (ctrl is ComboBox comboBox)
                 {
-                    if (comboBox.Items.Contains("-"))
+                    if (comboBox.Items.Contains("-") || comboBox.Items.Contains("CPU"))
                     {
                         comboBox.SelectedItem = "-";
+                        comboBox.SelectedItem = "CPU"; 
                     }
                     else
                     {
@@ -377,7 +406,9 @@ namespace WinFormsApp1
                             ModeloAgregada.Invoke();
                             MessageBox.Show("Modelo agregado correctamente");
                         }
+                        LimpiarControles();
                         cargarDatosDGV();
+                        obtenerSiguienteNumero();
                     }
                     catch (Exception ex)
                     {
@@ -423,6 +454,7 @@ namespace WinFormsApp1
             }
             MessageBox.Show("Modelo(s) eliminado correctamente");
             cargarDatosDGV();
+            obtenerSiguienteNumero();
         }
 
         private void btnActualizar_Click(object sender, EventArgs e)
@@ -435,28 +467,64 @@ namespace WinFormsApp1
                 string nuevaDescripcion = row.Cells["Descripcion"].Value.ToString();
                 try
                 {
-                    string queryUpdate = "UPDATE modelos SET descripcion = @descripcion, tipo = @tipo WHERE id_modelo = @idModelo;";
-                    using (SqlConnection connection = new SqlConnection(connectionString))
+                    using(SqlConnection connection = new SqlConnection(connectionString))
                     {
                         connection.Open();
+                        string queryUpdate;
+                        if (tipoFiltro == "CPU")
+                        {
+                            queryUpdate = "UPDATE modelos SET descripcion = @descripcion WHERE id_modelo = @idModelo;";
+                        }
+                        else
+                        {
+                            int nuevoIdTipo = Convert.ToInt32(row.Cells["Tipo"].Value);
+                            queryUpdate = "UPDATE modelos SET descripcion = @descripcion, tipo = @tipo WHERE id_modelo = @idModelo;";
+                        }
                         using (SqlCommand cmd = new SqlCommand(queryUpdate, connection))
                         {
                             cmd.Parameters.AddWithValue("@descripcion", nuevaDescripcion);
                             cmd.Parameters.AddWithValue("@idModelo", idModelo);
+                            if(tipoFiltro == "CPU")
+                            { 
+                                cmd.ExecuteNonQuery();
+                                ModeloAgregada.Invoke();
+                            }
+                            else
+                            {
+                                int nuevoIdTipo = Convert.ToInt32(row.Cells["Tipo"].Value);
+                                cmd.Parameters.AddWithValue("@tipo", nuevoIdTipo);
+                                cmd.ExecuteNonQuery();
+                                ModeloAgregada.Invoke();
+                            }
                         }
-                    }
+                     }
+                    cambiosRealizados = true;
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error al actualizar modelo ID " + idModelo + ": " + ex.Message);
+                    MessageBox.Show("Error" + ex.Message);
                     return;
-                }
+                }         
             }
+            if (cambiosRealizados)
+            {
+                MessageBox.Show("Modelos(s) actualizado(s) correctamente.");
+                cargarDatosDGV();
             }
+            else
+            {
+                MessageBox.Show("No se realizaron cambios.");
+                cargarDatosDGV();
+            }
+        }
 
         private void btnNuevo_Click(object sender, EventArgs e)
         {
             BloquearControles(false);
+            if (tipoFiltro == "CPU")
+            {
+                boxTipo.Enabled = false;
+            }
             txtMarca.Enabled = false;
         }
 
@@ -527,6 +595,27 @@ namespace WinFormsApp1
         //        this.Top += e.Y - mouseDownLocation.Y;
         //    }
         //}
+
+        private void obtenerSiguienteNumero()
+        {
+            try
+            {
+                using(SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    string query = "SELECT ISNULL(MAX(id_modelo), 0) + 1 AS SiguienteNumero FROM modelos;";
+                    using(SqlCommand cmd = new SqlCommand(query, connection))
+                    {
+                        object result = cmd.ExecuteScalar();
+                        label9.Text = result.ToString();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
 
         private bool ValidarCampos()
         {

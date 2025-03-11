@@ -58,9 +58,13 @@
             button1 = new Button();
             button2 = new Button();
             btnHardware = new Button();
+            panelBusqueda = new Panel();
+            txtBuscarFolio = new TextBox();
+            boxBuscarDepartamento = new ComboBox();
             panelBarra.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)buttonSalir).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvPerifericos).BeginInit();
+            panelBusqueda.SuspendLayout();
             SuspendLayout();
             // 
             // panelBarra
@@ -348,7 +352,7 @@
             // 
             button1.Cursor = Cursors.Hand;
             button1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button1.Location = new Point(495, 362);
+            button1.Location = new Point(345, 361);
             button1.Name = "button1";
             button1.Size = new Size(75, 23);
             button1.TabIndex = 71;
@@ -359,7 +363,7 @@
             // 
             button2.Cursor = Cursors.Hand;
             button2.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button2.Location = new Point(577, 362);
+            button2.Location = new Point(427, 361);
             button2.Name = "button2";
             button2.Size = new Size(107, 23);
             button2.TabIndex = 72;
@@ -378,11 +382,38 @@
             btnHardware.UseVisualStyleBackColor = true;
             btnHardware.Click += btnHardware_Click;
             // 
+            // panelBusqueda
+            // 
+            panelBusqueda.BorderStyle = BorderStyle.FixedSingle;
+            panelBusqueda.Controls.Add(boxBuscarDepartamento);
+            panelBusqueda.Controls.Add(txtBuscarFolio);
+            panelBusqueda.Location = new Point(23, 325);
+            panelBusqueda.Name = "panelBusqueda";
+            panelBusqueda.Size = new Size(309, 59);
+            panelBusqueda.TabIndex = 75;
+            // 
+            // txtBuscarFolio
+            // 
+            txtBuscarFolio.Location = new Point(7, 25);
+            txtBuscarFolio.Name = "txtBuscarFolio";
+            txtBuscarFolio.Size = new Size(291, 23);
+            txtBuscarFolio.TabIndex = 0;
+            // 
+            // boxBuscarDepartamento
+            // 
+            boxBuscarDepartamento.FormattingEnabled = true;
+            boxBuscarDepartamento.Location = new Point(7, 25);
+            boxBuscarDepartamento.Name = "boxBuscarDepartamento";
+            boxBuscarDepartamento.Size = new Size(291, 23);
+            boxBuscarDepartamento.TabIndex = 76;
+            boxBuscarDepartamento.Visible = false;
+            // 
             // Perifericos
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(777, 597);
+            Controls.Add(panelBusqueda);
             Controls.Add(btnHardware);
             Controls.Add(button1);
             Controls.Add(button2);
@@ -419,6 +450,8 @@
             panelBarra.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)buttonSalir).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvPerifericos).EndInit();
+            panelBusqueda.ResumeLayout(false);
+            panelBusqueda.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -454,5 +487,8 @@
         private Button button1;
         private Button button2;
         private Button btnHardware;
+        private Panel panelBusqueda;
+        private ComboBox boxBuscarDepartamento;
+        private TextBox txtBuscarFolio;
     }
 }
