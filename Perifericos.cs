@@ -52,6 +52,7 @@ namespace WinFormsApp1
             ConfigurarBoxActivo(boxActivo);
             boxMarca.SelectedIndexChanged += boxMarca_SelectedIndexChanged;
             btnNuevoModelo.Enabled = false;
+            label3.Text = "FOLIO:";
         }
 
         private void CargarDatosDGV()
@@ -595,6 +596,76 @@ namespace WinFormsApp1
                 MessageBox.Show(mensajeError, "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             return esValido;
+        }
+
+        private void radioFolio_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioFolio.Checked)
+            {
+                label3.Text = "FOLIO:";
+                boxBuscarDepartamento.Visible = false;
+                txtBuscarDidecon.Visible = false;
+                txtBuscarActivo.Visible = false;
+                txtBuscarNumSerie.Visible = false;
+                txtBuscarFolio.Visible = true;
+                txtBuscarFolio.Focus();
+            }
+        }
+
+        private void radioDepartamento_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioDepartamento.Checked)
+            {
+                label3.Text = "DEPARTAMENTO:";
+                boxBuscarDepartamento.Visible = true;
+                txtBuscarDidecon.Visible = false;
+                txtBuscarActivo.Visible = false;
+                txtBuscarNumSerie.Visible = false;
+                txtBuscarFolio.Visible = false;
+                boxBuscarDepartamento.Focus();
+            }
+        }
+
+        private void radioDidecon_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioDidecon.Checked)
+            {
+                label3.Text = "DIDECON:";
+                boxBuscarDepartamento.Visible = false;
+                txtBuscarDidecon.Visible = true;
+                txtBuscarActivo.Visible = false;
+                txtBuscarNumSerie.Visible = false;
+                txtBuscarFolio.Visible = false;
+                txtBuscarDidecon.Focus();
+            }
+        }
+
+        private void radioActivo_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioActivo.Checked)
+            {
+                label3.Text = "ACT CONTRALORIA:";
+                boxBuscarDepartamento.Visible = false;
+                txtBuscarDidecon.Visible = false;
+                txtBuscarActivo.Visible = true;
+                txtBuscarNumSerie.Visible = false;
+                txtBuscarFolio.Visible = false;
+                txtBuscarActivo.Focus();
+            }
+        }
+
+        private void radioNumSerie_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioNumSerie.Checked)
+            {
+                label3.Text = "NUM SERIE:";
+                boxBuscarDepartamento.Visible = false;
+                txtBuscarDidecon.Visible = false;
+                txtBuscarActivo.Visible = false;
+                txtBuscarNumSerie.Visible = true;
+                txtBuscarFolio.Visible = false;
+                txtBuscarNumSerie.Focus();
+            }
         }
     }
 }

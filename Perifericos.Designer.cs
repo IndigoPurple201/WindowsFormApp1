@@ -59,12 +59,24 @@
             button2 = new Button();
             btnHardware = new Button();
             panelBusqueda = new Panel();
-            txtBuscarFolio = new TextBox();
+            txtBuscarNumSerie = new TextBox();
+            txtBuscarActivo = new TextBox();
+            txtBuscarDidecon = new TextBox();
+            label3 = new Label();
             boxBuscarDepartamento = new ComboBox();
+            txtBuscarFolio = new TextBox();
+            panel1 = new Panel();
+            radioNumSerie = new RadioButton();
+            radioActivo = new RadioButton();
+            radioDidecon = new RadioButton();
+            radioDepartamento = new RadioButton();
+            radioFolio = new RadioButton();
+            label4 = new Label();
             panelBarra.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)buttonSalir).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvPerifericos).BeginInit();
             panelBusqueda.SuspendLayout();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // panelBarra
@@ -385,6 +397,10 @@
             // panelBusqueda
             // 
             panelBusqueda.BorderStyle = BorderStyle.FixedSingle;
+            panelBusqueda.Controls.Add(txtBuscarNumSerie);
+            panelBusqueda.Controls.Add(txtBuscarActivo);
+            panelBusqueda.Controls.Add(txtBuscarDidecon);
+            panelBusqueda.Controls.Add(label3);
             panelBusqueda.Controls.Add(boxBuscarDepartamento);
             panelBusqueda.Controls.Add(txtBuscarFolio);
             panelBusqueda.Location = new Point(23, 325);
@@ -392,27 +408,159 @@
             panelBusqueda.Size = new Size(309, 59);
             panelBusqueda.TabIndex = 75;
             // 
-            // txtBuscarFolio
+            // txtBuscarNumSerie
             // 
-            txtBuscarFolio.Location = new Point(7, 25);
-            txtBuscarFolio.Name = "txtBuscarFolio";
-            txtBuscarFolio.Size = new Size(291, 23);
-            txtBuscarFolio.TabIndex = 0;
+            txtBuscarNumSerie.BorderStyle = BorderStyle.FixedSingle;
+            txtBuscarNumSerie.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            txtBuscarNumSerie.Location = new Point(7, 27);
+            txtBuscarNumSerie.Name = "txtBuscarNumSerie";
+            txtBuscarNumSerie.Size = new Size(291, 23);
+            txtBuscarNumSerie.TabIndex = 78;
+            // 
+            // txtBuscarActivo
+            // 
+            txtBuscarActivo.BorderStyle = BorderStyle.FixedSingle;
+            txtBuscarActivo.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            txtBuscarActivo.Location = new Point(7, 27);
+            txtBuscarActivo.Name = "txtBuscarActivo";
+            txtBuscarActivo.Size = new Size(291, 23);
+            txtBuscarActivo.TabIndex = 78;
+            // 
+            // txtBuscarDidecon
+            // 
+            txtBuscarDidecon.BorderStyle = BorderStyle.FixedSingle;
+            txtBuscarDidecon.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            txtBuscarDidecon.Location = new Point(7, 27);
+            txtBuscarDidecon.Name = "txtBuscarDidecon";
+            txtBuscarDidecon.Size = new Size(291, 23);
+            txtBuscarDidecon.TabIndex = 78;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label3.Location = new Point(11, 6);
+            label3.Name = "label3";
+            label3.Size = new Size(0, 15);
+            label3.TabIndex = 78;
             // 
             // boxBuscarDepartamento
             // 
             boxBuscarDepartamento.FormattingEnabled = true;
-            boxBuscarDepartamento.Location = new Point(7, 25);
+            boxBuscarDepartamento.Location = new Point(7, 27);
             boxBuscarDepartamento.Name = "boxBuscarDepartamento";
             boxBuscarDepartamento.Size = new Size(291, 23);
             boxBuscarDepartamento.TabIndex = 76;
             boxBuscarDepartamento.Visible = false;
+            // 
+            // txtBuscarFolio
+            // 
+            txtBuscarFolio.BorderStyle = BorderStyle.FixedSingle;
+            txtBuscarFolio.Location = new Point(7, 27);
+            txtBuscarFolio.Name = "txtBuscarFolio";
+            txtBuscarFolio.Size = new Size(291, 23);
+            txtBuscarFolio.TabIndex = 0;
+            // 
+            // panel1
+            // 
+            panel1.BorderStyle = BorderStyle.FixedSingle;
+            panel1.Controls.Add(radioNumSerie);
+            panel1.Controls.Add(radioActivo);
+            panel1.Controls.Add(radioDidecon);
+            panel1.Controls.Add(radioDepartamento);
+            panel1.Controls.Add(radioFolio);
+            panel1.Location = new Point(23, 281);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(535, 38);
+            panel1.TabIndex = 76;
+            // 
+            // radioNumSerie
+            // 
+            radioNumSerie.AutoSize = true;
+            radioNumSerie.FlatStyle = FlatStyle.System;
+            radioNumSerie.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            radioNumSerie.Location = new Point(434, 9);
+            radioNumSerie.Name = "radioNumSerie";
+            radioNumSerie.Size = new Size(94, 20);
+            radioNumSerie.TabIndex = 4;
+            radioNumSerie.TabStop = true;
+            radioNumSerie.Text = "NUM SERIE";
+            radioNumSerie.UseVisualStyleBackColor = true;
+            radioNumSerie.CheckedChanged += radioNumSerie_CheckedChanged;
+            // 
+            // radioActivo
+            // 
+            radioActivo.AutoSize = true;
+            radioActivo.FlatStyle = FlatStyle.System;
+            radioActivo.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            radioActivo.Location = new Point(294, 9);
+            radioActivo.Name = "radioActivo";
+            radioActivo.Size = new Size(138, 20);
+            radioActivo.TabIndex = 3;
+            radioActivo.TabStop = true;
+            radioActivo.Text = "ATC CONTRALORIA";
+            radioActivo.UseVisualStyleBackColor = true;
+            radioActivo.CheckedChanged += radioActivo_CheckedChanged;
+            // 
+            // radioDidecon
+            // 
+            radioDidecon.AutoSize = true;
+            radioDidecon.FlatStyle = FlatStyle.System;
+            radioDidecon.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            radioDidecon.Location = new Point(204, 9);
+            radioDidecon.Name = "radioDidecon";
+            radioDidecon.Size = new Size(84, 20);
+            radioDidecon.TabIndex = 2;
+            radioDidecon.TabStop = true;
+            radioDidecon.Text = "DIDECON";
+            radioDidecon.UseVisualStyleBackColor = true;
+            radioDidecon.CheckedChanged += radioDidecon_CheckedChanged;
+            // 
+            // radioDepartamento
+            // 
+            radioDepartamento.AutoSize = true;
+            radioDepartamento.FlatStyle = FlatStyle.System;
+            radioDepartamento.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            radioDepartamento.Location = new Point(81, 9);
+            radioDepartamento.Name = "radioDepartamento";
+            radioDepartamento.Size = new Size(124, 20);
+            radioDepartamento.TabIndex = 1;
+            radioDepartamento.TabStop = true;
+            radioDepartamento.Text = "DEPARTAMENTO";
+            radioDepartamento.UseVisualStyleBackColor = true;
+            radioDepartamento.CheckedChanged += radioDepartamento_CheckedChanged;
+            // 
+            // radioFolio
+            // 
+            radioFolio.AutoSize = true;
+            radioFolio.FlatStyle = FlatStyle.System;
+            radioFolio.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            radioFolio.Location = new Point(10, 9);
+            radioFolio.Name = "radioFolio";
+            radioFolio.Size = new Size(65, 20);
+            radioFolio.TabIndex = 0;
+            radioFolio.TabStop = true;
+            radioFolio.Text = "FOLIO";
+            radioFolio.UseVisualStyleBackColor = true;
+            radioFolio.CheckedChanged += radioFolio_CheckedChanged;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label4.Location = new Point(22, 257);
+            label4.Name = "label4";
+            label4.Size = new Size(180, 15);
+            label4.TabIndex = 77;
+            label4.Text = "ELIJA UN CAMPO DE BUSQUEDA";
             // 
             // Perifericos
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(777, 597);
+            Controls.Add(label4);
+            Controls.Add(panel1);
             Controls.Add(panelBusqueda);
             Controls.Add(btnHardware);
             Controls.Add(button1);
@@ -444,7 +592,7 @@
             Controls.Add(panelBarra);
             FormBorderStyle = FormBorderStyle.None;
             Name = "Perifericos";
-            Text = "Perifericos";
+            Text = "Z";
             Load += Perifericos_Load;
             panelBarra.ResumeLayout(false);
             panelBarra.PerformLayout();
@@ -452,6 +600,8 @@
             ((System.ComponentModel.ISupportInitialize)dgvPerifericos).EndInit();
             panelBusqueda.ResumeLayout(false);
             panelBusqueda.PerformLayout();
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -490,5 +640,16 @@
         private Panel panelBusqueda;
         private ComboBox boxBuscarDepartamento;
         private TextBox txtBuscarFolio;
+        private Panel panel1;
+        private RadioButton radioFolio;
+        private RadioButton radioDepartamento;
+        private Label label3;
+        private Label label4;
+        private TextBox txtBuscarDidecon;
+        private RadioButton radioNumSerie;
+        private RadioButton radioActivo;
+        private RadioButton radioDidecon;
+        private TextBox txtBuscarActivo;
+        private TextBox txtBuscarNumSerie;
     }
 }
