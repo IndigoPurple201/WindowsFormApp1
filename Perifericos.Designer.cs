@@ -55,17 +55,8 @@
             btnCerrar2 = new Button();
             btnEliminar = new Button();
             dgvPerifericos = new DataGridView();
-            boxBuscarTipo = new ComboBox();
-            label3 = new Label();
-            txtBuscarDidecon = new TextBox();
-            label4 = new Label();
-            boxBuscarMarca = new ComboBox();
-            label7 = new Label();
-            txtBuscarNumSerie = new TextBox();
-            label11 = new Label();
             button1 = new Button();
             button2 = new Button();
-            label12 = new Label();
             btnHardware = new Button();
             panelBarra.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)buttonSalir).BeginInit();
@@ -353,86 +344,6 @@
             dgvPerifericos.Size = new Size(738, 150);
             dgvPerifericos.TabIndex = 59;
             // 
-            // boxBuscarTipo
-            // 
-            boxBuscarTipo.DropDownStyle = ComboBoxStyle.DropDownList;
-            boxBuscarTipo.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            boxBuscarTipo.FormattingEnabled = true;
-            boxBuscarTipo.Location = new Point(324, 319);
-            boxBuscarTipo.Name = "boxBuscarTipo";
-            boxBuscarTipo.Size = new Size(135, 23);
-            boxBuscarTipo.TabIndex = 66;
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label3.Location = new Point(274, 321);
-            label3.Name = "label3";
-            label3.Size = new Size(43, 21);
-            label3.TabIndex = 65;
-            label3.Text = "TIPO";
-            // 
-            // txtBuscarDidecon
-            // 
-            txtBuscarDidecon.BorderStyle = BorderStyle.FixedSingle;
-            txtBuscarDidecon.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            txtBuscarDidecon.Location = new Point(125, 317);
-            txtBuscarDidecon.Name = "txtBuscarDidecon";
-            txtBuscarDidecon.Size = new Size(135, 23);
-            txtBuscarDidecon.TabIndex = 64;
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label4.Location = new Point(35, 319);
-            label4.Name = "label4";
-            label4.RightToLeft = RightToLeft.No;
-            label4.Size = new Size(78, 21);
-            label4.TabIndex = 63;
-            label4.Text = "DIDECON";
-            // 
-            // boxBuscarMarca
-            // 
-            boxBuscarMarca.DropDownStyle = ComboBoxStyle.DropDownList;
-            boxBuscarMarca.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            boxBuscarMarca.FormattingEnabled = true;
-            boxBuscarMarca.Location = new Point(549, 323);
-            boxBuscarMarca.Name = "boxBuscarMarca";
-            boxBuscarMarca.Size = new Size(135, 23);
-            boxBuscarMarca.TabIndex = 68;
-            // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label7.Location = new Point(479, 325);
-            label7.Name = "label7";
-            label7.Size = new Size(64, 21);
-            label7.TabIndex = 67;
-            label7.Text = "MARCA";
-            // 
-            // txtBuscarNumSerie
-            // 
-            txtBuscarNumSerie.BorderStyle = BorderStyle.FixedSingle;
-            txtBuscarNumSerie.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            txtBuscarNumSerie.Location = new Point(125, 362);
-            txtBuscarNumSerie.Name = "txtBuscarNumSerie";
-            txtBuscarNumSerie.Size = new Size(135, 23);
-            txtBuscarNumSerie.TabIndex = 70;
-            // 
-            // label11
-            // 
-            label11.AutoSize = true;
-            label11.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label11.Location = new Point(20, 364);
-            label11.Name = "label11";
-            label11.RightToLeft = RightToLeft.No;
-            label11.Size = new Size(93, 21);
-            label11.TabIndex = 69;
-            label11.Text = "NUM. SERIE";
-            // 
             // button1
             // 
             button1.Cursor = Cursors.Hand;
@@ -455,17 +366,6 @@
             button2.Text = "REESTABLECER";
             button2.UseVisualStyleBackColor = true;
             // 
-            // label12
-            // 
-            label12.AutoSize = true;
-            label12.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label12.Location = new Point(35, 291);
-            label12.Name = "label12";
-            label12.RightToLeft = RightToLeft.No;
-            label12.Size = new Size(252, 15);
-            label12.TabIndex = 73;
-            label12.Text = "RELLENE UNO O MAS CAMPOS PARA FILTRAR";
-            // 
             // btnHardware
             // 
             btnHardware.Cursor = Cursors.Hand;
@@ -484,17 +384,8 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(777, 597);
             Controls.Add(btnHardware);
-            Controls.Add(label12);
             Controls.Add(button1);
             Controls.Add(button2);
-            Controls.Add(txtBuscarNumSerie);
-            Controls.Add(label11);
-            Controls.Add(boxBuscarMarca);
-            Controls.Add(label7);
-            Controls.Add(boxBuscarTipo);
-            Controls.Add(label3);
-            Controls.Add(txtBuscarDidecon);
-            Controls.Add(label4);
             Controls.Add(btnActualizar);
             Controls.Add(btnCerrar2);
             Controls.Add(btnEliminar);
@@ -560,17 +451,8 @@
         private Button btnCerrar2;
         private Button btnEliminar;
         private DataGridView dgvPerifericos;
-        private ComboBox boxBuscarTipo;
-        private Label label3;
-        private TextBox txtBuscarDidecon;
-        private Label label4;
-        private ComboBox boxBuscarMarca;
-        private Label label7;
-        private TextBox txtBuscarNumSerie;
-        private Label label11;
         private Button button1;
         private Button button2;
-        private Label label12;
         private Button btnHardware;
     }
 }

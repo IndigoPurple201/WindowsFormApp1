@@ -89,7 +89,6 @@ namespace WinFormsApp1
                         }
                     }
                 }
-            }
             catch (Exception ex)
             {
                 MessageBox.Show("Error: " + ex.Message);
@@ -122,11 +121,6 @@ namespace WinFormsApp1
                 dgvModelos.Columns.Add("Tipo", "Tipo");
                 dgvModelos.Columns.Add("Refaccion", "Refaccion");
             }
-
-            dgvModelos.Columns["Numero"].ReadOnly = true;
-            dgvModelos.Columns["Descripcion"].ReadOnly = false;
-            dgvModelos.Columns["Tipo"].ReadOnly = false;
-            dgvModelos.Columns["Refaccion"].ReadOnly = true;
         }
 
         private void cargarDatosDGV()
@@ -163,7 +157,6 @@ namespace WinFormsApp1
                       WHERE marcas.descripcion = @marca 
                       AND tipos.descripcion <> 'CPU'";
                 }
-
                 using (SqlConnection conexion = new SqlConnection(connectionString))
                 {
                     conexion.Open();
@@ -178,7 +171,6 @@ namespace WinFormsApp1
 
                             if (tipoFiltro == "CPU")
                             {
-                                // 🔹 Hardware: Solo columnas de texto (sin ComboBox)
                                 dgvModelos.Columns.Add("Numero", "Número");
                                 dgvModelos.Columns.Add("Descripcion", "Descripción");
                                 dgvModelos.Columns.Add("Tipo", "Tipo");  // Muestra "CPU" en texto
@@ -186,7 +178,6 @@ namespace WinFormsApp1
                             }
                             else
                             {
-                                // 🔹 Periféricos: Agregar ComboBox para 'Tipo'
                                 DataTable dtTipos = new DataTable();
                                 using (SqlConnection conexionTipos = new SqlConnection(connectionString))
                                 {
@@ -198,7 +189,6 @@ namespace WinFormsApp1
                                         dtTipos.Load(readerTipos);
                                     }
                                 }
-
                                 dgvModelos.Columns.Add("Numero", "Número");
                                 dgvModelos.Columns.Add("Descripcion", "Descripción");
                                 dgvModelos.Columns.Add("Refaccion", "Refacción");
@@ -215,8 +205,6 @@ namespace WinFormsApp1
                                 };
                                 dgvModelos.Columns.Add(comboTipo);
                             }
-
-                            // 🔹 Llenar el DataGridView con los resultados filtrados
                             while (reader.Read())
                             {
                                 int index = dgvModelos.Rows.Add();
@@ -225,12 +213,10 @@ namespace WinFormsApp1
 
                                 if (tipoFiltro == "CPU")
                                 {
-                                    // 🔹 Hardware: Mostrar "CPU" en la columna Tipo en lugar de ID
                                     dgvModelos.Rows[index].Cells["Tipo"].Value = "CPU";
                                 }
                                 else
                                 {
-                                    // 🔹 Periféricos: Asignar el ID del tipo (debe estar en la lista del ComboBox)
                                     dgvModelos.Rows[index].Cells["Tipo"].Value = reader["idTipo"];
                                 }
 
@@ -245,9 +231,6 @@ namespace WinFormsApp1
                 MessageBox.Show("Error al cargar datos: " + ex.Message);
             }
         }
-
-
-
 
         protected override void WndProc(ref Message m)
         {
@@ -393,7 +376,6 @@ namespace WinFormsApp1
                             insertCmd.ExecuteNonQuery();
                             ModeloAgregada.Invoke();
                             MessageBox.Show("Modelo agregado correctamente");
-                            LimpiarControles();
                         }
                         cargarDatosDGV();
                     }
@@ -451,7 +433,6 @@ namespace WinFormsApp1
                 if (row.IsNewRow) continue;
                 int idModelo = Convert.ToInt32(row.Cells["Numero"].Value);
                 string nuevaDescripcion = row.Cells["Descripcion"].Value.ToString();
-                int nuevoIdTipo = Convert.ToInt32(row.Cells["Tipo"].Value);
                 try
                 {
                     string queryUpdate = "UPDATE modelos SET descripcion = @descripcion, tipo = @tipo WHERE id_modelo = @idModelo;";
@@ -461,13 +442,9 @@ namespace WinFormsApp1
                         using (SqlCommand cmd = new SqlCommand(queryUpdate, connection))
                         {
                             cmd.Parameters.AddWithValue("@descripcion", nuevaDescripcion);
-                            cmd.Parameters.AddWithValue("@tipo", nuevoIdTipo);
                             cmd.Parameters.AddWithValue("@idModelo", idModelo);
-                            cmd.ExecuteNonQuery();
-                            ModeloAgregada.Invoke();
                         }
                     }
-                    cambiosRealizados = true;
                 }
                 catch (Exception ex)
                 {
@@ -475,17 +452,7 @@ namespace WinFormsApp1
                     return;
                 }
             }
-            if (cambiosRealizados)
-            {
-                MessageBox.Show("Modelos(s) actualizado(s) correctamente.");
-                cargarDatosDGV();
             }
-            else
-            {
-                MessageBox.Show("No se realizaron cambios.");
-                cargarDatosDGV();
-            }
-        }
 
         private void btnNuevo_Click(object sender, EventArgs e)
         {
