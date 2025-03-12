@@ -761,27 +761,70 @@ namespace WinFormsApp1
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
-            string query = "";
+            string query = "SELECT perifericos.folio AS Numero, perifericos.didecon AS Didecon, tipos.descripcion AS Tipo, marcas.descripcion AS Marca, modelos.descripcion AS Modelo, perifericos.sn AS 'N. Serie', perifericos.activocontraloria AS 'Act. Contraloria', dependencias.descripcion AS Departamento, hardware.area AS Area, hardware.responsable AS Responsable FROM perifericos JOIN tipos ON tipos.id_tipo = perifericos.tipo JOIN marcas ON marcas.id_marca = perifericos.marca JOIN modelos ON modelos.id_modelo = perifericos.modelo JOIN hardware ON hardware.didecon = perifericos.didecon JOIN dependencias ON dependencias.id_dependencia = hardware.depto WHERE tipos.descripcion != 'CPU'";
             string filtro = "";
             if (radioFolio.Checked)
             {
                 if (string.IsNullOrEmpty(txtBuscarFolio.Text))
                 {
-                    MessageBox.Show("Por favor, ingrese un número de folio válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Ingrese un número de folio válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
                 filtro = txtBuscarFolio.Text.Trim();
-                query = "SELECT perifericos.folio AS Numero, perifericos.didecon AS Didecon, tipos.descripcion AS Tipo, marcas.descripcion AS Marca, modelos.descripcion AS Modelo, perifericos.sn AS 'N. Serie', perifericos.activocontraloria AS Activo, perifericos.fechacaptura AS Fecha FROM perifericos JOIN tipos ON tipos.id_tipo = perifericos.tipo JOIN marcas ON marcas.id_marca = perifericos.marca JOIN modelos ON modelos.id_modelo = perifericos.modelo WHERE tipos.descripcion != 'CPU' AND perifericos.folio = '@folio';";
+                query += " AND perifericos.folio = @folio";
             }
-            else if(radioDepartamento.Checked)
+            else if (radioDepartamento.Checked)
             {
-                if(boxBuscarDepartamento.SelectedIndex == null)
+                if (boxBuscarDepartamento.SelectedIndex == -1 || boxBuscarDepartamento.SelectedItem == null)
                 {
-                    MessageBox.Show("Por favor, ingrese un departamento.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Ingrese un departamento.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
                 filtro = boxBuscarDepartamento.SelectedItem.ToString();
-                query = "";
+                query += " AND dependencias.descripcion = @departamento";
+            }
+            else if (radioDidecon.Checked)
+            {
+                if (string.IsNullOrEmpty(txtBuscarDidecon.Text))
+                {
+                    MessageBox.Show("Ingrese un Didecon.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                filtro = txtBuscarDidecon.Text.Trim();
+                query += " AND hardware.didecon = @didecon";
+            }
+            else if (radioActivo.Checked)
+            {
+                if (boxActivo.SelectedIndex == -1 || boxActivo.SelectedItem == null)
+                {
+                    MessageBox.Show("Ingrese un Act. Contraloria.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                filtro = boxActivo.SelectedItem.ToString();
+                query += " AND perifericos.activocontraloria = @activo";
+            }
+            else if (radioNumSerie.Checked)
+            {
+                if (boxNumSerie.SelectedIndex == -1 || boxNumSerie.SelectedItem == null)
+                {
+                    MessageBox.Show("Ingrese un Num Serie.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                filtro = boxNumSerie.SelectedItem.ToString();
+                query += " AND perifericos.sn = @serial";
+            }
+
+            if (string.IsNullOrEmpty(filtro))
+            {
+                MessageBox.Show("Seleccione un campo de busqueda.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            DataTable dt = new DataTable();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand(query, connection);
             }
         }
     }
