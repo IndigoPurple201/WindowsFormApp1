@@ -52,14 +52,22 @@ namespace WinFormsApp1
             ConfigurarBoxActivo(boxActivo);
             boxMarca.SelectedIndexChanged += boxMarca_SelectedIndexChanged;
             btnNuevoModelo.Enabled = false;
-            label3.Text = "FOLIO:";
+            label3.Text = "NUMERO:";
+            boxBuscarDepartamento.Visible = false;
+            txtBuscarDidecon.Visible = false;
+            boxBuscarActivo.Visible = false;
+            boxBuscarNumSerie.Visible = false;
+            txtBuscarFolio.Visible = true;
+            txtBuscarFolio.Focus();
+            ConfigurarBoxBuscarActivo(boxBuscarActivo);
+            ConfigurarBuscarNumSerie(boxBuscarNumSerie);
         }
 
         private void CargarDatosDGV()
         {
             try
             {
-                string query = "SELECT perifericos.folio AS Numero, perifericos.didecon AS Didecon, tipos.descripcion AS Tipo, marcas.descripcion AS Marca, modelos.descripcion AS Modelo, perifericos.sn AS Num_Serie, perifericos.activocontraloria AS Activo, perifericos.fechacaptura AS Fecha FROM perifericos JOIN tipos ON tipos.id_tipo = perifericos.tipo JOIN marcas ON marcas.id_marca = perifericos.marca JOIN modelos ON modelos.id_modelo = perifericos.modelo WHERE tipos.descripcion != 'CPU';";
+                string query = "SELECT perifericos.folio AS Numero, perifericos.didecon AS Didecon, tipos.descripcion AS Tipo, marcas.descripcion AS Marca, modelos.descripcion AS Modelo, perifericos.sn AS 'N. Serie', perifericos.activocontraloria AS 'Act. Contraloria', dependencias.descripcion AS Departamento, hardware.area AS Area, hardware.responsable AS Responsable FROM perifericos JOIN tipos ON tipos.id_tipo = perifericos.tipo JOIN marcas ON marcas.id_marca = perifericos.marca JOIN modelos ON modelos.id_modelo = perifericos.modelo JOIN hardware ON hardware.didecon = perifericos.didecon JOIN dependencias ON dependencias.id_dependencia = hardware.depto WHERE tipos.descripcion != 'CPU';";
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
@@ -75,12 +83,16 @@ namespace WinFormsApp1
                             dgvPerifericos.Rows[index].Cells["Tipo"].Value = reader["Tipo"].ToString();
                             dgvPerifericos.Rows[index].Cells["Marca"].Value = reader["Marca"].ToString();
                             dgvPerifericos.Rows[index].Cells["Modelo"].Value = reader["Modelo"].ToString();
-                            dgvPerifericos.Rows[index].Cells["Num_Serie"].Value = reader["Num_Serie"].ToString();
-                            dgvPerifericos.Rows[index].Cells["Activo"].Value = reader["Activo"].ToString();
-                            dgvPerifericos.Rows[index].Cells["Fecha"].Value = reader["Fecha"].ToString();
+                            dgvPerifericos.Rows[index].Cells["N. Serie"].Value = reader["N. Serie"].ToString();
+                            dgvPerifericos.Rows[index].Cells["Act. Contraloria"].Value = reader["Act. Contraloria"].ToString();
+                            dgvPerifericos.Rows[index].Cells["Departamento"].Value = reader["Departamento"].ToString();
+                            dgvPerifericos.Rows[index].Cells["Area"].Value = reader["Area"].ToString();
+                            dgvPerifericos.Rows[index].Cells["Responsable"].Value = reader["Responsable"].ToString();
                         }
                     }
                 }
+                dgvPerifericos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+                dgvPerifericos.ScrollBars = ScrollBars.Both;
             }
             catch (Exception ex)
             {
@@ -88,7 +100,44 @@ namespace WinFormsApp1
             }
         }
 
+        private void ConfigurarDataGridView()
+        {
+            dgvPerifericos.BackgroundColor = Color.White;
+            dgvPerifericos.BorderStyle = BorderStyle.None;
+            dgvPerifericos.AllowUserToAddRows = false;
+            dgvPerifericos.RowHeadersVisible = false;
 
+            dgvPerifericos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvPerifericos.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+            dgvPerifericos.RowTemplate.Height = 20;
+
+            dgvPerifericos.RowsDefaultCellStyle.BackColor = Color.LightGray;
+            dgvPerifericos.AlternatingRowsDefaultCellStyle.BackColor = Color.White;
+            dgvPerifericos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
+
+            dgvPerifericos.DefaultCellStyle.SelectionBackColor = Color.LightSkyBlue;
+            dgvPerifericos.DefaultCellStyle.SelectionForeColor = Color.White;
+            dgvPerifericos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+
+            dgvPerifericos.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dgvPerifericos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dgvPerifericos.ColumnHeadersHeight = 35; // Aumenta la altura del encabezado
+            dgvPerifericos.EnableHeadersVisualStyles = false;
+
+            if (dgvPerifericos.Columns.Count == 0)
+            {
+                dgvPerifericos.Columns.Add("Numero", "Número");
+                dgvPerifericos.Columns.Add("Didecon", "Didecon");
+                dgvPerifericos.Columns.Add("Tipo", "Tipo");
+                dgvPerifericos.Columns.Add("Marca", "Marca");
+                dgvPerifericos.Columns.Add("Modelo", "Modelo");
+                dgvPerifericos.Columns.Add("N. Serie", "N. Serie");
+                dgvPerifericos.Columns.Add("Act. Contraloria", "Act. Contraloria");
+                dgvPerifericos.Columns.Add("Departamento", "Departamento");
+                dgvPerifericos.Columns.Add("Area", "Area");
+                dgvPerifericos.Columns.Add("Responsable", "Responsable");
+            }
+        }
 
         private void BloquearControles(bool bloquear)
         {
@@ -312,6 +361,21 @@ namespace WinFormsApp1
             }
         }
 
+        private void txtBuscarFolio_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+            // Permitir solo números y la tecla de retroceso
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true; // Bloquear entrada no numérica
+            }
+            // Evitar que se ingresen más de 4 dígitos
+            if (!char.IsControl(e.KeyChar) && txt.Text.Length >= 4)
+            {
+                e.Handled = true;
+            }
+        }
+
         private void LlenarBoxDidecon()
         {
             try
@@ -457,6 +521,29 @@ namespace WinFormsApp1
             }
         }
 
+        private void cargarDepartamentos()
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    string query = "SELECT dependencias.descripcion FROM dependencias;";
+                    using (SqlCommand cmd = new SqlCommand(query, connection))
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            boxBuscarDepartamento.Items.Add(reader["descripcion"].ToString());
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
 
         private void boxNumSerie_TextChanged(object sender, EventArgs e)
         {
@@ -498,6 +585,21 @@ namespace WinFormsApp1
             }
         }
 
+        private void txtBuscarDidecon_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+            // Permitir solo números y la tecla de retroceso
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true; // Bloquear entrada no numérica
+            }
+            // Evitar que se ingresen más de 7 dígitos
+            if (!char.IsControl(e.KeyChar) && txt.Text.Length >= 7)
+            {
+                e.Handled = true;
+            }
+        }
+
         private void ConfigurarNumSerie(ComboBox boxNumSerie)
         {
             boxNumSerie.Items.Clear();
@@ -509,7 +611,28 @@ namespace WinFormsApp1
             boxNumSerie.TextChanged += boxNumSerie_TextChanged;
         }
 
+        private void ConfigurarBuscarNumSerie(ComboBox boxNumSerie)
+        {
+            boxNumSerie.Items.Clear();
+            boxNumSerie.Items.Add("-");  // Agregar opción por defecto
+            boxNumSerie.Items.Add("SN");
+            boxNumSerie.DropDownStyle = ComboBoxStyle.DropDown; // Permite escribir manualmente
+            boxNumSerie.SelectedIndex = 0; // Seleccionar "-" por defecto
+
+            boxNumSerie.TextChanged += boxNumSerie_TextChanged;
+        }
+
         private void ConfigurarBoxActivo(ComboBox boxActivo)
+        {
+            boxActivo.Items.Clear();
+            boxActivo.Items.Add("-");  // Agregar opción por defecto
+            boxActivo.DropDownStyle = ComboBoxStyle.DropDown; // Permite escribir manualmente
+            boxActivo.SelectedIndex = 0; // Seleccionar "-" por defecto
+
+            boxActivo.KeyPress += boxActivo_KeyPress;
+        }
+
+        private void ConfigurarBoxBuscarActivo(ComboBox boxActivo)
         {
             boxActivo.Items.Clear();
             boxActivo.Items.Add("-");  // Agregar opción por defecto
@@ -569,11 +692,11 @@ namespace WinFormsApp1
         {
             if (radioFolio.Checked)
             {
-                label3.Text = "FOLIO:";
+                label3.Text = "NUMERO:";
                 boxBuscarDepartamento.Visible = false;
                 txtBuscarDidecon.Visible = false;
-                txtBuscarActivo.Visible = false;
-                txtBuscarNumSerie.Visible = false;
+                boxBuscarActivo.Visible = false;
+                boxBuscarNumSerie.Visible = false;
                 txtBuscarFolio.Visible = true;
                 txtBuscarFolio.Focus();
             }
@@ -586,9 +709,10 @@ namespace WinFormsApp1
                 label3.Text = "DEPARTAMENTO:";
                 boxBuscarDepartamento.Visible = true;
                 txtBuscarDidecon.Visible = false;
-                txtBuscarActivo.Visible = false;
-                txtBuscarNumSerie.Visible = false;
+                boxBuscarActivo.Visible = false;
+                boxBuscarNumSerie.Visible = false;
                 txtBuscarFolio.Visible = false;
+                cargarDepartamentos();
                 boxBuscarDepartamento.Focus();
             }
         }
@@ -600,8 +724,8 @@ namespace WinFormsApp1
                 label3.Text = "DIDECON:";
                 boxBuscarDepartamento.Visible = false;
                 txtBuscarDidecon.Visible = true;
-                txtBuscarActivo.Visible = false;
-                txtBuscarNumSerie.Visible = false;
+                boxBuscarActivo.Visible = false;
+                boxBuscarNumSerie.Visible = false;
                 txtBuscarFolio.Visible = false;
                 txtBuscarDidecon.Focus();
             }
@@ -614,10 +738,10 @@ namespace WinFormsApp1
                 label3.Text = "ACT CONTRALORIA:";
                 boxBuscarDepartamento.Visible = false;
                 txtBuscarDidecon.Visible = false;
-                txtBuscarActivo.Visible = true;
-                txtBuscarNumSerie.Visible = false;
+                boxBuscarActivo.Visible = true;
+                boxBuscarNumSerie.Visible = false;
                 txtBuscarFolio.Visible = false;
-                txtBuscarActivo.Focus();
+                boxBuscarActivo.Focus();
             }
         }
 
@@ -628,10 +752,36 @@ namespace WinFormsApp1
                 label3.Text = "NUM SERIE:";
                 boxBuscarDepartamento.Visible = false;
                 txtBuscarDidecon.Visible = false;
-                txtBuscarActivo.Visible = false;
-                txtBuscarNumSerie.Visible = true;
+                boxBuscarActivo.Visible = false;
+                boxBuscarNumSerie.Visible = true;
                 txtBuscarFolio.Visible = false;
-                txtBuscarNumSerie.Focus();
+                boxBuscarNumSerie.Focus();
+            }
+        }
+
+        private void btnBuscar_Click(object sender, EventArgs e)
+        {
+            string query = "";
+            string filtro = "";
+            if (radioFolio.Checked)
+            {
+                if (string.IsNullOrEmpty(txtBuscarFolio.Text))
+                {
+                    MessageBox.Show("Por favor, ingrese un número de folio válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                filtro = txtBuscarFolio.Text.Trim();
+                query = "SELECT perifericos.folio AS Numero, perifericos.didecon AS Didecon, tipos.descripcion AS Tipo, marcas.descripcion AS Marca, modelos.descripcion AS Modelo, perifericos.sn AS 'N. Serie', perifericos.activocontraloria AS Activo, perifericos.fechacaptura AS Fecha FROM perifericos JOIN tipos ON tipos.id_tipo = perifericos.tipo JOIN marcas ON marcas.id_marca = perifericos.marca JOIN modelos ON modelos.id_modelo = perifericos.modelo WHERE tipos.descripcion != 'CPU' AND perifericos.folio = '@folio';";
+            }
+            else if(radioDepartamento.Checked)
+            {
+                if(boxBuscarDepartamento.SelectedIndex == null)
+                {
+                    MessageBox.Show("Por favor, ingrese un departamento.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                filtro = boxBuscarDepartamento.SelectedItem.ToString();
+                query = "";
             }
         }
     }

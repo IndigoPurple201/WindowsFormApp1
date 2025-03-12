@@ -55,12 +55,12 @@
             btnCerrar2 = new Button();
             btnEliminar = new Button();
             dgvPerifericos = new DataGridView();
-            button1 = new Button();
-            button2 = new Button();
+            btnBuscar = new Button();
+            btnReestablecer = new Button();
             btnHardware = new Button();
             panelBusqueda = new Panel();
-            txtBuscarNumSerie = new TextBox();
-            txtBuscarActivo = new TextBox();
+            boxBuscarNumSerie = new ComboBox();
+            boxBuscarActivo = new ComboBox();
             txtBuscarDidecon = new TextBox();
             label3 = new Label();
             boxBuscarDepartamento = new ComboBox();
@@ -86,7 +86,7 @@
             panelBarra.Controls.Add(label1);
             panelBarra.Location = new Point(0, 0);
             panelBarra.Name = "panelBarra";
-            panelBarra.Size = new Size(777, 37);
+            panelBarra.Size = new Size(841, 37);
             panelBarra.TabIndex = 33;
             panelBarra.Paint += panelBarra_Paint;
             // 
@@ -106,7 +106,7 @@
             buttonSalir.BackColor = Color.FromArgb(0, 120, 212);
             buttonSalir.Cursor = Cursors.Hand;
             buttonSalir.Image = (Image)resources.GetObject("buttonSalir.Image");
-            buttonSalir.Location = new Point(745, 5);
+            buttonSalir.Location = new Point(810, 5);
             buttonSalir.Name = "buttonSalir";
             buttonSalir.Size = new Size(25, 27);
             buttonSalir.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -120,7 +120,7 @@
             txtFolio.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txtFolio.Location = new Point(156, 66);
             txtFolio.Name = "txtFolio";
-            txtFolio.Size = new Size(188, 23);
+            txtFolio.Size = new Size(210, 23);
             txtFolio.TabIndex = 35;
             txtFolio.KeyPress += txtFolio_KeyPress;
             // 
@@ -141,7 +141,7 @@
             boxDidecon.FormattingEnabled = true;
             boxDidecon.Location = new Point(128, 102);
             boxDidecon.Name = "boxDidecon";
-            boxDidecon.Size = new Size(216, 23);
+            boxDidecon.Size = new Size(238, 23);
             boxDidecon.TabIndex = 37;
             // 
             // label2
@@ -159,7 +159,7 @@
             boxTipo.DropDownStyle = ComboBoxStyle.DropDownList;
             boxTipo.Font = new Font("Segoe UI", 9F);
             boxTipo.FormattingEnabled = true;
-            boxTipo.Location = new Point(528, 104);
+            boxTipo.Location = new Point(587, 104);
             boxTipo.Name = "boxTipo";
             boxTipo.Size = new Size(233, 23);
             boxTipo.TabIndex = 39;
@@ -169,7 +169,7 @@
             // 
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label5.Location = new Point(479, 106);
+            label5.Location = new Point(538, 106);
             label5.Name = "label5";
             label5.Size = new Size(43, 21);
             label5.TabIndex = 38;
@@ -179,7 +179,7 @@
             // 
             btnNuevoModelo.Cursor = Cursors.Hand;
             btnNuevoModelo.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnNuevoModelo.Location = new Point(467, 179);
+            btnNuevoModelo.Location = new Point(526, 179);
             btnNuevoModelo.Name = "btnNuevoModelo";
             btnNuevoModelo.Size = new Size(145, 23);
             btnNuevoModelo.TabIndex = 51;
@@ -191,7 +191,7 @@
             // 
             btnNuevoMarca.Cursor = Cursors.Hand;
             btnNuevoMarca.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnNuevoMarca.Location = new Point(618, 178);
+            btnNuevoMarca.Location = new Point(677, 178);
             btnNuevoMarca.Name = "btnNuevoMarca";
             btnNuevoMarca.Size = new Size(143, 23);
             btnNuevoMarca.TabIndex = 50;
@@ -204,7 +204,7 @@
             boxModelo.DropDownStyle = ComboBoxStyle.DropDownList;
             boxModelo.Font = new Font("Segoe UI", 9F);
             boxModelo.FormattingEnabled = true;
-            boxModelo.Location = new Point(528, 141);
+            boxModelo.Location = new Point(587, 141);
             boxModelo.Name = "boxModelo";
             boxModelo.Size = new Size(233, 23);
             boxModelo.TabIndex = 49;
@@ -213,7 +213,7 @@
             // 
             label10.AutoSize = true;
             label10.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label10.Location = new Point(448, 143);
+            label10.Location = new Point(507, 143);
             label10.Name = "label10";
             label10.Size = new Size(74, 21);
             label10.TabIndex = 48;
@@ -224,7 +224,7 @@
             boxMarca.DropDownStyle = ComboBoxStyle.DropDownList;
             boxMarca.Font = new Font("Segoe UI", 9F);
             boxMarca.FormattingEnabled = true;
-            boxMarca.Location = new Point(528, 68);
+            boxMarca.Location = new Point(587, 68);
             boxMarca.Name = "boxMarca";
             boxMarca.Size = new Size(233, 23);
             boxMarca.TabIndex = 47;
@@ -234,7 +234,7 @@
             // 
             label8.AutoSize = true;
             label8.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label8.Location = new Point(458, 70);
+            label8.Location = new Point(517, 70);
             label8.Name = "label8";
             label8.Size = new Size(64, 21);
             label8.TabIndex = 46;
@@ -247,7 +247,7 @@
             boxNumSerie.FormattingEnabled = true;
             boxNumSerie.Location = new Point(128, 178);
             boxNumSerie.Name = "boxNumSerie";
-            boxNumSerie.Size = new Size(216, 23);
+            boxNumSerie.Size = new Size(238, 23);
             boxNumSerie.TabIndex = 53;
             boxNumSerie.TextChanged += boxNumSerie_TextChanged;
             boxNumSerie.KeyPress += boxNumSerie_KeyPress;
@@ -269,7 +269,7 @@
             boxActivo.FormattingEnabled = true;
             boxActivo.Location = new Point(191, 141);
             boxActivo.Name = "boxActivo";
-            boxActivo.Size = new Size(153, 23);
+            boxActivo.Size = new Size(175, 23);
             boxActivo.TabIndex = 55;
             boxActivo.KeyPress += boxActivo_KeyPress;
             // 
@@ -323,7 +323,7 @@
             // 
             btnActualizar.Cursor = Cursors.Hand;
             btnActualizar.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnActualizar.Location = new Point(482, 561);
+            btnActualizar.Location = new Point(541, 561);
             btnActualizar.Name = "btnActualizar";
             btnActualizar.Size = new Size(89, 23);
             btnActualizar.TabIndex = 62;
@@ -334,7 +334,7 @@
             // 
             btnCerrar2.Cursor = Cursors.Hand;
             btnCerrar2.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnCerrar2.Location = new Point(672, 561);
+            btnCerrar2.Location = new Point(731, 561);
             btnCerrar2.Name = "btnCerrar2";
             btnCerrar2.Size = new Size(89, 23);
             btnCerrar2.TabIndex = 61;
@@ -345,7 +345,7 @@
             // 
             btnEliminar.Cursor = Cursors.Hand;
             btnEliminar.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnEliminar.Location = new Point(577, 561);
+            btnEliminar.Location = new Point(636, 561);
             btnEliminar.Name = "btnEliminar";
             btnEliminar.Size = new Size(89, 23);
             btnEliminar.TabIndex = 60;
@@ -354,33 +354,35 @@
             // 
             // dgvPerifericos
             // 
+            dgvPerifericos.CellBorderStyle = DataGridViewCellBorderStyle.None;
             dgvPerifericos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvPerifericos.Location = new Point(23, 400);
             dgvPerifericos.Name = "dgvPerifericos";
-            dgvPerifericos.Size = new Size(738, 150);
+            dgvPerifericos.Size = new Size(797, 150);
             dgvPerifericos.TabIndex = 59;
             // 
-            // button1
+            // btnBuscar
             // 
-            button1.Cursor = Cursors.Hand;
-            button1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button1.Location = new Point(345, 361);
-            button1.Name = "button1";
-            button1.Size = new Size(75, 23);
-            button1.TabIndex = 71;
-            button1.Text = "BUSCAR";
-            button1.UseVisualStyleBackColor = true;
+            btnBuscar.Cursor = Cursors.Hand;
+            btnBuscar.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnBuscar.Location = new Point(345, 361);
+            btnBuscar.Name = "btnBuscar";
+            btnBuscar.Size = new Size(75, 23);
+            btnBuscar.TabIndex = 71;
+            btnBuscar.Text = "BUSCAR";
+            btnBuscar.UseVisualStyleBackColor = true;
+            btnBuscar.Click += btnBuscar_Click;
             // 
-            // button2
+            // btnReestablecer
             // 
-            button2.Cursor = Cursors.Hand;
-            button2.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button2.Location = new Point(427, 361);
-            button2.Name = "button2";
-            button2.Size = new Size(107, 23);
-            button2.TabIndex = 72;
-            button2.Text = "REESTABLECER";
-            button2.UseVisualStyleBackColor = true;
+            btnReestablecer.Cursor = Cursors.Hand;
+            btnReestablecer.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnReestablecer.Location = new Point(427, 361);
+            btnReestablecer.Name = "btnReestablecer";
+            btnReestablecer.Size = new Size(107, 23);
+            btnReestablecer.TabIndex = 72;
+            btnReestablecer.Text = "REESTABLECER";
+            btnReestablecer.UseVisualStyleBackColor = true;
             // 
             // btnHardware
             // 
@@ -397,8 +399,8 @@
             // panelBusqueda
             // 
             panelBusqueda.BorderStyle = BorderStyle.FixedSingle;
-            panelBusqueda.Controls.Add(txtBuscarNumSerie);
-            panelBusqueda.Controls.Add(txtBuscarActivo);
+            panelBusqueda.Controls.Add(boxBuscarNumSerie);
+            panelBusqueda.Controls.Add(boxBuscarActivo);
             panelBusqueda.Controls.Add(txtBuscarDidecon);
             panelBusqueda.Controls.Add(label3);
             panelBusqueda.Controls.Add(boxBuscarDepartamento);
@@ -408,6 +410,26 @@
             panelBusqueda.Size = new Size(309, 59);
             panelBusqueda.TabIndex = 75;
             // 
+            // boxBuscarNumSerie
+            // 
+            boxBuscarNumSerie.DropDownStyle = ComboBoxStyle.DropDownList;
+            boxBuscarNumSerie.FormattingEnabled = true;
+            boxBuscarNumSerie.Location = new Point(6, 27);
+            boxBuscarNumSerie.Name = "boxBuscarNumSerie";
+            boxBuscarNumSerie.Size = new Size(291, 23);
+            boxBuscarNumSerie.TabIndex = 78;
+            boxBuscarNumSerie.TextChanged += boxNumSerie_TextChanged;
+            boxBuscarNumSerie.KeyPress += boxNumSerie_KeyPress;
+            // 
+            // boxBuscarActivo
+            // 
+            boxBuscarActivo.DropDownStyle = ComboBoxStyle.DropDownList;
+            boxBuscarActivo.FormattingEnabled = true;
+            boxBuscarActivo.Location = new Point(7, 27);
+            boxBuscarActivo.Name = "boxBuscarActivo";
+            boxBuscarActivo.Size = new Size(291, 23);
+            boxBuscarActivo.TabIndex = 78;
+            // 
             // txtBuscarDidecon
             // 
             txtBuscarDidecon.BorderStyle = BorderStyle.FixedSingle;
@@ -416,18 +438,20 @@
             txtBuscarDidecon.Name = "txtBuscarDidecon";
             txtBuscarDidecon.Size = new Size(291, 23);
             txtBuscarDidecon.TabIndex = 78;
+            txtBuscarDidecon.KeyPress += txtBuscarDidecon_KeyPress;
             // 
             // label3
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label3.Location = new Point(11, 6);
+            label3.Location = new Point(6, 6);
             label3.Name = "label3";
             label3.Size = new Size(0, 15);
             label3.TabIndex = 78;
             // 
             // boxBuscarDepartamento
             // 
+            boxBuscarDepartamento.DropDownStyle = ComboBoxStyle.DropDownList;
             boxBuscarDepartamento.FormattingEnabled = true;
             boxBuscarDepartamento.Location = new Point(7, 27);
             boxBuscarDepartamento.Name = "boxBuscarDepartamento";
@@ -441,6 +465,7 @@
             txtBuscarFolio.Name = "txtBuscarFolio";
             txtBuscarFolio.Size = new Size(291, 23);
             txtBuscarFolio.TabIndex = 0;
+            txtBuscarFolio.KeyPress += txtBuscarFolio_KeyPress;
             // 
             // panel1
             // 
@@ -452,15 +477,16 @@
             panel1.Controls.Add(radioFolio);
             panel1.Location = new Point(23, 281);
             panel1.Name = "panel1";
-            panel1.Size = new Size(535, 38);
+            panel1.Size = new Size(573, 38);
             panel1.TabIndex = 76;
             // 
             // radioNumSerie
             // 
             radioNumSerie.AutoSize = true;
+            radioNumSerie.Cursor = Cursors.Hand;
             radioNumSerie.FlatStyle = FlatStyle.System;
             radioNumSerie.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            radioNumSerie.Location = new Point(434, 9);
+            radioNumSerie.Location = new Point(456, 8);
             radioNumSerie.Name = "radioNumSerie";
             radioNumSerie.Size = new Size(94, 20);
             radioNumSerie.TabIndex = 4;
@@ -472,9 +498,10 @@
             // radioActivo
             // 
             radioActivo.AutoSize = true;
+            radioActivo.Cursor = Cursors.Hand;
             radioActivo.FlatStyle = FlatStyle.System;
             radioActivo.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            radioActivo.Location = new Point(294, 9);
+            radioActivo.Location = new Point(312, 8);
             radioActivo.Name = "radioActivo";
             radioActivo.Size = new Size(138, 20);
             radioActivo.TabIndex = 3;
@@ -486,9 +513,10 @@
             // radioDidecon
             // 
             radioDidecon.AutoSize = true;
+            radioDidecon.Cursor = Cursors.Hand;
             radioDidecon.FlatStyle = FlatStyle.System;
             radioDidecon.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            radioDidecon.Location = new Point(204, 9);
+            radioDidecon.Location = new Point(220, 8);
             radioDidecon.Name = "radioDidecon";
             radioDidecon.Size = new Size(84, 20);
             radioDidecon.TabIndex = 2;
@@ -500,9 +528,10 @@
             // radioDepartamento
             // 
             radioDepartamento.AutoSize = true;
+            radioDepartamento.Cursor = Cursors.Hand;
             radioDepartamento.FlatStyle = FlatStyle.System;
             radioDepartamento.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            radioDepartamento.Location = new Point(81, 9);
+            radioDepartamento.Location = new Point(95, 8);
             radioDepartamento.Name = "radioDepartamento";
             radioDepartamento.Size = new Size(124, 20);
             radioDepartamento.TabIndex = 1;
@@ -514,14 +543,15 @@
             // radioFolio
             // 
             radioFolio.AutoSize = true;
+            radioFolio.Cursor = Cursors.Hand;
             radioFolio.FlatStyle = FlatStyle.System;
             radioFolio.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            radioFolio.Location = new Point(10, 9);
+            radioFolio.Location = new Point(10, 8);
             radioFolio.Name = "radioFolio";
-            radioFolio.Size = new Size(65, 20);
+            radioFolio.Size = new Size(83, 20);
             radioFolio.TabIndex = 0;
             radioFolio.TabStop = true;
-            radioFolio.Text = "FOLIO";
+            radioFolio.Text = "NUMERO";
             radioFolio.UseVisualStyleBackColor = true;
             radioFolio.CheckedChanged += radioFolio_CheckedChanged;
             // 
@@ -539,13 +569,13 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(777, 597);
+            ClientSize = new Size(841, 597);
             Controls.Add(label4);
             Controls.Add(panel1);
             Controls.Add(panelBusqueda);
             Controls.Add(btnHardware);
-            Controls.Add(button1);
-            Controls.Add(button2);
+            Controls.Add(btnBuscar);
+            Controls.Add(btnReestablecer);
             Controls.Add(btnActualizar);
             Controls.Add(btnCerrar2);
             Controls.Add(btnEliminar);
@@ -587,6 +617,7 @@
             PerformLayout();
         }
 
+
         #endregion
 
         private Panel panelBarra;
@@ -615,8 +646,8 @@
         private Button btnCerrar2;
         private Button btnEliminar;
         private DataGridView dgvPerifericos;
-        private Button button1;
-        private Button button2;
+        private Button btnBuscar;
+        private Button btnReestablecer;
         private Button btnHardware;
         private Panel panelBusqueda;
         private ComboBox boxBuscarDepartamento;
@@ -630,7 +661,7 @@
         private RadioButton radioNumSerie;
         private RadioButton radioActivo;
         private RadioButton radioDidecon;
-        private TextBox txtBuscarActivo;
-        private TextBox txtBuscarNumSerie;
+        private ComboBox boxBuscarActivo;
+        private ComboBox boxBuscarNumSerie;
     }
 }
