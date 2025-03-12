@@ -408,24 +408,6 @@
             panelBusqueda.Size = new Size(309, 59);
             panelBusqueda.TabIndex = 75;
             // 
-            // txtBuscarNumSerie
-            // 
-            txtBuscarNumSerie.BorderStyle = BorderStyle.FixedSingle;
-            txtBuscarNumSerie.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            txtBuscarNumSerie.Location = new Point(7, 27);
-            txtBuscarNumSerie.Name = "txtBuscarNumSerie";
-            txtBuscarNumSerie.Size = new Size(291, 23);
-            txtBuscarNumSerie.TabIndex = 78;
-            // 
-            // txtBuscarActivo
-            // 
-            txtBuscarActivo.BorderStyle = BorderStyle.FixedSingle;
-            txtBuscarActivo.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            txtBuscarActivo.Location = new Point(7, 27);
-            txtBuscarActivo.Name = "txtBuscarActivo";
-            txtBuscarActivo.Size = new Size(291, 23);
-            txtBuscarActivo.TabIndex = 78;
-            // 
             // txtBuscarDidecon
             // 
             txtBuscarDidecon.BorderStyle = BorderStyle.FixedSingle;
@@ -451,7 +433,6 @@
             boxBuscarDepartamento.Name = "boxBuscarDepartamento";
             boxBuscarDepartamento.Size = new Size(291, 23);
             boxBuscarDepartamento.TabIndex = 76;
-            boxBuscarDepartamento.Visible = false;
             // 
             // txtBuscarFolio
             // 

@@ -88,40 +88,7 @@ namespace WinFormsApp1
             }
         }
 
-        private void ConfigurarDataGridView()
-        {
-            dgvPerifericos.BackgroundColor = Color.White;
-            dgvPerifericos.BorderStyle = BorderStyle.None;
 
-
-            dgvPerifericos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-
-
-            dgvPerifericos.RowsDefaultCellStyle.BackColor = Color.LightGray;
-            dgvPerifericos.AlternatingRowsDefaultCellStyle.BackColor = Color.White;
-
-
-            dgvPerifericos.DefaultCellStyle.SelectionBackColor = Color.LightSkyBlue;
-            dgvPerifericos.DefaultCellStyle.SelectionForeColor = Color.White;
-
-
-            dgvPerifericos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-
-            if (dgvPerifericos.Columns.Count == 0)
-            {
-                dgvPerifericos.Columns.Add("Numero", "Número");
-                dgvPerifericos.Columns.Add("Didecon", "Didecon");
-                dgvPerifericos.Columns.Add("Tipo", "Tipo");
-                dgvPerifericos.Columns.Add("Marca", "Marca");
-                dgvPerifericos.Columns.Add("Modelo", "Modelo");
-                dgvPerifericos.Columns.Add("Num_Serie", "Num_Serie");
-                dgvPerifericos.Columns.Add("Activo", "Activo");
-                dgvPerifericos.Columns.Add("Fecha", "Fecha");
-            }
-
-            //dgvPerifericos.Columns["Descripcion"].ReadOnly = false;
-            //dgvPerifericos.Columns["Numero"].ReadOnly = true;
-        }
 
         private void BloquearControles(bool bloquear)
         {
