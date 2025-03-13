@@ -48,6 +48,7 @@ namespace WinFormsApp1
             LlenarBoxMarca();
             ConfigurarNumSerie(boxNumSerie);
             ConfigurarBoxActivo(boxActivo);
+            ConfigurarBoxActivoSistemas(boxActSistemas);
             boxMarca.SelectedIndexChanged += boxMarca_SelectedIndexChanged;
             btnNuevoModelo.Enabled = false;
         }
@@ -472,6 +473,23 @@ namespace WinFormsApp1
             }
         }
 
+        private void boxActivoSistemas_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            ComboBox comboBox = sender as ComboBox;
+
+            // Evitar que se ingresen más de 15 dígitos
+            if (!char.IsControl(e.KeyChar) && comboBox.Text.Length >= 4)
+            {
+                e.Handled = true;
+            }
+
+            //Permitirsolo numerosy puntos
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
         private void txtBuscarDidecon_KeyPress(object sender, KeyPressEventArgs e)
         {
             TextBox txt = sender as TextBox;
@@ -506,6 +524,16 @@ namespace WinFormsApp1
             boxActivo.SelectedIndex = 0; // Seleccionar "-" por defecto
 
             boxActivo.KeyPress += boxActivo_KeyPress;
+        }
+
+        private void ConfigurarBoxActivoSistemas(ComboBox boxActivo)
+        {
+            boxActivo.Items.Clear();
+            boxActivo.Items.Add("-");  // Agregar opción por defecto
+            boxActivo.DropDownStyle = ComboBoxStyle.DropDown; // Permite escribir manualmente
+            boxActivo.SelectedIndex = 0; // Seleccionar "-" por defecto
+
+            boxActivo.KeyPress += boxActivoSistemas_KeyPress;
         }
 
         private bool validarCampos()
