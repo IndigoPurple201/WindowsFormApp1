@@ -51,12 +51,6 @@
             btnNuevo = new Button();
             btnAceptar = new Button();
             btnCancelar = new Button();
-            btnActualizar = new Button();
-            btnCerrar2 = new Button();
-            btnEliminar = new Button();
-            dgvPerifericos = new DataGridView();
-            btnBuscar = new Button();
-            btnReestablecer = new Button();
             btnHardware = new Button();
             panelBusqueda = new Panel();
             boxBuscarNumSerie = new ComboBox();
@@ -74,9 +68,6 @@
             label4 = new Label();
             panelBarra.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)buttonSalir).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)dgvPerifericos).BeginInit();
-            panelBusqueda.SuspendLayout();
-            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // panelBarra
@@ -319,71 +310,6 @@
             btnCancelar.UseVisualStyleBackColor = true;
             btnCancelar.Click += btnCancelar_Click;
             // 
-            // btnActualizar
-            // 
-            btnActualizar.Cursor = Cursors.Hand;
-            btnActualizar.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnActualizar.Location = new Point(541, 561);
-            btnActualizar.Name = "btnActualizar";
-            btnActualizar.Size = new Size(89, 23);
-            btnActualizar.TabIndex = 62;
-            btnActualizar.Text = "ACTUALIZAR";
-            btnActualizar.UseVisualStyleBackColor = true;
-            // 
-            // btnCerrar2
-            // 
-            btnCerrar2.Cursor = Cursors.Hand;
-            btnCerrar2.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnCerrar2.Location = new Point(731, 561);
-            btnCerrar2.Name = "btnCerrar2";
-            btnCerrar2.Size = new Size(89, 23);
-            btnCerrar2.TabIndex = 61;
-            btnCerrar2.Text = "CERRAR";
-            btnCerrar2.UseVisualStyleBackColor = true;
-            // 
-            // btnEliminar
-            // 
-            btnEliminar.Cursor = Cursors.Hand;
-            btnEliminar.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnEliminar.Location = new Point(636, 561);
-            btnEliminar.Name = "btnEliminar";
-            btnEliminar.Size = new Size(89, 23);
-            btnEliminar.TabIndex = 60;
-            btnEliminar.Text = "ELIMINAR";
-            btnEliminar.UseVisualStyleBackColor = true;
-            // 
-            // dgvPerifericos
-            // 
-            dgvPerifericos.CellBorderStyle = DataGridViewCellBorderStyle.None;
-            dgvPerifericos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvPerifericos.Location = new Point(23, 400);
-            dgvPerifericos.Name = "dgvPerifericos";
-            dgvPerifericos.Size = new Size(797, 150);
-            dgvPerifericos.TabIndex = 59;
-            // 
-            // btnBuscar
-            // 
-            btnBuscar.Cursor = Cursors.Hand;
-            btnBuscar.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnBuscar.Location = new Point(345, 361);
-            btnBuscar.Name = "btnBuscar";
-            btnBuscar.Size = new Size(75, 23);
-            btnBuscar.TabIndex = 71;
-            btnBuscar.Text = "BUSCAR";
-            btnBuscar.UseVisualStyleBackColor = true;
-            btnBuscar.Click += btnBuscar_Click;
-            // 
-            // btnReestablecer
-            // 
-            btnReestablecer.Cursor = Cursors.Hand;
-            btnReestablecer.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnReestablecer.Location = new Point(427, 361);
-            btnReestablecer.Name = "btnReestablecer";
-            btnReestablecer.Size = new Size(107, 23);
-            btnReestablecer.TabIndex = 72;
-            btnReestablecer.Text = "REESTABLECER";
-            btnReestablecer.UseVisualStyleBackColor = true;
-            // 
             // btnHardware
             // 
             btnHardware.Cursor = Cursors.Hand;
@@ -574,12 +500,6 @@
             Controls.Add(panel1);
             Controls.Add(panelBusqueda);
             Controls.Add(btnHardware);
-            Controls.Add(btnBuscar);
-            Controls.Add(btnReestablecer);
-            Controls.Add(btnActualizar);
-            Controls.Add(btnCerrar2);
-            Controls.Add(btnEliminar);
-            Controls.Add(dgvPerifericos);
             Controls.Add(btnNuevo);
             Controls.Add(btnAceptar);
             Controls.Add(btnCancelar);
@@ -599,7 +519,6 @@
             Controls.Add(label2);
             Controls.Add(txtFolio);
             Controls.Add(Numero);
-            Controls.Add(buttonSalir);
             Controls.Add(panelBarra);
             FormBorderStyle = FormBorderStyle.None;
             Name = "Perifericos";
@@ -608,11 +527,6 @@
             panelBarra.ResumeLayout(false);
             panelBarra.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)buttonSalir).EndInit();
-            ((System.ComponentModel.ISupportInitialize)dgvPerifericos).EndInit();
-            panelBusqueda.ResumeLayout(false);
-            panelBusqueda.PerformLayout();
-            panel1.ResumeLayout(false);
-            panel1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -642,12 +556,6 @@
         private Button btnNuevo;
         private Button btnAceptar;
         private Button btnCancelar;
-        private Button btnActualizar;
-        private Button btnCerrar2;
-        private Button btnEliminar;
-        private DataGridView dgvPerifericos;
-        private Button btnBuscar;
-        private Button btnReestablecer;
         private Button btnHardware;
         private Panel panelBusqueda;
         private ComboBox boxBuscarDepartamento;
