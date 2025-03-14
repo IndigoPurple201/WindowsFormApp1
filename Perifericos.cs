@@ -46,9 +46,13 @@ namespace WinFormsApp1
             LlenarBoxDidecon();
             LlenarBoxTipo();
             LlenarBoxMarca();
+            LlenarBoxEstatus();
             ConfigurarNumSerie(boxNumSerie);
             ConfigurarBoxActivo(boxActivo);
             ConfigurarBoxActivoSistemas(boxActSistemas);
+            ConfigurarBoxValorFactura(boxValorFactura);
+            ConfigurarBoxNumeroFactura(boxNumFactura);
+            ConfigurarBoxProveedor(boxProveedor);
             boxMarca.SelectedIndexChanged += boxMarca_SelectedIndexChanged;
             btnNuevoModelo.Enabled = false;
         }
@@ -67,6 +71,12 @@ namespace WinFormsApp1
             boxModelo.Enabled = !bloquear;
             boxMarca.Enabled = !bloquear;
             boxActivo.Enabled = !bloquear;
+            boxActSistemas.Enabled = !bloquear;
+            boxValorFactura.Enabled = !bloquear;
+            boxNumFactura.Enabled = !bloquear;
+            boxProveedor.Enabled = !bloquear;
+            txtNotas.Enabled = !bloquear;
+            boxEstatus.Enabled = !bloquear;
         }
 
         private void btnNuevo_Click(object sender, EventArgs e)
@@ -117,6 +127,13 @@ namespace WinFormsApp1
                             object result = cmd.ExecuteScalar();
                             idModelo = (result != null) ? Convert.ToInt32(result) : 0;
                         }
+                        int idEstatus = 0;
+                        string queryEstatus = "SELECT id_estatus FROM estatus WHERE descripcion = @estatus ORDER BY id_estatus;";
+                        using (SqlCommand cmd = new SqlCommand(queryEstatus, connection))
+                        {
+                        
+                        }
+
                         string queryInsert = @"INSERT INTO perifericos (folio, didecon, tipo, marca, modelo, sn, activos, activocontraloria, idestatus, fechacaptura, fechaalta, fechafactura, fechabaja, valorfactura, nomproveedor, numerofactura) VALUES (@folio, @didecon, @tipo, @marca, @modelo, '-', '-', '-', 7, GETDATE(), '1900-01-01 00:00:00.000', '1900-01-01 00:00:00.000', '1900-01-01 00:00:00.000', 0.00, '-', '-');";
                         using (SqlCommand insertCmd = new SqlCommand(queryInsert, connection))
                         {
@@ -140,7 +157,7 @@ namespace WinFormsApp1
 
         private void LimpiarControles()
         {
-            List<Control> controlesALimpiar = new List<Control> { txtFolio, boxDidecon, boxTipo, boxNumSerie, boxMarca, boxModelo, boxModelo, boxActivo };
+            List<Control> controlesALimpiar = new List<Control> { txtFolio, boxDidecon, boxTipo, boxNumSerie, boxMarca, boxModelo, boxModelo, boxActivo, boxActSistemas, boxValorFactura, boxNumFactura, boxProveedor, txtNotas, boxEstatus };
             foreach (Control ctrl in this.Controls)
             {
                 if (controlesALimpiar.Contains(ctrl))
@@ -158,11 +175,19 @@ namespace WinFormsApp1
                             comboBox.SelectedIndex = -1;
                             comboBox.Text = string.Empty;
                         }
+                        else if (comboBox == boxActSistemas)
+                        {
+                            comboBox.SelectedItem = ".   ";
+                        }
                         else
                         {
-                            if (comboBox.Items.Contains("-"))
+                            if (comboBox.Items.Contains(".   "))
                             {
-                                comboBox.SelectedItem = "-";
+                                comboBox.SelectedItem = ".   ";
+                            }
+                            else if (comboBox.Items.Contains("0.00"))
+                            {
+                                comboBox.SelectedItem = "0.00";
                             }
                             else
                             {
@@ -365,6 +390,31 @@ namespace WinFormsApp1
             }
         }
 
+        private void LlenarBoxEstatus()
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string query = "SELECT descripcion FROM estatus;";
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        boxEstatus.Items.Clear();
+                        while (reader.Read())
+                        {
+                            boxEstatus.Items.Add(reader["descripcion"].ToString());
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar los datos: " + ex.Message);
+            }
+        }
+
         private void boxMarca_SelectedIndexChanged(object sender, EventArgs e)
         {
             LlenarBoxModelo();
@@ -477,6 +527,12 @@ namespace WinFormsApp1
         {
             ComboBox comboBox = sender as ComboBox;
 
+            if (comboBox.SelectedItem?.ToString() == ".   ")
+            {
+                comboBox.SelectedIndex = -1;
+                comboBox.Text = "";
+            }
+
             // Evitar que se ingresen más de 15 dígitos
             if (!char.IsControl(e.KeyChar) && comboBox.Text.Length >= 4)
             {
@@ -505,10 +561,94 @@ namespace WinFormsApp1
             }
         }
 
+        private void boxValorFactura_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            ComboBox comboBox = sender as ComboBox;
+
+            // Evitar que se ingresen más de 7 dígitos
+            if (!char.IsControl(e.KeyChar) && comboBox.Text.Length >= 7)
+            {
+                e.Handled = true;
+            }
+
+            // Permitir solo números y un punto decimal
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
+            {
+                e.Handled = true;
+            }
+
+            // Evitar más de un punto decimal 
+            if (e.KeyChar == '.' && comboBox.Text.Contains("."))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void boxNumeroFactura_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            ComboBox comboBox = sender as ComboBox;
+
+            // Evitar que se ingresen más de 7 dígitos
+            if (!char.IsControl(e.KeyChar) && comboBox.Text.Length >= 7)
+            {
+                e.Handled = true;
+            }
+
+            // Permitir solo números y un punto decimal
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
+            {
+                e.Handled = true;
+            }
+
+            // Evitar más de un punto decimal 
+            if (e.KeyChar == '.' && comboBox.Text.Contains("."))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void boxProveedor_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            ComboBox comboBox = sender as ComboBox;
+            // Evitar que se ingresen más de 50 caracteres
+            if (!char.IsControl(e.KeyChar) && comboBox.Text.Length >= 50)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtNotas_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+            // Evitar que se ingresen más de 120 caracteres
+            if (!char.IsControl(e.KeyChar) && txt.Text.Length >= 100)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void boxProveedor_TextChanged(object sender, EventArgs e)
+        {
+            ComboBox comboBox = sender as ComboBox;
+
+            // Convertir a mayúsculas
+            comboBox.Text = comboBox.Text.ToUpper();
+
+            // Mover el cursor al final
+            comboBox.SelectionStart = comboBox.Text.Length;
+        }
+
+        private void txtNotas_TextChanged(object sender, EventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+            txt.Text = txt.Text.ToUpper();
+            txt.SelectionStart = txt.Text.Length;
+        }
+
         private void ConfigurarNumSerie(ComboBox boxNumSerie)
         {
             boxNumSerie.Items.Clear();
-            boxNumSerie.Items.Add("-");  // Agregar opción por defecto
+            boxNumSerie.Items.Add(".   ");  // Agregar opción por defecto
             boxNumSerie.Items.Add("SN");
             boxNumSerie.DropDownStyle = ComboBoxStyle.DropDown; // Permite escribir manualmente
             boxNumSerie.SelectedIndex = 0; // Seleccionar "-" por defecto
@@ -519,7 +659,7 @@ namespace WinFormsApp1
         private void ConfigurarBoxActivo(ComboBox boxActivo)
         {
             boxActivo.Items.Clear();
-            boxActivo.Items.Add("-");  // Agregar opción por defecto
+            boxActivo.Items.Add(".   ");  // Agregar opción por defecto
             boxActivo.DropDownStyle = ComboBoxStyle.DropDown; // Permite escribir manualmente
             boxActivo.SelectedIndex = 0; // Seleccionar "-" por defecto
 
@@ -529,11 +669,39 @@ namespace WinFormsApp1
         private void ConfigurarBoxActivoSistemas(ComboBox boxActivo)
         {
             boxActivo.Items.Clear();
-            boxActivo.Items.Add("-");  // Agregar opción por defecto
+            boxActivo.Items.Add(".   ");  // Agregar opción por defecto
             boxActivo.DropDownStyle = ComboBoxStyle.DropDown; // Permite escribir manualmente
             boxActivo.SelectedIndex = 0; // Seleccionar "-" por defecto
 
             boxActivo.KeyPress += boxActivoSistemas_KeyPress;
+        }
+
+        private void ConfigurarBoxValorFactura(ComboBox boxValorFactura)
+        {
+            boxValorFactura.Items.Clear();
+            boxValorFactura.Items.Add("0.00");  // Agregar opción por defecto   
+            boxValorFactura.DropDownStyle = ComboBoxStyle.DropDown; // Permite escribir manualmente
+            boxValorFactura.SelectedIndex = 0; // Seleccionar "-" por defecto
+            boxValorFactura.KeyPress += boxValorFactura_KeyPress;
+        }
+
+        private void ConfigurarBoxNumeroFactura(ComboBox boxNumeroFactura)
+        {
+            boxNumeroFactura.Items.Clear();
+            boxNumeroFactura.Items.Add(".   ");  // Agregar opción por defecto
+            boxNumeroFactura.DropDownStyle = ComboBoxStyle.DropDown; // Permite escribir manualmente
+            boxNumeroFactura.SelectedIndex = 0; // Seleccionar "-" por defecto
+            boxNumeroFactura.KeyPress += boxNumeroFactura_KeyPress;
+        }
+
+        private void ConfigurarBoxProveedor(ComboBox boxProveedor)
+        {
+            boxProveedor.Items.Clear();
+            boxProveedor.Items.Add(".   ");  // Agregar opción por defecto
+            boxProveedor.DropDownStyle = ComboBoxStyle.DropDown; // Permite escribir manualmente
+            boxProveedor.SelectedIndex = 0; // Seleccionar "-" por defecto
+
+            boxProveedor.TextChanged += boxProveedor_TextChanged;
         }
 
         private bool validarCampos()

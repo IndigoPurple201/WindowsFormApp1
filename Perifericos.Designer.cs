@@ -56,13 +56,13 @@
             label3 = new Label();
             boxNumFactura = new ComboBox();
             label4 = new Label();
-            comboBox1 = new ComboBox();
+            boxValorFactura = new ComboBox();
             label7 = new Label();
-            comboBox2 = new ComboBox();
+            boxProveedor = new ComboBox();
             label11 = new Label();
-            comboBox3 = new ComboBox();
+            boxEstatus = new ComboBox();
             label12 = new Label();
-            textBox1 = new TextBox();
+            txtNotas = new TextBox();
             label13 = new Label();
             label14 = new Label();
             dateTimePicker1 = new DateTimePicker();
@@ -353,6 +353,7 @@
             boxNumFactura.Name = "boxNumFactura";
             boxNumFactura.Size = new Size(210, 23);
             boxNumFactura.TabIndex = 78;
+            boxNumFactura.KeyPress += boxNumeroFactura_KeyPress;
             // 
             // label4
             // 
@@ -364,15 +365,16 @@
             label4.TabIndex = 77;
             label4.Text = "NUM. FACTURA";
             // 
-            // comboBox1
+            // boxValorFactura
             // 
-            comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBox1.Font = new Font("Segoe UI", 9F);
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(183, 375);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(210, 23);
-            comboBox1.TabIndex = 80;
+            boxValorFactura.DropDownStyle = ComboBoxStyle.DropDownList;
+            boxValorFactura.Font = new Font("Segoe UI", 9F);
+            boxValorFactura.FormattingEnabled = true;
+            boxValorFactura.Location = new Point(183, 375);
+            boxValorFactura.Name = "boxValorFactura";
+            boxValorFactura.Size = new Size(210, 23);
+            boxValorFactura.TabIndex = 80;
+            boxValorFactura.KeyPress += boxValorFactura_KeyPress;
             // 
             // label7
             // 
@@ -384,15 +386,17 @@
             label7.TabIndex = 79;
             label7.Text = "VALOR FACTURA";
             // 
-            // comboBox2
+            // boxProveedor
             // 
-            comboBox2.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBox2.Font = new Font("Segoe UI", 9F);
-            comboBox2.FormattingEnabled = true;
-            comboBox2.Location = new Point(183, 414);
-            comboBox2.Name = "comboBox2";
-            comboBox2.Size = new Size(210, 23);
-            comboBox2.TabIndex = 82;
+            boxProveedor.DropDownStyle = ComboBoxStyle.DropDownList;
+            boxProveedor.Font = new Font("Segoe UI", 9F);
+            boxProveedor.FormattingEnabled = true;
+            boxProveedor.Location = new Point(183, 414);
+            boxProveedor.Name = "boxProveedor";
+            boxProveedor.Size = new Size(210, 23);
+            boxProveedor.TabIndex = 82;
+            boxProveedor.TextChanged += boxProveedor_TextChanged;
+            boxProveedor.KeyPress += boxProveedor_KeyPress;
             // 
             // label11
             // 
@@ -404,15 +408,15 @@
             label11.TabIndex = 81;
             label11.Text = "PROVEEDOR";
             // 
-            // comboBox3
+            // boxEstatus
             // 
-            comboBox3.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBox3.Font = new Font("Segoe UI", 9F);
-            comboBox3.FormattingEnabled = true;
-            comboBox3.Location = new Point(183, 452);
-            comboBox3.Name = "comboBox3";
-            comboBox3.Size = new Size(210, 23);
-            comboBox3.TabIndex = 84;
+            boxEstatus.DropDownStyle = ComboBoxStyle.DropDownList;
+            boxEstatus.Font = new Font("Segoe UI", 9F);
+            boxEstatus.FormattingEnabled = true;
+            boxEstatus.Location = new Point(183, 452);
+            boxEstatus.Name = "boxEstatus";
+            boxEstatus.Size = new Size(210, 23);
+            boxEstatus.TabIndex = 84;
             // 
             // label12
             // 
@@ -424,16 +428,18 @@
             label12.TabIndex = 83;
             label12.Text = "ESTATUS";
             // 
-            // textBox1
+            // txtNotas
             // 
-            textBox1.BorderStyle = BorderStyle.FixedSingle;
-            textBox1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            textBox1.Location = new Point(183, 494);
-            textBox1.Multiline = true;
-            textBox1.Name = "textBox1";
-            textBox1.ScrollBars = ScrollBars.Vertical;
-            textBox1.Size = new Size(490, 72);
-            textBox1.TabIndex = 86;
+            txtNotas.BorderStyle = BorderStyle.FixedSingle;
+            txtNotas.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtNotas.Location = new Point(183, 494);
+            txtNotas.Multiline = true;
+            txtNotas.Name = "txtNotas";
+            txtNotas.ScrollBars = ScrollBars.Vertical;
+            txtNotas.Size = new Size(490, 72);
+            txtNotas.TabIndex = 86;
+            txtNotas.TextChanged += txtNotas_TextChanged;
+            txtNotas.KeyPress += txtNotas_KeyPress;
             // 
             // label13
             // 
@@ -449,7 +455,7 @@
             // 
             label14.AutoSize = true;
             label14.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label14.Location = new Point(430, 375);
+            label14.Location = new Point(525, 377);
             label14.Name = "label14";
             label14.Size = new Size(57, 21);
             label14.TabIndex = 87;
@@ -458,10 +464,12 @@
             // dateTimePicker1
             // 
             dateTimePicker1.Enabled = false;
-            dateTimePicker1.Location = new Point(495, 374);
+            dateTimePicker1.Format = DateTimePickerFormat.Short;
+            dateTimePicker1.Location = new Point(588, 374);
             dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(178, 23);
+            dateTimePicker1.Size = new Size(85, 23);
             dateTimePicker1.TabIndex = 88;
+            dateTimePicker1.Value = new DateTime(2025, 3, 14, 9, 28, 11, 0);
             // 
             // Perifericos
             // 
@@ -470,13 +478,13 @@
             ClientSize = new Size(707, 643);
             Controls.Add(dateTimePicker1);
             Controls.Add(label14);
-            Controls.Add(textBox1);
+            Controls.Add(txtNotas);
             Controls.Add(label13);
-            Controls.Add(comboBox3);
+            Controls.Add(boxEstatus);
             Controls.Add(label12);
-            Controls.Add(comboBox2);
+            Controls.Add(boxProveedor);
             Controls.Add(label11);
-            Controls.Add(comboBox1);
+            Controls.Add(boxValorFactura);
             Controls.Add(label7);
             Controls.Add(boxNumFactura);
             Controls.Add(label4);
@@ -544,13 +552,13 @@
         private Label label3;
         private ComboBox boxNumFactura;
         private Label label4;
-        private ComboBox comboBox1;
+        private ComboBox boxValorFactura;
         private Label label7;
-        private ComboBox comboBox2;
+        private ComboBox boxProveedor;
         private Label label11;
-        private ComboBox comboBox3;
+        private ComboBox boxEstatus;
         private Label label12;
-        private TextBox textBox1;
+        private TextBox txtNotas;
         private Label label13;
         private Label label14;
         private DateTimePicker dateTimePicker1;
