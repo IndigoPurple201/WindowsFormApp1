@@ -84,6 +84,12 @@ namespace WinFormsApp1
             BloquearControles(false);
         }
 
+        private void btnBuscar_Click(object sender, EventArgs e)
+        {
+            BuscarPerifericos buscarPerifericos = new BuscarPerifericos();
+            buscarPerifericos.ShowDialog();
+        }
+
         private void btnAceptar_Click(object sender, EventArgs e)
         {
             if (validarCampos())
@@ -131,10 +137,12 @@ namespace WinFormsApp1
                         string queryEstatus = "SELECT id_estatus FROM estatus WHERE descripcion = @estatus ORDER BY id_estatus;";
                         using (SqlCommand cmd = new SqlCommand(queryEstatus, connection))
                         {
-                        
+                            cmd.Parameters.AddWithValue("@estatus", boxEstatus.Text);
+                            object result = cmd.ExecuteScalar();
+                            idEstatus = (result != null) ? Convert.ToInt32(result) : 0;
                         }
 
-                        string queryInsert = @"INSERT INTO perifericos (folio, didecon, tipo, marca, modelo, sn, activos, activocontraloria, idestatus, fechacaptura, fechaalta, fechafactura, fechabaja, valorfactura, nomproveedor, numerofactura) VALUES (@folio, @didecon, @tipo, @marca, @modelo, '-', '-', '-', 7, GETDATE(), '1900-01-01 00:00:00.000', '1900-01-01 00:00:00.000', '1900-01-01 00:00:00.000', 0.00, '-', '-');";
+                        string queryInsert = @"INSERT INTO perifericos (folio, didecon, tipo, marca, modelo, sn, Notas, activos, activocontraloria, idestatus, fechacaptura, fechaalta, fechafactura, fechabaja, valorfactura, nomproveedor, numerofactura) VALUES (@folio, @didecon, @tipo, @marca, @modelo, @sn, @notas, @activos, @activocontraloria, @idestatus, GETDATE(), '1900-01-01 00:00:00.000', '1900-01-01 00:00:00.000', '1900-01-01 00:00:00.000', @valorfactura, @nombreproveedor, @numerofactura);";
                         using (SqlCommand insertCmd = new SqlCommand(queryInsert, connection))
                         {
                             insertCmd.Parameters.AddWithValue("@folio", txtFolio.Text);
@@ -142,6 +150,14 @@ namespace WinFormsApp1
                             insertCmd.Parameters.AddWithValue("@tipo", idTipo);
                             insertCmd.Parameters.AddWithValue("@marca", idMarca);
                             insertCmd.Parameters.AddWithValue("@modelo", idModelo);
+                            insertCmd.Parameters.AddWithValue("@sn", boxNumSerie.Text);
+                            insertCmd.Parameters.AddWithValue("@notas", string.IsNullOrWhiteSpace(txtNotas.Text) ? (object)DBNull.Value : txtNotas.Text);
+                            insertCmd.Parameters.AddWithValue("@activos", boxActSistemas.Text);
+                            insertCmd.Parameters.AddWithValue("@activocontraloria", boxActivo.Text);
+                            insertCmd.Parameters.AddWithValue("@idestatus", idEstatus);
+                            insertCmd.Parameters.AddWithValue("@valorfactura", boxValorFactura.Text);
+                            insertCmd.Parameters.AddWithValue("@nombreproveedor", boxProveedor.Text);
+                            insertCmd.Parameters.AddWithValue("@numerofactura", boxNumFactura.Text);
                             insertCmd.ExecuteNonQuery();
                         }
                         MessageBox.Show("Registro guardado con éxito.");
@@ -727,6 +743,31 @@ namespace WinFormsApp1
             if (boxModelo.SelectedIndex == -1 || string.IsNullOrWhiteSpace(boxModelo.Text))
             {
                 mensajeError += "- Selecciona un Modelo válido.\n";
+                esValido = false;
+            }
+            if (boxActSistemas.SelectedIndex == -1 || string.IsNullOrWhiteSpace(boxActSistemas.Text))
+            {
+                mensajeError += "- Selecciona un Act. Sistemas válido.\n";
+                esValido = false;
+            }
+            if (boxNumFactura.SelectedIndex == -1 || string.IsNullOrWhiteSpace(boxNumFactura.Text))
+            {
+                mensajeError += "- Selecciona un Num. Factura valido válido.\n";
+                esValido = false;
+            }
+            if (boxValorFactura.SelectedIndex == -1 || string.IsNullOrWhiteSpace(boxValorFactura.Text))
+            {
+                mensajeError += "- Selecciona un Valor Factura válido.\n";
+                esValido = false;
+            }
+            if (boxProveedor.SelectedIndex == -1 || string.IsNullOrWhiteSpace(boxProveedor.Text))
+            {
+                mensajeError += "- Selecciona un Proveedor válido.\n";
+                esValido = false;
+            }
+            if (boxEstatus.SelectedIndex == -1 || string.IsNullOrWhiteSpace(boxEstatus.Text))
+            {
+                mensajeError += "- Selecciona un Estatus válido.\n";
                 esValido = false;
             }
             if (!esValido)

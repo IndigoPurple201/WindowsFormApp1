@@ -37,8 +37,6 @@
             radioDepartamento = new RadioButton();
             radioFolio = new RadioButton();
             panelBusqueda = new Panel();
-            boxBuscarNumSerie = new ComboBox();
-            boxBuscarActivo = new ComboBox();
             txtBuscarDidecon = new TextBox();
             label3 = new Label();
             boxBuscarDepartamento = new ComboBox();
@@ -49,6 +47,8 @@
             btnEliminar = new Button();
             dgvPerifericos = new DataGridView();
             buttonSalir = new PictureBox();
+            textBox1 = new TextBox();
+            textBox2 = new TextBox();
             panel1.SuspendLayout();
             panelBusqueda.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvPerifericos).BeginInit();
@@ -91,6 +91,7 @@
             radioNumSerie.TabStop = true;
             radioNumSerie.Text = "NUM SERIE";
             radioNumSerie.UseVisualStyleBackColor = true;
+            radioNumSerie.CheckedChanged += radioNumSerie_CheckedChanged;
             // 
             // radioActivo
             // 
@@ -105,6 +106,7 @@
             radioActivo.TabStop = true;
             radioActivo.Text = "ATC CONTRALORIA";
             radioActivo.UseVisualStyleBackColor = true;
+            radioActivo.CheckedChanged += radioActivo_CheckedChanged;
             // 
             // radioDidecon
             // 
@@ -119,6 +121,7 @@
             radioDidecon.TabStop = true;
             radioDidecon.Text = "DIDECON";
             radioDidecon.UseVisualStyleBackColor = true;
+            radioDidecon.CheckedChanged += radioDidecon_CheckedChanged;
             // 
             // radioDepartamento
             // 
@@ -133,6 +136,7 @@
             radioDepartamento.TabStop = true;
             radioDepartamento.Text = "DEPARTAMENTO";
             radioDepartamento.UseVisualStyleBackColor = true;
+            radioDepartamento.CheckedChanged += radioDepartamento_CheckedChanged;
             // 
             // radioFolio
             // 
@@ -147,12 +151,12 @@
             radioFolio.TabStop = true;
             radioFolio.Text = "NUMERO";
             radioFolio.UseVisualStyleBackColor = true;
+            radioFolio.CheckedChanged += radioFolio_CheckedChanged;
             // 
             // panelBusqueda
             // 
             panelBusqueda.BorderStyle = BorderStyle.FixedSingle;
-            panelBusqueda.Controls.Add(boxBuscarNumSerie);
-            panelBusqueda.Controls.Add(boxBuscarActivo);
+            panelBusqueda.Controls.Add(textBox1);
             panelBusqueda.Controls.Add(txtBuscarDidecon);
             panelBusqueda.Controls.Add(label3);
             panelBusqueda.Controls.Add(boxBuscarDepartamento);
@@ -161,24 +165,6 @@
             panelBusqueda.Name = "panelBusqueda";
             panelBusqueda.Size = new Size(309, 59);
             panelBusqueda.TabIndex = 80;
-            // 
-            // boxBuscarNumSerie
-            // 
-            boxBuscarNumSerie.DropDownStyle = ComboBoxStyle.DropDownList;
-            boxBuscarNumSerie.FormattingEnabled = true;
-            boxBuscarNumSerie.Location = new Point(6, 27);
-            boxBuscarNumSerie.Name = "boxBuscarNumSerie";
-            boxBuscarNumSerie.Size = new Size(291, 23);
-            boxBuscarNumSerie.TabIndex = 78;
-            // 
-            // boxBuscarActivo
-            // 
-            boxBuscarActivo.DropDownStyle = ComboBoxStyle.DropDownList;
-            boxBuscarActivo.FormattingEnabled = true;
-            boxBuscarActivo.Location = new Point(7, 27);
-            boxBuscarActivo.Name = "boxBuscarActivo";
-            boxBuscarActivo.Size = new Size(291, 23);
-            boxBuscarActivo.TabIndex = 78;
             // 
             // txtBuscarDidecon
             // 
@@ -225,6 +211,7 @@
             btnBuscar.TabIndex = 78;
             btnBuscar.Text = "BUSCAR";
             btnBuscar.UseVisualStyleBackColor = true;
+            btnBuscar.Click += btnBuscar_Click;
             // 
             // btnActualizar
             // 
@@ -270,7 +257,7 @@
             // 
             // buttonSalir
             // 
-            buttonSalir.BackColor = Color.FromArgb(0, 120, 212);
+            buttonSalir.BackColor = SystemColors.Control;
             buttonSalir.Cursor = Cursors.Hand;
             buttonSalir.Image = (Image)resources.GetObject("buttonSalir.Image");
             buttonSalir.Location = new Point(763, 12);
@@ -279,12 +266,28 @@
             buttonSalir.SizeMode = PictureBoxSizeMode.StretchImage;
             buttonSalir.TabIndex = 87;
             buttonSalir.TabStop = false;
+            buttonSalir.Click += buttonSalir_Click;
+            // 
+            // textBox1
+            // 
+            textBox1.Location = new Point(7, 28);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(291, 23);
+            textBox1.TabIndex = 88;
+            // 
+            // textBox2
+            // 
+            textBox2.Location = new Point(469, 141);
+            textBox2.Name = "textBox2";
+            textBox2.Size = new Size(100, 23);
+            textBox2.TabIndex = 88;
             // 
             // BuscarPerifericos
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 382);
+            Controls.Add(textBox2);
             Controls.Add(buttonSalir);
             Controls.Add(btnActualizar);
             Controls.Add(btnCerrar2);
@@ -297,6 +300,7 @@
             FormBorderStyle = FormBorderStyle.None;
             Name = "BuscarPerifericos";
             Text = "BuscarPerifericos";
+            Load += BuscarPerifericos_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             panelBusqueda.ResumeLayout(false);
@@ -317,8 +321,6 @@
         private RadioButton radioDepartamento;
         private RadioButton radioFolio;
         private Panel panelBusqueda;
-        private ComboBox boxBuscarNumSerie;
-        private ComboBox boxBuscarActivo;
         private TextBox txtBuscarDidecon;
         private Label label3;
         private ComboBox boxBuscarDepartamento;
@@ -329,5 +331,7 @@
         private Button btnEliminar;
         private DataGridView dgvPerifericos;
         private PictureBox buttonSalir;
+        private TextBox textBox1;
+        private TextBox textBox2;
     }
 }

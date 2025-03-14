@@ -66,6 +66,7 @@
             label13 = new Label();
             label14 = new Label();
             dateTimePicker1 = new DateTimePicker();
+            btnBuscar = new Button();
             panelBarra.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)buttonSalir).BeginInit();
             SuspendLayout();
@@ -315,7 +316,7 @@
             // 
             btnHardware.Cursor = Cursors.Hand;
             btnHardware.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnHardware.Location = new Point(304, 589);
+            btnHardware.Location = new Point(27, 589);
             btnHardware.Name = "btnHardware";
             btnHardware.Size = new Size(89, 23);
             btnHardware.TabIndex = 74;
@@ -471,11 +472,25 @@
             dateTimePicker1.TabIndex = 88;
             dateTimePicker1.Value = new DateTime(2025, 3, 14, 9, 28, 11, 0);
             // 
+            // btnBuscar
+            // 
+            btnBuscar.Cursor = Cursors.Hand;
+            btnBuscar.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnBuscar.Location = new Point(183, 589);
+            btnBuscar.Name = "btnBuscar";
+            btnBuscar.RightToLeft = RightToLeft.No;
+            btnBuscar.Size = new Size(88, 23);
+            btnBuscar.TabIndex = 89;
+            btnBuscar.Text = "BUSCAR";
+            btnBuscar.UseVisualStyleBackColor = true;
+            btnBuscar.Click += btnBuscar_Click;
+            // 
             // Perifericos
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(707, 643);
+            Controls.Add(btnBuscar);
             Controls.Add(dateTimePicker1);
             Controls.Add(label14);
             Controls.Add(txtNotas);
@@ -562,5 +577,6 @@
         private Label label13;
         private Label label14;
         private DateTimePicker dateTimePicker1;
+        private Button btnBuscar;
     }
 }

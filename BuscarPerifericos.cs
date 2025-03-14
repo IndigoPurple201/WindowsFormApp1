@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -13,14 +14,48 @@ namespace WinFormsApp1
 {
     public partial class BuscarPerifericos : Form
     {
-        private string connectionString = "Server=COMPRAS-SERV\\SQLEXPRESS; Database=inventarios; Integrated Security=True; Encrypt=False;"; 
+        public event Action MarcaAgregada;
+        [DllImport("user32.dll")]
+        public static extern bool ReleaseCapture();
+        [DllImport("user32.dll")]
+        public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
+        private System.Windows.Forms.Timer parpadeoTimer;
+        private int parpadeoContador = 0;
+        private Color bordeOriginal = Color.Black;
+        private Color panelOriginal;
+        private bool parpadeoActivo = false;
+
+        [DllImport("user32.dll")]
+        private static extern void MessageBeep(uint uType);
+        private const uint MB_ICONERROR = 0x10; // Sonido de error del sistema
+
+        private const int WM_SYSCOMMAND = 0x112;
+        private const int SC_MOVE = 0xF012;
+        private Control controlActivo = null;
+        private Point mouseDownLocation;
+        private string connectionString = "Server=COMPRAS-SERV\\SQLEXPRESS; Database=inventarios; Integrated Security=True; Encrypt=False;";
         public BuscarPerifericos()
         {
             InitializeComponent();
+            this.FormBorderStyle = FormBorderStyle.None;
+            this.Padding = new Padding(3);
+
+            this.MouseDown += new MouseEventHandler(BuscarPerifericos_MouseDown);
         }
 
         private void BuscarPerifericos_Load(object sender, EventArgs e)
         {
+            ConexionSQL conexion = new ConexionSQL();
+            conexion.ProbarConexion();
+
+            foreach (Control ctrl in this.Controls)
+            {
+                if (ctrl is TextBox || ctrl is ComboBox)
+                {
+                    ctrl.Enter += ControlSeleccionado;
+                }
+            }
+            this.Click += QuitarFoco;
             ConfigurarDataGridView();
             CargarDatosDGV();
             label3.Text = "NUMERO:";
@@ -32,6 +67,71 @@ namespace WinFormsApp1
             txtBuscarFolio.Focus();
             ConfigurarBoxBuscarActivo(boxBuscarActivo);
             ConfigurarBuscarNumSerie(boxBuscarNumSerie);
+        }
+
+        private void BuscarPerifericos_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                ReleaseCapture();
+                SendMessage(Handle, WM_SYSCOMMAND, SC_MOVE + 0x2 + 0x9, 0);
+            }
+        }
+
+        private void ControlSeleccionado(object sender, EventArgs e)
+        {
+            if (sender is TextBox || sender is ComboBox)
+            {
+                controlActivo = sender as Control;
+            }
+        }
+
+        private void QuitarFoco(object sender, EventArgs e)
+        {
+            if (controlActivo != null && !controlActivo.Bounds.Contains(this.PointToClient(Cursor.Position)))
+            {
+                this.ActiveControl = null;
+                controlActivo = null;
+            }
+        }
+
+        private void ConfigurarDataGridView()
+        {
+            dgvPerifericos.BackgroundColor = Color.White;
+            dgvPerifericos.BorderStyle = BorderStyle.None;
+            dgvPerifericos.AllowUserToAddRows = false;
+            dgvPerifericos.RowHeadersVisible = false;
+
+            dgvPerifericos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvPerifericos.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+            dgvPerifericos.RowTemplate.Height = 20;
+
+            dgvPerifericos.RowsDefaultCellStyle.BackColor = Color.LightGray;
+            dgvPerifericos.AlternatingRowsDefaultCellStyle.BackColor = Color.White;
+            dgvPerifericos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
+
+            dgvPerifericos.DefaultCellStyle.SelectionBackColor = Color.LightSkyBlue;
+            dgvPerifericos.DefaultCellStyle.SelectionForeColor = Color.White;
+            dgvPerifericos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+
+            dgvPerifericos.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dgvPerifericos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dgvPerifericos.ColumnHeadersHeight = 35; // Aumenta la altura del encabezado
+            dgvPerifericos.EnableHeadersVisualStyles = false;
+
+            if (dgvPerifericos.Columns.Count == 0)
+            {
+                dgvPerifericos.Columns.Add("Numero", "Número");
+                dgvPerifericos.Columns.Add("Didecon", "Didecon");
+                dgvPerifericos.Columns.Add("Tipo", "Tipo");
+                dgvPerifericos.Columns.Add("Marca", "Marca");
+                dgvPerifericos.Columns.Add("Modelo", "Modelo");
+                dgvPerifericos.Columns.Add("N. Serie", "N. Serie");
+                dgvPerifericos.Columns.Add("Act. Contraloria", "Act. Contraloria");
+                dgvPerifericos.Columns.Add("Departamento", "Departamento");
+                dgvPerifericos.Columns.Add("Area", "Area");
+                dgvPerifericos.Columns.Add("Responsable", "Responsable");
+            }
         }
 
         private void CargarDatosDGV()
@@ -97,12 +197,12 @@ namespace WinFormsApp1
 
             // Mover el cursor al final
             comboBox.SelectionStart = comboBox.Text.Length;
-        }   
+        }
 
         private void ConfigurarBoxBuscarActivo(ComboBox boxActivo)
         {
             boxActivo.Items.Clear();
-            boxActivo.Items.Add("-");  // Agregar opción por defecto
+            boxActivo.Items.Add(".   ");  // Agregar opción por defecto
             boxActivo.DropDownStyle = ComboBoxStyle.DropDown; // Permite escribir manualmente
             boxActivo.SelectedIndex = 0; // Seleccionar "-" por defecto
 
@@ -112,7 +212,7 @@ namespace WinFormsApp1
         private void ConfigurarBuscarNumSerie(ComboBox boxNumSerie)
         {
             boxNumSerie.Items.Clear();
-            boxNumSerie.Items.Add("-");  // Agregar opción por defecto
+            boxNumSerie.Items.Add(".   ");  // Agregar opción por defecto
             boxNumSerie.Items.Add("SN");
             boxNumSerie.DropDownStyle = ComboBoxStyle.DropDown; // Permite escribir manualmente
             boxNumSerie.SelectedIndex = 0; // Seleccionar "-" por defecto
@@ -333,5 +433,62 @@ namespace WinFormsApp1
 
         }
 
+        private void buttonSalir_Click(object sender, EventArgs e)
+        {
+            //LimpiarControles();
+            this.Close();
+        }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+            using (Pen pen = new Pen(bordeOriginal, 3))
+            {
+                e.Graphics.DrawRectangle(pen, new Rectangle(0, 0, this.Width - 1, this.Height - 1));
+            }
+        }
+
+        protected override void WndProc(ref Message m)
+        {
+            const int WM_NCACTIVATE = 0x86;
+
+            if (m.Msg == WM_NCACTIVATE && m.WParam.ToInt32() == 0 && !parpadeoActivo)
+            {
+                IniciarParpadeo();
+                MessageBeep(MB_ICONERROR);
+            }
+
+            base.WndProc(ref m);
+        }
+
+        private void IniciarParpadeo()
+        {
+            parpadeoActivo = true; // Indica que el parpadeo está en proceso
+            parpadeoContador = 0;
+
+            if (parpadeoTimer == null)
+            {
+                parpadeoTimer = new System.Windows.Forms.Timer();
+                parpadeoTimer.Interval = 150; // 150 ms
+                parpadeoTimer.Tick += (sender, e) =>
+                {
+                    if (parpadeoContador >= 6) // 3 ciclos de parpadeo
+                    {
+                        parpadeoTimer.Stop();
+                        bordeOriginal = Color.Black; // Restaurar borde
+                        this.Invalidate(); // Redibujar
+                        parpadeoActivo = false; // Permitir que se active de nuevo si es necesario
+                    }
+                    else
+                    {
+                        // Alternar entre blanco y negro
+                        bordeOriginal = (bordeOriginal == Color.Black) ? Color.White : Color.Black;
+                        this.Invalidate();
+                        parpadeoContador++;
+                    }
+                };
+            }
+            parpadeoTimer.Start();
+        }
     }
 }
