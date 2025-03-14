@@ -305,7 +305,6 @@
             ((System.ComponentModel.ISupportInitialize)buttonSalir).EndInit();
             ResumeLayout(false);
             PerformLayout();
-            Load += BuscarPerifericos_Load;
         }
 
         #endregion

@@ -298,20 +298,6 @@ namespace WinFormsApp1
             }
         }
 
-        private void txtBuscarFolio_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            TextBox txt = sender as TextBox;
-            // Permitir solo números y la tecla de retroceso
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
-            {
-                e.Handled = true; // Bloquear entrada no numérica
-            }
-            // Evitar que se ingresen más de 4 dígitos
-            if (!char.IsControl(e.KeyChar) && txt.Text.Length >= 4)
-            {
-                e.Handled = true;
-            }
-        }
 
         private void LlenarBoxDidecon()
         {

@@ -120,45 +120,6 @@ namespace WinFormsApp1
             boxNumSerie.TextChanged += boxNumSerie_TextChanged;
         }
 
-        private void ConfigurarDataGridView()
-        {
-            dgvPerifericos.BackgroundColor = Color.White;
-            dgvPerifericos.BorderStyle = BorderStyle.None;
-            dgvPerifericos.AllowUserToAddRows = false;
-            dgvPerifericos.RowHeadersVisible = false;
-
-            dgvPerifericos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvPerifericos.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
-            dgvPerifericos.RowTemplate.Height = 20;
-
-            dgvPerifericos.RowsDefaultCellStyle.BackColor = Color.LightGray;
-            dgvPerifericos.AlternatingRowsDefaultCellStyle.BackColor = Color.White;
-            dgvPerifericos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
-
-            dgvPerifericos.DefaultCellStyle.SelectionBackColor = Color.LightSkyBlue;
-            dgvPerifericos.DefaultCellStyle.SelectionForeColor = Color.White;
-            dgvPerifericos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-
-            dgvPerifericos.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dgvPerifericos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            dgvPerifericos.ColumnHeadersHeight = 35; // Aumenta la altura del encabezado
-            dgvPerifericos.EnableHeadersVisualStyles = false;
-
-            if (dgvPerifericos.Columns.Count == 0)
-            {
-                dgvPerifericos.Columns.Add("Numero", "Número");
-                dgvPerifericos.Columns.Add("Didecon", "Didecon");
-                dgvPerifericos.Columns.Add("Tipo", "Tipo");
-                dgvPerifericos.Columns.Add("Marca", "Marca");
-                dgvPerifericos.Columns.Add("Modelo", "Modelo");
-                dgvPerifericos.Columns.Add("N. Serie", "N. Serie");
-                dgvPerifericos.Columns.Add("Act. Contraloria", "Act. Contraloria");
-                dgvPerifericos.Columns.Add("Departamento", "Departamento");
-                dgvPerifericos.Columns.Add("Area", "Area");
-                dgvPerifericos.Columns.Add("Responsable", "Responsable");
-            }
-        }
-
         private void cargarDepartamentos()
         {
             try

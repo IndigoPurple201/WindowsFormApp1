@@ -303,7 +303,6 @@ namespace WinFormsApp1
                     }
                 };
             }
-
             parpadeoTimer.Start();
         }
 
