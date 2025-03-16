@@ -25,7 +25,8 @@ namespace WinFormsApp1
         private const int SC_MOVE = 0xF012;
         private Control controlActivo = null;
         private Point mouseDownLocation;
-        private string connectionString = "Server=COMPRAS-SERV\\SQLEXPRESS; Database=inventarios; Integrated Security=True; Encrypt=False;";
+        private ConexionSQL conexion = new ConexionSQL();  // Instancia de tu clase ConexionSQL
+
         public Hardware()
         {
             InitializeComponent();
@@ -78,7 +79,7 @@ namespace WinFormsApp1
         {
             if (ValidarCampos())
             {
-                using (SqlConnection conexion = new SqlConnection(connectionString))
+                using (SqlConnection conexionDB = new SqlConnection(conexionDB))
                 {
                     try
                     {

@@ -61,12 +61,12 @@ namespace WinFormsApp1
             label3.Text = "NUMERO:";
             boxBuscarDepartamento.Visible = false;
             txtBuscarDidecon.Visible = false;
-            boxBuscarActivo.Visible = false;
-            boxBuscarNumSerie.Visible = false;
+            //boxBuscarActivo.Visible = false;
+            //boxBuscarNumSerie.Visible = false;
             txtBuscarFolio.Visible = true;
             txtBuscarFolio.Focus();
-            ConfigurarBoxBuscarActivo(boxBuscarActivo);
-            ConfigurarBuscarNumSerie(boxBuscarNumSerie);
+            //ConfigurarBoxBuscarActivo(boxBuscarActivo);
+            //ConfigurarBuscarNumSerie(boxBuscarNumSerie);
         }
 
         private void BuscarPerifericos_MouseDown(object sender, MouseEventArgs e)
@@ -251,8 +251,8 @@ namespace WinFormsApp1
                 label3.Text = "NUMERO:";
                 boxBuscarDepartamento.Visible = false;
                 txtBuscarDidecon.Visible = false;
-                boxBuscarActivo.Visible = false;
-                boxBuscarNumSerie.Visible = false;
+                //boxBuscarActivo.Visible = false;
+                //boxBuscarNumSerie.Visible = false;
                 txtBuscarFolio.Visible = true;
                 txtBuscarFolio.Focus();
             }
@@ -265,8 +265,8 @@ namespace WinFormsApp1
                 label3.Text = "DEPARTAMENTO:";
                 boxBuscarDepartamento.Visible = true;
                 txtBuscarDidecon.Visible = false;
-                boxBuscarActivo.Visible = false;
-                boxBuscarNumSerie.Visible = false;
+                //boxBuscarActivo.Visible = false;
+                //boxBuscarNumSerie.Visible = false;
                 txtBuscarFolio.Visible = false;
                 cargarDepartamentos();
                 boxBuscarDepartamento.Focus();
@@ -280,8 +280,8 @@ namespace WinFormsApp1
                 label3.Text = "DIDECON:";
                 boxBuscarDepartamento.Visible = false;
                 txtBuscarDidecon.Visible = true;
-                boxBuscarActivo.Visible = false;
-                boxBuscarNumSerie.Visible = false;
+                //boxBuscarActivo.Visible = false;
+                //boxBuscarNumSerie.Visible = false;
                 txtBuscarFolio.Visible = false;
                 txtBuscarDidecon.Focus();
             }
@@ -294,10 +294,10 @@ namespace WinFormsApp1
                 label3.Text = "ACT CONTRALORIA:";
                 boxBuscarDepartamento.Visible = false;
                 txtBuscarDidecon.Visible = false;
-                boxBuscarActivo.Visible = true;
-                boxBuscarNumSerie.Visible = false;
+                //boxBuscarActivo.Visible = true;
+                //boxBuscarNumSerie.Visible = false;
                 txtBuscarFolio.Visible = false;
-                boxBuscarActivo.Focus();
+                //boxBuscarActivo.Focus();
             }
         }
 
@@ -308,10 +308,10 @@ namespace WinFormsApp1
                 label3.Text = "NUM SERIE:";
                 boxBuscarDepartamento.Visible = false;
                 txtBuscarDidecon.Visible = false;
-                boxBuscarActivo.Visible = false;
-                boxBuscarNumSerie.Visible = true;
+                //boxBuscarActivo.Visible = false;
+                //boxBuscarNumSerie.Visible = true;
                 txtBuscarFolio.Visible = false;
-                boxBuscarNumSerie.Focus();
+                //boxBuscarNumSerie.Focus();
             }
         }
 
@@ -351,22 +351,22 @@ namespace WinFormsApp1
             }
             else if (radioActivo.Checked)
             {
-                if (boxBuscarActivo.SelectedIndex == -1 || boxBuscarActivo.SelectedItem == null)
-                {
-                    MessageBox.Show("Ingrese un Act. Contraloria.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-                filtro = boxBuscarActivo.Text.Trim();
+                //if (boxBuscarActivo.SelectedIndex == -1 || boxBuscarActivo.SelectedItem == null)
+                //{
+                //    MessageBox.Show("Ingrese un Act. Contraloria.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //    return;
+                //}
+                //filtro = boxBuscarActivo.Text.Trim();
                 query += " AND perifericos.activocontraloria = @activo";
             }
             else if (radioNumSerie.Checked)
             {
-                if (boxBuscarActivo.SelectedIndex == -1 || boxBuscarActivo.SelectedItem == null)
-                {
-                    MessageBox.Show("Ingrese un Num Serie.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-                filtro = boxBuscarNumSerie.Text.Trim();
+                //if (boxBuscarActivo.SelectedIndex == -1 || boxBuscarActivo.SelectedItem == null)
+                //{
+                //    MessageBox.Show("Ingrese un Num Serie.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //    return;
+                //}
+                //filtro = boxBuscarNumSerie.Text.Trim();
                 query += " AND perifericos.sn = @serial";
             }
 

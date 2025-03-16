@@ -1,17 +1,21 @@
 ﻿using System;
+using System.Configuration;
 using Microsoft.Data.SqlClient;
+using System.Windows.Forms;
 
 public class ConexionSQL
 {
-    // Cadena de conexión para Windows Authentication
-    private string connectionString = "Server=COMPRAS-SERV\\SQLEXPRESS; Database=inventarios; Integrated Security=True; Encrypt=False;";
+    private string connectionString;
     private static bool mensajeMostrado = false;
 
-    // Método para obtener la conexión
+    public ConexionSQL()
+    {
+        connectionString = ConfigurationManager.ConnectionStrings["ConexionDB"].ConnectionString;
+    }
+
     public SqlConnection ObtenerConexion()
     {
-        SqlConnection connection = new SqlConnection(connectionString);
-        return connection;
+        return new SqlConnection(connectionString);
     }
 
     public void ProbarConexion()
