@@ -37,9 +37,7 @@ namespace WinFormsApp1
         }
         private void Hardware_Load_1(object sender, EventArgs e)
         {
-            ConexionSQL conexion = new ConexionSQL();
             conexion.ProbarConexion();
-
             LlenarBoxMarca();
             //LlenarBoXModelo();
             LlenarBoxDepartamento();

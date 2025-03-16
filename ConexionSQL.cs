@@ -14,7 +14,6 @@ public class ConexionSQL
         return connection;
     }
 
-    // Método para probar la conexión a la base de datos y mostrar un mensaje
     public void ProbarConexion()
     {
         using (SqlConnection connection = ObtenerConexion())
