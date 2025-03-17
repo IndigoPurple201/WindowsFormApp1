@@ -33,7 +33,7 @@ namespace WinFormsApp1
         private const int SC_MOVE = 0xF012;
         private Control controlActivo = null;
         private Point mouseDownLocation;
-        private string connectionString = "Server=COMPRAS-SERV\\SQLEXPRESS; Database=inventarios; Integrated Security=True; Encrypt=False;";
+        private ConexionSQL conexionSQL = new ConexionSQL();
         public BuscarPerifericos()
         {
             InitializeComponent();
@@ -45,7 +45,7 @@ namespace WinFormsApp1
 
         private void BuscarPerifericos_Load(object sender, EventArgs e)
         {
-            conexion.ProbarConexion();
+            conexionSQL.ProbarConexion();
 
             foreach (Control ctrl in this.Controls)
             {
@@ -60,8 +60,8 @@ namespace WinFormsApp1
             label3.Text = "NUMERO:";
             boxBuscarDepartamento.Visible = false;
             txtBuscarDidecon.Visible = false;
-            //boxBuscarActivo.Visible = false;
-            //boxBuscarNumSerie.Visible = false;
+            txtBuscarActivo.Visible = false;
+            txtBuscarNumero.Visible = false;
             txtBuscarFolio.Visible = true;
             txtBuscarFolio.Focus();
             //ConfigurarBoxBuscarActivo(boxBuscarActivo);
@@ -138,7 +138,7 @@ namespace WinFormsApp1
             try
             {
                 string query = "SELECT perifericos.folio AS Numero, perifericos.didecon AS Didecon, tipos.descripcion AS Tipo, marcas.descripcion AS Marca, modelos.descripcion AS Modelo, perifericos.sn AS 'N. Serie', perifericos.activocontraloria AS 'Act. Contraloria', dependencias.descripcion AS Departamento, hardware.area AS Area, hardware.responsable AS Responsable FROM perifericos JOIN tipos ON tipos.id_tipo = perifericos.tipo JOIN marcas ON marcas.id_marca = perifericos.marca JOIN modelos ON modelos.id_modelo = perifericos.modelo JOIN hardware ON hardware.didecon = perifericos.didecon JOIN dependencias ON dependencias.id_dependencia = hardware.depto WHERE tipos.descripcion != 'CPU';";
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlConnection connection = conexionSQL.ObtenerConexion())
                 {
                     connection.Open();
                     using (SqlCommand cmd = new SqlCommand(query, connection))
@@ -170,12 +170,11 @@ namespace WinFormsApp1
             }
         }
 
-        private void boxActivo_KeyPress(object sender, KeyPressEventArgs e)
+        private void txtBuscarActivo_KeyPress(object sender, KeyPressEventArgs e)
         {
-            ComboBox comboBox = sender as ComboBox;
-
+            TextBox txtBox = sender as TextBox;
             // Evitar que se ingresen más de 15 dígitos
-            if (!char.IsControl(e.KeyChar) && comboBox.Text.Length >= 15)
+            if (!char.IsControl(e.KeyChar) && txtBox.Text.Length >= 15)
             {
                 e.Handled = true;
             }
@@ -198,27 +197,19 @@ namespace WinFormsApp1
             comboBox.SelectionStart = comboBox.Text.Length;
         }
 
-        private void ConfigurarBoxBuscarActivo(ComboBox boxActivo)
+        private void txtBuscarNumero_TextChanged(object sender, EventArgs e)
         {
+            TextBox txtBox = sender as TextBox;
+            txtBox.Text = txtBox.Text.ToUpper();
 
-        }
-
-        private void ConfigurarBuscarNumSerie(ComboBox boxNumSerie)
-        {
-            boxNumSerie.Items.Clear();
-            boxNumSerie.Items.Add(".   ");  // Agregar opción por defecto
-            boxNumSerie.Items.Add("SN");
-            boxNumSerie.DropDownStyle = ComboBoxStyle.DropDown; // Permite escribir manualmente
-            boxNumSerie.SelectedIndex = 0; // Seleccionar "-" por defecto
-
-            boxNumSerie.TextChanged += boxNumSerie_TextChanged;
+            txtBox.SelectionStart = txtBox.Text.Length;
         }
 
         private void cargarDepartamentos()
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlConnection connection = conexionSQL.ObtenerConexion())
                 {
                     connection.Open();
                     string query = "SELECT dependencias.descripcion FROM dependencias;";
@@ -245,8 +236,8 @@ namespace WinFormsApp1
                 label3.Text = "NUMERO:";
                 boxBuscarDepartamento.Visible = false;
                 txtBuscarDidecon.Visible = false;
-                //boxBuscarActivo.Visible = false;
-                //boxBuscarNumSerie.Visible = false;
+                txtBuscarActivo.Visible = false;
+                txtBuscarNumero.Visible = false;
                 txtBuscarFolio.Visible = true;
                 txtBuscarFolio.Focus();
             }
@@ -259,8 +250,8 @@ namespace WinFormsApp1
                 label3.Text = "DEPARTAMENTO:";
                 boxBuscarDepartamento.Visible = true;
                 txtBuscarDidecon.Visible = false;
-                //boxBuscarActivo.Visible = false;
-                //boxBuscarNumSerie.Visible = false;
+                txtBuscarActivo.Visible = false;
+                txtBuscarNumero.Visible = false;
                 txtBuscarFolio.Visible = false;
                 cargarDepartamentos();
                 boxBuscarDepartamento.Focus();
@@ -274,8 +265,8 @@ namespace WinFormsApp1
                 label3.Text = "DIDECON:";
                 boxBuscarDepartamento.Visible = false;
                 txtBuscarDidecon.Visible = true;
-                //boxBuscarActivo.Visible = false;
-                //boxBuscarNumSerie.Visible = false;
+                txtBuscarActivo.Visible = false;
+                txtBuscarNumero.Visible = false;
                 txtBuscarFolio.Visible = false;
                 txtBuscarDidecon.Focus();
             }
@@ -288,10 +279,10 @@ namespace WinFormsApp1
                 label3.Text = "ACT CONTRALORIA:";
                 boxBuscarDepartamento.Visible = false;
                 txtBuscarDidecon.Visible = false;
-                //boxBuscarActivo.Visible = true;
-                //boxBuscarNumSerie.Visible = false;
+                txtBuscarActivo.Visible = true;
+                txtBuscarNumero.Visible = false;
                 txtBuscarFolio.Visible = false;
-                //boxBuscarActivo.Focus();
+                txtBuscarActivo.Focus();    
             }
         }
 
@@ -302,10 +293,10 @@ namespace WinFormsApp1
                 label3.Text = "NUM SERIE:";
                 boxBuscarDepartamento.Visible = false;
                 txtBuscarDidecon.Visible = false;
-                //boxBuscarActivo.Visible = false;
-                //boxBuscarNumSerie.Visible = true;
+                txtBuscarActivo.Visible = false;
+                txtBuscarNumero.Visible = true;
                 txtBuscarFolio.Visible = false;
-                //boxBuscarNumSerie.Focus();
+                txtBuscarNumero.Focus();
             }
         }
 
@@ -345,22 +336,22 @@ namespace WinFormsApp1
             }
             else if (radioActivo.Checked)
             {
-                //if (boxBuscarActivo.SelectedIndex == -1 || boxBuscarActivo.SelectedItem == null)
-                //{
-                //    MessageBox.Show("Ingrese un Act. Contraloria.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                //    return;
-                //}
-                //filtro = boxBuscarActivo.Text.Trim();
+                if (string.IsNullOrEmpty(txtBuscarActivo.Text))
+                {
+                    MessageBox.Show("Ingrese un Act. Contraloria.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                filtro = txtBuscarActivo.Text.Trim();
                 query += " AND perifericos.activocontraloria = @activo";
             }
             else if (radioNumSerie.Checked)
             {
-                //if (boxBuscarActivo.SelectedIndex == -1 || boxBuscarActivo.SelectedItem == null)
-                //{
-                //    MessageBox.Show("Ingrese un Num Serie.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                //    return;
-                //}
-                //filtro = boxBuscarNumSerie.Text.Trim();
+                if (string.IsNullOrEmpty(txtBuscarNumero.Text))
+                {
+                    MessageBox.Show("Ingrese un Num Serie.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                filtro = txtBuscarNumero.Text.Trim();
                 query += " AND perifericos.sn = @serial";
             }
 
@@ -373,7 +364,7 @@ namespace WinFormsApp1
             DataTable dt = new DataTable();
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlConnection connection = conexionSQL.ObtenerConexion())
                 {
                     connection.Open();
                     using (SqlCommand cmd = new SqlCommand(query, connection))

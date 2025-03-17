@@ -25,7 +25,7 @@ namespace WinFormsApp1
         private const int SC_MOVE = 0xF012;
         private Control controlActivo = null;
         private Point mouseDownLocation;
-        private ConexionSQL conexion = new ConexionSQL();  // Instancia de tu clase ConexionSQL
+        private ConexionSQL conexionSQL = new ConexionSQL(); 
 
         public Hardware()
         {
@@ -38,7 +38,7 @@ namespace WinFormsApp1
         }
         private void Hardware_Load_1(object sender, EventArgs e)
         {
-            conexion.ProbarConexion();
+            conexionSQL.ProbarConexion();
             LlenarBoxMarca();
             //LlenarBoXModelo();
             LlenarBoxDepartamento();
@@ -79,7 +79,7 @@ namespace WinFormsApp1
         {
             if (ValidarCampos())
             {
-                using (SqlConnection conexionDB = new SqlConnection(conexionDB))
+                using (SqlConnection conexion = conexionSQL.ObtenerConexion())
                 {
                     try
                     {
@@ -225,7 +225,7 @@ namespace WinFormsApp1
         {
             try
             {
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlConnection conn = conexionSQL.ObtenerConexion())
                 {
                     conn.Open();
                     String query = "SELECT marcas.descripcion FROM marcas";
@@ -263,7 +263,7 @@ namespace WinFormsApp1
         {
             try
             {
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlConnection conn = conexionSQL.ObtenerConexion())
                 {
                     conn.Open();
                     String query1 = "SELECT id_marca FROM marcas WHERE descripcion = @marca;";
@@ -301,7 +301,7 @@ namespace WinFormsApp1
         {
             try
             {
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlConnection conn = conexionSQL.ObtenerConexion())
                 {
                     conn.Open();
                     String query = "SELECT dependencias.descripcion FROM dependencias;";

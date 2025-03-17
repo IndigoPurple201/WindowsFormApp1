@@ -24,7 +24,7 @@ namespace WinFormsApp1
         private Color bordeOriginal = Color.Black;
         private Control controlActivo = null;
         private Point mouseDownLocation;
-        private string connectionString = "Server=COMPRAS-SERV\\SQLEXPRESS; Database=inventarios; Integrated Security=True; Encrypt=False;";
+        private ConexionSQL conexionSQL = new ConexionSQL();
         string didecon = "";
 
         private Hardware hardware;
@@ -41,6 +41,7 @@ namespace WinFormsApp1
 
         private void Perifericos_Load(object sender, EventArgs e)
         {
+            conexionSQL.ProbarConexion();
             BloquearControles(true);
             this.MouseDown += new MouseEventHandler(Periferico_MouseDown);
             LlenarBoxDidecon();
@@ -96,7 +97,7 @@ namespace WinFormsApp1
             {
                 try
                 {
-                    using (SqlConnection connection = new SqlConnection(connectionString))
+                    using (SqlConnection connection = conexionSQL.ObtenerConexion())
                     {
                         connection.Open();
                         String seleccion = boxDidecon.SelectedItem.ToString();
@@ -319,7 +320,7 @@ namespace WinFormsApp1
         {
             try
             {
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlConnection conn = conexionSQL.ObtenerConexion())
                 {
                     conn.Open();
                     String query = "SELECT hardware.folio, hardware.procesador, hardware.didecon FROM hardware;";
@@ -345,7 +346,7 @@ namespace WinFormsApp1
         {
             try
             {
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlConnection conn = conexionSQL.ObtenerConexion())
                 {
                     conn.Open();
                     string query = "SELECT marcas.descripcion FROM marcas;";
@@ -370,7 +371,7 @@ namespace WinFormsApp1
         {
             try
             {
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlConnection conn = conexionSQL.ObtenerConexion())
                 {
                     conn.Open();
                     string query = "SELECT tipos.descripcion FROM tipos WHERE tipos.descripcion != 'CPU';";
@@ -396,7 +397,7 @@ namespace WinFormsApp1
         {
             try
             {
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlConnection conn = conexionSQL.ObtenerConexion())
                 {
                     conn.Open();
                     string query = "SELECT descripcion FROM estatus;";
@@ -442,7 +443,7 @@ namespace WinFormsApp1
                 if (string.IsNullOrWhiteSpace(boxMarca.Text) || string.IsNullOrWhiteSpace(boxTipo.Text))
                     return;
 
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlConnection conn = conexionSQL.ObtenerConexion())
                 {
                     conn.Open();
                     int idMarca = 0;

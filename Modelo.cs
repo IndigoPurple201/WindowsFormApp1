@@ -37,7 +37,7 @@ namespace WinFormsApp1
 
         private Control controlActivo = null;
         private Point mouseDownLocation;
-        private string connectionString = "Server=COMPRAS-SERV\\SQLEXPRESS; Database=inventarios; Integrated Security=True; Encrypt=False;";
+        private ConexionSQL conexionSQL = new ConexionSQL();
         public Modelo(string marca, string tipo)
         {
             InitializeComponent();
@@ -52,8 +52,7 @@ namespace WinFormsApp1
         private void Modelo_Load(object sender, EventArgs e)
         {
             BloquearControles(true);
-            ConexionSQL conexion = new ConexionSQL();
-            conexion.ProbarConexion();
+            conexionSQL.ProbarConexion();
 
             this.MouseDown += new MouseEventHandler(Modelo_MouseDown);
             foreach (Control ctrl in this.Controls)
@@ -77,7 +76,7 @@ namespace WinFormsApp1
             try
             {
                 string query;
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlConnection conn = conexionSQL.ObtenerConexion())
                 {
                     conn.Open();
                     if (tipoFiltro == "CPU")
@@ -169,7 +168,7 @@ namespace WinFormsApp1
                       WHERE marcas.descripcion = @marca 
                       AND tipos.descripcion <> 'CPU'";
                 }
-                using (SqlConnection conexion = new SqlConnection(connectionString))
+                using (SqlConnection conexion = conexionSQL.ObtenerConexion())
                 {
                     conexion.Open();
                     using (SqlCommand cmd = new SqlCommand(query, conexion))
@@ -191,7 +190,7 @@ namespace WinFormsApp1
                             else
                             {
                                 DataTable dtTipos = new DataTable();
-                                using (SqlConnection conexionTipos = new SqlConnection(connectionString))
+                                using (SqlConnection conexionTipos = conexionSQL.ObtenerConexion())
                                 {
                                     conexionTipos.Open();
                                     string queryTipos = "SELECT id_tipo, descripcion FROM tipos WHERE tipos.descripcion <> 'CPU';";
@@ -374,7 +373,7 @@ namespace WinFormsApp1
         {
             if (ValidarCampos())
             {
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlConnection connection = conexionSQL.ObtenerConexion())
                 {
                     try
                     {
@@ -435,7 +434,7 @@ namespace WinFormsApp1
                 try
                 {
                     string queryDelete = "DELETE FROM modelos WHERE id_modelo = @idModelo;";
-                    using (SqlConnection connection = new SqlConnection(connectionString))
+                    using (SqlConnection connection = conexionSQL.ObtenerConexion())
                     {
                         connection.Open();
                         using (SqlCommand cmd = new SqlCommand(queryDelete, connection))
@@ -467,7 +466,7 @@ namespace WinFormsApp1
                 string nuevaDescripcion = row.Cells["Descripcion"].Value.ToString();
                 try
                 {
-                    using(SqlConnection connection = new SqlConnection(connectionString))
+                    using(SqlConnection connection = conexionSQL.ObtenerConexion())
                     {
                         connection.Open();
                         string queryUpdate;
@@ -599,8 +598,8 @@ namespace WinFormsApp1
         private void obtenerSiguienteNumero()
         {
             try
-            {
-                using(SqlConnection connection = new SqlConnection(connectionString))
+            {   
+                using(SqlConnection connection = conexionSQL.ObtenerConexion())
                 {
                     connection.Open();
                     string query = "SELECT ISNULL(MAX(id_modelo), 0) + 1 AS SiguienteNumero FROM modelos;";

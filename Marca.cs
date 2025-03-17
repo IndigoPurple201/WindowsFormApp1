@@ -35,7 +35,7 @@ namespace WinFormsApp1
         private const int SC_MOVE = 0xF012;
         private Control controlActivo = null;
         private Point mouseDownLocation;
-        private string connectionString = "Server=COMPRAS-SERV\\SQLEXPRESS; Database=inventarios; Integrated Security=True; Encrypt=False;";
+        private ConexionSQL conexionSQL = new ConexionSQL();
         public Marca()
         {
             InitializeComponent();
@@ -49,7 +49,7 @@ namespace WinFormsApp1
         private void Marca_Load(object sender, EventArgs e)
         {
             BloquearControles(true);
-            conexion.ProbarConexion();
+            conexionSQL.ProbarConexion();
 
             foreach (Control ctrl in this.Controls)
             {
@@ -68,7 +68,7 @@ namespace WinFormsApp1
             try
             {
                 string query = "SELECT marcas.id_marca AS Numero, marcas.descripcion AS Descripcion FROM marcas";
-                using (SqlConnection conexion = new SqlConnection(connectionString))
+                using (SqlConnection conexion = conexionSQL.ObtenerConexion())
                 {
                     conexion.Open();
                     using (SqlCommand cmd = new SqlCommand(query, conexion))
@@ -153,7 +153,7 @@ namespace WinFormsApp1
         {
             if (validarCampos())
             {
-                using (SqlConnection conexion = new SqlConnection(connectionString))
+                using (SqlConnection conexion = conexionSQL.ObtenerConexion())
                 {
                     try
                     {
@@ -192,7 +192,7 @@ namespace WinFormsApp1
                     try
                     {
                         string queryUpdate = "UPDATE marcas SET descripcion = @descripcion WHERE id_marca = @id_marca";
-                        using (SqlConnection conexion = new SqlConnection(connectionString))
+                        using (SqlConnection conexion = conexionSQL.ObtenerConexion())
                         {
                             conexion.Open();
                             using (SqlCommand updateCmd = new SqlCommand(queryUpdate, conexion))
@@ -240,7 +240,7 @@ namespace WinFormsApp1
                 try
                 {
                     string queryDelete = "DELETE FROM marcas WHERE id_marca = @id_marca";
-                    using (SqlConnection conexion = new SqlConnection(connectionString))
+                    using (SqlConnection conexion = conexionSQL.ObtenerConexion())
                     {
                         conexion.Open();
                         using (SqlCommand deleteCmd = new SqlCommand(queryDelete, conexion))

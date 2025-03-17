@@ -37,6 +37,8 @@
             radioDepartamento = new RadioButton();
             radioFolio = new RadioButton();
             panelBusqueda = new Panel();
+            txtBuscarNumero = new TextBox();
+            txtBuscarActivo = new TextBox();
             txtBuscarDidecon = new TextBox();
             label3 = new Label();
             boxBuscarDepartamento = new ComboBox();
@@ -47,8 +49,6 @@
             btnEliminar = new Button();
             dgvPerifericos = new DataGridView();
             buttonSalir = new PictureBox();
-            textBox1 = new TextBox();
-            textBox2 = new TextBox();
             panel1.SuspendLayout();
             panelBusqueda.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvPerifericos).BeginInit();
@@ -156,7 +156,8 @@
             // panelBusqueda
             // 
             panelBusqueda.BorderStyle = BorderStyle.FixedSingle;
-            panelBusqueda.Controls.Add(textBox1);
+            panelBusqueda.Controls.Add(txtBuscarNumero);
+            panelBusqueda.Controls.Add(txtBuscarActivo);
             panelBusqueda.Controls.Add(txtBuscarDidecon);
             panelBusqueda.Controls.Add(label3);
             panelBusqueda.Controls.Add(boxBuscarDepartamento);
@@ -165,6 +166,22 @@
             panelBusqueda.Name = "panelBusqueda";
             panelBusqueda.Size = new Size(309, 59);
             panelBusqueda.TabIndex = 80;
+            // 
+            // txtBuscarNumero
+            // 
+            txtBuscarNumero.Location = new Point(7, 27);
+            txtBuscarNumero.Name = "txtBuscarNumero";
+            txtBuscarNumero.Size = new Size(291, 23);
+            txtBuscarNumero.TabIndex = 88;
+            txtBuscarNumero.TextChanged += txtBuscarNumero_TextChanged;
+            // 
+            // txtBuscarActivo
+            // 
+            txtBuscarActivo.Location = new Point(7, 27);
+            txtBuscarActivo.Name = "txtBuscarActivo";
+            txtBuscarActivo.Size = new Size(291, 23);
+            txtBuscarActivo.TabIndex = 88;
+            txtBuscarActivo.KeyPress += txtBuscarActivo_KeyPress;
             // 
             // txtBuscarDidecon
             // 
@@ -316,7 +333,7 @@
         private Button btnEliminar;
         private DataGridView dgvPerifericos;
         private PictureBox buttonSalir;
-        private TextBox textBox1;
-        private TextBox textBox2;
+        private TextBox txtBuscarActivo;
+        private TextBox txtBuscarNumero;
     }
 }
