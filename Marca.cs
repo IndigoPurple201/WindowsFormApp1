@@ -49,7 +49,6 @@ namespace WinFormsApp1
         private void Marca_Load(object sender, EventArgs e)
         {
             BloquearControles(true);
-            ConexionSQL conexion = new ConexionSQL();
             conexion.ProbarConexion();
 
             foreach (Control ctrl in this.Controls)

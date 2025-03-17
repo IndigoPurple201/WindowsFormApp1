@@ -268,26 +268,11 @@
             buttonSalir.TabStop = false;
             buttonSalir.Click += buttonSalir_Click;
             // 
-            // textBox1
-            // 
-            textBox1.Location = new Point(7, 28);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(291, 23);
-            textBox1.TabIndex = 88;
-            // 
-            // textBox2
-            // 
-            textBox2.Location = new Point(469, 141);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(100, 23);
-            textBox2.TabIndex = 88;
-            // 
             // BuscarPerifericos
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 382);
-            Controls.Add(textBox2);
             Controls.Add(buttonSalir);
             Controls.Add(btnActualizar);
             Controls.Add(btnCerrar2);

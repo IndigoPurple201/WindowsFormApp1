@@ -45,7 +45,6 @@ namespace WinFormsApp1
 
         private void BuscarPerifericos_Load(object sender, EventArgs e)
         {
-            ConexionSQL conexion = new ConexionSQL();
             conexion.ProbarConexion();
 
             foreach (Control ctrl in this.Controls)
@@ -201,12 +200,7 @@ namespace WinFormsApp1
 
         private void ConfigurarBoxBuscarActivo(ComboBox boxActivo)
         {
-            boxActivo.Items.Clear();
-            boxActivo.Items.Add(".   ");  // Agregar opción por defecto
-            boxActivo.DropDownStyle = ComboBoxStyle.DropDown; // Permite escribir manualmente
-            boxActivo.SelectedIndex = 0; // Seleccionar "-" por defecto
 
-            boxActivo.KeyPress += boxActivo_KeyPress;
         }
 
         private void ConfigurarBuscarNumSerie(ComboBox boxNumSerie)
