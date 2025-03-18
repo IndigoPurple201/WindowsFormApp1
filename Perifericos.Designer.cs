@@ -67,6 +67,8 @@
             label14 = new Label();
             dateTimePicker1 = new DateTimePicker();
             btnBuscar = new Button();
+            label15 = new Label();
+            label16 = new Label();
             panelBarra.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)buttonSalir).BeginInit();
             SuspendLayout();
@@ -485,11 +487,32 @@
             btnBuscar.UseVisualStyleBackColor = true;
             btnBuscar.Click += btnBuscar_Click;
             // 
+            // label15
+            // 
+            label15.AutoSize = true;
+            label15.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label15.Location = new Point(557, 60);
+            label15.Name = "label15";
+            label15.Size = new Size(0, 13);
+            label15.TabIndex = 91;
+            // 
+            // label16
+            // 
+            label16.AutoSize = true;
+            label16.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label16.Location = new Point(396, 61);
+            label16.Name = "label16";
+            label16.Size = new Size(161, 13);
+            label16.TabIndex = 90;
+            label16.Text = "SIGUIENTE REGISTRO GLOBAL:";
+            // 
             // Perifericos
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(707, 643);
+            Controls.Add(label15);
+            Controls.Add(label16);
             Controls.Add(btnBuscar);
             Controls.Add(dateTimePicker1);
             Controls.Add(label14);
@@ -578,5 +601,7 @@
         private Label label14;
         private DateTimePicker dateTimePicker1;
         private Button btnBuscar;
+        private Label label15;
+        private Label label16;
     }
 }

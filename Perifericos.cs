@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.Linq;
@@ -56,6 +57,7 @@ namespace WinFormsApp1
             ConfigurarBoxProveedor(boxProveedor);
             boxMarca.SelectedIndexChanged += boxMarca_SelectedIndexChanged;
             btnNuevoModelo.Enabled = false;
+            obtenerSiguienteNumero();
         }
         private void BloquearControles(bool bloquear)
         {
@@ -87,8 +89,11 @@ namespace WinFormsApp1
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
-            BuscarPerifericos buscarPerifericos = new BuscarPerifericos();
-            buscarPerifericos.ShowDialog();
+            using (var buscarPerifericos = new BuscarPerifericos())
+            {
+                buscarPerifericos.FormClosed += (s, args) => obtenerSiguienteNumero();
+                buscarPerifericos.ShowDialog();
+            }
         }
 
         private void btnAceptar_Click(object sender, EventArgs e)
@@ -163,6 +168,7 @@ namespace WinFormsApp1
                         }
                         MessageBox.Show("Registro guardado con éxito.");
                         LimpiarControles();
+                        obtenerSiguienteNumero();
                     }
                 }
                 catch (Exception ex)
@@ -706,6 +712,27 @@ namespace WinFormsApp1
 
             boxProveedor.TextChanged += boxProveedor_TextChanged;
         }
+
+            private void obtenerSiguienteNumero()
+            {
+                try
+                {
+                    using(SqlConnection conexion = conexionSQL.ObtenerConexion())
+                    {
+                        conexion.Open();
+                        string query = "SELECT ISNULL(MAX(folio), 0) + 1 AS SiguienteNumero FROM perifericos;";
+                        using (SqlCommand cmd = new SqlCommand(query,conexion))
+                        {
+                            object result = cmd.ExecuteScalar();
+                            label15.Text = result.ToString();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: " + ex.Message);
+                }
+            }
 
         private bool validarCampos()
         {

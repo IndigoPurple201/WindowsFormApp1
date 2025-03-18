@@ -44,7 +44,6 @@
             boxBuscarDepartamento = new ComboBox();
             txtBuscarFolio = new TextBox();
             btnBuscar = new Button();
-            btnActualizar = new Button();
             btnCerrar2 = new Button();
             btnEliminar = new Button();
             dgvPerifericos = new DataGridView();
@@ -186,7 +185,7 @@
             // txtBuscarDidecon
             // 
             txtBuscarDidecon.BorderStyle = BorderStyle.FixedSingle;
-            txtBuscarDidecon.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            txtBuscarDidecon.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             txtBuscarDidecon.Location = new Point(7, 27);
             txtBuscarDidecon.Name = "txtBuscarDidecon";
             txtBuscarDidecon.Size = new Size(291, 23);
@@ -230,17 +229,6 @@
             btnBuscar.UseVisualStyleBackColor = true;
             btnBuscar.Click += btnBuscar_Click;
             // 
-            // btnActualizar
-            // 
-            btnActualizar.Cursor = Cursors.Hand;
-            btnActualizar.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnActualizar.Location = new Point(496, 339);
-            btnActualizar.Name = "btnActualizar";
-            btnActualizar.Size = new Size(89, 23);
-            btnActualizar.TabIndex = 86;
-            btnActualizar.Text = "ACTUALIZAR";
-            btnActualizar.UseVisualStyleBackColor = true;
-            // 
             // btnCerrar2
             // 
             btnCerrar2.Cursor = Cursors.Hand;
@@ -251,6 +239,7 @@
             btnCerrar2.TabIndex = 85;
             btnCerrar2.Text = "CERRAR";
             btnCerrar2.UseVisualStyleBackColor = true;
+            btnCerrar2.Click += btnCerrar2_Click;
             // 
             // btnEliminar
             // 
@@ -262,6 +251,7 @@
             btnEliminar.TabIndex = 84;
             btnEliminar.Text = "ELIMINAR";
             btnEliminar.UseVisualStyleBackColor = true;
+            btnEliminar.Click += btnEliminar_Click;
             // 
             // dgvPerifericos
             // 
@@ -291,7 +281,6 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 382);
             Controls.Add(buttonSalir);
-            Controls.Add(btnActualizar);
             Controls.Add(btnCerrar2);
             Controls.Add(btnEliminar);
             Controls.Add(dgvPerifericos);
@@ -328,7 +317,6 @@
         private ComboBox boxBuscarDepartamento;
         private TextBox txtBuscarFolio;
         private Button btnBuscar;
-        private Button btnActualizar;
         private Button btnCerrar2;
         private Button btnEliminar;
         private DataGridView dgvPerifericos;

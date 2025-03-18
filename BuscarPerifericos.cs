@@ -63,6 +63,7 @@ namespace WinFormsApp1
             txtBuscarActivo.Visible = false;
             txtBuscarNumero.Visible = false;
             txtBuscarFolio.Visible = true;
+            radioFolio.Checked = true;
             txtBuscarFolio.Focus();
             //ConfigurarBoxBuscarActivo(boxBuscarActivo);
             //ConfigurarBuscarNumSerie(boxBuscarNumSerie);
@@ -137,7 +138,7 @@ namespace WinFormsApp1
         {
             try
             {
-                string query = "SELECT perifericos.folio AS Numero, perifericos.didecon AS Didecon, tipos.descripcion AS Tipo, marcas.descripcion AS Marca, modelos.descripcion AS Modelo, perifericos.sn AS 'N. Serie', perifericos.activocontraloria AS 'Act. Contraloria', dependencias.descripcion AS Departamento, hardware.area AS Area, hardware.responsable AS Responsable FROM perifericos JOIN tipos ON tipos.id_tipo = perifericos.tipo JOIN marcas ON marcas.id_marca = perifericos.marca JOIN modelos ON modelos.id_modelo = perifericos.modelo JOIN hardware ON hardware.didecon = perifericos.didecon JOIN dependencias ON dependencias.id_dependencia = hardware.depto WHERE tipos.descripcion != 'CPU';";
+                string query = "SELECT perifericos.folio AS Numero, perifericos.didecon AS Didecon, tipos.descripcion AS Tipo, marcas.descripcion AS Marca, modelos.descripcion AS Modelo, perifericos.sn AS 'N. Serie', perifericos.activocontraloria AS 'Act. Contraloria', dependencias.descripcion AS Departamento, hardware.area AS Area, hardware.responsable AS Responsable, estatus.descripcion AS Estatus FROM perifericos JOIN tipos ON tipos.id_tipo = perifericos.tipo JOIN marcas ON marcas.id_marca = perifericos.marca JOIN modelos ON modelos.id_modelo = perifericos.modelo JOIN hardware ON hardware.didecon = perifericos.didecon JOIN dependencias ON dependencias.id_dependencia = hardware.depto JOIN estatus ON estatus.id_estatus = perifericos.idestatus WHERE tipos.descripcion != 'CPU';";
                 using (SqlConnection connection = conexionSQL.ObtenerConexion())
                 {
                     connection.Open();
@@ -282,7 +283,7 @@ namespace WinFormsApp1
                 txtBuscarActivo.Visible = true;
                 txtBuscarNumero.Visible = false;
                 txtBuscarFolio.Visible = false;
-                txtBuscarActivo.Focus();    
+                txtBuscarActivo.Focus();
             }
         }
 
@@ -474,6 +475,47 @@ namespace WinFormsApp1
                 };
             }
             parpadeoTimer.Start();
+        }
+
+        private void btnCerrar2_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void btnEliminar_Click(object sender, EventArgs e)
+        {
+            if(dgvPerifericos.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Seleccione una periferico para eliminar.");
+                return;
+            }
+            DialogResult confirmacion = MessageBox.Show("¿Está seguro de que desea eliminar lo(s) perifericos(s) seleccionado(s)?",
+                                                        "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (confirmacion != DialogResult.Yes) return;
+            foreach (DataGridViewRow row in dgvPerifericos.SelectedRows)
+            {
+                if (row.Cells["Numero"].Value == null)continue;
+                int idPeriferico = Convert.ToInt32(row.Cells["Numero"].Value);
+                try 
+                {
+                    string query = "DELETE from perifericos WHERE perifericos.folio = @idPeriferico;";
+                    using (SqlConnection conexion = conexionSQL.ObtenerConexion())
+                    { 
+                        conexion.Open();
+                        using (SqlCommand queryDelete = new SqlCommand(query,conexion))
+                        {
+                            queryDelete.Parameters.AddWithValue("@idPeriferico", idPeriferico);
+                            queryDelete.ExecuteNonQuery();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al eliminar el periferico: " + ex.Message);
+                }
+                MessageBox.Show("Periferico eliminado correctamente.");
+                this.Close();
+            }
         }
     }
 }

@@ -63,7 +63,7 @@
             // 
             txtFolio.BorderStyle = BorderStyle.FixedSingle;
             txtFolio.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            txtFolio.Location = new Point(133, 67);
+            txtFolio.Location = new Point(130, 69);
             txtFolio.Name = "txtFolio";
             txtFolio.Size = new Size(245, 23);
             txtFolio.TabIndex = 35;
@@ -83,17 +83,17 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label2.Location = new Point(36, 121);
+            label2.Location = new Point(18, 119);
             label2.Name = "label2";
-            label2.Size = new Size(91, 21);
+            label2.Size = new Size(109, 21);
             label2.TabIndex = 36;
-            label2.Text = "Descripcion";
+            label2.Text = "DESCRIPCION";
             // 
             // txtMarca
             // 
             txtMarca.BorderStyle = BorderStyle.FixedSingle;
             txtMarca.Font = new Font("Segoe UI", 9F);
-            txtMarca.Location = new Point(133, 119);
+            txtMarca.Location = new Point(130, 119);
             txtMarca.Name = "txtMarca";
             txtMarca.Size = new Size(245, 23);
             txtMarca.TabIndex = 37;
@@ -107,7 +107,7 @@
             btnNuevo.Name = "btnNuevo";
             btnNuevo.Size = new Size(89, 23);
             btnNuevo.TabIndex = 38;
-            btnNuevo.Text = "Nuevo";
+            btnNuevo.Text = "NUEVO";
             btnNuevo.UseVisualStyleBackColor = true;
             btnNuevo.Click += btnNuevo_Click;
             // 
@@ -119,7 +119,7 @@
             btnAceptar.Name = "btnAceptar";
             btnAceptar.Size = new Size(89, 23);
             btnAceptar.TabIndex = 39;
-            btnAceptar.Text = "Aceptar";
+            btnAceptar.Text = "ACEPTAR";
             btnAceptar.UseVisualStyleBackColor = true;
             btnAceptar.Click += btnAceptar_Click;
             // 
@@ -131,7 +131,7 @@
             btnCancelar.Name = "btnCancelar";
             btnCancelar.Size = new Size(89, 23);
             btnCancelar.TabIndex = 40;
-            btnCancelar.Text = "Cancelar";
+            btnCancelar.Text = "CANCELAR";
             btnCancelar.UseVisualStyleBackColor = true;
             btnCancelar.Click += btnCancelar_Click;
             // 
@@ -141,9 +141,9 @@
             label3.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label3.Location = new Point(36, 215);
             label3.Name = "label3";
-            label3.Size = new Size(156, 21);
+            label3.Size = new Size(186, 21);
             label3.TabIndex = 41;
-            label3.Text = "Marcas Registradas";
+            label3.Text = "MARCAS REGISTRADAS";
             // 
             // dgvMarcas
             // 
@@ -161,7 +161,7 @@
             btnEliminar.Name = "btnEliminar";
             btnEliminar.Size = new Size(89, 23);
             btnEliminar.TabIndex = 43;
-            btnEliminar.Text = "Eliminar";
+            btnEliminar.Text = "ELIMINAR";
             btnEliminar.UseVisualStyleBackColor = true;
             btnEliminar.Click += btnEliminar_Click;
             // 
@@ -173,7 +173,7 @@
             btnCerrar2.Name = "btnCerrar2";
             btnCerrar2.Size = new Size(89, 23);
             btnCerrar2.TabIndex = 44;
-            btnCerrar2.Text = "Cerrar";
+            btnCerrar2.Text = "CERRAR";
             btnCerrar2.UseVisualStyleBackColor = true;
             btnCerrar2.Click += btnCerrar2_Click;
             // 
@@ -185,7 +185,7 @@
             btnActualizar.Name = "btnActualizar";
             btnActualizar.Size = new Size(89, 23);
             btnActualizar.TabIndex = 45;
-            btnActualizar.Text = "Acualizar";
+            btnActualizar.Text = "ACTUALIZAR";
             btnActualizar.UseVisualStyleBackColor = true;
             btnActualizar.Click += btnActualizar_Click;
             // 
@@ -195,9 +195,9 @@
             label4.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label4.Location = new Point(36, 240);
             label4.Name = "label4";
-            label4.Size = new Size(298, 13);
+            label4.Size = new Size(354, 13);
             label4.TabIndex = 46;
-            label4.Text = "Seleccione uno o mas registros para actualizar o eliminar";
+            label4.Text = "SELECCIONE UNO O MAS REGISTROS PARA ACTUALIZAR O ELIMINAR";
             // 
             // Marca
             // 
