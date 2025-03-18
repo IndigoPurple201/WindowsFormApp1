@@ -139,7 +139,7 @@ namespace WinFormsApp1
         {
             try
             {
-                string query = @"SELECT perifericos.folio AS Numero, perifericos.didecon AS Didecon, tipos.id_tipo AS idTipo, tipos.descripcion AS Tipo, marcas.descripcion AS Marca, modelos.descripcion AS Modelo, perifericos.sn AS 'N. Serie', perifericos.activocontraloria AS 'Act. Contraloria', dependencias.descripcion AS Departamento, hardware.area AS Area, hardware.responsable AS Responsable, estatus.descripcion AS Estatus FROM perifericos JOIN tipos ON tipos.id_tipo = perifericos.tipo JOIN marcas ON marcas.id_marca = perifericos.marca JOIN modelos ON modelos.id_modelo = perifericos.modelo JOIN hardware ON hardware.didecon = perifericos.didecon JOIN dependencias ON dependencias.id_dependencia = hardware.depto JOIN estatus ON estatus.id_estatus = perifericos.idestatus WHERE tipos.descripcion <> 'CPU';";
+                string query = @"SELECT perifericos.folio AS Numero, perifericos.didecon AS Didecon, tipos.id_tipo AS idTipo, tipos.descripcion AS Tipo, marcas.descripcion AS Marca, modelos.descripcion AS Modelo, perifericos.sn AS 'N. Serie', perifericos.activocontraloria AS 'Act. Contraloria', dependencias.descripcion AS Departamento, hardware.area AS Area, hardware.responsable AS Responsable, estatus.id_estatus AS idEstatus, estatus.descripcion AS Estatus FROM perifericos JOIN tipos ON tipos.id_tipo = perifericos.tipo JOIN marcas ON marcas.id_marca = perifericos.marca JOIN modelos ON modelos.id_modelo = perifericos.modelo JOIN hardware ON hardware.didecon = perifericos.didecon JOIN dependencias ON dependencias.id_dependencia = hardware.depto JOIN estatus ON estatus.id_estatus = perifericos.idestatus WHERE tipos.descripcion <> 'CPU';";
                 using (SqlConnection connection = conexionSQL.ObtenerConexion())
                 {
                     connection.Open();
@@ -159,6 +159,17 @@ namespace WinFormsApp1
                                 dtTipos.Load(readerTipos);
                             }
                         }
+                        DataTable dtEstatus = new DataTable();
+                        using (SqlConnection conexionEstatus = conexionSQL.ObtenerConexion())
+                        {
+                            conexionEstatus.Open();
+                            string queryEstatus = "SELECT id_estatus, descripcion FROM estatus;";
+                            using (SqlCommand cmdEstatus = new SqlCommand(queryEstatus, conexionEstatus))
+                            using (SqlDataReader readerEstatus = cmdEstatus.ExecuteReader())
+                            {
+                                dtEstatus.Load(readerEstatus);
+                            }
+                        }
                         dgvPerifericos.Columns.Add("Numero", "Número");
                         dgvPerifericos.Columns.Add("Didecon", "Didecon");
                         dgvPerifericos.Columns.Add("Marca", "Marca");
@@ -168,7 +179,7 @@ namespace WinFormsApp1
                         dgvPerifericos.Columns.Add("Departamento", "Departamento");
                         dgvPerifericos.Columns.Add("Area", "Área");
                         dgvPerifericos.Columns.Add("Responsable", "Responsable");
-                        dgvPerifericos.Columns.Add("Estatus", "Estatus");
+                        //dgvPerifericos.Columns.Add("Estatus", "Estatus");
                         DataGridViewComboBoxColumn comboTipo = new DataGridViewComboBoxColumn
                         {
                             Name = "Tipo",
@@ -180,12 +191,23 @@ namespace WinFormsApp1
                             AutoComplete = true
                         };
                         dgvPerifericos.Columns.Add(comboTipo);
+                        DataGridViewComboBoxColumn comboEstatus = new DataGridViewComboBoxColumn
+                        {
+                            Name = "Estatus",
+                            HeaderText = "Estatus",
+                            DataPropertyName = "idEstatus",
+                            DisplayMember = "descripcion",
+                            ValueMember = "id_estatus",
+                            DataSource = dtEstatus,
+                            AutoComplete = true
+                        };
+                        dgvPerifericos.Columns.Add(comboEstatus);
                         while (reader.Read())
                         {
                             int index = dgvPerifericos.Rows.Add();
                             dgvPerifericos.Rows[index].Cells["Numero"].Value = reader["Numero"].ToString();
                             dgvPerifericos.Rows[index].Cells["Didecon"].Value = reader["Didecon"].ToString();
-                            dgvPerifericos.Rows[index].Cells["Tipo"].Value = reader["idTipo"]; // Se usa id_tipo en lugar de la descripción
+                            dgvPerifericos.Rows[index].Cells["Tipo"].Value = reader["idTipo"];
                             dgvPerifericos.Rows[index].Cells["Marca"].Value = reader["Marca"].ToString();
                             dgvPerifericos.Rows[index].Cells["Modelo"].Value = reader["Modelo"].ToString();
                             dgvPerifericos.Rows[index].Cells["N. Serie"].Value = reader["N. Serie"].ToString();
@@ -193,7 +215,7 @@ namespace WinFormsApp1
                             dgvPerifericos.Rows[index].Cells["Departamento"].Value = reader["Departamento"].ToString();
                             dgvPerifericos.Rows[index].Cells["Area"].Value = reader["Area"].ToString();
                             dgvPerifericos.Rows[index].Cells["Responsable"].Value = reader["Responsable"].ToString();
-                            dgvPerifericos.Rows[index].Cells["Estatus"].Value = reader["Estatus"].ToString();
+                            dgvPerifericos.Rows[index].Cells["Estatus"].Value = reader["idEstatus"].ToString();
                         }
                     }
                 }
