@@ -179,7 +179,6 @@ namespace WinFormsApp1
                         dgvPerifericos.Columns.Add("Departamento", "Departamento");
                         dgvPerifericos.Columns.Add("Area", "Área");
                         dgvPerifericos.Columns.Add("Responsable", "Responsable");
-                        //dgvPerifericos.Columns.Add("Estatus", "Estatus");
                         DataGridViewComboBoxColumn comboTipo = new DataGridViewComboBoxColumn
                         {
                             Name = "Tipo",
@@ -383,119 +382,6 @@ namespace WinFormsApp1
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
-            string query = "SELECT perifericos.folio AS Numero, perifericos.didecon AS Didecon, tipos.descripcion AS Tipo, marcas.descripcion AS Marca, modelos.descripcion AS Modelo, perifericos.sn AS 'N. Serie', perifericos.activocontraloria AS 'Act. Contraloria', dependencias.descripcion AS Departamento, hardware.area AS Area, hardware.responsable AS Responsable FROM perifericos JOIN tipos ON tipos.id_tipo = perifericos.tipo JOIN marcas ON marcas.id_marca = perifericos.marca JOIN modelos ON modelos.id_modelo = perifericos.modelo JOIN hardware ON hardware.didecon = perifericos.didecon JOIN dependencias ON dependencias.id_dependencia = hardware.depto WHERE tipos.descripcion != 'CPU'";
-            string filtro = "";
-            if (radioFolio.Checked)
-            {
-                if (string.IsNullOrEmpty(txtBuscarFolio.Text))
-                {
-                    MessageBox.Show("Ingrese un número de folio válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-                filtro = txtBuscarFolio.Text.Trim();
-                query += " AND perifericos.folio = @folio";
-            }
-            else if (radioDepartamento.Checked)
-            {
-                if (boxBuscarDepartamento.SelectedIndex == -1 || boxBuscarDepartamento.SelectedItem == null)
-                {
-                    MessageBox.Show("Ingrese un departamento.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-                filtro = boxBuscarDepartamento.SelectedItem.ToString().Trim();
-                query += " AND dependencias.descripcion = @departamento";
-            }
-            else if (radioDidecon.Checked)
-            {
-                if (string.IsNullOrEmpty(txtBuscarDidecon.Text))
-                {
-                    MessageBox.Show("Ingrese un Didecon.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-                filtro = txtBuscarDidecon.Text.Trim();
-                query += " AND hardware.didecon = @didecon";
-            }
-            else if (radioActivo.Checked)
-            {
-                if (string.IsNullOrEmpty(txtBuscarActivo.Text))
-                {
-                    MessageBox.Show("Ingrese un Act. Contraloria.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-                filtro = txtBuscarActivo.Text.Trim();
-                query += " AND perifericos.activocontraloria = @activo";
-            }
-            else if (radioNumSerie.Checked)
-            {
-                if (string.IsNullOrEmpty(txtBuscarNumero.Text))
-                {
-                    MessageBox.Show("Ingrese un Num Serie.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-                filtro = txtBuscarNumero.Text.Trim();
-                query += " AND perifericos.sn = @serial";
-            }
-
-            if (string.IsNullOrEmpty(filtro))
-            {
-                MessageBox.Show("Seleccione un campo de búsqueda.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            DataTable dt = new DataTable();
-            try
-            {
-                using (SqlConnection connection = conexionSQL.ObtenerConexion())
-                {
-                    connection.Open();
-                    using (SqlCommand cmd = new SqlCommand(query, connection))
-                    {
-                        if (radioFolio.Checked)
-                        {
-                            cmd.Parameters.AddWithValue("@folio", filtro.Trim());
-                        }
-                        else if (radioDepartamento.Checked)
-                        {
-                            cmd.Parameters.AddWithValue("@departamento", filtro.Trim());
-                        }
-                        else if (radioDidecon.Checked)
-                        {
-                            cmd.Parameters.AddWithValue("@didecon", filtro.Trim());
-                        }
-                        else if (radioActivo.Checked)
-                        {
-                            cmd.Parameters.AddWithValue("@activo", filtro.Trim());
-                        }
-                        else if (radioNumSerie.Checked)
-                        {
-                            cmd.Parameters.AddWithValue("@serial", filtro);
-                        }
-                        using (SqlDataReader reader = cmd.ExecuteReader())
-                        {
-                            dgvPerifericos.Rows.Clear();
-                            while (reader.Read())
-                            {
-                                int index = dgvPerifericos.Rows.Add();
-                                dgvPerifericos.Rows[index].Cells["Numero"].Value = reader["Numero"].ToString();
-                                dgvPerifericos.Rows[index].Cells["Didecon"].Value = reader["Didecon"].ToString();
-                                dgvPerifericos.Rows[index].Cells["Tipo"].Value = reader["Tipo"].ToString();
-                                dgvPerifericos.Rows[index].Cells["Marca"].Value = reader["Marca"].ToString();
-                                dgvPerifericos.Rows[index].Cells["Modelo"].Value = reader["Modelo"].ToString();
-                                dgvPerifericos.Rows[index].Cells["N. Serie"].Value = reader["N. Serie"].ToString();
-                                dgvPerifericos.Rows[index].Cells["Act. Contraloria"].Value = reader["Act. Contraloria"].ToString();
-                                dgvPerifericos.Rows[index].Cells["Departamento"].Value = reader["Departamento"].ToString();
-                                dgvPerifericos.Rows[index].Cells["Area"].Value = reader["Area"].ToString();
-                                dgvPerifericos.Rows[index].Cells["Responsable"].Value = reader["Responsable"].ToString();
-
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al ejecutar la consulta: " + ex.Message);
-            }
 
         }
 
