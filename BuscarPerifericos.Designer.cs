@@ -48,6 +48,7 @@
             btnEliminar = new Button();
             dgvPerifericos = new DataGridView();
             buttonSalir = new PictureBox();
+            label1 = new Label();
             panel1.SuspendLayout();
             panelBusqueda.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvPerifericos).BeginInit();
@@ -58,7 +59,7 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label4.Location = new Point(28, 28);
+            label4.Location = new Point(28, 18);
             label4.Name = "label4";
             label4.Size = new Size(180, 15);
             label4.TabIndex = 82;
@@ -72,7 +73,7 @@
             panel1.Controls.Add(radioDidecon);
             panel1.Controls.Add(radioDepartamento);
             panel1.Controls.Add(radioFolio);
-            panel1.Location = new Point(29, 52);
+            panel1.Location = new Point(29, 42);
             panel1.Name = "panel1";
             panel1.Size = new Size(573, 38);
             panel1.TabIndex = 81;
@@ -161,7 +162,7 @@
             panelBusqueda.Controls.Add(label3);
             panelBusqueda.Controls.Add(boxBuscarDepartamento);
             panelBusqueda.Controls.Add(txtBuscarFolio);
-            panelBusqueda.Location = new Point(29, 96);
+            panelBusqueda.Location = new Point(29, 86);
             panelBusqueda.Name = "panelBusqueda";
             panelBusqueda.Size = new Size(309, 59);
             panelBusqueda.TabIndex = 80;
@@ -221,7 +222,7 @@
             // 
             btnBuscar.Cursor = Cursors.Hand;
             btnBuscar.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnBuscar.Location = new Point(344, 96);
+            btnBuscar.Location = new Point(344, 86);
             btnBuscar.Name = "btnBuscar";
             btnBuscar.Size = new Size(89, 23);
             btnBuscar.TabIndex = 78;
@@ -233,7 +234,7 @@
             // 
             btnCerrar2.Cursor = Cursors.Hand;
             btnCerrar2.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnCerrar2.Location = new Point(686, 339);
+            btnCerrar2.Location = new Point(686, 349);
             btnCerrar2.Name = "btnCerrar2";
             btnCerrar2.Size = new Size(89, 23);
             btnCerrar2.TabIndex = 85;
@@ -245,7 +246,7 @@
             // 
             btnEliminar.Cursor = Cursors.Hand;
             btnEliminar.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnEliminar.Location = new Point(591, 339);
+            btnEliminar.Location = new Point(591, 349);
             btnEliminar.Name = "btnEliminar";
             btnEliminar.Size = new Size(89, 23);
             btnEliminar.TabIndex = 84;
@@ -257,7 +258,7 @@
             // 
             dgvPerifericos.CellBorderStyle = DataGridViewCellBorderStyle.None;
             dgvPerifericos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvPerifericos.Location = new Point(28, 173);
+            dgvPerifericos.Location = new Point(28, 188);
             dgvPerifericos.Name = "dgvPerifericos";
             dgvPerifericos.Size = new Size(747, 150);
             dgvPerifericos.TabIndex = 83;
@@ -275,11 +276,22 @@
             buttonSalir.TabStop = false;
             buttonSalir.Click += buttonSalir_Click;
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label1.Location = new Point(27, 161);
+            label1.Name = "label1";
+            label1.Size = new Size(354, 13);
+            label1.TabIndex = 88;
+            label1.Text = "SELECCIONE UNO O MAS REGISTROS PARA ACTUALIZAR O ELIMINAR";
+            // 
             // BuscarPerifericos
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 382);
+            Controls.Add(label1);
             Controls.Add(buttonSalir);
             Controls.Add(btnCerrar2);
             Controls.Add(btnEliminar);
@@ -323,5 +335,6 @@
         private PictureBox buttonSalir;
         private TextBox txtBuscarActivo;
         private TextBox txtBuscarNumero;
+        private Label label1;
     }
 }
