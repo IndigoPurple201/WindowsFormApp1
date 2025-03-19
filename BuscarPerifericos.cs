@@ -227,8 +227,8 @@ namespace WinFormsApp1
                 dgvPerifericos.Columns["N. Serie"].ReadOnly = false;
                 dgvPerifericos.Columns["Act. Contraloria"].ReadOnly = false;
                 dgvPerifericos.Columns["Departamento"].ReadOnly = true;
-                dgvPerifericos.Columns["Area"].ReadOnly = false;
-                dgvPerifericos.Columns["Responsable"].ReadOnly = false;
+                dgvPerifericos.Columns["Area"].ReadOnly = true;
+                dgvPerifericos.Columns["Responsable"].ReadOnly = true;
                 dgvPerifericos.Columns["Estatus"].ReadOnly = false;
                 dgvPerifericos.Columns["Numero"].DisplayIndex = 0;
                 dgvPerifericos.Columns["Didecon"].DisplayIndex = 1;
@@ -474,7 +474,7 @@ namespace WinFormsApp1
                             }
                             query += " AND perifericos.sn = @filtro";
                             cmd.Parameters.AddWithValue("@filtro", txtBuscarNumero.Text.Trim());
-                        }   
+                        }
                         else
                         {
                             MessageBox.Show("Seleccione un campo de búsqueda.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -541,7 +541,7 @@ namespace WinFormsApp1
                                 dgvPerifericos.Rows[index].Cells["Estatus"].Value = reader["idEstatus"];
                             }
 
-                        
+
                             dgvPerifericos.Columns["Numero"].ReadOnly = true;
                             dgvPerifericos.Columns["Didecon"].ReadOnly = true;
                             dgvPerifericos.Columns["Tipo"].ReadOnly = false;
@@ -550,8 +550,8 @@ namespace WinFormsApp1
                             dgvPerifericos.Columns["N. Serie"].ReadOnly = false;
                             dgvPerifericos.Columns["Act. Contraloria"].ReadOnly = false;
                             dgvPerifericos.Columns["Departamento"].ReadOnly = true;
-                            dgvPerifericos.Columns["Area"].ReadOnly = false;
-                            dgvPerifericos.Columns["Responsable"].ReadOnly = false;
+                            dgvPerifericos.Columns["Area"].ReadOnly = true;
+                            dgvPerifericos.Columns["Responsable"].ReadOnly = true;
                             dgvPerifericos.Columns["Estatus"].ReadOnly = false;
                             dgvPerifericos.Columns["Numero"].DisplayIndex = 0;
                             dgvPerifericos.Columns["Didecon"].DisplayIndex = 1;
@@ -568,7 +568,7 @@ namespace WinFormsApp1
                     }
                 }
                 dgvPerifericos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-                dgvPerifericos.ScrollBars = ScrollBars.Both;    
+                dgvPerifericos.ScrollBars = ScrollBars.Both;
             }
             catch (Exception ex)
             {
@@ -641,7 +641,7 @@ namespace WinFormsApp1
 
         private void btnEliminar_Click(object sender, EventArgs e)
         {
-            if(dgvPerifericos.SelectedRows.Count == 0)
+            if (dgvPerifericos.SelectedRows.Count == 0)
             {
                 MessageBox.Show("Seleccione una periferico para eliminar.");
                 return;
@@ -651,15 +651,15 @@ namespace WinFormsApp1
             if (confirmacion != DialogResult.Yes) return;
             foreach (DataGridViewRow row in dgvPerifericos.SelectedRows)
             {
-                if (row.Cells["Numero"].Value == null)continue;
+                if (row.Cells["Numero"].Value == null) continue;
                 int idPeriferico = Convert.ToInt32(row.Cells["Numero"].Value);
-                try 
+                try
                 {
                     string query = "DELETE from perifericos WHERE perifericos.folio = @idPeriferico;";
                     using (SqlConnection conexion = conexionSQL.ObtenerConexion())
-                    { 
+                    {
                         conexion.Open();
-                        using (SqlCommand queryDelete = new SqlCommand(query,conexion))
+                        using (SqlCommand queryDelete = new SqlCommand(query, conexion))
                         {
                             queryDelete.Parameters.AddWithValue("@idPeriferico", idPeriferico);
                             queryDelete.ExecuteNonQuery();
@@ -672,6 +672,52 @@ namespace WinFormsApp1
                 }
                 MessageBox.Show("Periferico eliminado correctamente.");
                 this.Close();
+            }
+        }
+
+        private void btnActualizar_Click(object sender, EventArgs e)
+        {
+            bool cambiosRealizados = false;
+            foreach (DataGridViewRow row in dgvPerifericos.Rows)
+            {
+                if (row.IsNewRow) continue;
+                int idPeriferico = Convert.ToInt32(row.Cells["Numero"].Value);
+                string nuevoNumSerie = row.Cells["N. Serie"].Value.ToString();
+                string nuevoActContraloria = row.Cells["Act. Contraloria"].Value.ToString();
+                try 
+                {
+                    using (SqlConnection connection = conexionSQL.ObtenerConexion())
+                    {
+                        connection.Open();
+                        string queryUpdate = "UPDATE perifericos SET sn = @serial, activocontraloria = @activo, tipo = @tipo, idestatus = @estatus WHERE folio = @folio;";
+                        using (SqlCommand cmd = new SqlCommand(queryUpdate, connection))
+                        {
+                            cmd.Parameters.AddWithValue("@serial", nuevoNumSerie);
+                            cmd.Parameters.AddWithValue("@activo", nuevoActContraloria);
+                            cmd.Parameters.AddWithValue("@folio", idPeriferico);
+                            int nuevoIdTipo = Convert.ToInt32(row.Cells["Tipo"].Value);
+                            int nuevoIdEstatus = Convert.ToInt32(row.Cells["Estatus"].Value);
+                            cmd.Parameters.AddWithValue("@tipo", nuevoIdTipo);
+                            cmd.Parameters.AddWithValue("@estatus", nuevoIdEstatus);
+                            cmd.ExecuteNonQuery();
+                            cambiosRealizados = true;
+                        }
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: " + ex.Message);
+                }
+            }
+            if (cambiosRealizados)
+            {
+                MessageBox.Show("Cambios realizados correctamente.");
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("No se realizaron cambios.");
             }
         }
     }

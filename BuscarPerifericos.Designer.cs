@@ -49,6 +49,7 @@
             dgvPerifericos = new DataGridView();
             buttonSalir = new PictureBox();
             label1 = new Label();
+            btnActualizar = new Button();
             panel1.SuspendLayout();
             panelBusqueda.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvPerifericos).BeginInit();
@@ -286,11 +287,24 @@
             label1.TabIndex = 88;
             label1.Text = "SELECCIONE UNO O MAS REGISTROS PARA ACTUALIZAR O ELIMINAR";
             // 
+            // btnActualizar
+            // 
+            btnActualizar.Cursor = Cursors.Hand;
+            btnActualizar.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnActualizar.Location = new Point(496, 349);
+            btnActualizar.Name = "btnActualizar";
+            btnActualizar.Size = new Size(89, 23);
+            btnActualizar.TabIndex = 89;
+            btnActualizar.Text = "ACTUALIZAR";
+            btnActualizar.UseVisualStyleBackColor = true;
+            btnActualizar.Click += btnActualizar_Click;
+            // 
             // BuscarPerifericos
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 382);
+            Controls.Add(btnActualizar);
             Controls.Add(label1);
             Controls.Add(buttonSalir);
             Controls.Add(btnCerrar2);
@@ -336,5 +350,6 @@
         private TextBox txtBuscarActivo;
         private TextBox txtBuscarNumero;
         private Label label1;
+        private Button btnActualizar;
     }
 }
