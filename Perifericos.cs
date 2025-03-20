@@ -57,7 +57,6 @@ namespace WinFormsApp1
             ConfigurarBoxProveedor(boxProveedor);
             boxMarca.SelectedIndexChanged += boxMarca_SelectedIndexChanged;
             btnNuevoModelo.Enabled = false;
-            obtenerSiguienteNumero();
         }
         private void BloquearControles(bool bloquear)
         {
@@ -66,7 +65,6 @@ namespace WinFormsApp1
             btnCancelar.Enabled = !bloquear;
             btnNuevoMarca.Enabled = !bloquear;
             //btnNuevoModelo.Enabled = !bloquear;
-            txtFolio.Enabled = !bloquear;
             boxDidecon.Enabled = !bloquear;
             boxTipo.Enabled = !bloquear;
             boxTipo.Enabled = !bloquear;
