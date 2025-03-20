@@ -40,7 +40,6 @@ namespace WinFormsApp1
         {
             conexionSQL.ProbarConexion();
             LlenarBoxMarca();
-            //LlenarBoXModelo();
             LlenarBoxDepartamento();
 
             BloquearControles(true);
