@@ -41,6 +41,8 @@ namespace WinFormsApp1
             conexionSQL.ProbarConexion();
             LlenarBoxMarca();
             LlenarBoxDepartamento();
+            LlenarBoxTipo();
+            LlenarBoxEstatus();
 
             BloquearControles(true);
 
@@ -52,6 +54,8 @@ namespace WinFormsApp1
             ConfigurarBoxNombre(boxNombre);
             ConfigurarBoxActSistemas(boxActSistemas);
             ConfigurarBoxNumFactura(boxNumFactura);
+            ConfigurarBoxValorFactura(boxValorFactura);
+            ConfigurarBoxProveedor(boxProveedor);
             obtenerSiguienteNumero();
             txtFolio.Enabled = false;
 
@@ -246,6 +250,57 @@ namespace WinFormsApp1
                         }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+
+        private void LlenarBoxEstatus()
+        {
+            try
+            {
+                using (SqlConnection conn = conexionSQL.ObtenerConexion())
+                {
+                    conn.Open();
+                    String query = "SELECT descripcion FROM estatus where id_estatus IN (7,8);";
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        boxEstatus.Items.Clear();
+                        while (reader.Read())
+                        {
+                            boxEstatus.Items.Add(reader["descripcion"].ToString());
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+
+        private void LlenarBoxTipo()
+        {
+            try 
+            {
+                using (SqlConnection conn = conexionSQL.ObtenerConexion())
+                {
+                    conn.Open();
+                    string query = "SELECT descripcion FROM tipos WHERE descripcion IN ('CPU', 'MONITOR', 'ALL IN ONE', 'SERVIDOR');";
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        boxEstatus.Items.Clear();
+                        while (reader.Read())
+                        {
+                            boxTipo.Items.Add(reader["descripcion"].ToString());
+                        }
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -509,6 +564,15 @@ namespace WinFormsApp1
             boxNumFactura.TextChanged += boxNumFactura_TextChanged;
         }
 
+        private void ConfigurarBoxValorFactura(ComboBox boxValorFactura)
+        {
+            boxValorFactura.Items.Clear();
+            boxValorFactura.Items.Add("0.00");  // Agregar opción por defecto
+            boxValorFactura.DropDownStyle = ComboBoxStyle.DropDown;
+            boxValorFactura.SelectedIndex = 0; // Seleccionar "0.00" por defecto
+            boxValorFactura.KeyPress += boxValorFactura_KeyPress;
+
+        }
 
         private void ConfigurarBoxDireccion(ComboBox boxDireccion)
         {
@@ -541,6 +605,16 @@ namespace WinFormsApp1
             boxActivo.SelectedIndex = 0; // Seleccionar "-" por defecto
 
             boxActivo.KeyPress += boxActivo_KeyPress;
+        }
+
+        private void ConfigurarBoxProveedor(ComboBox boxProveedor)
+        {
+            boxProveedor.Items.Clear();
+            boxProveedor.Items.Add(".   ");  // Agregar opción por defecto
+            boxProveedor.DropDownStyle = ComboBoxStyle.DropDown; // Permite escribir manualmente
+            boxProveedor.SelectedIndex = 0; // Seleccionar "-" por defecto
+            boxProveedor.TextChanged += boxProveedor_TextChanged;
+            boxProveedor.KeyPress += boxProveedor_KeyPress;
         }
 
         private void boxArea_TextChanged(object sender, EventArgs e)
@@ -629,6 +703,29 @@ namespace WinFormsApp1
             comboBox.SelectionStart = comboBox.Text.Length;
         }
 
+        private void boxNumFactura_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            ComboBox comboBox = sender as ComboBox;
+
+            // Evitar que se ingresen más de 15 dígitos
+            if (!char.IsControl(e.KeyChar) && comboBox.Text.Length >= 15)
+            {
+                e.Handled = true;
+            }
+
+            //Permitirsolo numerosy puntos
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
+            {
+                e.Handled = true;
+            }
+
+            // Evitar que haya puntos seguidos
+            if (e.KeyChar == '.' && (comboBox.Text.EndsWith(".") || comboBox.Text.Split('.').Length > 3))
+            {
+                e.Handled = true;
+            }
+        }
+
         private void boxDireccion_TextChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = sender as ComboBox;
@@ -701,15 +798,47 @@ namespace WinFormsApp1
         private void boxActivo_KeyPress(object sender, KeyPressEventArgs e)
         {
             ComboBox comboBox = sender as ComboBox;
+            // Evitar que se ingresen más de 50 caracteres
+            if (!char.IsControl(e.KeyChar) && comboBox.Text.Length >= 50)
+            {
+                e.Handled = true;
+            }
+        }
 
+        private void boxValorFactura_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            ComboBox comboBox = sender as ComboBox;
             // Evitar que se ingresen más de 15 dígitos
             if (!char.IsControl(e.KeyChar) && comboBox.Text.Length >= 15)
             {
                 e.Handled = true;
             }
-
             //Permitirsolo numerosy puntos
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
+            {
+                e.Handled = true;
+            }
+            // Evitar que haya puntos seguidos
+            if (e.KeyChar == '.' && (comboBox.Text.EndsWith(".") || comboBox.Text.Split('.').Length > 1))
+            {
+                e.Handled = true;
+            }
+        }
+        
+        private void boxProveedor_TextChanged(object sender, EventArgs e)
+        {
+            ComboBox comboBox = sender as ComboBox;
+            // Convertir a mayúsculas
+            comboBox.Text = comboBox.Text.ToUpper();
+            // Mover el cursor al final
+            comboBox.SelectionStart = comboBox.Text.Length;
+        }
+
+        private void boxProveedor_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            ComboBox comboBox = sender as ComboBox;
+            // Evitar que se ingresen más de 15 dígitos
+            if (!char.IsControl(e.KeyChar) && comboBox.Text.Length >= 15)
             {
                 e.Handled = true;
             }

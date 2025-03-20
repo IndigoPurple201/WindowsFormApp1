@@ -653,6 +653,8 @@
             boxProveedor.Name = "boxProveedor";
             boxProveedor.Size = new Size(245, 23);
             boxProveedor.TabIndex = 95;
+            boxProveedor.TextChanged += boxProveedor_TextChanged;
+            boxProveedor.KeyPress += boxProveedor_KeyPress;
             // 
             // boxNumFactura
             // 
@@ -676,6 +678,7 @@
             boxValorFactura.Name = "boxValorFactura";
             boxValorFactura.Size = new Size(245, 23);
             boxValorFactura.TabIndex = 97;
+            boxValorFactura.KeyPress += boxValorFactura_KeyPress;
             // 
             // Hardware
             // 
