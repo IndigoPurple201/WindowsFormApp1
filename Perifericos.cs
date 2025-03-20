@@ -57,6 +57,7 @@ namespace WinFormsApp1
             ConfigurarBoxProveedor(boxProveedor);
             boxMarca.SelectedIndexChanged += boxMarca_SelectedIndexChanged;
             btnNuevoModelo.Enabled = false;
+            txtFolio.Enabled = false;
         }
         private void BloquearControles(bool bloquear)
         {
@@ -83,6 +84,7 @@ namespace WinFormsApp1
         private void btnNuevo_Click(object sender, EventArgs e)
         {
             BloquearControles(false);
+            obtenerSiguienteNumero();
         }
 
         private void btnBuscar_Click(object sender, EventArgs e)
@@ -166,7 +168,8 @@ namespace WinFormsApp1
                         }
                         MessageBox.Show("Registro guardado con éxito.");
                         LimpiarControles();
-                        obtenerSiguienteNumero();
+                        BloquearControles(true);
+                        //obtenerSiguienteNumero();
                     }
                 }
                 catch (Exception ex)
@@ -722,7 +725,7 @@ namespace WinFormsApp1
                         using (SqlCommand cmd = new SqlCommand(query,conexion))
                         {
                             object result = cmd.ExecuteScalar();
-                            label15.Text = result.ToString();
+                            txtFolio.Text = result.ToString();
                         }
                     }
                 }

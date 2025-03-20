@@ -25,7 +25,7 @@ namespace WinFormsApp1
         private const int SC_MOVE = 0xF012;
         private Control controlActivo = null;
         private Point mouseDownLocation;
-        private ConexionSQL conexionSQL = new ConexionSQL(); 
+        private ConexionSQL conexionSQL = new ConexionSQL();
 
         public Hardware()
         {
@@ -50,6 +50,11 @@ namespace WinFormsApp1
             ConfigurarBoxDireccion(boxDireccion);
             ConfigurarNumSerie(boxNumSerie);
             ConfigurarBoxActivo(boxActivo);
+            ConfigurarBoxNombre(boxNombre);
+            ConfigurarBoxActSistemas(boxActSistemas);
+            ConfigurarBoxNumFactura(boxNumFactura);
+            obtenerSiguienteNumero();
+            txtFolio.Enabled = false;
 
             this.MouseDown += new MouseEventHandler(Hardware_MouseDown);
 
@@ -69,11 +74,13 @@ namespace WinFormsApp1
         private void btnNuevo_Click(object sender, EventArgs e)
         {
             BloquearControles(false);
+            obtenerSiguienteNumero();
         }
         private void btnCancelar_Click(object sender, EventArgs e)
         {
             LimpiarControles(); // Limpiar solo si hay algo en los controles
             BloquearControles(true); // Volver a bloquear todos los controles
+            txtFolio.Enabled = false; // Deshabilitar el campo de folio
         }
         private void btnAceptar_Click(object sender, EventArgs e)
         {
@@ -130,6 +137,7 @@ namespace WinFormsApp1
                             insertCmd.ExecuteNonQuery();
                             MessageBox.Show("Registro insertado correctamente.");
                             LimpiarControles();
+                            BloquearControles(true);
                         }
                     }
                     catch (Exception ex)
@@ -409,6 +417,7 @@ namespace WinFormsApp1
                 if (ctrl is TextBox || ctrl is ComboBox)
                 {
                     ctrl.Enabled = !bloquear; // Deshabilita o habilita los controles
+                    txtFolio.Enabled = bloquear;
                 }
             }
             btnNuevo.Enabled = bloquear;    // "Nuevo" solo está habilitado cuando los demás están bloqueados
@@ -436,9 +445,9 @@ namespace WinFormsApp1
                     }
                     else
                     {
-                        if (comboBox.Items.Contains("-"))
+                        if (comboBox.Items.Contains(".   "))
                         {
-                            comboBox.SelectedItem = "-";
+                            comboBox.SelectedItem = ".   ";
                         }
                         else
                         {
@@ -453,7 +462,7 @@ namespace WinFormsApp1
         private void ConfigurarBoxArea(ComboBox boxArea)
         {
             boxArea.Items.Clear();
-            boxArea.Items.Add("-");  // Agregar opción por defecto
+            boxArea.Items.Add(".   ");  // Agregar opción por defecto
             boxArea.DropDownStyle = ComboBoxStyle.DropDown; // Permite escribir manualmente
             boxArea.SelectedIndex = 0; // Seleccionar "-" por defecto
             boxArea.Tag = "limpiar"; // Marcar que debe limpiarse
@@ -465,7 +474,7 @@ namespace WinFormsApp1
         private void ConfigurarBoxResponsable(ComboBox boxResponsable)
         {
             boxResponsable.Items.Clear();
-            boxResponsable.Items.Add("-");  // Agregar opción por defecto
+            boxResponsable.Items.Add(".   ");  // Agregar opción por defecto
             boxResponsable.DropDownStyle = ComboBoxStyle.DropDown; // Permite escribir manualmente
             boxResponsable.SelectedIndex = 0; // Seleccionar "-" por defecto
 
@@ -473,10 +482,39 @@ namespace WinFormsApp1
             boxResponsable.KeyPress += boxResponsable_KeyPress;
         }
 
+        private void ConfigurarBoxNombre(ComboBox boxNombre)
+        {
+            boxNombre.Items.Clear();
+            boxNombre.Items.Add(".   ");  // Agregar opción por defecto
+            boxNombre.DropDownStyle = ComboBoxStyle.DropDown; // Permite escribir manualmente
+            boxNombre.SelectedIndex = 0; // Seleccionar "-" por defecto
+            boxNombre.TextChanged += boxNombre_TextChanged;
+        }
+
+        private void ConfigurarBoxActSistemas(ComboBox boxActivoSistemas)
+        {
+            boxActivoSistemas.Items.Clear();
+            boxActivoSistemas.Items.Add(".   ");  // Agregar opción por defecto
+            boxActivoSistemas.DropDownStyle = ComboBoxStyle.DropDown; // Permite escribir manualmente
+            boxActivoSistemas.SelectedIndex = 0; // Seleccionar "-" por defecto
+            boxActivoSistemas.TextChanged += boxActSistemas_TextChanged;
+            boxActivoSistemas.KeyPress += boxActSistemas_KeyPress;
+        }
+
+        private void ConfigurarBoxNumFactura(ComboBox boxNumFactura)
+        {
+            boxNumFactura.Items.Clear();
+            boxNumFactura.Items.Add(".   ");  // Agregar opción por defecto
+            boxNumFactura.DropDownStyle = ComboBoxStyle.DropDown; // Permite escribir manualmente
+            boxNumFactura.SelectedIndex = 0; // Seleccionar "-" por defecto
+            boxNumFactura.TextChanged += boxNumFactura_TextChanged;
+        }
+
+
         private void ConfigurarBoxDireccion(ComboBox boxDireccion)
         {
             boxDireccion.Items.Clear();
-            boxDireccion.Items.Add("-");  // Agregar opción por defecto
+            boxDireccion.Items.Add(".   ");  // Agregar opción por defecto
             boxDireccion.Items.Add("SN");
             boxDireccion.DropDownStyle = ComboBoxStyle.DropDown; // Permite escribir manualmente
             boxDireccion.SelectedIndex = 0; // Seleccionar "-" por defecto
@@ -488,7 +526,7 @@ namespace WinFormsApp1
         private void ConfigurarNumSerie(ComboBox boxNumSerie)
         {
             boxNumSerie.Items.Clear();
-            boxNumSerie.Items.Add("-");  // Agregar opción por defecto
+            boxNumSerie.Items.Add(".   ");  // Agregar opción por defecto
             boxNumSerie.Items.Add("SN");
             boxNumSerie.DropDownStyle = ComboBoxStyle.DropDown; // Permite escribir manualmente
             boxNumSerie.SelectedIndex = 0; // Seleccionar "-" por defecto
@@ -499,7 +537,7 @@ namespace WinFormsApp1
         private void ConfigurarBoxActivo(ComboBox boxActivo)
         {
             boxActivo.Items.Clear();
-            boxActivo.Items.Add("-");  // Agregar opción por defecto
+            boxActivo.Items.Add(".   ");  // Agregar opción por defecto
             boxActivo.DropDownStyle = ComboBoxStyle.DropDown; // Permite escribir manualmente
             boxActivo.SelectedIndex = 0; // Seleccionar "-" por defecto
 
@@ -545,11 +583,58 @@ namespace WinFormsApp1
                 e.Handled = true; // Bloquear entrada
             }
         }
+
+        private void boxNombre_TextChanged(object sender, EventArgs e)
+        {
+            ComboBox comboBox = sender as ComboBox;
+
+            // Convertir a mayúsculas
+            comboBox.Text = comboBox.Text.ToUpper();
+
+            // Mover el cursor al final
+            comboBox.SelectionStart = comboBox.Text.Length;
+        }
+
+        private void boxActSistemas_TextChanged(object sender, EventArgs e)
+        {
+            ComboBox comboBox = sender as ComboBox;
+            // Convertir a mayúsculas
+            comboBox.Text = comboBox.Text.ToUpper();
+            // Mover el cursor al final
+            comboBox.SelectionStart = comboBox.Text.Length;
+        }
+
+        private void boxActSistemas_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            ComboBox comboBox = sender as ComboBox;
+
+            // Si el texto actual es la opción por defecto, borrar antes de escribir
+            if (comboBox.Text == ".   ")
+            {
+                comboBox.Text = "";
+            }
+
+            // Evitar que se ingresen más de 4 caracteres
+            if (!char.IsControl(e.KeyChar) && comboBox.Text.Length >= 4)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void boxNumFactura_TextChanged(object sender, EventArgs e)
+        {
+            ComboBox comboBox = sender as ComboBox;
+            // Convertir a mayúsculas
+            comboBox.Text = comboBox.Text.ToUpper();
+            // Mover el cursor al final
+            comboBox.SelectionStart = comboBox.Text.Length;
+        }
+
         private void boxDireccion_TextChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = sender as ComboBox;
 
-            if (comboBox.Text == "-" || comboBox.Text == "SN")
+            if (comboBox.Text == ".   " || comboBox.Text == "SN")
             {
                 comboBox.ForeColor = Color.Black;
                 return;
@@ -628,6 +713,27 @@ namespace WinFormsApp1
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
             {
                 e.Handled = true;
+            }
+        }
+
+        private void obtenerSiguienteNumero()
+        {
+            try
+            {
+                using (SqlConnection conexion = conexionSQL.ObtenerConexion())
+                {
+                    conexion.Open();
+                    string query = "SELECT ISNULL(MAX(folio), 0) + 1 AS SiguienteNumero FROM hardware;";
+                    using (SqlCommand cmd = new SqlCommand(query, conexion))
+                    {
+                        object result = cmd.ExecuteScalar();
+                        txtFolio.Text = result.ToString();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
             }
         }
 

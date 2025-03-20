@@ -69,6 +69,7 @@ namespace WinFormsApp1
             LlenarComboBox();
             dgvModelos.ClearSelection();
             obtenerSiguienteNumero();
+            txtFolio.Enabled = false;
         }
 
         private void LlenarComboBox()
@@ -319,7 +320,7 @@ namespace WinFormsApp1
                 if (ctrl is TextBox textBox)
                 {
                     // Si el TextBox es el de la marca, NO lo limpiamos
-                    if (textBox.Name != "txtMarca")
+                    if (textBox.Name != "txtMarca" && textBox.Name != "txtFolio")
                     {
                         textBox.Clear();
                     }
@@ -407,7 +408,7 @@ namespace WinFormsApp1
                         }
                         LimpiarControles();
                         cargarDatosDGV();
-                        obtenerSiguienteNumero();
+                        BloquearControles(true);
                     }
                     catch (Exception ex)
                     {
@@ -525,6 +526,7 @@ namespace WinFormsApp1
                 boxTipo.Enabled = false;
             }
             txtMarca.Enabled = false;
+            obtenerSiguienteNumero();
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
@@ -558,13 +560,8 @@ namespace WinFormsApp1
 
         private void BloquearControles(bool bloquear)
         {
-            foreach (Control ctrl in this.Controls)
-            {
-                if (ctrl is TextBox || ctrl is ComboBox)
-                {
-                    ctrl.Enabled = !bloquear; // Deshabilita o habilita los controles
-                }
-            }
+            txtModelo.Enabled = !bloquear;
+            boxTipo.Enabled = !bloquear;
             btnNuevo.Enabled = bloquear;    // "Nuevo" solo está habilitado cuando los demás están bloqueados
             btnAceptar.Enabled = !bloquear; // "Aceptar" solo se habilita cuando los controles están activos
             btnCancelar.Enabled = !bloquear; // "Cancelar" solo se habilita cuando los controles están activos
@@ -606,7 +603,7 @@ namespace WinFormsApp1
                     using(SqlCommand cmd = new SqlCommand(query, connection))
                     {
                         object result = cmd.ExecuteScalar();
-                        label9.Text = result.ToString();
+                        txtFolio.Text = result.ToString();
                     }
                 }
             }

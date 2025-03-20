@@ -48,8 +48,6 @@
             label6 = new Label();
             boxTipo = new ComboBox();
             label7 = new Label();
-            label8 = new Label();
-            label9 = new Label();
             ((System.ComponentModel.ISupportInitialize)dgvModelos).BeginInit();
             ((System.ComponentModel.ISupportInitialize)btnCerrar).BeginInit();
             SuspendLayout();
@@ -58,7 +56,7 @@
             // 
             txtModelo.BorderStyle = BorderStyle.FixedSingle;
             txtModelo.Font = new Font("Segoe UI", 9F);
-            txtModelo.Location = new Point(133, 116);
+            txtModelo.Location = new Point(134, 102);
             txtModelo.Name = "txtModelo";
             txtModelo.Size = new Size(245, 23);
             txtModelo.TabIndex = 41;
@@ -68,7 +66,7 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label2.Location = new Point(16, 118);
+            label2.Location = new Point(17, 104);
             label2.Name = "label2";
             label2.Size = new Size(109, 21);
             label2.TabIndex = 40;
@@ -78,7 +76,7 @@
             // 
             txtFolio.BorderStyle = BorderStyle.FixedSingle;
             txtFolio.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            txtFolio.Location = new Point(133, 67);
+            txtFolio.Location = new Point(134, 73);
             txtFolio.Name = "txtFolio";
             txtFolio.Size = new Size(245, 23);
             txtFolio.TabIndex = 39;
@@ -88,7 +86,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(21, 62);
+            label1.Location = new Point(22, 68);
             label1.Name = "label1";
             label1.Size = new Size(106, 30);
             label1.TabIndex = 38;
@@ -98,7 +96,7 @@
             // 
             btnNuevo.Cursor = Cursors.Hand;
             btnNuevo.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnNuevo.Location = new Point(99, 186);
+            btnNuevo.Location = new Point(100, 172);
             btnNuevo.Name = "btnNuevo";
             btnNuevo.Size = new Size(89, 23);
             btnNuevo.TabIndex = 42;
@@ -110,7 +108,7 @@
             // 
             btnAceptar.Cursor = Cursors.Hand;
             btnAceptar.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnAceptar.Location = new Point(194, 186);
+            btnAceptar.Location = new Point(195, 172);
             btnAceptar.Name = "btnAceptar";
             btnAceptar.Size = new Size(89, 23);
             btnAceptar.TabIndex = 43;
@@ -122,7 +120,7 @@
             // 
             btnCancelar.Cursor = Cursors.Hand;
             btnCancelar.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnCancelar.Location = new Point(289, 186);
+            btnCancelar.Location = new Point(290, 172);
             btnCancelar.Name = "btnCancelar";
             btnCancelar.Size = new Size(89, 23);
             btnCancelar.TabIndex = 44;
@@ -134,7 +132,7 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label4.Location = new Point(36, 252);
+            label4.Location = new Point(37, 238);
             label4.Name = "label4";
             label4.Size = new Size(354, 13);
             label4.TabIndex = 52;
@@ -144,7 +142,7 @@
             // 
             btnActualizar.Cursor = Cursors.Hand;
             btnActualizar.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnActualizar.Location = new Point(286, 432);
+            btnActualizar.Location = new Point(287, 418);
             btnActualizar.Name = "btnActualizar";
             btnActualizar.Size = new Size(89, 23);
             btnActualizar.TabIndex = 51;
@@ -156,7 +154,7 @@
             // 
             btnCerrar2.Cursor = Cursors.Hand;
             btnCerrar2.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnCerrar2.Location = new Point(476, 432);
+            btnCerrar2.Location = new Point(477, 418);
             btnCerrar2.Name = "btnCerrar2";
             btnCerrar2.Size = new Size(89, 23);
             btnCerrar2.TabIndex = 50;
@@ -168,7 +166,7 @@
             // 
             btnEliminar.Cursor = Cursors.Hand;
             btnEliminar.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnEliminar.Location = new Point(381, 432);
+            btnEliminar.Location = new Point(382, 418);
             btnEliminar.Name = "btnEliminar";
             btnEliminar.Size = new Size(89, 23);
             btnEliminar.TabIndex = 49;
@@ -179,7 +177,7 @@
             // dgvModelos
             // 
             dgvModelos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvModelos.Location = new Point(37, 276);
+            dgvModelos.Location = new Point(38, 262);
             dgvModelos.Name = "dgvModelos";
             dgvModelos.Size = new Size(528, 150);
             dgvModelos.TabIndex = 48;
@@ -188,7 +186,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label3.Location = new Point(36, 227);
+            label3.Location = new Point(37, 213);
             label3.Name = "label3";
             label3.Size = new Size(243, 21);
             label3.TabIndex = 47;
@@ -210,7 +208,7 @@
             // 
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label5.Location = new Point(61, 38);
+            label5.Location = new Point(62, 44);
             label5.Name = "label5";
             label5.Size = new Size(64, 21);
             label5.TabIndex = 54;
@@ -221,7 +219,7 @@
             // 
             txtMarca.BorderStyle = BorderStyle.FixedSingle;
             txtMarca.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            txtMarca.Location = new Point(133, 38);
+            txtMarca.Location = new Point(134, 44);
             txtMarca.Name = "txtMarca";
             txtMarca.Size = new Size(245, 23);
             txtMarca.TabIndex = 55;
@@ -230,7 +228,7 @@
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label6.Location = new Point(82, 147);
+            label6.Location = new Point(83, 133);
             label6.Name = "label6";
             label6.Size = new Size(43, 21);
             label6.TabIndex = 56;
@@ -241,7 +239,7 @@
             boxTipo.DropDownStyle = ComboBoxStyle.DropDownList;
             boxTipo.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             boxTipo.FormattingEnabled = true;
-            boxTipo.Location = new Point(133, 145);
+            boxTipo.Location = new Point(134, 131);
             boxTipo.Name = "boxTipo";
             boxTipo.Size = new Size(245, 23);
             boxTipo.TabIndex = 57;
@@ -250,37 +248,16 @@
             // 
             label7.AutoSize = true;
             label7.Font = new Font("Segoe UI", 12F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
-            label7.Location = new Point(276, 227);
+            label7.Location = new Point(277, 213);
             label7.Name = "label7";
             label7.Size = new Size(0, 21);
             label7.TabIndex = 58;
-            // 
-            // label8
-            // 
-            label8.AutoSize = true;
-            label8.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label8.Location = new Point(133, 95);
-            label8.Name = "label8";
-            label8.Size = new Size(161, 13);
-            label8.TabIndex = 59;
-            label8.Text = "SIGUIENTE REGISTRO GLOBAL:";
-            // 
-            // label9
-            // 
-            label9.AutoSize = true;
-            label9.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label9.Location = new Point(291, 95);
-            label9.Name = "label9";
-            label9.Size = new Size(0, 13);
-            label9.TabIndex = 60;
             // 
             // Modelo
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(589, 471);
-            Controls.Add(label9);
-            Controls.Add(label8);
             Controls.Add(label7);
             Controls.Add(boxTipo);
             Controls.Add(label6);
@@ -331,7 +308,5 @@
         private Label label6;
         private ComboBox boxTipo;
         private Label label7;
-        private Label label8;
-        private Label label9;
     }
 }
