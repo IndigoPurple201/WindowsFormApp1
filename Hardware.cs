@@ -56,7 +56,8 @@ namespace WinFormsApp1
             ConfigurarBoxNumFactura(boxNumFactura);
             ConfigurarBoxValorFactura(boxValorFactura);
             ConfigurarBoxProveedor(boxProveedor);
-            obtenerSiguienteNumero();
+            ConfigurarBoxGrupo(boxGrupo);
+            //obtenerSiguienteNumero();
             txtFolio.Enabled = false;
 
             this.MouseDown += new MouseEventHandler(Hardware_MouseDown);
@@ -121,7 +122,26 @@ namespace WinFormsApp1
                             idModelo = (result != null) ? Convert.ToInt32(result) : 0;
                         }
                         //MessageBox.Show(idModelo.ToString());
-                        string insertQuery = @"INSERT INTO hardware (folio, depto, area, didecon, responsable, ip, sn, procesador, memoria, disco_duro, grupo, nombre, activos, marca, modelo, activocontraloria, idestatus, fechacaptura, fechaalta, fechafactura, fechabaja, valorfactura, nomproveedor, idtipo, numerofactura) VALUES (@folio, @depto, @area, @didecon, @responsable, @ip, @sn, @procesador, @memoria, @disco_duro, '-', '-', '-', @marca, @modelo, @activocontraloria, 1, GETDATE(), '1900-01-01 00:00:00.000', '1900-01-01 00:00:00.000', '1900-01-01 00:00:00.000', 0.00, '-', 1, '-');";
+                        int idEstatus = 0;
+                        string queryEstatus = "SELECT id_estatus FROM estatus WHERE descripcion = @estatus ORDER BY id_estatus;";
+                        using (SqlCommand cmd = new SqlCommand(queryEstatus, conexion))
+                        {
+                            cmd.Parameters.AddWithValue("@estatus", boxEstatus.Text);
+                            object result = cmd.ExecuteScalar();
+                            idEstatus = (result != null) ? Convert.ToInt32(result) : 0;
+                        }
+                        //MessageBox.Show(idEstatus.ToString());
+                        int idTipo = 0;
+                        string queryTipo = "SELECT id_tipo FROM tipos WHERE descripcion = @tipo ORDER BY id_tipo;";
+                        using (SqlCommand cmd = new SqlCommand(queryTipo, conexion))
+                        {
+                            cmd.Parameters.AddWithValue("@tipo", boxTipo.Text);
+                            object result = cmd.ExecuteScalar();
+                            idTipo = (result != null) ? Convert.ToInt32(result) : 0;
+                        }
+                        //MessageBox.Show(idTipo.ToString());
+                        string insertQuery = @"INSERT INTO hardware (folio, depto, area, didecon, responsable, ip, sn, procesador, memoria, disco_duro, grupo, nombre, activos, marca, modelo, activocontraloria, idestatus, fechacaptura, fechaalta, fechafactura, fechabaja, valorfactura, nomproveedor, idtipo, numerofactura) 
+                                                                    VALUES (@folio, @depto, @area, @didecon, @responsable, @ip, @sn, @procesador, @memoria, @disco_duro, @grupo, @nombre, @activo, @marca, @modelo, @activocontraloria, @estatus, GETDATE(), '1900-01-01 00:00:00.000', '1900-01-01 00:00:00.000', '1900-01-01 00:00:00.000', @valorFactura, @proveedor, @idTipo, @numeroFactura);";
                         using (SqlCommand insertCmd = new SqlCommand(insertQuery, conexion))
                         {
                             insertCmd.Parameters.AddWithValue("@folio", txtFolio.Text);
@@ -134,9 +154,17 @@ namespace WinFormsApp1
                             insertCmd.Parameters.AddWithValue("@procesador", txtProcesador.Text);
                             insertCmd.Parameters.AddWithValue("@memoria", txtMemoria.Text);
                             insertCmd.Parameters.AddWithValue("@disco_duro", textDisco.Text);
+                            insertCmd.Parameters.AddWithValue("@grupo", boxGrupo.Text);
+                            insertCmd.Parameters.AddWithValue("@nombre", boxNombre.Text);
+                            insertCmd.Parameters.AddWithValue("@activo", boxActSistemas.Text);
                             insertCmd.Parameters.AddWithValue("@marca", idMarca);
                             insertCmd.Parameters.AddWithValue("@modelo", idModelo);
                             insertCmd.Parameters.AddWithValue("@activocontraloria", boxActivo.Text);
+                            insertCmd.Parameters.AddWithValue("@estatus", idEstatus);
+                            insertCmd.Parameters.AddWithValue("@valorFactura", boxValorFactura.Text);
+                            insertCmd.Parameters.AddWithValue("@proveedor", boxProveedor.Text);
+                            insertCmd.Parameters.AddWithValue("@idTipo", idTipo);
+                            insertCmd.Parameters.AddWithValue("@numeroFactura", boxNumFactura.Text);
                             insertCmd.ExecuteNonQuery();
                             MessageBox.Show("Registro insertado correctamente.");
                             LimpiarControles();
@@ -339,7 +367,7 @@ namespace WinFormsApp1
                     if (idMarca == 0)
                         return;
                     boxModelo.Items.Clear();
-                    String query2 = "SELECT descripcion from modelos where marca = @idMarca AND modelos.tipo = 1;";
+                    String query2 = "SELECT modelos.descripcion FROM modelos JOIN tipos ON tipos.id_tipo = modelos.tipo WHERE marca = @idMarca AND tipos.descripcion IN ('CPU','SERVIDOR','LAPTOP','ALL IN ONE')ORDER BY modelos.descripcion ASC;";
                     using (SqlCommand cmd2 = new SqlCommand(query2, conn))
                     {
                         cmd2.Parameters.AddWithValue("@idMarca", idMarca);
@@ -473,6 +501,9 @@ namespace WinFormsApp1
                     ctrl.Enabled = !bloquear; // Deshabilita o habilita los controles
                 }
             }
+
+            txtFolio.Enabled = false; // Asegurar que txtFolio siempre esté bloqueado
+
             btnNuevo.Enabled = bloquear;    // "Nuevo" solo está habilitado cuando los demás están bloqueados
             btnAceptar.Enabled = !bloquear; // "Aceptar" solo se habilita cuando los controles están activos
             btnCancelar.Enabled = !bloquear; // "Cancelar" solo se habilita cuando los controles están activos
@@ -501,6 +532,10 @@ namespace WinFormsApp1
                         if (comboBox.Items.Contains(".   "))
                         {
                             comboBox.SelectedItem = ".   ";
+                        }
+                        else if (comboBox.Items.Contains("0.00"))
+                        {
+                            comboBox.SelectedItem = "0.00";
                         }
                         else
                         {
@@ -616,6 +651,16 @@ namespace WinFormsApp1
             boxProveedor.KeyPress += boxProveedor_KeyPress;
         }
 
+        private void ConfigurarBoxGrupo(ComboBox boxGrupo)
+        {
+            boxGrupo.Items.Clear();
+            boxGrupo.Items.Add(".   ");  // Agregar opción por defecto
+            boxGrupo.DropDownStyle = ComboBoxStyle.DropDown; // Permite escribir manualmente
+            boxGrupo.SelectedIndex = 0; // Seleccionar "-" por defecto
+            boxGrupo.TextChanged += boxGrupo_TextChanged;
+            boxGrupo.KeyPress += boxGrupo_KeyPress; 
+        }
+
         private void boxArea_TextChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = sender as ComboBox;
@@ -720,6 +765,26 @@ namespace WinFormsApp1
 
             // Evitar que haya puntos seguidos
             if (e.KeyChar == '.' && (comboBox.Text.EndsWith(".") || comboBox.Text.Split('.').Length > 3))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void boxGrupo_TextChanged(object sender, EventArgs e)
+        {
+            ComboBox comboBox = sender as ComboBox;
+            // Convertir a mayúsculas
+            comboBox.Text = comboBox.Text.ToUpper();
+            // Mover el cursor al final
+            comboBox.SelectionStart = comboBox.Text.Length;
+        }
+
+        private void boxGrupo_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            ComboBox comboBox = sender as ComboBox;
+
+            // Evitar que se ingresen más de 15 dígitos
+            if (!char.IsControl(e.KeyChar) && comboBox.Text.Length >= 15)
             {
                 e.Handled = true;
             }
@@ -898,10 +963,16 @@ namespace WinFormsApp1
                 mensajeError += "- Selecciona un responsable válido.\n";
                 esValido = false;
             }
-            string ipPattern = @"^(25[0-5]|2[0-4][0-9]|1?[0-9]?[0-9])(\.(25[0-5]|2[0-4][0-9]|1?[0-9]?[0-9])){3}$";
-            if (boxDireccion.Text != "-" && boxDireccion.Text != "SN" && !Regex.IsMatch(boxDireccion.Text, ipPattern))
+            if (string.IsNullOrEmpty(boxNombre.Text))
             {
-                mensajeError += "- La dirección debe ser una IP válida (Ej: 192.168.1.1) o '-' / 'SN'.\n";
+                mensajeError += "- Selecciona un Nom. Equipo valido.\n";
+                esValido = false;
+
+            }
+            string ipPattern = @"^(25[0-5]|2[0-4][0-9]|1?[0-9]?[0-9])(\.(25[0-5]|2[0-4][0-9]|1?[0-9]?[0-9])){3}$";
+            if (boxDireccion.Text != ".   " && boxDireccion.Text != "SN" && !Regex.IsMatch(boxDireccion.Text, ipPattern))
+            {
+                mensajeError += "- La dirección debe ser una IP válida (Ej: 192.168.1.1) o '.   ' / 'SN'.\n";
                 esValido = false;
             }
             if (boxMarca.SelectedIndex == -1 || string.IsNullOrWhiteSpace(boxMarca.Text))
@@ -917,6 +988,41 @@ namespace WinFormsApp1
             if (string.IsNullOrWhiteSpace(boxNumSerie.Text))
             {
                 mensajeError += "- Selecciona un número de serie válido.\n";
+                esValido = false;
+            }
+            if (string.IsNullOrWhiteSpace(boxActSistemas.Text))
+            {
+                mensajeError += "- Selecciona un Act. Sistemas válido.\n";
+                esValido = false;
+            }
+            if (string.IsNullOrWhiteSpace(boxNumFactura.Text))
+            {
+                mensajeError += "- Selecciona un Num. Factura válido.\n";
+                esValido = false;
+            }
+            if (string.IsNullOrWhiteSpace(boxValorFactura.Text))
+            {
+                mensajeError += "- Selecciona un Valor Factura válido.\n";
+                esValido = false;
+            }
+            if (string.IsNullOrWhiteSpace(boxProveedor.Text))
+            {
+                mensajeError += "- Selecciona un Proveedor válido.\n";
+                esValido = false;
+            }
+            if (boxEstatus.SelectedIndex == -1 || string.IsNullOrWhiteSpace(boxEstatus.Text))
+            {
+                mensajeError += "- Selecciona un estatus válido.\n";
+                esValido = false;
+            }
+            if (boxTipo.SelectedIndex == -1 || string.IsNullOrWhiteSpace(boxTipo.Text))
+            {
+                mensajeError += "- Selecciona un tipo válido.\n";
+                esValido = false;
+            }
+            if (string.IsNullOrWhiteSpace(boxGrupo.Text))
+            {
+                mensajeError += "- Selecciona un grupo válido.\n";
                 esValido = false;
             }
             string procesadorPattern = @"^(INTEL|AMD|PENTIUM)\s+[A-Za-z0-9]+(\s+[A-Za-z0-9]+)?(\s+PRO)?$";

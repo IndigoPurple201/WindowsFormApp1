@@ -144,17 +144,17 @@ namespace WinFormsApp1
                 //Si viene de Hardware, usar una consulta específica para CPU
                 if (tipoFiltro == "CPU")
                 {
-                    query = @"SELECT modelos.id_modelo AS Numero, 
-                             modelos.descripcion AS Descripcion, 
-                             modelos.tipo AS idTipo, 
-                             tipos.descripcion AS Tipo, 
-                             tipos.refaccion AS Refaccion 
-                      FROM modelos 
-                      JOIN tipos ON modelos.tipo = tipos.id_tipo 
-                      JOIN marcas ON marcas.id_marca = modelos.marca 
-                      WHERE marcas.descripcion = @marca 
-                      AND tipos.descripcion = 'CPU'";
-                }
+                        query = @"SELECT modelos.id_modelo AS Numero, 
+                                 modelos.descripcion AS Descripcion, 
+                                 modelos.tipo AS idTipo, 
+                                 tipos.descripcion AS Tipo, 
+                                 tipos.refaccion AS Refaccion 
+                          FROM modelos 
+                          JOIN tipos ON modelos.tipo = tipos.id_tipo 
+                          JOIN marcas ON marcas.id_marca = modelos.marca 
+                          WHERE marcas.descripcion = @marca 
+                          AND tipos.descripcion IN ('CPU','SERVIDOR','ALL IN ONE','LAPTOP');";
+                } 
                 else
                 {
                     //Si viene de Periféricos, excluir CPUs
@@ -167,7 +167,7 @@ namespace WinFormsApp1
                       JOIN tipos ON modelos.tipo = tipos.id_tipo 
                       JOIN marcas ON marcas.id_marca = modelos.marca 
                       WHERE marcas.descripcion = @marca 
-                      AND tipos.descripcion <> 'CPU'";
+                      AND tipos.descripcion NOT IN ('CPU','SERVIDOR','ALL IN ONE','LAPTOP');";
                 }
                 using (SqlConnection conexion = conexionSQL.ObtenerConexion())
                 {
@@ -226,7 +226,7 @@ namespace WinFormsApp1
 
                                 if (tipoFiltro == "CPU")
                                 {
-                                    dgvModelos.Rows[index].Cells["Tipo"].Value = "CPU";
+                                    dgvModelos.Rows[index].Cells["Tipo"].Value = reader["Tipo"].ToString();
                                 }
                                 else
                                 {

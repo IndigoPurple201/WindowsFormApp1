@@ -629,6 +629,9 @@
             boxGrupo.Name = "boxGrupo";
             boxGrupo.Size = new Size(214, 23);
             boxGrupo.TabIndex = 93;
+            boxGrupo.TextChanged += boxGrupo_TextChanged;
+            boxGrupo.KeyPress += boxGrupo_KeyPress;
+
             // 
             // boxActSistemas
             // 
