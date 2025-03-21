@@ -471,7 +471,6 @@ namespace WinFormsApp1
                 if (ctrl is TextBox || ctrl is ComboBox)
                 {
                     ctrl.Enabled = !bloquear; // Deshabilita o habilita los controles
-                    txtFolio.Enabled = bloquear;
                 }
             }
             btnNuevo.Enabled = bloquear;    // "Nuevo" solo está habilitado cuando los demás están bloqueados
