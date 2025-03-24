@@ -223,28 +223,12 @@ namespace WinFormsApp1
                                 int index = dgvModelos.Rows.Add();
                                 dgvModelos.Rows[index].Cells["Numero"].Value = reader["Numero"];
                                 dgvModelos.Rows[index].Cells["Descripcion"].Value = reader["Descripcion"];
-
-                                if (tipoFiltro == "CPU")
-                                {
-                                    dgvModelos.Rows[index].Cells["Tipo"].Value = reader["Tipo"].ToString();
-                                }
-                                else
-                                {
                                     dgvModelos.Rows[index].Cells["Tipo"].Value = reader["idTipo"];
-                                }
-
                                 dgvModelos.Rows[index].Cells["Refaccion"].Value = reader["Refaccion"];
                             }
                             dgvModelos.Columns["Numero"].ReadOnly = true;
                             dgvModelos.Columns["Descripcion"].ReadOnly = false;
-                            if (tipoFiltro == "CPU")
-                            {
-                                dgvModelos.Columns["Tipo"].ReadOnly = true;
-                            }
-                            else 
-                            {
                                 dgvModelos.Columns["Tipo"].ReadOnly = false;
-                            }
                             dgvModelos.Columns["Refaccion"].ReadOnly = true;
                             dgvModelos.Columns["Numero"].DisplayIndex = 0;
                             dgvModelos.Columns["Descripcion"].DisplayIndex = 1;
@@ -330,7 +314,6 @@ namespace WinFormsApp1
                     if (comboBox.Items.Contains("-") || comboBox.Items.Contains("CPU"))
                     {
                         comboBox.SelectedItem = "-";
-                        comboBox.SelectedItem = "CPU"; 
                     }
                     else
                     {
@@ -471,33 +454,16 @@ namespace WinFormsApp1
                     {
                         connection.Open();
                         string queryUpdate;
-                        if (tipoFiltro == "CPU")
-                        {
-                            queryUpdate = "UPDATE modelos SET descripcion = @descripcion WHERE id_modelo = @idModelo;";
-                        }
-                        else
-                        {
-                            int nuevoIdTipo = Convert.ToInt32(row.Cells["Tipo"].Value);
                             queryUpdate = "UPDATE modelos SET descripcion = @descripcion, tipo = @tipo WHERE id_modelo = @idModelo;";
-                        }
                         using (SqlCommand cmd = new SqlCommand(queryUpdate, connection))
                         {
                             cmd.Parameters.AddWithValue("@descripcion", nuevaDescripcion);
                             cmd.Parameters.AddWithValue("@idModelo", idModelo);
-                            if(tipoFiltro == "CPU")
-                            { 
-                                cmd.ExecuteNonQuery();
-                                ModeloAgregada.Invoke();
-                            }
-                            else
-                            {
-                                int nuevoIdTipo = Convert.ToInt32(row.Cells["Tipo"].Value);
                                 cmd.Parameters.AddWithValue("@tipo", nuevoIdTipo);
                                 cmd.ExecuteNonQuery();
                                 ModeloAgregada.Invoke();
                             }
                         }
-                     }
                     cambiosRealizados = true;
                 }
                 catch (Exception ex)

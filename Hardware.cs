@@ -436,7 +436,6 @@ namespace WinFormsApp1
         private void btnPerifericos_Click(object sender, EventArgs e)
         {
             Perifericos perifericos = new Perifericos(this);
-            perifericos.Show();
             this.Hide();
             //perifericos.FormClosed += (s, args) => Application.Exit();
         }
