@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BuscarPerifericos));
-            label4 = new Label();
             panel1 = new Panel();
             radioNumSerie = new RadioButton();
             radioActivo = new RadioButton();
@@ -55,16 +54,6 @@
             ((System.ComponentModel.ISupportInitialize)dgvPerifericos).BeginInit();
             ((System.ComponentModel.ISupportInitialize)buttonSalir).BeginInit();
             SuspendLayout();
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label4.Location = new Point(28, 18);
-            label4.Name = "label4";
-            label4.Size = new Size(180, 15);
-            label4.TabIndex = 82;
-            label4.Text = "ELIJA UN CAMPO DE BUSQUEDA";
             // 
             // panel1
             // 

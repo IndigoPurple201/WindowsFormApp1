@@ -66,8 +66,6 @@ namespace WinFormsApp1
             txtBuscarFolio.Visible = true;
             radioFolio.Checked = true;
             txtBuscarFolio.Focus();
-            //ConfigurarBoxBuscarActivo(boxBuscarActivo);
-            //ConfigurarBuscarNumSerie(boxBuscarNumSerie);
         }
 
         private void BuscarPerifericos_MouseDown(object sender, MouseEventArgs e)
