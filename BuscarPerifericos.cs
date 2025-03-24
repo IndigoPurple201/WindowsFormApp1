@@ -25,6 +25,7 @@ namespace WinFormsApp1
         private Color bordeOriginal = Color.Black;
         private Color panelOriginal;
         private bool parpadeoActivo = false;
+        private string tipoFIltro = "";
 
         [DllImport("user32.dll")]
         private static extern void MessageBeep(uint uType);
@@ -35,13 +36,14 @@ namespace WinFormsApp1
         private Control controlActivo = null;
         private Point mouseDownLocation;
         private ConexionSQL conexionSQL = new ConexionSQL();
-        public BuscarPerifericos()
+        public BuscarPerifericos(string tipo)
         {
             InitializeComponent();
             this.FormBorderStyle = FormBorderStyle.None;
             this.Padding = new Padding(3);
 
             this.MouseDown += new MouseEventHandler(BuscarPerifericos_MouseDown);
+            tipoFIltro = tipo;
         }
 
         private void BuscarPerifericos_Load(object sender, EventArgs e)
@@ -57,15 +59,52 @@ namespace WinFormsApp1
             }
             this.Click += QuitarFoco;
             ConfigurarDataGridView();
-            CargarDatosDGV();
-            label3.Text = "NUMERO:";
-            boxBuscarDepartamento.Visible = false;
-            txtBuscarDidecon.Visible = false;
-            txtBuscarActivo.Visible = false;
-            txtBuscarNumero.Visible = false;
-            txtBuscarFolio.Visible = true;
-            radioFolio.Checked = true;
-            txtBuscarFolio.Focus();
+            if (tipoFIltro == "CPU")
+            {
+                CargarDatosDGV();
+                label3.Text = "NUMERO:";
+                boxBuscarDepartmanentoCPU.Visible = false;
+                txtBuscarDirCPU.Visible = false;
+                txtBuscarActivoCPU.Visible = false;
+                boxBuscarMarca.Visible = false;
+                boxBuscarTipo.Visible = false;
+                txtBuscarFolioCPU.Visible = true;
+                radioNumeroCPU.Checked = true;
+                txtBuscarFolio.Focus();
+
+                radioFolio.Visible = false;
+                boxBuscarDepartamento.Visible = false;
+                radioDidecon.Visible = false;
+                radioDidecon.Visible = false;
+                radioActivo.Visible = false;
+            }
+            else
+            {
+                CargarDatosDGV();
+                label3.Text = "NUMERO:";
+                boxBuscarDepartamento.Visible = false;
+                txtBuscarDidecon.Visible = false;
+                txtBuscarActivo.Visible = false;
+                txtBuscarNumero.Visible = false;
+                txtBuscarFolio.Visible = true;
+                radioFolio.Checked = true;
+                txtBuscarFolio.Focus();
+
+                txtBuscarFolioCPU.Visible = false;
+                boxBuscarDepartmanentoCPU.Visible = false;
+                txtBuscarDirCPU.Visible = false;
+                txtBuscarActivoCPU.Visible = false;
+                boxBuscarMarca.Visible = false;
+                boxBuscarTipo.Visible = false;
+
+                radioNumeroCPU.Visible = false;
+                boxBuscarDepartmanentoCPU.Visible = false;
+                radioDepartamentoCPU.Visible = false;
+                radioDirIP.Visible = false;
+                radioActivoCPU.Visible = false;
+                radioPerifericos.Visible = false;
+
+            }
         }
 
         private void BuscarPerifericos_MouseDown(object sender, MouseEventArgs e)
@@ -322,6 +361,21 @@ namespace WinFormsApp1
             }
         }
 
+        private void radioNumeroCPU_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioNumeroCPU.Checked)
+            {
+                label3.Text = "NUMERO:";
+                boxBuscarDepartmanentoCPU.Visible = false;
+                txtBuscarDirCPU.Visible = false;
+                txtBuscarActivoCPU.Visible = false;
+                boxBuscarMarca.Visible = false;
+                boxBuscarTipo.Visible = false;
+                txtBuscarFolioCPU.Visible = true;
+                txtBuscarFolioCPU.Focus();
+            }
+        }
+
         private void radioDepartamento_CheckedChanged(object sender, EventArgs e)
         {
             if (radioDepartamento.Checked)
@@ -334,6 +388,22 @@ namespace WinFormsApp1
                 txtBuscarFolio.Visible = false;
                 cargarDepartamentos();
                 boxBuscarDepartamento.Focus();
+            }
+        }
+
+        private void radioDepartamentoCPU_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioDepartamentoCPU.Checked)
+            {
+                label3.Text = "DEPARTAMENTO:";
+                boxBuscarDepartmanentoCPU.Visible = true;
+                txtBuscarDirCPU.Visible = false;
+                txtBuscarActivoCPU.Visible = false;
+                boxBuscarMarca.Visible = false;
+                boxBuscarTipo.Visible = false;
+                txtBuscarFolioCPU.Visible = false;
+                cargarDepartamentos();
+                boxBuscarDepartmanentoCPU.Focus();
             }
         }
 
@@ -351,17 +421,49 @@ namespace WinFormsApp1
             }
         }
 
-        private void radioActivo_CheckedChanged(object sender, EventArgs e)
+        private void radioDirIP_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioActivo.Checked)
+            if (radioDirIP.Checked)
             {
-                label3.Text = "ACT CONTRALORIA:";
-                boxBuscarDepartamento.Visible = false;
-                txtBuscarDidecon.Visible = false;
-                txtBuscarActivo.Visible = true;
+                label3.Text = "DIR IP:";
+                boxBuscarDepartmanentoCPU.Visible = false;
+                txtBuscarDirCPU.Visible = true;
+                txtBuscarActivoCPU.Visible = true;
+                boxBuscarMarca.Visible = false;
+                boxBuscarTipo.Visible = false;
+                txtBuscarFolioCPU.Visible = false;
+                txtBuscarDirCPU.Focus();
+            }
+        }
+
+        private void radioActivoCPU_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioActivoCPU.Checked)
+            {
+                label3.Text = "ACTIVO CONTRALORIA:";
+                boxBuscarDepartmanentoCPU.Visible = false;
+                txtBuscarDirCPU.Visible = false;
+                txtBuscarActivoCPU.Visible = true;
+                boxBuscarMarca.Visible = false;
+                boxBuscarTipo.Visible = false;
+                txtBuscarFolioCPU.Visible = false;
+                txtBuscarActivoCPU.Focus();
+            }
+        }
+
+        private void radioPerifericos_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioPerifericos.Checked)
+            {
+                label3.Text = "PERIFERICOS:";
+                boxBuscarDepartmanentoCPU.Visible = false;
                 txtBuscarNumero.Visible = false;
-                txtBuscarFolio.Visible = false;
-                txtBuscarActivo.Focus();
+                txtBuscarDirCPU.Visible = false;
+                txtBuscarActivoCPU.Visible = false;
+                boxBuscarMarca.Visible = true;
+                boxBuscarTipo.Visible = true;
+                txtBuscarFolioCPU.Visible = false;
+                txtBuscarActivoCPU.Focus(); ;
             }
         }
 

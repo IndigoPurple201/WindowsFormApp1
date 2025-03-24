@@ -89,7 +89,7 @@ namespace WinFormsApp1
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
-            using (var buscarPerifericos = new BuscarPerifericos())
+            using (var buscarPerifericos = new BuscarPerifericos(""))
             {
                 buscarPerifericos.FormClosed += (s, args) => obtenerSiguienteNumero();
                 buscarPerifericos.ShowDialog();

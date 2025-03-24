@@ -312,7 +312,7 @@ namespace WinFormsApp1
 
         private void LlenarBoxTipo()
         {
-            try 
+            try
             {
                 using (SqlConnection conn = conexionSQL.ObtenerConexion())
                 {
@@ -664,7 +664,7 @@ namespace WinFormsApp1
             boxGrupo.DropDownStyle = ComboBoxStyle.DropDown; // Permite escribir manualmente
             boxGrupo.SelectedIndex = 0; // Seleccionar "-" por defecto
             boxGrupo.TextChanged += boxGrupo_TextChanged;
-            boxGrupo.KeyPress += boxGrupo_KeyPress; 
+            boxGrupo.KeyPress += boxGrupo_KeyPress;
         }
 
         private void boxArea_TextChanged(object sender, EventArgs e)
@@ -680,7 +680,7 @@ namespace WinFormsApp1
 
         private void boxArea_KeyPress(object sender, KeyPressEventArgs e)
         {
-            ComboBox comboBox = sender as ComboBox; 
+            ComboBox comboBox = sender as ComboBox;
             // Evitar que se ingresen más de 30 caracteres
             if (!char.IsControl(e.KeyChar) && comboBox.Text.Length >= 30)
             {
@@ -893,7 +893,7 @@ namespace WinFormsApp1
             comboBox.Text = comboBox.Text.ToUpper();
             // Mover el cursor al final
             comboBox.SelectionStart = comboBox.Text.Length;
-        }   
+        }
 
         private void boxActivo_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -924,7 +924,7 @@ namespace WinFormsApp1
                 e.Handled = true;
             }
         }
-        
+
         private void boxProveedor_TextChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = sender as ComboBox;
@@ -1124,6 +1124,12 @@ namespace WinFormsApp1
             {
                 e.Graphics.DrawRectangle(pen, new Rectangle(0, 0, this.Width - 1, this.Height - 1));
             }
+        }
+
+        private void btnBuscar_Click(object sender, EventArgs e)
+        {
+            BuscarPerifericos buscarPerifericos = new BuscarPerifericos("CPU");
+            buscarPerifericos.ShowDialog();
         }
     }
 }

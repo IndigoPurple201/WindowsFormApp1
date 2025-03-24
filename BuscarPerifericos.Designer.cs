@@ -30,12 +30,23 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BuscarPerifericos));
             panel1 = new Panel();
+            radioPerifericos = new RadioButton();
+            radioActivoCPU = new RadioButton();
+            radioDirIP = new RadioButton();
+            radioDepartamentoCPU = new RadioButton();
+            radioNumeroCPU = new RadioButton();
             radioNumSerie = new RadioButton();
             radioActivo = new RadioButton();
             radioDidecon = new RadioButton();
             radioDepartamento = new RadioButton();
             radioFolio = new RadioButton();
             panelBusqueda = new Panel();
+            boxBuscarTipo = new ComboBox();
+            boxBuscarMarca = new ComboBox();
+            txtBuscarActivoCPU = new TextBox();
+            txtBuscarDirCPU = new TextBox();
+            boxBuscarDepartmanentoCPU = new ComboBox();
+            txtBuscarFolioCPU = new TextBox();
             txtBuscarNumero = new TextBox();
             txtBuscarActivo = new TextBox();
             txtBuscarDidecon = new TextBox();
@@ -49,6 +60,7 @@
             buttonSalir = new PictureBox();
             label1 = new Label();
             btnActualizar = new Button();
+            label4 = new Label();
             panel1.SuspendLayout();
             panelBusqueda.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvPerifericos).BeginInit();
@@ -58,6 +70,11 @@
             // panel1
             // 
             panel1.BorderStyle = BorderStyle.FixedSingle;
+            panel1.Controls.Add(radioPerifericos);
+            panel1.Controls.Add(radioActivoCPU);
+            panel1.Controls.Add(radioDirIP);
+            panel1.Controls.Add(radioDepartamentoCPU);
+            panel1.Controls.Add(radioNumeroCPU);
             panel1.Controls.Add(radioNumSerie);
             panel1.Controls.Add(radioActivo);
             panel1.Controls.Add(radioDidecon);
@@ -67,6 +84,81 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(573, 38);
             panel1.TabIndex = 81;
+            // 
+            // radioPerifericos
+            // 
+            radioPerifericos.AutoSize = true;
+            radioPerifericos.Cursor = Cursors.Hand;
+            radioPerifericos.FlatStyle = FlatStyle.System;
+            radioPerifericos.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            radioPerifericos.Location = new Point(447, 8);
+            radioPerifericos.Name = "radioPerifericos";
+            radioPerifericos.Size = new Size(103, 20);
+            radioPerifericos.TabIndex = 9;
+            radioPerifericos.TabStop = true;
+            radioPerifericos.Text = "PERIFERICOS";
+            radioPerifericos.UseVisualStyleBackColor = true;
+            radioPerifericos.CheckedChanged += radioPerifericos_CheckedChanged;
+            // 
+            // radioActivoCPU
+            // 
+            radioActivoCPU.AutoSize = true;
+            radioActivoCPU.Cursor = Cursors.Hand;
+            radioActivoCPU.FlatStyle = FlatStyle.System;
+            radioActivoCPU.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            radioActivoCPU.Location = new Point(310, 8);
+            radioActivoCPU.Name = "radioActivoCPU";
+            radioActivoCPU.Size = new Size(138, 20);
+            radioActivoCPU.TabIndex = 8;
+            radioActivoCPU.TabStop = true;
+            radioActivoCPU.Text = "ATC CONTRALORIA";
+            radioActivoCPU.UseVisualStyleBackColor = true;
+            radioActivoCPU.CheckedChanged += radioActivoCPU_CheckedChanged;
+            // 
+            // radioDirIP
+            // 
+            radioDirIP.AutoSize = true;
+            radioDirIP.Cursor = Cursors.Hand;
+            radioDirIP.FlatStyle = FlatStyle.System;
+            radioDirIP.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            radioDirIP.Location = new Point(220, 8);
+            radioDirIP.Name = "radioDirIP";
+            radioDirIP.Size = new Size(69, 20);
+            radioDirIP.TabIndex = 7;
+            radioDirIP.TabStop = true;
+            radioDirIP.Text = "DIR. IP";
+            radioDirIP.UseVisualStyleBackColor = true;
+            radioDirIP.CheckedChanged += radioDirIP_CheckedChanged; 
+            // 
+            // radioDepartamentoCPU
+            // 
+            radioDepartamentoCPU.AutoSize = true;
+            radioDepartamentoCPU.Cursor = Cursors.Hand;
+            radioDepartamentoCPU.FlatStyle = FlatStyle.System;
+            radioDepartamentoCPU.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            radioDepartamentoCPU.Location = new Point(90, 8);
+            radioDepartamentoCPU.Name = "radioDepartamentoCPU";
+            radioDepartamentoCPU.Size = new Size(124, 20);
+            radioDepartamentoCPU.TabIndex = 6;
+            radioDepartamentoCPU.TabStop = true;
+            radioDepartamentoCPU.Text = "DEPARTAMENTO";
+            radioDepartamentoCPU.UseVisualStyleBackColor = true;
+            radioDepartamentoCPU.CheckedChanged += radioDepartamentoCPU_CheckedChanged;
+            // 
+            // radioNumeroCPU
+            // 
+            radioNumeroCPU.AutoSize = true;
+            radioNumeroCPU.Cursor = Cursors.Hand;
+            radioNumeroCPU.FlatStyle = FlatStyle.System;
+            radioNumeroCPU.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            radioNumeroCPU.Location = new Point(7, 8);
+            radioNumeroCPU.Name = "radioNumeroCPU";
+            radioNumeroCPU.Size = new Size(83, 20);
+            radioNumeroCPU.TabIndex = 5;
+            radioNumeroCPU.TabStop = true;
+            radioNumeroCPU.Text = "NUMERO";
+            radioNumeroCPU.UseVisualStyleBackColor = true;
+            radioNumeroCPU.CheckedChanged += radioNumeroCPU_CheckedChanged;
             // 
             // radioNumSerie
             // 
@@ -96,7 +188,7 @@
             radioActivo.TabStop = true;
             radioActivo.Text = "ATC CONTRALORIA";
             radioActivo.UseVisualStyleBackColor = true;
-            radioActivo.CheckedChanged += radioActivo_CheckedChanged;
+            //radioActivo.CheckedChanged += radioActivo_CheckedChanged;
             // 
             // radioDidecon
             // 
@@ -146,6 +238,12 @@
             // panelBusqueda
             // 
             panelBusqueda.BorderStyle = BorderStyle.FixedSingle;
+            panelBusqueda.Controls.Add(boxBuscarTipo);
+            panelBusqueda.Controls.Add(boxBuscarMarca);
+            panelBusqueda.Controls.Add(txtBuscarActivoCPU);
+            panelBusqueda.Controls.Add(txtBuscarDirCPU);
+            panelBusqueda.Controls.Add(boxBuscarDepartmanentoCPU);
+            panelBusqueda.Controls.Add(txtBuscarFolioCPU);
             panelBusqueda.Controls.Add(txtBuscarNumero);
             panelBusqueda.Controls.Add(txtBuscarActivo);
             panelBusqueda.Controls.Add(txtBuscarDidecon);
@@ -156,6 +254,51 @@
             panelBusqueda.Name = "panelBusqueda";
             panelBusqueda.Size = new Size(309, 59);
             panelBusqueda.TabIndex = 80;
+            // 
+            // boxBuscarTipo
+            // 
+            boxBuscarTipo.FormattingEnabled = true;
+            boxBuscarTipo.Location = new Point(176, 27);
+            boxBuscarTipo.Name = "boxBuscarTipo";
+            boxBuscarTipo.Size = new Size(121, 23);
+            boxBuscarTipo.TabIndex = 92;
+            // 
+            // boxBuscarMarca
+            // 
+            boxBuscarMarca.FormattingEnabled = true;
+            boxBuscarMarca.Location = new Point(10, 27);
+            boxBuscarMarca.Name = "boxBuscarMarca";
+            boxBuscarMarca.Size = new Size(121, 23);
+            boxBuscarMarca.TabIndex = 90;
+            // 
+            // txtBuscarActivoCPU
+            // 
+            txtBuscarActivoCPU.Location = new Point(8, 27);
+            txtBuscarActivoCPU.Name = "txtBuscarActivoCPU";
+            txtBuscarActivoCPU.Size = new Size(291, 23);
+            txtBuscarActivoCPU.TabIndex = 91;
+            // 
+            // txtBuscarDirCPU
+            // 
+            txtBuscarDirCPU.Location = new Point(7, 27);
+            txtBuscarDirCPU.Name = "txtBuscarDirCPU";
+            txtBuscarDirCPU.Size = new Size(291, 23);
+            txtBuscarDirCPU.TabIndex = 90;
+            // 
+            // boxBuscarDepartmanentoCPU
+            // 
+            boxBuscarDepartmanentoCPU.FormattingEnabled = true;
+            boxBuscarDepartmanentoCPU.Location = new Point(7, 27);
+            boxBuscarDepartmanentoCPU.Name = "boxBuscarDepartmanentoCPU";
+            boxBuscarDepartmanentoCPU.Size = new Size(290, 23);
+            boxBuscarDepartmanentoCPU.TabIndex = 90;
+            // 
+            // txtBuscarFolioCPU
+            // 
+            txtBuscarFolioCPU.Location = new Point(6, 26);
+            txtBuscarFolioCPU.Name = "txtBuscarFolioCPU";
+            txtBuscarFolioCPU.Size = new Size(291, 23);
+            txtBuscarFolioCPU.TabIndex = 89;
             // 
             // txtBuscarNumero
             // 
@@ -288,6 +431,16 @@
             btnActualizar.UseVisualStyleBackColor = true;
             btnActualizar.Click += btnActualizar_Click;
             // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label4.Location = new Point(28, 18);
+            label4.Name = "label4";
+            label4.Size = new Size(180, 15);
+            label4.TabIndex = 82;
+            label4.Text = "ELIJA UN CAMPO DE BUSQUEDA";
+            // 
             // BuscarPerifericos
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -318,8 +471,6 @@
         }
 
         #endregion
-
-        private Label label4;
         private Panel panel1;
         private RadioButton radioNumSerie;
         private RadioButton radioActivo;
@@ -340,5 +491,17 @@
         private TextBox txtBuscarNumero;
         private Label label1;
         private Button btnActualizar;
+        private Label label4;
+        private RadioButton radioNumeroCPU;
+        private RadioButton radioPerifericos;
+        private RadioButton radioActivoCPU;
+        private RadioButton radioDirIP;
+        private RadioButton radioDepartamentoCPU;
+        private TextBox txtBuscarActivoCPU;
+        private TextBox txtBuscarDirCPU;
+        private ComboBox boxBuscarDepartmanentoCPU;
+        private TextBox txtBuscarFolioCPU;
+        private ComboBox boxBuscarTipo;
+        private ComboBox boxBuscarMarca;
     }
 }

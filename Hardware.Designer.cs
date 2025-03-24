@@ -609,6 +609,7 @@
             btnBuscar.TabIndex = 91;
             btnBuscar.Text = "BUSCAR";
             btnBuscar.UseVisualStyleBackColor = true;
+            btnBuscar.Click += btnBuscar_Click;
             // 
             // boxNombre
             // 
