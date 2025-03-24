@@ -82,14 +82,20 @@ namespace WinFormsApp1
                     conn.Open();
                     if (tipoFiltro == "CPU")
                     {
-                        boxTipo.Items.Add("CPU");
-                        boxTipo.SelectedIndex = 0;
-                        boxTipo.DropDownStyle = ComboBoxStyle.DropDownList;
-                        boxTipo.Enabled = false;
+                        query = "SELECT tipos.descripcion FROM tipos WHERE tipos.descripcion IN ('CPU', 'LAPTOP', 'SERVIDOR', 'ALL IN ONE');";
+                        using (SqlCommand cmd = new SqlCommand(query, conn))
+                        using (SqlDataReader readear = cmd.ExecuteReader())
+                        {
+                            boxTipo.Items.Clear();
+                            while (readear.Read())
+                            {
+                                boxTipo.Items.Add(readear["descripcion"].ToString());
+                            }
+                        }
                     }
                     else
                     {
-                        query = "SELECT tipos.descripcion FROM tipos WHERE tipos.descripcion <> 'CPU';";
+                        query = "SELECT tipos.descripcion FROM tipos WHERE tipos.descripcion NOT IN ('CPU', 'LAPTOP', 'SERVIDOR', 'ALL IN ONE');";
                         using (SqlCommand cmd = new SqlCommand(query, conn))
                         using (SqlDataReader readear = cmd.ExecuteReader())
                         {
@@ -183,10 +189,31 @@ namespace WinFormsApp1
 
                             if (tipoFiltro == "CPU")
                             {
+                                DataTable dtTipos = new DataTable();
+                                using (SqlConnection conexionTipos = conexionSQL.ObtenerConexion())
+                                {
+                                    conexionTipos.Open();
+                                    string queryTipos = "SELECT id_tipo, descripcion FROM tipos WHERE tipos.descripcion IN ('CPU', 'LAPTOP', 'SERVIDOR', 'ALL IN ONE');";
+                                    using (SqlCommand cmdTipos = new SqlCommand(queryTipos, conexionTipos))
+                                    using (SqlDataReader readerTipos = cmdTipos.ExecuteReader())
+                                    {
+                                        dtTipos.Load(readerTipos);
+                                    }   
+                                }
                                 dgvModelos.Columns.Add("Numero", "Número");
                                 dgvModelos.Columns.Add("Descripcion", "Descripción");
-                                dgvModelos.Columns.Add("Tipo", "Tipo");
-                                dgvModelos.Columns.Add("Refaccion", "Refacción");
+                                dgvModelos.Columns.Add("Refaccion", "Refaccion");
+                                DataGridViewComboBoxColumn comboTipo = new DataGridViewComboBoxColumn
+                                {
+                                    Name = "Tipo",
+                                    HeaderText = "Tipo",
+                                    DataPropertyName = "idTipo",
+                                    DisplayMember = "descripcion",
+                                    ValueMember = "id_tipo",
+                                    DataSource = dtTipos,
+                                    AutoComplete = true
+                                };
+                                dgvModelos.Columns.Add(comboTipo);
                             }
                             else
                             {
@@ -194,7 +221,7 @@ namespace WinFormsApp1
                                 using (SqlConnection conexionTipos = conexionSQL.ObtenerConexion())
                                 {
                                     conexionTipos.Open();
-                                    string queryTipos = "SELECT id_tipo, descripcion FROM tipos WHERE tipos.descripcion <> 'CPU';";
+                                    string queryTipos = "SELECT id_tipo, descripcion FROM tipos WHERE tipos.descripcion NOT IN ('CPU', 'LAPTOP', 'SERVIDOR', 'ALL IN ONE');";
                                     using (SqlCommand cmdTipos = new SqlCommand(queryTipos, conexionTipos))
                                     using (SqlDataReader readerTipos = cmdTipos.ExecuteReader())
                                     {
@@ -223,12 +250,12 @@ namespace WinFormsApp1
                                 int index = dgvModelos.Rows.Add();
                                 dgvModelos.Rows[index].Cells["Numero"].Value = reader["Numero"];
                                 dgvModelos.Rows[index].Cells["Descripcion"].Value = reader["Descripcion"];
-                                    dgvModelos.Rows[index].Cells["Tipo"].Value = reader["idTipo"];
+                                dgvModelos.Rows[index].Cells["Tipo"].Value = reader["idTipo"];
                                 dgvModelos.Rows[index].Cells["Refaccion"].Value = reader["Refaccion"];
                             }
                             dgvModelos.Columns["Numero"].ReadOnly = true;
                             dgvModelos.Columns["Descripcion"].ReadOnly = false;
-                                dgvModelos.Columns["Tipo"].ReadOnly = false;
+                            dgvModelos.Columns["Tipo"].ReadOnly = false;
                             dgvModelos.Columns["Refaccion"].ReadOnly = true;
                             dgvModelos.Columns["Numero"].DisplayIndex = 0;
                             dgvModelos.Columns["Descripcion"].DisplayIndex = 1;
@@ -311,7 +338,7 @@ namespace WinFormsApp1
                 }
                 else if (ctrl is ComboBox comboBox)
                 {
-                    if (comboBox.Items.Contains("-") || comboBox.Items.Contains("CPU"))
+                    if (comboBox.Items.Contains("-"))
                     {
                         comboBox.SelectedItem = "-";
                     }
@@ -448,22 +475,23 @@ namespace WinFormsApp1
                 if (row.IsNewRow) continue;
                 int idModelo = Convert.ToInt32(row.Cells["Numero"].Value);
                 string nuevaDescripcion = row.Cells["Descripcion"].Value.ToString();
+                int nuevoIdTipo = Convert.ToInt32(row.Cells["Tipo"].Value);
                 try
                 {
                     using(SqlConnection connection = conexionSQL.ObtenerConexion())
                     {
                         connection.Open();
                         string queryUpdate;
-                            queryUpdate = "UPDATE modelos SET descripcion = @descripcion, tipo = @tipo WHERE id_modelo = @idModelo;";
+                        queryUpdate = "UPDATE modelos SET descripcion = @descripcion, tipo = @tipo WHERE id_modelo = @idModelo;";
                         using (SqlCommand cmd = new SqlCommand(queryUpdate, connection))
                         {
                             cmd.Parameters.AddWithValue("@descripcion", nuevaDescripcion);
                             cmd.Parameters.AddWithValue("@idModelo", idModelo);
-                                cmd.Parameters.AddWithValue("@tipo", nuevoIdTipo);
-                                cmd.ExecuteNonQuery();
-                                ModeloAgregada.Invoke();
-                            }
+                            cmd.Parameters.AddWithValue("@tipo", nuevoIdTipo);
+                            cmd.ExecuteNonQuery();
+                            ModeloAgregada.Invoke();
                         }
+                     }
                     cambiosRealizados = true;
                 }
                 catch (Exception ex)
@@ -487,10 +515,10 @@ namespace WinFormsApp1
         private void btnNuevo_Click(object sender, EventArgs e)
         {
             BloquearControles(false);
-            if (tipoFiltro == "CPU")
-            {
-                boxTipo.Enabled = false;
-            }
+            //if (tipoFiltro == "CPU")
+            //{
+            //    boxTipo.Enabled = false;
+            //}
             txtMarca.Enabled = false;
             obtenerSiguienteNumero();
         }

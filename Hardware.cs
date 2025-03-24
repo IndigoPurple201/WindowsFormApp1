@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Windows.Forms;
+using System.Windows.Forms; 
 
 namespace WinFormsApp1
 {
@@ -367,7 +367,7 @@ namespace WinFormsApp1
                     if (idMarca == 0)
                         return;
                     boxModelo.Items.Clear();
-                    String query2 = "SELECT modelos.descripcion FROM modelos JOIN tipos ON tipos.id_tipo = modelos.tipo WHERE marca = @idMarca AND tipos.descripcion IN ('CPU','SERVIDOR','LAPTOP','ALL IN ONE')ORDER BY modelos.descripcion ASC;";
+                    String query2 = "SELECT modelos.descripcion FROM modelos JOIN tipos ON tipos.id_tipo = modelos.tipo WHERE marca = @idMarca AND tipos.descripcion IN ('CPU','SERVIDOR','LAPTOP','ALL IN ONE');";
                     using (SqlCommand cmd2 = new SqlCommand(query2, conn))
                     {
                         cmd2.Parameters.AddWithValue("@idMarca", idMarca);
@@ -436,8 +436,14 @@ namespace WinFormsApp1
         private void btnPerifericos_Click(object sender, EventArgs e)
         {
             Perifericos perifericos = new Perifericos(this);
+            perifericos.Show();
             this.Hide();
-            //perifericos.FormClosed += (s, args) => Application.Exit();
+
+            perifericos.FormClosed += (s, args) =>
+            {
+                this.Show();
+                BloquearControles(true);
+            };
         }
 
         private void Hardware_MouseDown(object sender, MouseEventArgs e)
@@ -595,6 +601,7 @@ namespace WinFormsApp1
             boxNumFactura.DropDownStyle = ComboBoxStyle.DropDown; // Permite escribir manualmente
             boxNumFactura.SelectedIndex = 0; // Seleccionar "-" por defecto
             boxNumFactura.TextChanged += boxNumFactura_TextChanged;
+            boxNumFactura.KeyPress += boxNumFactura_KeyPress;
         }
 
         private void ConfigurarBoxValorFactura(ComboBox boxValorFactura)
@@ -636,7 +643,7 @@ namespace WinFormsApp1
             boxActivo.Items.Add(".   ");  // Agregar opción por defecto
             boxActivo.DropDownStyle = ComboBoxStyle.DropDown; // Permite escribir manualmente
             boxActivo.SelectedIndex = 0; // Seleccionar "-" por defecto
-
+            boxActivo.TextChanged += boxActivo_TextChanged;
             boxActivo.KeyPress += boxActivo_KeyPress;
         }
 
@@ -673,10 +680,11 @@ namespace WinFormsApp1
 
         private void boxArea_KeyPress(object sender, KeyPressEventArgs e)
         {
-            // Permitir solo letras, espacios y teclas de control (Backspace)
-            if (!char.IsControl(e.KeyChar) && !char.IsLetter(e.KeyChar) && e.KeyChar != ' ')
+            ComboBox comboBox = sender as ComboBox; 
+            // Evitar que se ingresen más de 30 caracteres
+            if (!char.IsControl(e.KeyChar) && comboBox.Text.Length >= 30)
             {
-                e.Handled = true; // Bloquear entrada
+                e.Handled = true;
             }
         }
 
@@ -744,6 +752,26 @@ namespace WinFormsApp1
             comboBox.Text = comboBox.Text.ToUpper();
             // Mover el cursor al final
             comboBox.SelectionStart = comboBox.Text.Length;
+        }
+
+        private void boxNumFacuta_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            ComboBox comboBox = sender as ComboBox;
+            // Evitar que se ingresen más de 15 dígitos
+            if (!char.IsControl(e.KeyChar) && comboBox.Text.Length >= 15)
+            {
+                e.Handled = true;
+            }
+            //Permitirsolo numerosy puntos
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
+            {
+                e.Handled = true;
+            }
+            // Evitar que haya puntos seguidos
+            if (e.KeyChar == '.' && (comboBox.Text.EndsWith(".") || comboBox.Text.Split('.').Length > 3))
+            {
+                e.Handled = true;
+            }
         }
 
         private void boxNumFactura_KeyPress(object sender, KeyPressEventArgs e)
@@ -857,6 +885,15 @@ namespace WinFormsApp1
             }
 
         }
+
+        private void boxActivo_TextChanged(object sender, EventArgs e)
+        {
+            ComboBox comboBox = sender as ComboBox;
+            // Convertir a mayúsculas
+            comboBox.Text = comboBox.Text.ToUpper();
+            // Mover el cursor al final
+            comboBox.SelectionStart = comboBox.Text.Length;
+        }   
 
         private void boxActivo_KeyPress(object sender, KeyPressEventArgs e)
         {

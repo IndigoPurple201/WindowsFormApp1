@@ -426,6 +426,8 @@
             boxActivo.Name = "boxActivo";
             boxActivo.Size = new Size(245, 23);
             boxActivo.TabIndex = 41;
+            boxActivo.TextChanged += boxActivo_TextChanged;
+            boxActivo.KeyPress += boxActivo_KeyPress;
             // 
             // txtMemoria
             // 
@@ -578,6 +580,7 @@
             // 
             // dateTimePicker1
             // 
+            dateTimePicker1.CalendarFont = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             dateTimePicker1.Enabled = false;
             dateTimePicker1.Format = DateTimePickerFormat.Short;
             dateTimePicker1.Location = new Point(646, 297);
@@ -631,7 +634,6 @@
             boxGrupo.TabIndex = 93;
             boxGrupo.TextChanged += boxGrupo_TextChanged;
             boxGrupo.KeyPress += boxGrupo_KeyPress;
-
             // 
             // boxActSistemas
             // 
@@ -670,6 +672,7 @@
             boxNumFactura.Size = new Size(245, 23);
             boxNumFactura.TabIndex = 96;
             boxNumFactura.TextChanged += boxNumFactura_TextChanged;
+            boxNumFactura.KeyPress += boxNumFactura_KeyPress;
             // 
             // boxValorFactura
             // 
