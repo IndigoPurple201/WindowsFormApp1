@@ -42,9 +42,9 @@
             radioFolio = new RadioButton();
             panelBusqueda = new Panel();
             boxBuscarTipo = new ComboBox();
-            boxBuscarMarca = new ComboBox();
             txtBuscarActivoCPU = new TextBox();
             txtBuscarDirCPU = new TextBox();
+            boxBuscarMarca = new ComboBox();
             boxBuscarDepartmanentoCPU = new ComboBox();
             txtBuscarFolioCPU = new TextBox();
             txtBuscarNumero = new TextBox();
@@ -128,7 +128,7 @@
             radioDirIP.TabStop = true;
             radioDirIP.Text = "DIR. IP";
             radioDirIP.UseVisualStyleBackColor = true;
-            radioDirIP.CheckedChanged += radioDirIP_CheckedChanged; 
+            radioDirIP.CheckedChanged += radioDirIP_CheckedChanged;
             // 
             // radioDepartamentoCPU
             // 
@@ -188,6 +188,7 @@
             radioActivo.TabStop = true;
             radioActivo.Text = "ATC CONTRALORIA";
             radioActivo.UseVisualStyleBackColor = true;
+            radioActivo.CheckedChanged += radioActivo_CheckedChanged;
             // 
             // radioDidecon
             // 
@@ -238,9 +239,9 @@
             // 
             panelBusqueda.BorderStyle = BorderStyle.FixedSingle;
             panelBusqueda.Controls.Add(boxBuscarTipo);
-            panelBusqueda.Controls.Add(boxBuscarMarca);
             panelBusqueda.Controls.Add(txtBuscarActivoCPU);
             panelBusqueda.Controls.Add(txtBuscarDirCPU);
+            panelBusqueda.Controls.Add(boxBuscarMarca);
             panelBusqueda.Controls.Add(boxBuscarDepartmanentoCPU);
             panelBusqueda.Controls.Add(txtBuscarFolioCPU);
             panelBusqueda.Controls.Add(txtBuscarNumero);
@@ -257,18 +258,10 @@
             // boxBuscarTipo
             // 
             boxBuscarTipo.FormattingEnabled = true;
-            boxBuscarTipo.Location = new Point(176, 27);
+            boxBuscarTipo.Location = new Point(166, 27);
             boxBuscarTipo.Name = "boxBuscarTipo";
             boxBuscarTipo.Size = new Size(121, 23);
             boxBuscarTipo.TabIndex = 92;
-            // 
-            // boxBuscarMarca
-            // 
-            boxBuscarMarca.FormattingEnabled = true;
-            boxBuscarMarca.Location = new Point(10, 27);
-            boxBuscarMarca.Name = "boxBuscarMarca";
-            boxBuscarMarca.Size = new Size(121, 23);
-            boxBuscarMarca.TabIndex = 90;
             // 
             // txtBuscarActivoCPU
             // 
@@ -283,6 +276,14 @@
             txtBuscarDirCPU.Name = "txtBuscarDirCPU";
             txtBuscarDirCPU.Size = new Size(291, 23);
             txtBuscarDirCPU.TabIndex = 90;
+            // 
+            // boxBuscarMarca
+            // 
+            boxBuscarMarca.FormattingEnabled = true;
+            boxBuscarMarca.Location = new Point(10, 27);
+            boxBuscarMarca.Name = "boxBuscarMarca";
+            boxBuscarMarca.Size = new Size(121, 23);
+            boxBuscarMarca.TabIndex = 90;
             // 
             // boxBuscarDepartmanentoCPU
             // 

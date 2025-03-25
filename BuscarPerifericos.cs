@@ -70,11 +70,18 @@ namespace WinFormsApp1
                 boxBuscarTipo.Visible = false;
                 txtBuscarFolioCPU.Visible = true;
                 radioNumeroCPU.Checked = true;
-                txtBuscarFolio.Focus();
+                txtBuscarFolioCPU.Focus();
+
+                txtBuscarFolio.Visible = false;
+                boxBuscarDepartamento.Visible = false;
+                txtBuscarDidecon.Visible = false;
+                txtBuscarActivo.Visible = false;
+                txtBuscarNumero.Visible = false;
 
                 radioFolio.Visible = false;
-                boxBuscarDepartamento.Visible = false;
+                radioDepartamento.Visible = false;
                 radioDidecon.Visible = false;
+                radioNumSerie.Visible = false;
                 radioActivo.Visible = false;
             }
             else
@@ -155,19 +162,39 @@ namespace WinFormsApp1
             dgvPerifericos.ColumnHeadersHeight = 35; // Aumenta la altura del encabezado
             dgvPerifericos.EnableHeadersVisualStyles = false;
 
-            if (dgvPerifericos.Columns.Count == 0)
+
+            if (tipoFIltro == "CPU")
             {
-                dgvPerifericos.Columns.Add("Numero", "Número");
-                dgvPerifericos.Columns.Add("Didecon", "Didecon");
-                dgvPerifericos.Columns.Add("Tipo", "Tipo");
-                dgvPerifericos.Columns.Add("Marca", "Marca");
-                dgvPerifericos.Columns.Add("Modelo", "Modelo");
-                dgvPerifericos.Columns.Add("N. Serie", "N. Serie");
-                dgvPerifericos.Columns.Add("Act. Contraloria", "Act. Contraloria");
-                dgvPerifericos.Columns.Add("Departamento", "Departamento");
-                dgvPerifericos.Columns.Add("Area", "Area");
-                dgvPerifericos.Columns.Add("Responsable", "Responsable");
-                dgvPerifericos.Columns.Add("Estatus", "Estatus");
+                if (dgvPerifericos.Columns.Count == 0)
+                {
+                    dgvPerifericos.Columns.Add("Numero", "Número");
+                    dgvPerifericos.Columns.Add("Didecon", "Didecon");
+                    dgvPerifericos.Columns.Add("Act. Contraloria", "Act. Contraloria");
+                    dgvPerifericos.Columns.Add("Dir. IP", "Dir. IP");
+                    dgvPerifericos.Columns.Add("Responsable", "Responsable");
+                    dgvPerifericos.Columns.Add("Tipo", "Tipo");
+                    dgvPerifericos.Columns.Add("Marca", "Marca");
+                    dgvPerifericos.Columns.Add("Modelo", "Modelo");
+                    dgvPerifericos.Columns.Add("Procesador", "Procesador");
+                    dgvPerifericos.Columns.Add("Estatus", "Estatus");
+                }
+            }
+            else
+            {
+                if (dgvPerifericos.Columns.Count == 0)
+                {
+                    dgvPerifericos.Columns.Add("Numero", "Número");
+                    dgvPerifericos.Columns.Add("Didecon", "Didecon");
+                    dgvPerifericos.Columns.Add("Tipo", "Tipo");
+                    dgvPerifericos.Columns.Add("Marca", "Marca");
+                    dgvPerifericos.Columns.Add("Modelo", "Modelo");
+                    dgvPerifericos.Columns.Add("N. Serie", "N. Serie");
+                    dgvPerifericos.Columns.Add("Act. Contraloria", "Act. Contraloria");
+                    dgvPerifericos.Columns.Add("Departamento", "Departamento");
+                    dgvPerifericos.Columns.Add("Area", "Area");
+                    dgvPerifericos.Columns.Add("Responsable", "Responsable");
+                    dgvPerifericos.Columns.Add("Estatus", "Estatus");
+                }
             }
         }
 
@@ -175,7 +202,48 @@ namespace WinFormsApp1
         {
             try
             {
-                string query = @"SELECT perifericos.folio AS Numero, perifericos.didecon AS Didecon, tipos.id_tipo AS idTipo, tipos.descripcion AS Tipo, marcas.descripcion AS Marca, modelos.descripcion AS Modelo, perifericos.sn AS 'N. Serie', perifericos.activocontraloria AS 'Act. Contraloria', dependencias.descripcion AS Departamento, hardware.area AS Area, hardware.responsable AS Responsable, estatus.id_estatus AS idEstatus, estatus.descripcion AS Estatus FROM perifericos JOIN tipos ON tipos.id_tipo = perifericos.tipo JOIN marcas ON marcas.id_marca = perifericos.marca JOIN modelos ON modelos.id_modelo = perifericos.modelo JOIN hardware ON hardware.didecon = perifericos.didecon JOIN dependencias ON dependencias.id_dependencia = hardware.depto JOIN estatus ON estatus.id_estatus = perifericos.idestatus WHERE tipos.descripcion <> 'CPU';";
+                string query = "";
+                if (tipoFIltro == "CPU")
+                {
+                    query = @"SELECT hardware.folio AS Numero, 
+                            hardware.didecon AS Didecon, 
+                            hardware.activocontraloria AS 'Act. Contraloria', 
+                            hardware.ip AS 'Dir. IP', 
+                            hardware.responsable AS 'Responsable',
+							tipos.descripcion AS Tipo,
+                            marcas.descripcion AS Marca, 
+							modelos.descripcion AS Modelo, 
+                            hardware.procesador AS Procesador,
+                            estatus.descripcion AS Estatus
+                            FROM hardware 
+                            JOIN tipos on tipos.id_tipo = hardware.idtipo
+                            JOIN estatus ON estatus.id_estatus = hardware.idestatus
+							JOIN marcas ON marcas.id_marca = hardware.marca
+							JOIN modelos ON modelos.id_modelo = hardware.modelo
+                            WHERE tipos.descripcion IN ('CPU','SERVIDOR','LAPTOP','ALL IN ONE');";
+                }
+                else
+                {
+                    query = @"SELECT perifericos.folio AS Numero, 
+                            perifericos.didecon AS Didecon,  
+                            tipos.descripcion AS Tipo, 
+                            marcas.descripcion AS Marca, 
+                            modelos.descripcion AS Modelo, 
+                            perifericos.sn AS 'N. Serie', 
+                            perifericos.activocontraloria AS 'Act. Contraloria', 
+                            dependencias.descripcion AS Departamento, 
+                            hardware.area AS Area, 
+                            hardware.responsable AS Responsable, 
+                            estatus.descripcion AS Estatus 
+                        FROM perifericos 
+                        JOIN tipos ON tipos.id_tipo = perifericos.tipo 
+                        JOIN marcas ON marcas.id_marca = perifericos.marca 
+                        JOIN modelos ON modelos.id_modelo = perifericos.modelo 
+                        JOIN hardware ON hardware.didecon = perifericos.didecon 
+                        JOIN dependencias ON dependencias.id_dependencia = hardware.depto 
+                        JOIN estatus ON estatus.id_estatus = perifericos.idestatus 
+                        WHERE tipos.descripcion NOT IN ('CPU','SERVIDOR','LAPTOP','ALL IN ONE');";
+                }
                 using (SqlConnection connection = conexionSQL.ObtenerConexion())
                 {
                     connection.Open();
@@ -184,43 +252,114 @@ namespace WinFormsApp1
                     {
                         dgvPerifericos.Rows.Clear();
                         dgvPerifericos.Columns.Clear();
-                        DataTable dtTipos = new DataTable();
-                        using (SqlConnection conexionTipos = conexionSQL.ObtenerConexion())
+                        if (tipoFIltro == "CPU")
                         {
-                            conexionTipos.Open();
-                            string queryTipos = "SELECT id_tipo, descripcion FROM tipos WHERE tipos.descripcion <> 'CPU';";
-                            using (SqlCommand cmdTipos = new SqlCommand(queryTipos, conexionTipos))
-                            using (SqlDataReader readerTipos = cmdTipos.ExecuteReader())
+                            dgvPerifericos.Columns.Add("Numero", "Número");
+                            dgvPerifericos.Columns.Add("Didecon", "Didecon");
+                            dgvPerifericos.Columns.Add("Act. Contraloria", "Act. Contraloria");
+                            dgvPerifericos.Columns.Add("Dir. IP", "Dir. IP");
+                            dgvPerifericos.Columns.Add("Responsable", "Responsable");
+                            dgvPerifericos.Columns.Add("Tipo", "Tipo");
+                            dgvPerifericos.Columns.Add("Marca", "Marca");
+                            dgvPerifericos.Columns.Add("Modelo", "Modelo");
+                            dgvPerifericos.Columns.Add("Procesador", "Procesador");
+                            dgvPerifericos.Columns.Add("Estatus", "Estatus");
+                            while (reader.Read())
                             {
-                                dtTipos.Load(readerTipos);
-                            }
+                                int index = dgvPerifericos.Rows.Add();
+                                dgvPerifericos.Rows[index].Cells["Numero"].Value = reader["Numero"].ToString();
+                                dgvPerifericos.Rows[index].Cells["Didecon"].Value = reader["Didecon"].ToString();
+                                dgvPerifericos.Rows[index].Cells["Act. Contraloria"].Value = reader["Act. Contraloria"].ToString();
+                                dgvPerifericos.Rows[index].Cells["Dir. IP"].Value = reader["Dir. IP"].ToString();
+                                dgvPerifericos.Rows[index].Cells["Responsable"].Value = reader["Responsable"].ToString();
+                                dgvPerifericos.Rows[index].Cells["Tipo"].Value = reader["Tipo"];    
+                                dgvPerifericos.Rows[index].Cells["Marca"].Value = reader["Marca"].ToString();
+                                dgvPerifericos.Rows[index].Cells["Modelo"].Value = reader["Modelo"].ToString();
+                                dgvPerifericos.Rows[index].Cells["Procesador"].Value = reader["Procesador"].ToString();
+                                dgvPerifericos.Rows[index].Cells["Estatus"].Value = reader["Estatus"].ToString();
                             }
                         }
-                        DataGridViewComboBoxColumn comboTipo = new DataGridViewComboBoxColumn
+                        else
                         {
-                            Name = "Tipo",
-                            HeaderText = "Tipo",
-                            DataPropertyName = "idTipo",
-                            DisplayMember = "descripcion",
-                            ValueMember = "id_tipo",
-                            DataSource = dtTipos,
-                            AutoComplete = true
-                        };
-                        dgvPerifericos.Columns.Add(comboTipo);
-                        DataGridViewComboBoxColumn comboEstatus = new DataGridViewComboBoxColumn
-                        {
-                            Name = "Estatus",
-                            HeaderText = "Estatus",
-                            DataPropertyName = "idEstatus",
-                            DisplayMember = "descripcion",
-                            ValueMember = "id_estatus",
-                            DataSource = dtEstatus,
-                            AutoComplete = true
-                        };
-                        dgvPerifericos.Columns.Add(comboEstatus);
+                            dgvPerifericos.Columns.Add("Numero", "Número");
+                            dgvPerifericos.Columns.Add("Didecon", "Didecon");
+                            dgvPerifericos.Columns.Add("Tipo", "Tipo");
+                            dgvPerifericos.Columns.Add("Marca", "Marca");
+                            dgvPerifericos.Columns.Add("Modelo", "Modelo");
+                            dgvPerifericos.Columns.Add("N. Serie", "N. Serie");
+                            dgvPerifericos.Columns.Add("Act. Contraloria", "Act. Contraloria");
+                            dgvPerifericos.Columns.Add("Departamento", "Departamento");
+                            dgvPerifericos.Columns.Add("Area", "Área");
+                            dgvPerifericos.Columns.Add("Responsable", "Responsable");
+                            dgvPerifericos.Columns.Add("Estatus", "Estatus");
+                            while (reader.Read())
+                            {
+                                int index = dgvPerifericos.Rows.Add();
+                                dgvPerifericos.Rows[index].Cells["Numero"].Value = reader["Numero"].ToString();
+                                dgvPerifericos.Rows[index].Cells["Didecon"].Value = reader["Didecon"].ToString();
+                                dgvPerifericos.Rows[index].Cells["Tipo"].Value = reader["Tipo"];
+                                dgvPerifericos.Rows[index].Cells["Marca"].Value = reader["Marca"].ToString();
+                                dgvPerifericos.Rows[index].Cells["Modelo"].Value = reader["Modelo"].ToString();
+                                dgvPerifericos.Rows[index].Cells["N. Serie"].Value = reader["N. Serie"].ToString();
+                                dgvPerifericos.Rows[index].Cells["Act. Contraloria"].Value = reader["Act. Contraloria"].ToString();
+                                dgvPerifericos.Rows[index].Cells["Departamento"].Value = reader["Departamento"].ToString();
+                                dgvPerifericos.Rows[index].Cells["Area"].Value = reader["Area"].ToString();
+                                dgvPerifericos.Rows[index].Cells["Responsable"].Value = reader["Responsable"].ToString();
+                                dgvPerifericos.Rows[index].Cells["Estatus"].Value = reader["Estatus"].ToString();
+                            }
                         }
                     }
                 }
+                if (tipoFIltro == "CPU")
+                {
+                    dgvPerifericos.Columns["Numero"].ReadOnly = true;
+                    dgvPerifericos.Columns["Didecon"].ReadOnly = false;
+                    dgvPerifericos.Columns["Act. Contraloria"].ReadOnly = false;
+                    dgvPerifericos.Columns["Dir. IP"].ReadOnly = false;
+                    dgvPerifericos.Columns["Responsable"].ReadOnly = false;
+                    dgvPerifericos.Columns["Tipo"].ReadOnly = false;
+                    dgvPerifericos.Columns["Marca"].ReadOnly = true;
+                    dgvPerifericos.Columns["Modelo"].ReadOnly = true;
+                    dgvPerifericos.Columns["Procesador"].ReadOnly = false;
+                    dgvPerifericos.Columns["Estatus"].ReadOnly = false;
+                    dgvPerifericos.Columns["Numero"].DisplayIndex = 0;
+                    dgvPerifericos.Columns["Didecon"].DisplayIndex = 1;
+                    dgvPerifericos.Columns["Act. Contraloria"].DisplayIndex = 2;
+                    dgvPerifericos.Columns["Dir. IP"].DisplayIndex = 3;
+                    dgvPerifericos.Columns["Responsable"].DisplayIndex = 4;
+                    dgvPerifericos.Columns["Tipo"].DisplayIndex = 5;
+                    dgvPerifericos.Columns["Marca"].DisplayIndex = 6;
+                    dgvPerifericos.Columns["Modelo"].DisplayIndex = 7;
+                    dgvPerifericos.Columns["Procesador"].DisplayIndex = 8;
+                    dgvPerifericos.Columns["Estatus"].DisplayIndex = 9;
+                }
+                else
+                {
+                    dgvPerifericos.Columns["Numero"].ReadOnly = true;
+                    dgvPerifericos.Columns["Didecon"].ReadOnly = true;
+                    dgvPerifericos.Columns["Tipo"].ReadOnly = false;
+                    dgvPerifericos.Columns["Marca"].ReadOnly = true;
+                    dgvPerifericos.Columns["Modelo"].ReadOnly = true;
+                    dgvPerifericos.Columns["N. Serie"].ReadOnly = false;
+                    dgvPerifericos.Columns["Act. Contraloria"].ReadOnly = false;
+                    dgvPerifericos.Columns["Departamento"].ReadOnly = true;
+                    dgvPerifericos.Columns["Area"].ReadOnly = true;
+                    dgvPerifericos.Columns["Responsable"].ReadOnly = true;
+                    dgvPerifericos.Columns["Estatus"].ReadOnly = false;
+                    dgvPerifericos.Columns["Numero"].DisplayIndex = 0;
+                    dgvPerifericos.Columns["Didecon"].DisplayIndex = 1;
+                    dgvPerifericos.Columns["Tipo"].DisplayIndex = 2;
+                    dgvPerifericos.Columns["Marca"].DisplayIndex = 3;
+                    dgvPerifericos.Columns["Modelo"].DisplayIndex = 4;
+                    dgvPerifericos.Columns["N. Serie"].DisplayIndex = 5;
+                    dgvPerifericos.Columns["Act. Contraloria"].DisplayIndex = 6;
+                    dgvPerifericos.Columns["Departamento"].DisplayIndex = 7;
+                    dgvPerifericos.Columns["Area"].DisplayIndex = 8;
+                    dgvPerifericos.Columns["Responsable"].DisplayIndex = 9;
+                    dgvPerifericos.Columns["Estatus"].DisplayIndex = 10;
+                }
+                dgvPerifericos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+                dgvPerifericos.ScrollBars = ScrollBars.Both;
             }
             catch (Exception ex)
             {
@@ -313,6 +452,7 @@ namespace WinFormsApp1
                 boxBuscarMarca.Visible = false;
                 boxBuscarTipo.Visible = false;
                 txtBuscarFolioCPU.Visible = true;
+                txtBuscarFolioCPU.Text = "NUMERO";
                 txtBuscarFolioCPU.Focus();
             }
         }
@@ -343,6 +483,7 @@ namespace WinFormsApp1
                 boxBuscarMarca.Visible = false;
                 boxBuscarTipo.Visible = false;
                 txtBuscarFolioCPU.Visible = false;
+                boxBuscarDepartmanentoCPU.Text = "jeje";
                 cargarDepartamentos();
                 boxBuscarDepartmanentoCPU.Focus();
             }
@@ -369,10 +510,11 @@ namespace WinFormsApp1
                 label3.Text = "DIR IP:";
                 boxBuscarDepartmanentoCPU.Visible = false;
                 txtBuscarDirCPU.Visible = true;
-                txtBuscarActivoCPU.Visible = true;
+                txtBuscarActivoCPU.Visible = false;
                 boxBuscarMarca.Visible = false;
                 boxBuscarTipo.Visible = false;
                 txtBuscarFolioCPU.Visible = false;
+                txtBuscarDirCPU.Text = "DIR IP";
                 txtBuscarDirCPU.Focus();
             }
         }
@@ -388,7 +530,22 @@ namespace WinFormsApp1
                 boxBuscarMarca.Visible = false;
                 boxBuscarTipo.Visible = false;
                 txtBuscarFolioCPU.Visible = false;
+                txtBuscarActivoCPU.Text = "ACTIVO CONTRALORIA";
                 txtBuscarActivoCPU.Focus();
+            }
+        }
+
+        private void radioActivo_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioActivo.Checked)
+            {
+                label3.Text = "ACTIVO CONTRALORIA:";
+                boxBuscarDepartamento.Visible = false;
+                txtBuscarDidecon.Visible = false;
+                txtBuscarActivo.Visible = true;
+                txtBuscarNumero.Visible = false;
+                txtBuscarFolio.Visible = false;
+                txtBuscarActivo.Focus();
             }
         }
 
@@ -398,7 +555,13 @@ namespace WinFormsApp1
             {
                 label3.Text = "PERIFERICOS:";
                 txtBuscarFolioCPU.Visible = false;
-                txtBuscarActivoCPU.Focus(); ;
+                boxBuscarDepartmanentoCPU.Visible = false;
+                txtBuscarDirCPU.Visible = false;
+                txtBuscarActivoCPU.Visible = false;
+                boxBuscarMarca.Visible = true;
+                boxBuscarTipo.Visible = true;
+                boxBuscarTipo.Text = "TIPO";
+                boxBuscarMarca.Text = "MARCA";
             }
         }
 
