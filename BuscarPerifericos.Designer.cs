@@ -188,7 +188,6 @@
             radioActivo.TabStop = true;
             radioActivo.Text = "ATC CONTRALORIA";
             radioActivo.UseVisualStyleBackColor = true;
-            //radioActivo.CheckedChanged += radioActivo_CheckedChanged;
             // 
             // radioDidecon
             // 

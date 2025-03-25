@@ -75,7 +75,6 @@ namespace WinFormsApp1
                 radioFolio.Visible = false;
                 boxBuscarDepartamento.Visible = false;
                 radioDidecon.Visible = false;
-                radioDidecon.Visible = false;
                 radioActivo.Visible = false;
             }
             else
@@ -98,7 +97,6 @@ namespace WinFormsApp1
                 boxBuscarTipo.Visible = false;
 
                 radioNumeroCPU.Visible = false;
-                boxBuscarDepartmanentoCPU.Visible = false;
                 radioDepartamentoCPU.Visible = false;
                 radioDirIP.Visible = false;
                 radioActivoCPU.Visible = false;
@@ -196,27 +194,8 @@ namespace WinFormsApp1
                             {
                                 dtTipos.Load(readerTipos);
                             }
-                        }
-                        DataTable dtEstatus = new DataTable();
-                        using (SqlConnection conexionEstatus = conexionSQL.ObtenerConexion())
-                        {
-                            conexionEstatus.Open();
-                            string queryEstatus = "SELECT id_estatus, descripcion FROM estatus;";
-                            using (SqlCommand cmdEstatus = new SqlCommand(queryEstatus, conexionEstatus))
-                            using (SqlDataReader readerEstatus = cmdEstatus.ExecuteReader())
-                            {
-                                dtEstatus.Load(readerEstatus);
                             }
                         }
-                        dgvPerifericos.Columns.Add("Numero", "Número");
-                        dgvPerifericos.Columns.Add("Didecon", "Didecon");
-                        dgvPerifericos.Columns.Add("Marca", "Marca");
-                        dgvPerifericos.Columns.Add("Modelo", "Modelo");
-                        dgvPerifericos.Columns.Add("N. Serie", "N. Serie");
-                        dgvPerifericos.Columns.Add("Act. Contraloria", "Act. Contraloria");
-                        dgvPerifericos.Columns.Add("Departamento", "Departamento");
-                        dgvPerifericos.Columns.Add("Area", "Área");
-                        dgvPerifericos.Columns.Add("Responsable", "Responsable");
                         DataGridViewComboBoxColumn comboTipo = new DataGridViewComboBoxColumn
                         {
                             Name = "Tipo",
@@ -239,47 +218,9 @@ namespace WinFormsApp1
                             AutoComplete = true
                         };
                         dgvPerifericos.Columns.Add(comboEstatus);
-                        while (reader.Read())
-                        {
-                            int index = dgvPerifericos.Rows.Add();
-                            dgvPerifericos.Rows[index].Cells["Numero"].Value = reader["Numero"].ToString();
-                            dgvPerifericos.Rows[index].Cells["Didecon"].Value = reader["Didecon"].ToString();
-                            dgvPerifericos.Rows[index].Cells["Tipo"].Value = reader["idTipo"];
-                            dgvPerifericos.Rows[index].Cells["Marca"].Value = reader["Marca"].ToString();
-                            dgvPerifericos.Rows[index].Cells["Modelo"].Value = reader["Modelo"].ToString();
-                            dgvPerifericos.Rows[index].Cells["N. Serie"].Value = reader["N. Serie"].ToString();
-                            dgvPerifericos.Rows[index].Cells["Act. Contraloria"].Value = reader["Act. Contraloria"].ToString();
-                            dgvPerifericos.Rows[index].Cells["Departamento"].Value = reader["Departamento"].ToString();
-                            dgvPerifericos.Rows[index].Cells["Area"].Value = reader["Area"].ToString();
-                            dgvPerifericos.Rows[index].Cells["Responsable"].Value = reader["Responsable"].ToString();
-                            dgvPerifericos.Rows[index].Cells["Estatus"].Value = reader["idEstatus"].ToString();
                         }
                     }
                 }
-                dgvPerifericos.Columns["Numero"].ReadOnly = true;
-                dgvPerifericos.Columns["Didecon"].ReadOnly = true;
-                dgvPerifericos.Columns["Tipo"].ReadOnly = false;
-                dgvPerifericos.Columns["Marca"].ReadOnly = true;
-                dgvPerifericos.Columns["Modelo"].ReadOnly = true;
-                dgvPerifericos.Columns["N. Serie"].ReadOnly = false;
-                dgvPerifericos.Columns["Act. Contraloria"].ReadOnly = false;
-                dgvPerifericos.Columns["Departamento"].ReadOnly = true;
-                dgvPerifericos.Columns["Area"].ReadOnly = true;
-                dgvPerifericos.Columns["Responsable"].ReadOnly = true;
-                dgvPerifericos.Columns["Estatus"].ReadOnly = false;
-                dgvPerifericos.Columns["Numero"].DisplayIndex = 0;
-                dgvPerifericos.Columns["Didecon"].DisplayIndex = 1;
-                dgvPerifericos.Columns["Tipo"].DisplayIndex = 2;
-                dgvPerifericos.Columns["Marca"].DisplayIndex = 3;
-                dgvPerifericos.Columns["Modelo"].DisplayIndex = 4;
-                dgvPerifericos.Columns["N. Serie"].DisplayIndex = 5;
-                dgvPerifericos.Columns["Act. Contraloria"].DisplayIndex = 6;
-                dgvPerifericos.Columns["Departamento"].DisplayIndex = 7;
-                dgvPerifericos.Columns["Area"].DisplayIndex = 8;
-                dgvPerifericos.Columns["Responsable"].DisplayIndex = 9;
-                dgvPerifericos.Columns["Estatus"].DisplayIndex = 10;
-                dgvPerifericos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-                dgvPerifericos.ScrollBars = ScrollBars.Both;
             }
             catch (Exception ex)
             {
@@ -456,12 +397,6 @@ namespace WinFormsApp1
             if (radioPerifericos.Checked)
             {
                 label3.Text = "PERIFERICOS:";
-                boxBuscarDepartmanentoCPU.Visible = false;
-                txtBuscarNumero.Visible = false;
-                txtBuscarDirCPU.Visible = false;
-                txtBuscarActivoCPU.Visible = false;
-                boxBuscarMarca.Visible = true;
-                boxBuscarTipo.Visible = true;
                 txtBuscarFolioCPU.Visible = false;
                 txtBuscarActivoCPU.Focus(); ;
             }
