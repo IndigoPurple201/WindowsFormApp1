@@ -715,7 +715,6 @@ namespace WinFormsApp1
                         }
                         query += " AND hardware.folio = @filtro";
                         parametros.Add(new SqlParameter("@filtro", txtBuscarFolioCPU.Text.Trim()));
-                        MessageBox.Show(parametros.ToString());
                     }
                     else if (radioDepartamentoCPU.Checked)
                     {
@@ -822,7 +821,6 @@ namespace WinFormsApp1
                         MessageBox.Show("Seleccione un campo de búsqueda.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
-                    MessageBox.Show("Valor de tipoFiltro: " + tipoFiltro);
                     using (SqlConnection connection = conexionSQL.ObtenerConexion())
                     {
                         connection.Open();
