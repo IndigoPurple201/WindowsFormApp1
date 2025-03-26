@@ -773,22 +773,7 @@ namespace WinFormsApp1
                                 dgvPerifericos.Columns.Add("Estatus", "Estatus");
                                 dgvPerifericos.Columns.Add("Tipo", "Tipo");
 
-                                while (reader.Read())
-                                {
-                                    int index = dgvPerifericos.Rows.Add();
-                                    dgvPerifericos.Rows[index].Cells["Numero"].Value = reader["Numero"].ToString();
-                                    dgvPerifericos.Rows[index].Cells["Didecon"].Value = reader["Didecon"].ToString();
-                                    dgvPerifericos.Rows[index].Cells["Tipo"].Value = reader["Tipo"];
-                                    dgvPerifericos.Rows[index].Cells["Marca"].Value = reader["Marca"].ToString();
-                                    dgvPerifericos.Rows[index].Cells["Modelo"].Value = reader["Modelo"].ToString();
-                                    dgvPerifericos.Rows[index].Cells["N. Serie"].Value = reader["N. Serie"].ToString();
-                                    dgvPerifericos.Rows[index].Cells["Act. Contraloria"].Value = reader["Act. Contraloria"].ToString();
-                                    dgvPerifericos.Rows[index].Cells["Departamento"].Value = reader["Departamento"].ToString();
-                                    dgvPerifericos.Rows[index].Cells["Area"].Value = reader["Area"].ToString();
-                                    dgvPerifericos.Rows[index].Cells["Responsable"].Value = reader["Responsable"].ToString();
-                                    dgvPerifericos.Rows[index].Cells["Estatus"].Value = reader["Estatus"];
                                 }
-
                             }
                         }
                     }
