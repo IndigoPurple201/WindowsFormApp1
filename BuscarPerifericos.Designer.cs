@@ -287,6 +287,7 @@
             // 
             // boxBuscarDepartmanentoCPU
             // 
+            boxBuscarDepartmanentoCPU.DropDownStyle = ComboBoxStyle.DropDownList;
             boxBuscarDepartmanentoCPU.FormattingEnabled = true;
             boxBuscarDepartmanentoCPU.Location = new Point(7, 27);
             boxBuscarDepartmanentoCPU.Name = "boxBuscarDepartmanentoCPU";
