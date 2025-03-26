@@ -579,38 +579,6 @@ namespace WinFormsApp1
             }
         }
 
-        //private DataTable CargarTipos()
-        //{
-        //    DataTable dtTipos = new DataTable();
-        //    using (SqlConnection conexionTipos = conexionSQL.ObtenerConexion())
-        //    {
-        //        conexionTipos.Open();
-        //        string queryTipos = "SELECT id_tipo, descripcion FROM tipos WHERE tipos.descripcion <> 'CPU';";
-        //        using (SqlCommand cmdTipos = new SqlCommand(queryTipos, conexionTipos))
-        //        using (SqlDataReader readerTipos = cmdTipos.ExecuteReader())
-        //        {
-        //            dtTipos.Load(readerTipos);
-        //        }
-        //    }
-        //    return dtTipos;
-        //}
-
-        //private DataTable CargarEstatus()
-        //{
-        //    DataTable dtEstatus = new DataTable();
-        //    using (SqlConnection conexionEstatus = conexionSQL.ObtenerConexion())
-        //    {
-        //        conexionEstatus.Open();
-        //        string queryEstatus = "SELECT id_estatus, descripcion FROM estatus;";
-        //        using (SqlCommand cmdEstatus = new SqlCommand(queryEstatus, conexionEstatus))
-        //        using (SqlDataReader readerEstatus = cmdEstatus.ExecuteReader())
-        //        {
-        //            dtEstatus.Load(readerEstatus);
-        //        }
-        //    }
-        //    return dtEstatus;
-        //}
-
         private void btnBuscar_Click(object sender, EventArgs e)
         {
             try
@@ -645,15 +613,6 @@ namespace WinFormsApp1
                 }
                 using (SqlConnection connection = conexionSQL.ObtenerConexion())
                 {
-                    connection.Open();
-                    using (SqlCommand cmd = new SqlCommand(query, connection))
-                    {
-                        using (SqlDataReader reader = cmd.ExecuteReader())
-                        {
-                            dgvPerifericos.Rows.Clear();
-                            dgvPerifericos.Columns.Clear();
-                            if (tipoFIltro == "CPU")
-                            {
                                 
                             }
                             else 
@@ -766,13 +725,9 @@ namespace WinFormsApp1
                                 dgvPerifericos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
                                 dgvPerifericos.ScrollBars = ScrollBars.Both;
                             }
-                        };
                     }
                 }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error: " + ex.Message);
             }
         }
 
