@@ -823,6 +823,7 @@ namespace WinFormsApp1
                     }
                     using (SqlConnection connection = conexionSQL.ObtenerConexion())
                     {
+                        MessageBox.Show("Tercero");
                         connection.Open();
                         using (SqlCommand cmd = new SqlCommand(query, connection))
                         {
