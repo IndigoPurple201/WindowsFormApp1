@@ -25,7 +25,7 @@ namespace WinFormsApp1
         private Color bordeOriginal = Color.Black;
         private Color panelOriginal;
         private bool parpadeoActivo = false;
-        private string tipoFIltro = "";
+        private string tipoFiltro = "";
 
         [DllImport("user32.dll")]
         private static extern void MessageBeep(uint uType);
@@ -43,7 +43,7 @@ namespace WinFormsApp1
             this.Padding = new Padding(3);
 
             this.MouseDown += new MouseEventHandler(BuscarPerifericos_MouseDown);
-            tipoFIltro = tipo;
+            tipoFiltro = tipo;
         }
 
         private void BuscarPerifericos_Load(object sender, EventArgs e)
@@ -59,7 +59,7 @@ namespace WinFormsApp1
             }
             this.Click += QuitarFoco;
             ConfigurarDataGridView();
-            if (tipoFIltro == "CPU")
+            if (tipoFiltro == "CPU")
             {
                 CargarDatosDGV();
                 label3.Text = "NUMERO:";
@@ -110,6 +110,8 @@ namespace WinFormsApp1
                 radioPerifericos.Visible = false;
 
             }
+            configurarBoxMarca(boxBuscarMarca);
+            configurarBoxTipo(boxBuscarTipo);   
         }
 
         private void BuscarPerifericos_MouseDown(object sender, MouseEventArgs e)
@@ -163,7 +165,7 @@ namespace WinFormsApp1
             dgvPerifericos.EnableHeadersVisualStyles = false;
 
 
-            if (tipoFIltro == "CPU")
+            if (tipoFiltro == "CPU")
             {
                 if (dgvPerifericos.Columns.Count == 0)
                 {
@@ -203,7 +205,7 @@ namespace WinFormsApp1
             try
             {
                 string query = "";
-                if (tipoFIltro == "CPU")
+                if (tipoFiltro == "CPU")
                 {
                     query = @"SELECT hardware.folio AS Numero, 
                             hardware.didecon AS Didecon, 
@@ -252,7 +254,7 @@ namespace WinFormsApp1
                     {
                         dgvPerifericos.Rows.Clear();
                         dgvPerifericos.Columns.Clear();
-                        if (tipoFIltro == "CPU")
+                        if (tipoFiltro == "CPU")
                         {
                             dgvPerifericos.Columns.Add("Numero", "Número");
                             dgvPerifericos.Columns.Add("Didecon", "Didecon");
@@ -310,7 +312,7 @@ namespace WinFormsApp1
                         }
                     }
                 }
-                if (tipoFIltro == "CPU")
+                if (tipoFiltro == "CPU")
                 {
                     dgvPerifericos.Columns["Numero"].ReadOnly = true;
                     dgvPerifericos.Columns["Didecon"].ReadOnly = false;
@@ -416,7 +418,62 @@ namespace WinFormsApp1
                     {
                         while (reader.Read())
                         {
-                            boxBuscarDepartamento.Items.Add(reader["descripcion"].ToString());
+                            if (tipoFiltro == "CPU")
+                            {
+                                boxBuscarDepartmanentoCPU.Items.Add(reader["descripcion"].ToString());
+                            }
+                            else 
+                            {
+                                boxBuscarDepartamento.Items.Add(reader["descripcion"].ToString());
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+
+        private void cargarMarcas()
+        {
+            try
+            {
+                using (SqlConnection connection = conexionSQL.ObtenerConexion())
+                {
+                    connection.Open();
+                    string query = "SELECT marcas.descripcion FROM marcas;";
+                    using (SqlCommand cmd = new SqlCommand(query, connection))
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            boxBuscarMarca.Items.Add(reader["descripcion"].ToString());
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+
+        private void cargarTipos()
+        {
+            try
+            {
+                using (SqlConnection connection = conexionSQL.ObtenerConexion())
+                {
+                    connection.Open();
+                    string query = "SELECT tipos.descripcion FROM tipos WHERE tipos.descripcion IN ('CPU','SERVIDOR','LAPTOP','ALL IN ONE');";
+                    using (SqlCommand cmd = new SqlCommand(query, connection))
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            boxBuscarTipo.Items.Add(reader["descripcion"].ToString());
                         }
                     }
                 }
@@ -452,7 +509,7 @@ namespace WinFormsApp1
                 boxBuscarMarca.Visible = false;
                 boxBuscarTipo.Visible = false;
                 txtBuscarFolioCPU.Visible = true;
-                txtBuscarFolioCPU.Text = "NUMERO";
+                //txtBuscarFolioCPU.Text = "NUMERO";
                 txtBuscarFolioCPU.Focus();
             }
         }
@@ -483,7 +540,7 @@ namespace WinFormsApp1
                 boxBuscarMarca.Visible = false;
                 boxBuscarTipo.Visible = false;
                 txtBuscarFolioCPU.Visible = false;
-                boxBuscarDepartmanentoCPU.Text = "jeje";
+                //boxBuscarDepartmanentoCPU.Text = "jeje";
                 cargarDepartamentos();
                 boxBuscarDepartmanentoCPU.Focus();
             }
@@ -514,7 +571,7 @@ namespace WinFormsApp1
                 boxBuscarMarca.Visible = false;
                 boxBuscarTipo.Visible = false;
                 txtBuscarFolioCPU.Visible = false;
-                txtBuscarDirCPU.Text = "DIR IP";
+                //txtBuscarDirCPU.Text = "DIR IP";
                 txtBuscarDirCPU.Focus();
             }
         }
@@ -530,7 +587,7 @@ namespace WinFormsApp1
                 boxBuscarMarca.Visible = false;
                 boxBuscarTipo.Visible = false;
                 txtBuscarFolioCPU.Visible = false;
-                txtBuscarActivoCPU.Text = "ACTIVO CONTRALORIA";
+                //txtBuscarActivoCPU.Text = "ACTIVO CONTRALORIA";
                 txtBuscarActivoCPU.Focus();
             }
         }
@@ -553,15 +610,15 @@ namespace WinFormsApp1
         {
             if (radioPerifericos.Checked)
             {
-                label3.Text = "PERIFERICOS:";
+                label3.Text = "MARCA Y TIPO:";
                 txtBuscarFolioCPU.Visible = false;
                 boxBuscarDepartmanentoCPU.Visible = false;
                 txtBuscarDirCPU.Visible = false;
                 txtBuscarActivoCPU.Visible = false;
                 boxBuscarMarca.Visible = true;
                 boxBuscarTipo.Visible = true;
-                boxBuscarTipo.Text = "TIPO";
-                boxBuscarMarca.Text = "MARCA";
+                cargarTipos();
+                cargarMarcas();
             }
         }
 
@@ -579,100 +636,131 @@ namespace WinFormsApp1
             }
         }
 
+        private void configurarBoxMarca(ComboBox boxBuscarMarca)
+        {
+            boxBuscarMarca.Items.Clear();
+            boxBuscarMarca.Items.Add(".");
+            boxBuscarMarca.DropDownStyle = ComboBoxStyle.DropDownList;
+            boxBuscarMarca.SelectedIndex = 0;
+        }
+
+        private void configurarBoxTipo(ComboBox boxBuscarTipo)
+        {
+            boxBuscarTipo.Items.Clear();
+            boxBuscarTipo.Items.Add("--TODOS--");
+            boxBuscarTipo.DropDownStyle = ComboBoxStyle.DropDownList;
+            boxBuscarTipo.SelectedIndex = 0;
+        }
+
         private void btnBuscar_Click(object sender, EventArgs e)
         {
             try
             {
                 string query = "";
-                string filtro = "";
-                if (tipoFIltro == "CPU")
+                List<SqlParameter> parametros = new List<SqlParameter>();
+                if (tipoFiltro == "CPU")
                 {
 
                 }
                 else
                 {
                     query = @"SELECT perifericos.folio AS Numero, 
-                            perifericos.didecon AS Didecon,  
-                            tipos.descripcion AS Tipo, 
-                            marcas.descripcion AS Marca, 
-                            modelos.descripcion AS Modelo, 
-                            perifericos.sn AS 'N. Serie', 
-                            perifericos.activocontraloria AS 'Act. Contraloria', 
-                            dependencias.descripcion AS Departamento, 
-                            hardware.area AS Area, 
-                            hardware.responsable AS Responsable, 
-                            estatus.descripcion AS Estatus 
-                        FROM perifericos 
-                        JOIN tipos ON tipos.id_tipo = perifericos.tipo 
-                        JOIN marcas ON marcas.id_marca = perifericos.marca 
-                        JOIN modelos ON modelos.id_modelo = perifericos.modelo 
-                        JOIN hardware ON hardware.didecon = perifericos.didecon 
-                        JOIN dependencias ON dependencias.id_dependencia = hardware.depto 
-                        JOIN estatus ON estatus.id_estatus = perifericos.idestatus 
-                        WHERE tipos.descripcion NOT IN ('CPU','SERVIDOR','LAPTOP','ALL IN ONE')";
+                        perifericos.didecon AS Didecon,  
+                        tipos.descripcion AS Tipo, 
+                        marcas.descripcion AS Marca, 
+                        modelos.descripcion AS Modelo, 
+                        perifericos.sn AS 'N. Serie', 
+                        perifericos.activocontraloria AS 'Act. Contraloria', 
+                        dependencias.descripcion AS Departamento, 
+                        hardware.area AS Area, 
+                        hardware.responsable AS Responsable, 
+                        estatus.descripcion AS Estatus 
+                    FROM perifericos 
+                    JOIN tipos ON tipos.id_tipo = perifericos.tipo 
+                    JOIN marcas ON marcas.id_marca = perifericos.marca 
+                    JOIN modelos ON modelos.id_modelo = perifericos.modelo 
+                    JOIN hardware ON hardware.didecon = perifericos.didecon 
+                    JOIN dependencias ON dependencias.id_dependencia = hardware.depto 
+                    JOIN estatus ON estatus.id_estatus = perifericos.idestatus 
+                    WHERE tipos.descripcion NOT IN ('CPU','SERVIDOR','LAPTOP','ALL IN ONE')";
                 }
-                using (SqlConnection connection = conexionSQL.ObtenerConexion())
+                if (tipoFiltro == "CPU")
                 {
-                                
-                            }
-                            else 
+
+                }
+                else
+                {
+                    // Aplicar filtros dinámicos
+                    if (radioFolio.Checked)
+                    {
+                        if (string.IsNullOrEmpty(txtBuscarFolio.Text))
+                        {
+                            MessageBox.Show("Ingrese un número de folio válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
+                        query += " AND perifericos.folio = @filtro";
+                        parametros.Add(new SqlParameter("@filtro", txtBuscarFolio.Text.Trim()));
+                    }
+                    else if (radioDepartamento.Checked)
+                    {
+                        if (boxBuscarDepartamento.SelectedIndex == -1 || boxBuscarDepartamento.SelectedItem == null)
+                        {
+                            MessageBox.Show("Ingrese un departamento.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
+                        query += " AND dependencias.descripcion = @filtro";
+                        parametros.Add(new SqlParameter("@filtro", boxBuscarDepartamento.SelectedItem.ToString()));
+                    }
+                    else if (radioDidecon.Checked)
+                    {
+                        if (string.IsNullOrEmpty(txtBuscarDidecon.Text))
+                        {
+                            MessageBox.Show("Ingrese un Didecon.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
+                        query += " AND hardware.didecon = @filtro";
+                        parametros.Add(new SqlParameter("@filtro", txtBuscarDidecon.Text.Trim()));
+                    }
+                    else if (radioActivo.Checked)
+                    {
+                        if (string.IsNullOrEmpty(txtBuscarActivo.Text))
+                        {
+                            MessageBox.Show("Ingrese un Act. Contraloria.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
+                        query += " AND perifericos.activocontraloria = @filtro";
+                        parametros.Add(new SqlParameter("@filtro", txtBuscarActivo.Text.Trim()));
+                    }
+                    else if (radioNumSerie.Checked)
+                    {
+                        if (string.IsNullOrEmpty(txtBuscarNumero.Text))
+                        {
+                            MessageBox.Show("Ingrese un Num Serie.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
+                        query += " AND perifericos.sn = @filtro";
+                        parametros.Add(new SqlParameter("@filtro", txtBuscarNumero.Text.Trim()));
+                    }
+                    else
+                    {
+                        MessageBox.Show("Seleccione un campo de búsqueda.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    using (SqlConnection connection = conexionSQL.ObtenerConexion())
+                    {
+                        connection.Open();
+                        using (SqlCommand cmd = new SqlCommand(query, connection))
+                        {
+                            foreach (var parametro in parametros)
                             {
-                                if (radioFolio.Checked)
-                                {
-                                    if (string.IsNullOrEmpty(txtBuscarFolio.Text))
-                                    {
-                                        MessageBox.Show("Ingrese un número de folio válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                                        return;
-                                    }
-                                    query += " AND perifericos.folio = @filtro;";
-                                    cmd.Parameters.AddWithValue("@filtro", txtBuscarFolio.Text.Trim());
-                                }
-                                else if (radioDepartamento.Checked)
-                                {
-                                    if (boxBuscarDepartamento.SelectedIndex == -1 || boxBuscarDepartamento.SelectedItem == null)
-                                    {
-                                        MessageBox.Show("Ingrese un departamento.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                                        return;
-                                    }
-                                    query += " AND dependencias.descripcion = @filtro";
-                                    cmd.Parameters.AddWithValue("@filtro", boxBuscarDepartamento.SelectedItem.ToString().Trim());
-                                }
-                                else if (radioDidecon.Checked)
-                                {
-                                    if (string.IsNullOrEmpty(txtBuscarDidecon.Text))
-                                    {
-                                        MessageBox.Show("Ingrese un Didecon.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                                        return;
-                                    }
-                                    query += " AND hardware.didecon = @filtro";
-                                    cmd.Parameters.AddWithValue("@filtro", txtBuscarDidecon.Text.Trim());
-                                }
-                                else if (radioActivo.Checked)
-                                {
-                                    if (string.IsNullOrEmpty(txtBuscarActivo.Text))
-                                    {
-                                        MessageBox.Show("Ingrese un Act. Contraloria.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                                        return;
-                                    }
-                                    query += " AND perifericos.activocontraloria = @filtro";
-                                    cmd.Parameters.AddWithValue("@filtro", txtBuscarActivo.Text.Trim());
-                                }
-                                else if (radioNumSerie.Checked)
-                                {
-                                    if (string.IsNullOrEmpty(txtBuscarNumero.Text))
-                                    {
-                                        MessageBox.Show("Ingrese un Num Serie.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                                        return;
-                                    }
-                                    query += " AND perifericos.sn = @filtro";
-                                    cmd.Parameters.AddWithValue("@filtro", txtBuscarNumero.Text.Trim());
-                                }
-                                else
-                                {
-                                    MessageBox.Show("Seleccione un campo de búsqueda.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                                    return;
-                                }
-                                cmd.CommandText = query;
+                                cmd.Parameters.Add(parametro);
+                            }
+                            using (SqlDataReader reader = cmd.ExecuteReader())
+                            {
+                                dgvPerifericos.Rows.Clear();
+                                dgvPerifericos.Columns.Clear();
+
                                 dgvPerifericos.Columns.Add("Numero", "Número");
                                 dgvPerifericos.Columns.Add("Didecon", "Didecon");
                                 dgvPerifericos.Columns.Add("Marca", "Marca");
@@ -700,37 +788,18 @@ namespace WinFormsApp1
                                     dgvPerifericos.Rows[index].Cells["Responsable"].Value = reader["Responsable"].ToString();
                                     dgvPerifericos.Rows[index].Cells["Estatus"].Value = reader["Estatus"];
                                 }
-                                dgvPerifericos.Columns["Numero"].ReadOnly = true;
-                                dgvPerifericos.Columns["Didecon"].ReadOnly = true;
-                                dgvPerifericos.Columns["Tipo"].ReadOnly = false;
-                                dgvPerifericos.Columns["Marca"].ReadOnly = true;
-                                dgvPerifericos.Columns["Modelo"].ReadOnly = true;
-                                dgvPerifericos.Columns["N. Serie"].ReadOnly = false;
-                                dgvPerifericos.Columns["Act. Contraloria"].ReadOnly = false;
-                                dgvPerifericos.Columns["Departamento"].ReadOnly = true;
-                                dgvPerifericos.Columns["Area"].ReadOnly = true;
-                                dgvPerifericos.Columns["Responsable"].ReadOnly = true;
-                                dgvPerifericos.Columns["Estatus"].ReadOnly = false;
-                                dgvPerifericos.Columns["Numero"].DisplayIndex = 0;
-                                dgvPerifericos.Columns["Didecon"].DisplayIndex = 1;
-                                dgvPerifericos.Columns["Tipo"].DisplayIndex = 2;
-                                dgvPerifericos.Columns["Marca"].DisplayIndex = 3;
-                                dgvPerifericos.Columns["Modelo"].DisplayIndex = 4;
-                                dgvPerifericos.Columns["N. Serie"].DisplayIndex = 5;
-                                dgvPerifericos.Columns["Act. Contraloria"].DisplayIndex = 6;
-                                dgvPerifericos.Columns["Departamento"].DisplayIndex = 7;
-                                dgvPerifericos.Columns["Area"].DisplayIndex = 8;
-                                dgvPerifericos.Columns["Responsable"].DisplayIndex = 9;
-                                dgvPerifericos.Columns["Estatus"].DisplayIndex = 10;
-                                dgvPerifericos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-                                dgvPerifericos.ScrollBars = ScrollBars.Both;
+
                             }
+                        }
                     }
                 }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
             }
         }
-
+                 
         private void buttonSalir_Click(object sender, EventArgs e)
         {
             //LimpiarControles();

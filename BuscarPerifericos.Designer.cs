@@ -280,7 +280,7 @@
             // boxBuscarMarca
             // 
             boxBuscarMarca.FormattingEnabled = true;
-            boxBuscarMarca.Location = new Point(10, 27);
+            boxBuscarMarca.Location = new Point(8, 27);
             boxBuscarMarca.Name = "boxBuscarMarca";
             boxBuscarMarca.Size = new Size(121, 23);
             boxBuscarMarca.TabIndex = 90;
