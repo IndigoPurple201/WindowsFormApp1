@@ -317,7 +317,7 @@ namespace WinFormsApp1
                     dgvPerifericos.Columns["Numero"].ReadOnly = true;
                     dgvPerifericos.Columns["Didecon"].ReadOnly = false;
                     dgvPerifericos.Columns["Act. Contraloria"].ReadOnly = false;
-                    dgvPerifericos.Columns["Dir. IP"].ReadOnly = false;
+                    dgvPerifericos.Columns["Dir. IP"].ReadOnly = true;
                     dgvPerifericos.Columns["Responsable"].ReadOnly = false;
                     dgvPerifericos.Columns["Tipo"].ReadOnly = false;
                     dgvPerifericos.Columns["Marca"].ReadOnly = true;
@@ -540,7 +540,6 @@ namespace WinFormsApp1
                 boxBuscarMarca.Visible = false;
                 boxBuscarTipo.Visible = false;
                 txtBuscarFolioCPU.Visible = false;
-                //boxBuscarDepartmanentoCPU.Text = "jeje";
                 cargarDepartamentos();
                 boxBuscarDepartmanentoCPU.Focus();
             }
@@ -660,8 +659,6 @@ namespace WinFormsApp1
                 List<SqlParameter> parametros = new List<SqlParameter>();
                 if (tipoFiltro == "CPU")
                 {
-                    MessageBox.Show("Primero");
-                    MessageBox.Show("Valor de tipoFiltro: " + tipoFiltro);
                     query = @"SELECT hardware.folio AS Numero, 
                         hardware.didecon AS Didecon, 
                         hardware.activocontraloria AS 'Act. Contraloria', 
@@ -704,8 +701,6 @@ namespace WinFormsApp1
                 }
                 if (tipoFiltro == "CPU")
                 {
-                    MessageBox.Show("Segundo");
-                    MessageBox.Show("Valor de tipoFiltro: " + tipoFiltro);
                     if (radioNumeroCPU.Checked)
                     {
                         if (string.IsNullOrEmpty(txtBuscarFolioCPU.Text))
@@ -765,7 +760,6 @@ namespace WinFormsApp1
                 }
                 else
                 {
-                    // Aplicar filtros dinámicos
                     if (radioFolio.Checked)
                     {
                         if (string.IsNullOrEmpty(txtBuscarFolio.Text))
@@ -820,80 +814,6 @@ namespace WinFormsApp1
                     {
                         MessageBox.Show("Seleccione un campo de búsqueda.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
-                    }
-                    using (SqlConnection connection = conexionSQL.ObtenerConexion())
-                    {
-                        MessageBox.Show("Tercero");
-                        connection.Open();
-                        using (SqlCommand cmd = new SqlCommand(query, connection))
-                        {
-                            foreach (var parametro in parametros)
-                            {
-                                cmd.Parameters.Add(parametro);
-                            }
-                            using (SqlDataReader reader = cmd.ExecuteReader())
-                            {
-                                dgvPerifericos.Rows.Clear();
-                                dgvPerifericos.Columns.Clear();
-                                if (tipoFiltro == "CPU")
-                                {
-                                    MessageBox.Show("Tercero");
-                                    dgvPerifericos.Columns.Add("Numero", "Número");
-                                    dgvPerifericos.Columns.Add("Didecon", "Didecon");
-                                    dgvPerifericos.Columns.Add("Act. Contraloria", "Act. Contraloria");
-                                    dgvPerifericos.Columns.Add("Dir. IP", "Dir. IP");
-                                    dgvPerifericos.Columns.Add("Responsable", "Responsable");
-                                    dgvPerifericos.Columns.Add("Tipo", "Tipo");
-                                    dgvPerifericos.Columns.Add("Marca", "Marca");
-                                    dgvPerifericos.Columns.Add("Modelo", "Modelo");
-                                    dgvPerifericos.Columns.Add("Procesador", "Procesador");
-                                    dgvPerifericos.Columns.Add("Estatus", "Estatus");
-                                    while (reader.Read())
-                                    {
-                                        int index = dgvPerifericos.Rows.Add();
-                                        dgvPerifericos.Rows[index].Cells["Numero"].Value = reader["Numero"].ToString();
-                                        dgvPerifericos.Rows[index].Cells["Didecon"].Value = reader["Didecon"].ToString();
-                                        dgvPerifericos.Rows[index].Cells["Act. Contraloria"].Value = reader["Act. Contraloria"].ToString();
-                                        dgvPerifericos.Rows[index].Cells["Dir. IP"].Value = reader["Dir. IP"].ToString();
-                                        dgvPerifericos.Rows[index].Cells["Responsable"].Value = reader["Responsable"].ToString();
-                                        dgvPerifericos.Rows[index].Cells["Tipo"].Value = reader["Tipo"];
-                                        dgvPerifericos.Rows[index].Cells["Marca"].Value = reader["Marca"].ToString();
-                                        dgvPerifericos.Rows[index].Cells["Modelo"].Value = reader["Modelo"].ToString();
-                                        dgvPerifericos.Rows[index].Cells["Procesador"].Value = reader["Procesador"].ToString();
-                                        dgvPerifericos.Rows[index].Cells["Estatus"].Value = reader["Estatus"].ToString();
-                                    }
-                                }
-                                else
-                                {
-                                    dgvPerifericos.Columns.Add("Numero", "Número");
-                                    dgvPerifericos.Columns.Add("Didecon", "Didecon");
-                                    dgvPerifericos.Columns.Add("Marca", "Marca");
-                                    dgvPerifericos.Columns.Add("Modelo", "Modelo");
-                                    dgvPerifericos.Columns.Add("N. Serie", "N. Serie");
-                                    dgvPerifericos.Columns.Add("Act. Contraloria", "Act. Contraloria");
-                                    dgvPerifericos.Columns.Add("Departamento", "Departamento");
-                                    dgvPerifericos.Columns.Add("Area", "Área");
-                                    dgvPerifericos.Columns.Add("Responsable", "Responsable");
-                                    dgvPerifericos.Columns.Add("Estatus", "Estatus");
-                                    dgvPerifericos.Columns.Add("Tipo", "Tipo");
-                                    while (reader.Read())
-                                    {
-                                        int index = dgvPerifericos.Rows.Add();
-                                        dgvPerifericos.Rows[index].Cells["Numero"].Value = reader["Numero"].ToString();
-                                        dgvPerifericos.Rows[index].Cells["Didecon"].Value = reader["Didecon"].ToString();
-                                        dgvPerifericos.Rows[index].Cells["Tipo"].Value = reader["Tipo"];
-                                        dgvPerifericos.Rows[index].Cells["Marca"].Value = reader["Marca"].ToString();
-                                        dgvPerifericos.Rows[index].Cells["Modelo"].Value = reader["Modelo"].ToString();
-                                        dgvPerifericos.Rows[index].Cells["N. Serie"].Value = reader["N. Serie"].ToString();
-                                        dgvPerifericos.Rows[index].Cells["Act. Contraloria"].Value = reader["Act. Contraloria"].ToString();
-                                        dgvPerifericos.Rows[index].Cells["Departamento"].Value = reader["Departamento"].ToString();
-                                        dgvPerifericos.Rows[index].Cells["Area"].Value = reader["Area"].ToString();
-                                        dgvPerifericos.Rows[index].Cells["Responsable"].Value = reader["Responsable"].ToString();
-                                        dgvPerifericos.Rows[index].Cells["Estatus"].Value = reader["Estatus"];
-                                    }
-                                }
-                            }
-                        }
                     }
                 }
             }
