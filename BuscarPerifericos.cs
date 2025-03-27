@@ -26,6 +26,7 @@ namespace WinFormsApp1
         private Color panelOriginal;
         private bool parpadeoActivo = false;
         private string tipoFiltro = "";
+        public string FolioSeleccionado { get; private set; }
 
         [DllImport("user32.dll")]
         private static extern void MessageBeep(uint uType);
@@ -112,7 +113,7 @@ namespace WinFormsApp1
             }
             configurarBoxMarca(boxBuscarMarca);
             configurarBoxTipo(boxBuscarTipo);   
-        }
+        }   
 
         private void BuscarPerifericos_MouseDown(object sender, MouseEventArgs e)
         {
@@ -1083,7 +1084,22 @@ namespace WinFormsApp1
 
         private void btnActualizar_Click(object sender, EventArgs e)
         {
-
-                    }
-                }
+            if (dgvPerifericos.SelectedRows.Count != 1)
+            {
+                MessageBox.Show("Seleccione un unico registro");
+                return;
+            }
+            FolioSeleccionado = dgvPerifericos.SelectedRows[0].Cells["Numero"].Value.ToString();
+            MessageBox.Show("Folio: " + FolioSeleccionado);
+            if (!string.IsNullOrEmpty(FolioSeleccionado))
+            {
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("No se pudo obtener el folio.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+    }
 }

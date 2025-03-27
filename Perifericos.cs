@@ -92,8 +92,20 @@ namespace WinFormsApp1
             using (var buscarPerifericos = new BuscarPerifericos(""))
             {
                 buscarPerifericos.FormClosed += (s, args) => obtenerSiguienteNumero();
-                buscarPerifericos.ShowDialog();
+                if (buscarPerifericos.ShowDialog() == DialogResult.OK)
+                {
+                    string folio = buscarPerifericos.FolioSeleccionado;
+                    if (!string.IsNullOrEmpty(folio))
+                    {
+                        MessageBox.Show($"Seleccionaste el folio: {folio}");
+                    }
+                    else
+                    {
+                        MessageBox.Show("No se seleccionó ningún folio.");
+                    }
+                }
             }
+
         }
 
         private void btnAceptar_Click(object sender, EventArgs e)
