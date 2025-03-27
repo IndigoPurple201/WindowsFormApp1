@@ -1083,48 +1083,7 @@ namespace WinFormsApp1
 
         private void btnActualizar_Click(object sender, EventArgs e)
         {
-            bool cambiosRealizados = false;
-            foreach (DataGridViewRow row in dgvPerifericos.Rows)
-            {
-                if (row.IsNewRow) continue;
-                int idPeriferico = Convert.ToInt32(row.Cells["Numero"].Value);
-                string nuevoNumSerie = row.Cells["N. Serie"].Value.ToString();
-                string nuevoActContraloria = row.Cells["Act. Contraloria"].Value.ToString();
-                try 
-                {
-                    using (SqlConnection connection = conexionSQL.ObtenerConexion())
-                    {
-                        connection.Open();
-                        string queryUpdate = "UPDATE perifericos SET sn = @serial, activocontraloria = @activo, tipo = @tipo, idestatus = @estatus WHERE folio = @folio;";
-                        using (SqlCommand cmd = new SqlCommand(queryUpdate, connection))
-                        {
-                            cmd.Parameters.AddWithValue("@serial", nuevoNumSerie);
-                            cmd.Parameters.AddWithValue("@activo", nuevoActContraloria);
-                            cmd.Parameters.AddWithValue("@folio", idPeriferico);
-                            int nuevoIdTipo = Convert.ToInt32(row.Cells["Tipo"].Value);
-                            int nuevoIdEstatus = Convert.ToInt32(row.Cells["Estatus"].Value);
-                            cmd.Parameters.AddWithValue("@tipo", nuevoIdTipo);
-                            cmd.Parameters.AddWithValue("@estatus", nuevoIdEstatus);
-                            cmd.ExecuteNonQuery();
-                            cambiosRealizados = true;
-                        }
 
                     }
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error: " + ex.Message);
-                }
-            }
-            if (cambiosRealizados)
-            {
-                MessageBox.Show("Cambios realizados correctamente.");
-                this.Close();
-            }
-            else
-            {
-                MessageBox.Show("No se realizaron cambios.");
-            }
-        }
-    }
 }
