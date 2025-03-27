@@ -424,11 +424,11 @@
             // 
             btnActualizar.Cursor = Cursors.Hand;
             btnActualizar.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnActualizar.Location = new Point(496, 349);
+            btnActualizar.Location = new Point(486, 349);
             btnActualizar.Name = "btnActualizar";
-            btnActualizar.Size = new Size(89, 23);
+            btnActualizar.Size = new Size(99, 23);
             btnActualizar.TabIndex = 89;
-            btnActualizar.Text = "ACTUALIZAR";
+            btnActualizar.Text = "SELECCIONAR";
             btnActualizar.UseVisualStyleBackColor = true;
             btnActualizar.Click += btnActualizar_Click;
             // 

@@ -315,15 +315,15 @@ namespace WinFormsApp1
                 if (tipoFiltro == "CPU")
                 {
                     dgvPerifericos.Columns["Numero"].ReadOnly = true;
-                    dgvPerifericos.Columns["Didecon"].ReadOnly = false;
-                    dgvPerifericos.Columns["Act. Contraloria"].ReadOnly = false;
+                    dgvPerifericos.Columns["Didecon"].ReadOnly = true;
+                    dgvPerifericos.Columns["Act. Contraloria"].ReadOnly = true;
                     dgvPerifericos.Columns["Dir. IP"].ReadOnly = true;
-                    dgvPerifericos.Columns["Responsable"].ReadOnly = false;
-                    dgvPerifericos.Columns["Tipo"].ReadOnly = false;
+                    dgvPerifericos.Columns["Responsable"].ReadOnly = true;
+                    dgvPerifericos.Columns["Tipo"].ReadOnly = true;
                     dgvPerifericos.Columns["Marca"].ReadOnly = true;
                     dgvPerifericos.Columns["Modelo"].ReadOnly = true;
-                    dgvPerifericos.Columns["Procesador"].ReadOnly = false;
-                    dgvPerifericos.Columns["Estatus"].ReadOnly = false;
+                    dgvPerifericos.Columns["Procesador"].ReadOnly = true;
+                    dgvPerifericos.Columns["Estatus"].ReadOnly = true;
                     dgvPerifericos.Columns["Numero"].DisplayIndex = 0;
                     dgvPerifericos.Columns["Didecon"].DisplayIndex = 1;
                     dgvPerifericos.Columns["Act. Contraloria"].DisplayIndex = 2;
@@ -339,15 +339,15 @@ namespace WinFormsApp1
                 {
                     dgvPerifericos.Columns["Numero"].ReadOnly = true;
                     dgvPerifericos.Columns["Didecon"].ReadOnly = true;
-                    dgvPerifericos.Columns["Tipo"].ReadOnly = false;
+                    dgvPerifericos.Columns["Tipo"].ReadOnly = true;
                     dgvPerifericos.Columns["Marca"].ReadOnly = true;
                     dgvPerifericos.Columns["Modelo"].ReadOnly = true;
-                    dgvPerifericos.Columns["N. Serie"].ReadOnly = false;
-                    dgvPerifericos.Columns["Act. Contraloria"].ReadOnly = false;
+                    dgvPerifericos.Columns["N. Serie"].ReadOnly = true;
+                    dgvPerifericos.Columns["Act. Contraloria"].ReadOnly = true;
                     dgvPerifericos.Columns["Departamento"].ReadOnly = true;
                     dgvPerifericos.Columns["Area"].ReadOnly = true;
                     dgvPerifericos.Columns["Responsable"].ReadOnly = true;
-                    dgvPerifericos.Columns["Estatus"].ReadOnly = false;
+                    dgvPerifericos.Columns["Estatus"].ReadOnly = true;
                     dgvPerifericos.Columns["Numero"].DisplayIndex = 0;
                     dgvPerifericos.Columns["Didecon"].DisplayIndex = 1;
                     dgvPerifericos.Columns["Tipo"].DisplayIndex = 2;
@@ -467,7 +467,7 @@ namespace WinFormsApp1
                 using (SqlConnection connection = conexionSQL.ObtenerConexion())
                 {
                     connection.Open();
-                    string query = "SELECT tipos.descripcion FROM tipos WHERE tipos.descripcion IN ('CPU','SERVIDOR','LAPTOP','ALL IN ONE');";
+                    string query = "SELECT tipos.descripcion FROM tipos WHERE tipos.descripcion NOT IN ('CPU','SERVIDOR','LAPTOP','ALL IN ONE');";
                     using (SqlCommand cmd = new SqlCommand(query, connection))
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
@@ -511,6 +511,11 @@ namespace WinFormsApp1
                 txtBuscarFolioCPU.Visible = true;
                 //txtBuscarFolioCPU.Text = "NUMERO";
                 txtBuscarFolioCPU.Focus();
+                boxBuscarDepartmanentoCPU.SelectedIndex = -1;
+                txtBuscarDirCPU.Text = "";
+                txtBuscarActivoCPU.Text = "";
+                boxBuscarMarca.SelectedItem = ".";
+                boxBuscarTipo.SelectedItem = "--TODOS--"; 
             }
         }
 
@@ -542,6 +547,11 @@ namespace WinFormsApp1
                 txtBuscarFolioCPU.Visible = false;
                 cargarDepartamentos();
                 boxBuscarDepartmanentoCPU.Focus();
+                txtBuscarFolioCPU.Text = "";
+                txtBuscarDirCPU.Text = "";
+                txtBuscarActivoCPU.Text = "";
+                boxBuscarMarca.SelectedItem = ".";
+                boxBuscarTipo.SelectedItem = "--TODOS--";
             }
         }
 
@@ -572,6 +582,11 @@ namespace WinFormsApp1
                 txtBuscarFolioCPU.Visible = false;
                 //txtBuscarDirCPU.Text = "DIR IP";
                 txtBuscarDirCPU.Focus();
+                txtBuscarFolioCPU.Text = "";
+                boxBuscarDepartmanentoCPU.SelectedIndex = -1;
+                txtBuscarActivoCPU.Text = "";
+                boxBuscarMarca.SelectedItem = ".";
+                boxBuscarTipo.SelectedItem = "--TODOS--";
             }
         }
 
@@ -588,6 +603,11 @@ namespace WinFormsApp1
                 txtBuscarFolioCPU.Visible = false;
                 //txtBuscarActivoCPU.Text = "ACTIVO CONTRALORIA";
                 txtBuscarActivoCPU.Focus();
+                txtBuscarFolioCPU.Text = "";
+                boxBuscarDepartmanentoCPU.SelectedIndex = -1;
+                txtBuscarDirCPU.Text = "";
+                boxBuscarMarca.SelectedItem = ".";
+                boxBuscarTipo.SelectedItem = "--TODOS--";
             }
         }
 
@@ -618,6 +638,10 @@ namespace WinFormsApp1
                 boxBuscarTipo.Visible = true;
                 cargarTipos();
                 cargarMarcas();
+                txtBuscarFolioCPU.Text = "";
+                boxBuscarDepartmanentoCPU.SelectedIndex = -1;
+                txtBuscarDirCPU.Text = "";
+                txtBuscarActivoCPU.Text = "";
             }
         }
 
@@ -656,6 +680,7 @@ namespace WinFormsApp1
             try
             {
                 string query = "";
+                string queryAux = "";
                 List<SqlParameter> parametros = new List<SqlParameter>();
                 if (tipoFiltro == "CPU")
                 {
@@ -675,7 +700,8 @@ namespace WinFormsApp1
 			        JOIN marcas ON marcas.id_marca = hardware.marca
 				    JOIN modelos ON modelos.id_modelo = hardware.modelo
                     JOIN dependencias ON dependencias.id_dependencia = hardware.depto
-                    WHERE tipos.descripcion IN ('CPU','SERVIDOR','LAPTOP','ALL IN ONE');";
+                    WHERE tipos.descripcion IN ('CPU','SERVIDOR','LAPTOP','ALL IN ONE')";
+                    queryAux = query;
                 }
                 else
                 {
@@ -748,9 +774,35 @@ namespace WinFormsApp1
                             MessageBox.Show("Ingrese parametros de busqueda.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return;
                         }
-                        query += " AND marcas.descripcion = @marca AND modelos.descripcion = @modelo";
-                        parametros.Add(new SqlParameter("@marca", boxBuscarMarca.SelectedItem.ToString()));
-                        parametros.Add(new SqlParameter("@modelo", boxBuscarTipo.SelectedItem.ToString()));
+                        query = @"SELECT hardware.folio AS 'Numero', 
+	                        hardware.didecon AS 'Didecon', 
+	                        hardware.activos AS 'Act. Sistemas', 
+	                        hardware.activocontraloria AS 'Act Contraloria',
+	                        hardware.responsable AS 'Responsable',
+	                        m2.descripcion AS 'Marca CPU',
+	                        modelos.descripcion AS 'Modelo CPU',
+	                        hardware.procesador AS 'Procesador',
+	                        m1.descripcion AS 'Marca Periferico',
+	                        tipos.descripcion AS 'Tipo Periferico',
+                            estatus.descripcion AS 'Estatus'
+                        FROM perifericos
+                        JOIN marcas m1 ON m1.id_marca = perifericos.marca
+                        JOIN tipos ON tipos.id_tipo = perifericos.tipo
+                        JOIN hardware ON hardware.didecon = perifericos.didecon
+                        JOIN marcas m2 ON m2.id_marca = hardware.marca
+                        JOIN modelos ON modelos.id_modelo = hardware.modelo
+                        JOIN estatus ON estatus.id_estatus = perifericos.idestatus
+                        WHERE m1.descripcion = @marca";
+                        parametros.Add(new SqlParameter("@marca", Convert.ToString(boxBuscarMarca.SelectedItem)));
+                        if (boxBuscarTipo.SelectedItem != "--TODOS--")
+                        {
+                            query += " AND tipos.descripcion = @tipo;"; 
+                        }
+                        else
+                        {
+                            query += " AND tipos.descripcion NOT IN ('CPU','SERVIDOR','LAPTOP','ALL IN ONE');";
+                        }
+                        parametros.Add(new SqlParameter("@tipo", Convert.ToString(boxBuscarTipo.SelectedItem)));
                     }
                     else
                     {
@@ -816,6 +868,113 @@ namespace WinFormsApp1
                         return;
                     }
                 }
+                 
+                using (SqlConnection connection = conexionSQL.ObtenerConexion())
+                {
+                    connection.Open();
+                    using (SqlCommand cmd = new SqlCommand(query, connection))
+                    {
+                        foreach (var parametro in parametros)
+                        {
+                            cmd.Parameters.Add(parametro);
+                        }
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            dgvPerifericos.Rows.Clear();
+                            dgvPerifericos.Columns.Clear();
+                            if (tipoFiltro == "CPU")
+                            {
+                                if (radioPerifericos.Checked)
+                                {
+                                    dgvPerifericos.Columns.Add("Numero", "Número");
+                                    dgvPerifericos.Columns.Add("Didecon", "Didecon");
+                                    dgvPerifericos.Columns.Add("Act. Sistemas", "Act. Sistemas");
+                                    dgvPerifericos.Columns.Add("Act. Contraloria", "Act. Contraloria");
+                                    dgvPerifericos.Columns.Add("Responsable", "Responsable");
+                                    dgvPerifericos.Columns.Add("Marca CPU", "Marca CPU");
+                                    dgvPerifericos.Columns.Add("Modelo CPU", "Modelo CPU");
+                                    dgvPerifericos.Columns.Add("Procesador", "Procesador");
+                                    dgvPerifericos.Columns.Add("Marca Periferico", "Marca Periferico");
+                                    dgvPerifericos.Columns.Add("Tipo Periferico", "Tipo Periferico");
+                                    dgvPerifericos.Columns.Add("Estatus", "Estatus");
+                                    while (reader.Read())
+                                    {
+                                        int index = dgvPerifericos.Rows.Add();
+                                        dgvPerifericos.Rows[index].Cells["Numero"].Value = reader["Numero"].ToString();
+                                        dgvPerifericos.Rows[index].Cells["Didecon"].Value = reader["Didecon"].ToString();
+                                        dgvPerifericos.Rows[index].Cells["Act. Sistemas"].Value = reader["Act. Sistemas"].ToString();
+                                        dgvPerifericos.Rows[index].Cells["Act. Contraloria"].Value = reader["Act Contraloria"].ToString();
+                                        dgvPerifericos.Rows[index].Cells["Responsable"].Value = reader["Responsable"].ToString();
+                                        dgvPerifericos.Rows[index].Cells["Marca CPU"].Value = reader["Marca CPU"].ToString();
+                                        dgvPerifericos.Rows[index].Cells["Modelo CPU"].Value = reader["Modelo CPU"].ToString();
+                                        dgvPerifericos.Rows[index].Cells["Procesador"].Value = reader["Procesador"].ToString();
+                                        dgvPerifericos.Rows[index].Cells["Marca Periferico"].Value = reader["Marca Periferico"].ToString();
+                                        dgvPerifericos.Rows[index].Cells["Tipo Periferico"].Value = reader["Tipo Periferico"].ToString();
+                                        dgvPerifericos.Rows[index].Cells["Estatus"].Value = reader["Estatus"].ToString();
+                                    }
+
+                                }
+                                else
+                                {
+                                    dgvPerifericos.Columns.Add("Numero", "Número");
+                                    dgvPerifericos.Columns.Add("Didecon", "Didecon");
+                                    dgvPerifericos.Columns.Add("Act. Contraloria", "Act. Contraloria");
+                                    dgvPerifericos.Columns.Add("Dir. IP", "Dir. IP");
+                                    dgvPerifericos.Columns.Add("Responsable", "Responsable");
+                                    dgvPerifericos.Columns.Add("Tipo", "Tipo");
+                                    dgvPerifericos.Columns.Add("Marca", "Marca");
+                                    dgvPerifericos.Columns.Add("Modelo", "Modelo");
+                                    dgvPerifericos.Columns.Add("Procesador", "Procesador");
+                                    dgvPerifericos.Columns.Add("Estatus", "Estatus");
+                                    while (reader.Read())
+                                    {
+                                        int index = dgvPerifericos.Rows.Add();
+                                        dgvPerifericos.Rows[index].Cells["Numero"].Value = reader["Numero"].ToString();
+                                        dgvPerifericos.Rows[index].Cells["Didecon"].Value = reader["Didecon"].ToString();
+                                        dgvPerifericos.Rows[index].Cells["Act. Contraloria"].Value = reader["Act. Contraloria"].ToString();
+                                        dgvPerifericos.Rows[index].Cells["Dir. IP"].Value = reader["Dir. IP"].ToString();
+                                        dgvPerifericos.Rows[index].Cells["Responsable"].Value = reader["Responsable"].ToString();
+                                        dgvPerifericos.Rows[index].Cells["Tipo"].Value = reader["Tipo"];
+                                        dgvPerifericos.Rows[index].Cells["Marca"].Value = reader["Marca"].ToString();
+                                        dgvPerifericos.Rows[index].Cells["Modelo"].Value = reader["Modelo"].ToString();
+                                        dgvPerifericos.Rows[index].Cells["Procesador"].Value = reader["Procesador"].ToString();
+                                        dgvPerifericos.Rows[index].Cells["Estatus"].Value = reader["Estatus"].ToString();
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                dgvPerifericos.Columns.Add("Numero", "Número");
+                                dgvPerifericos.Columns.Add("Didecon", "Didecon");
+                                dgvPerifericos.Columns.Add("Marca", "Marca");
+                                dgvPerifericos.Columns.Add("Modelo", "Modelo");
+                                dgvPerifericos.Columns.Add("N. Serie", "N. Serie");
+                                dgvPerifericos.Columns.Add("Act. Contraloria", "Act. Contraloria");
+                                dgvPerifericos.Columns.Add("Departamento", "Departamento");
+                                dgvPerifericos.Columns.Add("Area", "Área");
+                                dgvPerifericos.Columns.Add("Responsable", "Responsable");
+                                dgvPerifericos.Columns.Add("Estatus", "Estatus");
+                                dgvPerifericos.Columns.Add("Tipo", "Tipo");
+                                while (reader.Read())
+                                {
+                                    int index = dgvPerifericos.Rows.Add();
+                                    dgvPerifericos.Rows[index].Cells["Numero"].Value = reader["Numero"].ToString();
+                                    dgvPerifericos.Rows[index].Cells["Didecon"].Value = reader["Didecon"].ToString();
+                                    dgvPerifericos.Rows[index].Cells["Tipo"].Value = reader["Tipo"];
+                                    dgvPerifericos.Rows[index].Cells["Marca"].Value = reader["Marca"].ToString();
+                                    dgvPerifericos.Rows[index].Cells["Modelo"].Value = reader["Modelo"].ToString();
+                                    dgvPerifericos.Rows[index].Cells["N. Serie"].Value = reader["N. Serie"].ToString();
+                                    dgvPerifericos.Rows[index].Cells["Act. Contraloria"].Value = reader["Act. Contraloria"].ToString();
+                                    dgvPerifericos.Rows[index].Cells["Departamento"].Value = reader["Departamento"].ToString();
+                                    dgvPerifericos.Rows[index].Cells["Area"].Value = reader["Area"].ToString();
+                                    dgvPerifericos.Rows[index].Cells["Responsable"].Value = reader["Responsable"].ToString();
+                                    dgvPerifericos.Rows[index].Cells["Estatus"].Value = reader["Estatus"];
+                                }
+                            }
+                        }
+                    }
+                }
+                query = queryAux;
             }
             catch (Exception ex)
             {
