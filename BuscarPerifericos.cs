@@ -363,6 +363,7 @@ namespace WinFormsApp1
                 }
                 dgvPerifericos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
                 dgvPerifericos.ScrollBars = ScrollBars.Both;
+                dgvPerifericos.ClearSelection();
             }
             catch (Exception ex)
             {

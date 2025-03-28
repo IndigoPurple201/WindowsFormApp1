@@ -529,7 +529,7 @@
             Controls.Add(panelBarra);
             FormBorderStyle = FormBorderStyle.None;
             Name = "Perifericos";
-            Text = "Z";
+            Text = "<";
             Load += Perifericos_Load;
             panelBarra.ResumeLayout(false);
             panelBarra.PerformLayout();

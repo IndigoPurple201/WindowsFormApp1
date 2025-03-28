@@ -84,6 +84,7 @@
             boxProveedor = new ComboBox();
             boxNumFactura = new ComboBox();
             boxValorFactura = new ComboBox();
+            btnActualizar = new Button();
             panelBarra.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)buttonSalir).BeginInit();
             SuspendLayout();
@@ -687,12 +688,25 @@
             boxValorFactura.TabIndex = 97;
             boxValorFactura.KeyPress += boxValorFactura_KeyPress;
             // 
+            // btnActualizar
+            // 
+            btnActualizar.Cursor = Cursors.Hand;
+            btnActualizar.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnActualizar.Location = new Point(325, 464);
+            btnActualizar.Name = "btnActualizar";
+            btnActualizar.Size = new Size(95, 23);
+            btnActualizar.TabIndex = 98;
+            btnActualizar.Text = "ACTUALIZAR";
+            btnActualizar.UseVisualStyleBackColor = true;
+            btnActualizar.Click += btnActualizar_Click;
+            // 
             // Hardware
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.WhiteSmoke;
             ClientSize = new Size(877, 514);
+            Controls.Add(btnActualizar);
             Controls.Add(boxValorFactura);
             Controls.Add(boxNumFactura);
             Controls.Add(boxProveedor);
@@ -813,5 +827,6 @@
         private ComboBox boxProveedor;
         private ComboBox boxNumFactura;
         private ComboBox boxValorFactura;
+        private Button btnActualizar;
     }
 }

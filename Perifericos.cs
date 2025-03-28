@@ -79,6 +79,7 @@ namespace WinFormsApp1
             boxProveedor.Enabled = !bloquear;
             txtNotas.Enabled = !bloquear;
             boxEstatus.Enabled = !bloquear;
+            btnBuscar.Enabled = bloquear;
         }
 
         private void btnNuevo_Click(object sender, EventArgs e)
@@ -97,7 +98,8 @@ namespace WinFormsApp1
                     string folio = buscarPerifericos.FolioSeleccionado;
                     if (!string.IsNullOrEmpty(folio))
                     {
-                        MessageBox.Show($"Seleccionaste el folio: {folio}");
+                        //MessageBox.Show($"Seleccionaste el folio: {folio}");
+                        CargarDatosPorFolio(folio);
                     }
                     else
                     {
@@ -106,6 +108,11 @@ namespace WinFormsApp1
                 }
             }
 
+        }
+
+        private void CargarDatosPorFolio(string folio)
+        {
+            
         }
 
         private void btnAceptar_Click(object sender, EventArgs e)
