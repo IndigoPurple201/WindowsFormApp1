@@ -1090,7 +1090,6 @@ namespace WinFormsApp1
                 return;
             }
             FolioSeleccionado = dgvPerifericos.SelectedRows[0].Cells["Numero"].Value.ToString();
-            MessageBox.Show("Folio: " + FolioSeleccionado);
             if (!string.IsNullOrEmpty(FolioSeleccionado))
             {
                 this.DialogResult = DialogResult.OK;

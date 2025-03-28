@@ -459,19 +459,6 @@ namespace WinFormsApp1
                 SendMessage(this.Handle, WM_SYSCOMMAND, SC_MOVE, 0);
             }
         }
-        //private void Hardware_MouseMove(object sender, MouseEventArgs e)
-        //{
-        //    if (validarComboBox())
-        //    {
-        //        return;
-        //    }
-
-        //    if (e.Button == MouseButtons.Left)
-        //    {
-        //        ReleaseCapture();
-        //        SendMessage(this.Handle, WM_SYSCOMMAND, SC_MOVE, 0);
-        //    }
-        //}
 
         private void panelBarra_MouseDown(object sender, MouseEventArgs e)
         {
@@ -523,34 +510,6 @@ namespace WinFormsApp1
                 {
                     textBox.Clear();
                 }
-                else if (ctrl is ComboBox comboBox)
-                {
-                    if (comboBox == boxModelo)
-                    {
-                        // Limpiar completamente el ComboBox de modelos
-                        comboBox.Items.Clear();
-                        comboBox.SelectedIndex = -1;
-                        comboBox.Text = string.Empty;
-                    }
-                    else
-                    {
-                        if (comboBox.Items.Contains(".   "))
-                        {
-                            comboBox.SelectedItem = ".   ";
-                        }
-                        else if (comboBox.Items.Contains("0.00"))
-                        {
-                            comboBox.SelectedItem = "0.00";
-                        }
-                        else
-                        {
-                            comboBox.SelectedIndex = -1;
-                            comboBox.Text = string.Empty;
-                        }
-                    }
-                }
-            }
-        }
 
         private void ConfigurarBoxArea(ComboBox boxArea)
         {
