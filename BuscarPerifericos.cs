@@ -218,12 +218,12 @@ namespace WinFormsApp1
 							modelos.descripcion AS Modelo, 
                             hardware.procesador AS Procesador,
                             estatus.descripcion AS Estatus
-                            FROM hardware 
-                            JOIN tipos on tipos.id_tipo = hardware.idtipo
-                            JOIN estatus ON estatus.id_estatus = hardware.idestatus
-							JOIN marcas ON marcas.id_marca = hardware.marca
-							JOIN modelos ON modelos.id_modelo = hardware.modelo
-                            WHERE tipos.descripcion IN ('CPU','SERVIDOR','LAPTOP','ALL IN ONE');";
+                        FROM hardware 
+                        JOIN tipos on tipos.id_tipo = hardware.idtipo
+                        JOIN estatus ON estatus.id_estatus = hardware.idestatus
+					    JOIN marcas ON marcas.id_marca = hardware.marca
+						JOIN modelos ON modelos.id_modelo = hardware.modelo
+                        WHERE tipos.descripcion IN ('CPU','SERVIDOR','LAPTOP','ALL IN ONE');";
                 }
                 else
                 {

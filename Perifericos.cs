@@ -156,7 +156,7 @@ namespace WinFormsApp1
                     JOIN modelos ON modelos.id_modelo = perifericos.modelo
                     JOIN estatus ON estatus.id_estatus = perifericos.idestatus
                     WHERE perifericos.folio = @folio;";
-                    using (SqlCommand cmd = new SqlCommand(query,connection))
+                    using (SqlCommand cmd = new SqlCommand(query, connection))
                     {
                         cmd.Parameters.AddWithValue("@folio", folio);
                         using (SqlDataReader reader = cmd.ExecuteReader())
@@ -285,44 +285,153 @@ namespace WinFormsApp1
             }
         }
 
-        private void LimpiarControles()
+        private void btnActualizar_Click(object sender, EventArgs e)
         {
-            List<Control> controlesALimpiar = new List<Control> { txtFolio, boxDidecon, boxTipo, boxNumSerie, boxMarca, boxModelo, boxModelo, boxActivo, boxActSistemas, boxValorFactura, boxNumFactura, boxProveedor, txtNotas, boxEstatus };
-            foreach (Control ctrl in this.Controls)
+            if (validarCampos())
             {
-                if (controlesALimpiar.Contains(ctrl))
+                try
                 {
-                    if (ctrl is TextBox textBox)
+                    using (SqlConnection connection = conexionSQL.ObtenerConexion())
                     {
-                        textBox.Clear();
-                    }
-                    else if (ctrl is ComboBox comboBox)
-                    {
-                        if (comboBox == boxModelo)
+                        connection.Open();
+                        String seleccion = boxDidecon.SelectedItem.ToString();
+                        string[] partes = seleccion.Split('-');
+                        if (partes.Length == 3)
                         {
-                            // Limpiar completamente el ComboBox de modelos
-                            comboBox.Items.Clear();
-                            comboBox.SelectedIndex = -1;
-                            comboBox.Text = string.Empty;
-                        }
-                        else if (comboBox == boxActSistemas)
-                        {
-                            comboBox.SelectedItem = ".   ";
+                            didecon = partes[2];
                         }
                         else
                         {
-                            if (comboBox.Items.Contains(".   "))
-                            {
-                                comboBox.SelectedItem = ".   ";
-                            }
-                            else if (comboBox.Items.Contains("0.00"))
-                            {
-                                comboBox.SelectedItem = "0.00";
-                            }
-                            }
+                            MessageBox.Show("Error al procesar la selección.");
+                        }
+
+                        string nuevoActContraloria = boxActivo.Text;
+                        string nuevoActSistemas = boxActSistemas.Text;
+                        string nuevoNumSerie = boxNumSerie.Text;
+
+                        int idNuevoMarca = 0;
+                        string queryMarca = "SELECT id_marca FROM marcas WHERE descripcion = @marca ORDER BY id_marca;";
+                        using (SqlCommand cmd = new SqlCommand(queryMarca, connection))
+                        {
+                            cmd.Parameters.AddWithValue("@marca", boxMarca.Text);
+                            object result = cmd.ExecuteScalar();
+                            idNuevoMarca = (result != null) ? Convert.ToInt32(result) : 0;
+                        }
+
+                        int idNuevoTipo = 0;
+                        string queryTipo = "SELECT id_tipo FROM tipos WHERE descripcion = @tipo ORDER BY id_tipo;";
+                        using (SqlCommand cmd = new SqlCommand(queryTipo, connection))
+                        {
+                            cmd.Parameters.AddWithValue("@tipo", boxTipo.Text);
+                            object result = cmd.ExecuteScalar();
+                            idNuevoTipo = (result != null) ? Convert.ToInt32(result) : 0;
+                        }
+
+                        int idNuevoModelo = 0;
+                        string queryModelo = "SELECT id_modelo FROM modelos WHERE descripcion = @modelo ORDER BY id_modelo;";
+                        using (SqlCommand cmd = new SqlCommand(queryModelo, connection))
+                        {
+                            cmd.Parameters.AddWithValue("@modelo", boxModelo.Text);
+                            object result = cmd.ExecuteScalar();
+                            idNuevoModelo = (result != null) ? Convert.ToInt32(result) : 0;
+                        }
+
+                        string nuevoNumFactura = boxNumFactura.Text;
+                        string nuevoValorFactura = boxValorFactura.Text;
+                        string nuevoProveedor = boxProveedor.Text;
+
+                        int idNuevoEstatus = 0;
+                        string queryEstatus = "SELECT id_estatus FROM estatus WHERE descripcion = @estatus ORDER BY id_estatus;";
+                        using (SqlCommand cmd = new SqlCommand(queryEstatus, connection))
+                        {
+                            cmd.Parameters.AddWithValue("@estatus", boxEstatus.Text);
+                            object result = cmd.ExecuteScalar();
+                            idNuevoEstatus = (result != null) ? Convert.ToInt32(result) : 0;
+                        }
+
+                        string nuevoNotas = txtNotas.Text;
+
+                        string queryUpdate = @"UPDATE perifericos SET didecon = @nuevoDidecon,
+                                                activocontraloria = @nuevoActContraloria,
+                                                activos = @nuevoActSistemas,
+                                                sn = @nuevoNumSerie,
+                                                marca = @idNuevoMarca,
+                                                tipo = @idNuevoTipo,
+                                                modelo = @idNuevoModelo,
+                                                numerofactura = @nuevoNumFactura,
+                                                valorfactura = @nuevoValorFactura,
+                                                nomproveedor = @nuevoProveedor,
+                                                idestatus = @idNuevoEstatus,
+                                                Notas = @nuevoNotas
+                                            WHERE perifericos.folio = @folio;";
+                        using (SqlCommand cmd = new SqlCommand(queryUpdate,connection))
+                        {
+                            cmd.Parameters.AddWithValue("@nuevoDidecon", didecon);
+                            cmd.Parameters.AddWithValue("@nuevoActContraloria", nuevoActContraloria);
+                            cmd.Parameters.AddWithValue("@nuevoActSistemas", nuevoActSistemas);
+                            cmd.Parameters.AddWithValue("@nuevoNumSerie", nuevoNumSerie);
+                            cmd.Parameters.AddWithValue("@idNuevoMarca", idNuevoMarca);
+                            cmd.Parameters.AddWithValue("@idNuevoTipo", idNuevoTipo);
+                            cmd.Parameters.AddWithValue("@idNuevoModelo", idNuevoModelo);
+                            cmd.Parameters.AddWithValue("@nuevoNumFactura", nuevoNumFactura);
+                            cmd.Parameters.AddWithValue("@nuevoValorFactura", nuevoValorFactura);
+                            cmd.Parameters.AddWithValue("@nuevoProveedor", nuevoProveedor);
+                            cmd.Parameters.AddWithValue("@idNuevoEstatus", idNuevoEstatus);
+                            cmd.Parameters.AddWithValue("@nuevoNotas", nuevoNotas);
+                            cmd.Parameters.AddWithValue("@folio", txtFolio.Text);
+                            cmd.ExecuteNonQuery();
+                            MessageBox.Show("Registro actualizado correctamente.");
+                            LimpiarControles();
                         }
                     }
                 }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: " + ex.Message);
+                }
+            }
+        }
+
+        private void LimpiarControles()
+        {
+            //TextBox
+            txtFolio.Clear();
+            txtNotas.Clear();
+
+            //ComboBox
+            RestablecerComboBox(boxActivo, ".   ");
+            RestablecerComboBox(boxActSistemas, ".   ");
+            RestablecerComboBox(boxNumSerie, ".   ");
+            RestablecerComboBox(boxNumFactura, ".   ");
+            RestablecerComboBox(boxValorFactura, "0.00");
+            RestablecerComboBox(boxProveedor, ".   ");
+
+            RestablecerComboBoxSinPredeterminado(boxDidecon);
+            RestablecerComboBoxSinPredeterminado(boxMarca);
+            RestablecerComboBoxSinPredeterminado(boxTipo);
+            boxModelo.Items.Clear();
+            boxModelo.SelectedIndex = -1;
+            boxModelo.ResetText();
+            RestablecerComboBoxSinPredeterminado(boxEstatus);
+
+            // Restablecer DateTimePicker
+            dateTimePicker1.Value = DateTime.Today;
+        }
+
+        private void RestablecerComboBox(ComboBox comboBox, string valorPredeterminado)
+        {
+            comboBox.Items.Clear();
+            comboBox.Items.Add(valorPredeterminado);
+            comboBox.SelectedIndex = 0;
+        }
+
+
+        private void RestablecerComboBoxSinPredeterminado(ComboBox comboBox)
+        {
+            if (comboBox.Items.Count > 0)
+            {
+                comboBox.SelectedIndex = -1;
+                comboBox.ResetText();
             }
         }
 
@@ -816,26 +925,26 @@ namespace WinFormsApp1
             boxProveedor.TextChanged += boxProveedor_TextChanged;
         }
 
-            private void obtenerSiguienteNumero()
+        private void obtenerSiguienteNumero()
+        {
+            try
             {
-                try
+                using (SqlConnection conexion = conexionSQL.ObtenerConexion())
                 {
-                    using(SqlConnection conexion = conexionSQL.ObtenerConexion())
+                    conexion.Open();
+                    string query = "SELECT ISNULL(MAX(folio), 0) + 1 AS SiguienteNumero FROM perifericos;";
+                    using (SqlCommand cmd = new SqlCommand(query, conexion))
                     {
-                        conexion.Open();
-                        string query = "SELECT ISNULL(MAX(folio), 0) + 1 AS SiguienteNumero FROM perifericos;";
-                        using (SqlCommand cmd = new SqlCommand(query,conexion))
-                        {
-                            object result = cmd.ExecuteScalar();
-                            txtFolio.Text = result.ToString();
-                        }
+                        object result = cmd.ExecuteScalar();
+                        txtFolio.Text = result.ToString();
                     }
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error: " + ex.Message);
-                }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
 
         private bool validarCampos()
         {

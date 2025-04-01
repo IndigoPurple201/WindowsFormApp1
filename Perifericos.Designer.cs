@@ -498,6 +498,7 @@
             btnActualizar.TabIndex = 90;
             btnActualizar.Text = "ACTUALIZAR";
             btnActualizar.UseVisualStyleBackColor = true;
+            btnActualizar.Click += btnActualizar_Click;
             // 
             // Perifericos
             // 
