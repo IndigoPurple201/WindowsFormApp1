@@ -319,10 +319,6 @@ namespace WinFormsApp1
                             {
                                 comboBox.SelectedItem = "0.00";
                             }
-                            else
-                            {
-                                comboBox.SelectedIndex = -1;
-                                comboBox.Text = string.Empty;
                             }
                         }
                     }
