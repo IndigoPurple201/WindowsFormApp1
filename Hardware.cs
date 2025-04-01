@@ -212,93 +212,7 @@ namespace WinFormsApp1
                     string queryModelo = "SELECT id_modelo FROM modelos WHERE descripcion = @modelo ORDER BY id_modelo;";
                     using (SqlCommand cmd = new SqlCommand(queryModelo, conexion))
                     {
-                        cmd.Parameters.AddWithValue("@modelo", boxModelo.Text);
-                        object result = cmd.ExecuteScalar();
-                        idNuevoModelo = (result != null) ? Convert.ToInt32(result) : 0;
-                    }
 
-                    string nuevoNumserie = boxNumSerie.Text;
-                    string nuevoActivoSistemas = boxActSistemas.Text;
-                    string nuevoActivo = boxActivo.Text;
-                    string nuevoNumFactura = boxNumFactura.Text;
-                    string nuevoValorFactura = boxValorFactura.Text;
-                    string nuevoProveedor = boxProveedor.Text;
-
-                    int idNuevoEstatus = 0;
-                    string queryEstatus = "SELECT id_estatus FROM estatus WHERE descripcion = @estatus ORDER BY id_estatus;";
-                    using (SqlCommand cmd = new SqlCommand(queryEstatus, conexion))
-                    {
-                        cmd.Parameters.AddWithValue("@estatus", boxEstatus.Text);
-                        object result = cmd.ExecuteScalar();
-                        idNuevoEstatus = (result != null) ? Convert.ToInt32(result) : 0;
-                    }
-
-                    int idNuevoTipo = 0;
-                    string queryTipo = "SELECT id_tipo FROM tipos WHERE descripcion = @tipo ORDER BY id_tipo;";
-                    using (SqlCommand cmd = new SqlCommand(queryTipo, conexion))
-                    {
-                        cmd.Parameters.AddWithValue("@tipo", boxTipo.Text);
-                        object result = cmd.ExecuteScalar();
-                        idNuevoTipo = (result != null) ? Convert.ToInt32(result) : 0;
-                    }
-
-                    string nuevoArea = boxArea.Text;
-                    string nuevoDidecon = txtDidecon.Text;
-                    string nuevoDirIP = boxDireccion.Text;
-                    string nuevoGrupo = boxGrupo.Text;
-                    string nuevoProcesador = txtProcesador.Text;
-                    string nuevoMemoria = txtMemoria.Text;
-                    string nuevoDisco = textDisco.Text;
-
-                    string queryUpdate = @"UPDATE hardware SET depto = @idNuevoDependencia,
-                                           responsable = @nuevoResponsable,
-                                           nombre = @nuevoNombre,
-                                           marca = @idNuevoMarca,
-                                           modelo = @idNuevoModelo,
-                                           sn =  @nuevoNumSerie,
-                                           activos = @nuevoActivoSistemas,
-                                           activocontraloria = @nuevoActivo,
-                                           numerofactura = @nuevoNumFactura,
-                                           idestatus = @idNuevoEstatus,
-                                           idtipo = @idNuevoTipo,
-                                           area = @nuevoArea,
-                                           didecon = @nuevoDidecon,
-                                           ip = @nuevoDirIp,
-                                           grupo = @nuevoGrupo,
-                                           procesador = @nuevoProcesador,
-                                           memoria = @nuevoMemoria,
-                                           disco_duro = @nuevoDisco
-                                         WHERE hardware.folio = @folio;";
-                    using (SqlCommand cmd = new SqlCommand(queryUpdate,conexion))
-                    {
-                        cmd.Parameters.AddWithValue("@idNuevoDependencia", idNuevoDependencia);
-                        cmd.Parameters.AddWithValue("@nuevoResponsable", nuevoResponsable);
-                        cmd.Parameters.AddWithValue("@nuevoNombre", nuevoNombre);
-                        cmd.Parameters.AddWithValue("@idNuevoMarca", idNuevoMarca);
-                        cmd.Parameters.AddWithValue("@idNuevoModelo", idNuevoModelo);
-                        cmd.Parameters.AddWithValue("@nuevoNumSerie", nuevoNumserie);
-                        cmd.Parameters.AddWithValue("@nuevoActivoSistemas", nuevoActivoSistemas);
-                        cmd.Parameters.AddWithValue("@nuevoActivo", nuevoActivo);
-                        cmd.Parameters.AddWithValue("@nuevoNumFactura", nuevoNumFactura);
-                        cmd.Parameters.AddWithValue("@idNuevoEstatus", idNuevoEstatus);
-                        cmd.Parameters.AddWithValue("@idNuevoTipo", idNuevoTipo);
-                        cmd.Parameters.AddWithValue("@nuevoArea", nuevoArea);
-                        cmd.Parameters.AddWithValue("@nuevoDidecon", nuevoDidecon);
-                        cmd.Parameters.AddWithValue("@nuevoDirIp", nuevoDirIP);
-                        cmd.Parameters.AddWithValue("@nuevoGrupo", nuevoGrupo);
-                        cmd.Parameters.AddWithValue("@nuevoProcesador", nuevoProcesador);
-                        cmd.Parameters.AddWithValue("@nuevoMemoria", nuevoMemoria);
-                        cmd.Parameters.AddWithValue("@nuevoDisco", nuevoDisco);
-                        cmd.Parameters.AddWithValue("@folio", txtFolio.Text);
-                        cmd.ExecuteNonQuery();
-                        MessageBox.Show("Registro actualizado correctamente.");
-                        LimpiarControles();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error: " + ex.Message);
             }
         }
 
@@ -600,14 +514,6 @@ namespace WinFormsApp1
             }
         }
 
-        //private void panelBarra_MouseMove(object sender, MouseEventArgs e)
-        //{
-        //    if (e.Button == MouseButtons.Left) // Si el botón del mouse sigue presionado
-        //    {
-        //        this.Left += e.X - mouseDownLocation.X;
-        //        this.Top += e.Y - mouseDownLocation.Y;
-        //    }
-        //}
         private void BloquearControles(bool bloquear)
         {
             foreach (Control ctrl in this.Controls)
@@ -641,7 +547,6 @@ namespace WinFormsApp1
             txtDidecon.Clear();
 
             // Limpiar ComboBox con opción predeterminada
-            RestablecerComboBox(boxDepartamento, ".");
             RestablecerComboBox(boxResponsable, ".   ");
             RestablecerComboBox(boxNombre, ".   ");
             RestablecerComboBox(boxNumSerie, ".   ");
@@ -670,12 +575,6 @@ namespace WinFormsApp1
             comboBox.SelectedIndex = -1;
             comboBox.ResetText();
 
-            if (!comboBox.Items.Contains(valorPredeterminado))
-            {
-                comboBox.Items.Insert(0, valorPredeterminado);
-            }
-            comboBox.SelectedItem = valorPredeterminado;
-        }
 
         private void RestablecerComboBoxSinPredeterminado(ComboBox comboBox)
         {
@@ -685,8 +584,6 @@ namespace WinFormsApp1
                 comboBox.ResetText();
             }
         }
-
-
 
         private void ConfigurarBoxArea(ComboBox boxArea)
         {
@@ -868,7 +765,6 @@ namespace WinFormsApp1
         {
             ComboBox comboBox = sender as ComboBox;
 
-            // Si el texto actual es la opción por defecto, borrar antes de escribir
             if (comboBox.Text == ".   ")
             {
                 comboBox.Text = "";
@@ -1105,11 +1001,6 @@ namespace WinFormsApp1
         {
             bool esValido = true;
             string mensajeError = "Los siguientes campos son inválidos:\n";
-            if (txtFolio.Text.Length != 4 || !int.TryParse(txtFolio.Text, out _))
-            {
-                mensajeError += "- El CPU debe tener 4 dígitos.\n";
-                esValido = false;
-            }
             if (boxDepartamento.SelectedIndex == -1 || string.IsNullOrWhiteSpace(boxDepartamento.Text))
             {
                 mensajeError += "- Selecciona un departamento válido.\n";
@@ -1365,8 +1256,6 @@ namespace WinFormsApp1
                             }
                             else
                             {
-                                dateTimePicker1.Value = DateTime.Today;
-                            }
 
                         }
                         else

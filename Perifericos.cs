@@ -98,7 +98,6 @@ namespace WinFormsApp1
                     string folio = buscarPerifericos.FolioSeleccionado;
                     if (!string.IsNullOrEmpty(folio))
                     {
-                        //MessageBox.Show($"Seleccionaste el folio: {folio}");
                         CargarDatosPorFolio(folio);
                     }
                     else
