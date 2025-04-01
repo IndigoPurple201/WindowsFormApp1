@@ -67,6 +67,7 @@
             label14 = new Label();
             dateTimePicker1 = new DateTimePicker();
             btnBuscar = new Button();
+            btnActualizar = new Button();
             panelBarra.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)buttonSalir).BeginInit();
             SuspendLayout();
@@ -486,11 +487,24 @@
             btnBuscar.UseVisualStyleBackColor = true;
             btnBuscar.Click += btnBuscar_Click;
             // 
+            // btnActualizar
+            // 
+            btnActualizar.Cursor = Cursors.Hand;
+            btnActualizar.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnActualizar.Location = new Point(277, 498);
+            btnActualizar.Name = "btnActualizar";
+            btnActualizar.RightToLeft = RightToLeft.No;
+            btnActualizar.Size = new Size(88, 23);
+            btnActualizar.TabIndex = 90;
+            btnActualizar.Text = "ACTUALIZAR";
+            btnActualizar.UseVisualStyleBackColor = true;
+            // 
             // Perifericos
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(707, 551);
+            Controls.Add(btnActualizar);
             Controls.Add(btnBuscar);
             Controls.Add(dateTimePicker1);
             Controls.Add(label14);
@@ -579,5 +593,6 @@
         private Label label14;
         private DateTimePicker dateTimePicker1;
         private Button btnBuscar;
+        private Button btnActualizar;
     }
 }

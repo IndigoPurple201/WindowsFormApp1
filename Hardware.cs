@@ -182,37 +182,126 @@ namespace WinFormsApp1
 
         private void btnActualizar_Click(object sender, EventArgs e)
         {
-            try 
+            if (ValidarCampos())
             {
-                using (SqlConnection conexion = conexionSQL.ObtenerConexion())
+                try
                 {
-                    conexion.Open();
-                    string idNuevoDependencia = "";
-                    string queryDependencia = "SELECT id_dependencia FROM dependencias WHERE descripcion = @descripcion ORDER BY id_dependencia;";
-                    using (SqlCommand cmd = new SqlCommand(queryDependencia, conexion))
+                    using (SqlConnection conexion = conexionSQL.ObtenerConexion())
                     {
-                        cmd.Parameters.AddWithValue("@descripcion", boxDepartamento.Text);
-                        object result = cmd.ExecuteScalar();
-                        idNuevoDependencia = (result != null) ? result.ToString() : "";
+                        conexion.Open();
+                        string idNuevoDependencia = "";
+                        string queryDependencia = "SELECT id_dependencia FROM dependencias WHERE descripcion = @descripcion ORDER BY id_dependencia;";
+                        using (SqlCommand cmd = new SqlCommand(queryDependencia, conexion))
+                        {
+                            cmd.Parameters.AddWithValue("@descripcion", boxDepartamento.Text);
+                            object result = cmd.ExecuteScalar();
+                            idNuevoDependencia = (result != null) ? result.ToString() : "";
+                        }
+
+                        string nuevoResponsable = boxResponsable.Text;
+                        string nuevoNombre = boxNombre.Text;
+
+                        int idNuevoMarca = 0;
+                        string queryMarca = "SELECT id_marca FROM marcas WHERE descripcion = @marca ORDER BY id_marca;";
+                        using (SqlCommand cmd = new SqlCommand(queryMarca, conexion))
+                        {
+                            cmd.Parameters.AddWithValue("@marca", boxMarca.Text);
+                            object result = cmd.ExecuteScalar();
+                            idNuevoMarca = (result != null) ? Convert.ToInt32(result) : 0;
+                        }
+
+                        int idNuevoModelo = 0;
+                        string queryModelo = "SELECT id_modelo FROM modelos WHERE descripcion = @modelo ORDER BY id_modelo;";
+                        using (SqlCommand cmd = new SqlCommand(queryModelo, conexion))
+                        {
+                            cmd.Parameters.AddWithValue("@modelo", boxModelo.Text);
+                            object result = cmd.ExecuteScalar();
+                            idNuevoModelo = (result != null) ? Convert.ToInt32(result) : 0;
+                        }
+
+                        string nuevoNumserie = boxNumSerie.Text;
+                        string nuevoActivoSistemas = boxActSistemas.Text;
+                        string nuevoActivo = boxActivo.Text;
+                        string nuevoNumFactura = boxNumFactura.Text;
+                        string nuevoValorFactura = boxValorFactura.Text;
+                        string nuevoProveedor = boxProveedor.Text;
+
+                        int idNuevoEstatus = 0;
+                        string queryEstatus = "SELECT id_estatus FROM estatus WHERE descripcion = @estatus ORDER BY id_estatus;";
+                        using (SqlCommand cmd = new SqlCommand(queryEstatus, conexion))
+                        {
+                            cmd.Parameters.AddWithValue("@estatus", boxEstatus.Text);
+                            object result = cmd.ExecuteScalar();
+                            idNuevoEstatus = (result != null) ? Convert.ToInt32(result) : 0;
+                        }
+
+                        int idNuevoTipo = 0;
+                        string queryTipo = "SELECT id_tipo FROM tipos WHERE descripcion = @tipo ORDER BY id_tipo;";
+                        using (SqlCommand cmd = new SqlCommand(queryTipo, conexion))
+                        {
+                            cmd.Parameters.AddWithValue("@tipo", boxTipo.Text);
+                            object result = cmd.ExecuteScalar();
+                            idNuevoTipo = (result != null) ? Convert.ToInt32(result) : 0;
+                        }
+
+                        string nuevoArea = boxArea.Text;
+                        string nuevoDidecon = txtDidecon.Text;
+                        string nuevoDirIP = boxDireccion.Text;
+                        string nuevoGrupo = boxGrupo.Text;
+                        string nuevoProcesador = txtProcesador.Text;
+                        string nuevoMemoria = txtMemoria.Text;
+                        string nuevoDisco = textDisco.Text;
+
+                        string queryUpdate = @"UPDATE hardware SET depto = @idNuevoDependencia,
+                                           responsable = @nuevoResponsable,
+                                           nombre = @nuevoNombre,
+                                           marca = @idNuevoMarca,
+                                           modelo = @idNuevoModelo,
+                                           sn =  @nuevoNumSerie,
+                                           activos = @nuevoActivoSistemas,
+                                           activocontraloria = @nuevoActivo,
+                                           numerofactura = @nuevoNumFactura,
+                                           idestatus = @idNuevoEstatus,
+                                           idtipo = @idNuevoTipo,
+                                           area = @nuevoArea,
+                                           didecon = @nuevoDidecon,
+                                           ip = @nuevoDirIp,
+                                           grupo = @nuevoGrupo,
+                                           procesador = @nuevoProcesador,
+                                           memoria = @nuevoMemoria,
+                                           disco_duro = @nuevoDisco
+                                         WHERE hardware.folio = @folio;";
+                        using (SqlCommand cmd = new SqlCommand(queryUpdate, conexion))
+                        {
+                            cmd.Parameters.AddWithValue("@idNuevoDependencia", idNuevoDependencia);
+                            cmd.Parameters.AddWithValue("@nuevoResponsable", nuevoResponsable);
+                            cmd.Parameters.AddWithValue("@nuevoNombre", nuevoNombre);
+                            cmd.Parameters.AddWithValue("@idNuevoMarca", idNuevoMarca);
+                            cmd.Parameters.AddWithValue("@idNuevoModelo", idNuevoModelo);
+                            cmd.Parameters.AddWithValue("@nuevoNumSerie", nuevoNumserie);
+                            cmd.Parameters.AddWithValue("@nuevoActivoSistemas", nuevoActivoSistemas);
+                            cmd.Parameters.AddWithValue("@nuevoActivo", nuevoActivo);
+                            cmd.Parameters.AddWithValue("@nuevoNumFactura", nuevoNumFactura);
+                            cmd.Parameters.AddWithValue("@idNuevoEstatus", idNuevoEstatus);
+                            cmd.Parameters.AddWithValue("@idNuevoTipo", idNuevoTipo);
+                            cmd.Parameters.AddWithValue("@nuevoArea", nuevoArea);
+                            cmd.Parameters.AddWithValue("@nuevoDidecon", nuevoDidecon);
+                            cmd.Parameters.AddWithValue("@nuevoDirIp", nuevoDirIP);
+                            cmd.Parameters.AddWithValue("@nuevoGrupo", nuevoGrupo);
+                            cmd.Parameters.AddWithValue("@nuevoProcesador", nuevoProcesador);
+                            cmd.Parameters.AddWithValue("@nuevoMemoria", nuevoMemoria);
+                            cmd.Parameters.AddWithValue("@nuevoDisco", nuevoDisco);
+                            cmd.Parameters.AddWithValue("@folio", txtFolio.Text);
+                            cmd.ExecuteNonQuery();
+                            MessageBox.Show("Registro actualizado correctamente.");
+                            LimpiarControles();
+                        }
                     }
-
-                    string nuevoResponsable = boxResponsable.Text;
-                    string nuevoNombre = boxNombre.Text;
-
-                    int idNuevoMarca = 0;
-                    string queryMarca = "SELECT id_marca FROM marcas WHERE descripcion = @marca ORDER BY id_marca;";
-                    using (SqlCommand cmd = new SqlCommand(queryMarca, conexion))
-                    {
-                        cmd.Parameters.AddWithValue("@marca", boxMarca.Text);
-                        object result = cmd.ExecuteScalar();
-                        idNuevoMarca = (result != null) ? Convert.ToInt32(result) : 0;
-                    }
-
-                    int idNuevoModelo = 0;
-                    string queryModelo = "SELECT id_modelo FROM modelos WHERE descripcion = @modelo ORDER BY id_modelo;";
-                    using (SqlCommand cmd = new SqlCommand(queryModelo, conexion))
-                    {
-
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: " + ex.Message);
+                }
             }
         }
 
@@ -374,56 +463,56 @@ namespace WinFormsApp1
             }
         }
 
-        private void boxMarca_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            LlenarBoXModelo();
-            if (boxMarca.SelectedItem != null && boxMarca.SelectedItem.ToString() != "-")
+            private void boxMarca_SelectedIndexChanged(object sender, EventArgs e)
             {
-                btnNuevoModelo.Enabled = true;
-            }
-            else
-            {
-                btnNuevoModelo.Enabled = false;
-            }
-        }
-
-        private void LlenarBoXModelo()
-        {
-            try
-            {
-                using (SqlConnection conn = conexionSQL.ObtenerConexion())
+                LlenarBoXModelo();
+                if (boxMarca.SelectedItem != null && boxMarca.SelectedItem.ToString() != "-")
                 {
-                    conn.Open();
-                    String query1 = "SELECT id_marca FROM marcas WHERE descripcion = @marca;";
-                    int idMarca = 0;
-                    using (SqlCommand cmd1 = new SqlCommand(query1, conn))
+                    btnNuevoModelo.Enabled = true;
+                }
+                else
+                {
+                    btnNuevoModelo.Enabled = false;
+                }
+            }
+
+            private void LlenarBoXModelo()
+            {
+                try
+                {
+                    using (SqlConnection conn = conexionSQL.ObtenerConexion())
                     {
-                        cmd1.Parameters.AddWithValue("@marca", boxMarca.Text);
-                        object result = cmd1.ExecuteScalar();
-                        idMarca = (result != null) ? Convert.ToInt32(result) : 0;
-                    }
-                    if (idMarca == 0)
-                        return;
-                    boxModelo.Items.Clear();
-                    String query2 = "SELECT modelos.descripcion FROM modelos JOIN tipos ON tipos.id_tipo = modelos.tipo WHERE marca = @idMarca AND tipos.descripcion IN ('CPU','SERVIDOR','LAPTOP','ALL IN ONE');";
-                    using (SqlCommand cmd2 = new SqlCommand(query2, conn))
-                    {
-                        cmd2.Parameters.AddWithValue("@idMarca", idMarca);
-                        using (SqlDataReader reader2 = cmd2.ExecuteReader())
+                        conn.Open();
+                        String query1 = "SELECT id_marca FROM marcas WHERE descripcion = @marca;";
+                        int idMarca = 0;
+                        using (SqlCommand cmd1 = new SqlCommand(query1, conn))
                         {
-                            while (reader2.Read())
+                            cmd1.Parameters.AddWithValue("@marca", boxMarca.Text);
+                            object result = cmd1.ExecuteScalar();
+                            idMarca = (result != null) ? Convert.ToInt32(result) : 0;
+                        }
+                        if (idMarca == 0)
+                            return;
+                        boxModelo.Items.Clear();
+                        String query2 = "SELECT modelos.descripcion FROM modelos JOIN tipos ON tipos.id_tipo = modelos.tipo WHERE marca = @idMarca AND tipos.descripcion IN ('CPU','SERVIDOR','LAPTOP','ALL IN ONE');";
+                        using (SqlCommand cmd2 = new SqlCommand(query2, conn))
+                        {
+                            cmd2.Parameters.AddWithValue("@idMarca", idMarca);
+                            using (SqlDataReader reader2 = cmd2.ExecuteReader())
                             {
-                                boxModelo.Items.Add(reader2["descripcion"].ToString());
+                                while (reader2.Read())
+                                {
+                                    boxModelo.Items.Add(reader2["descripcion"].ToString());
+                                }
                             }
                         }
                     }
                 }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error1: " + ex.Message);
+                }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error1: " + ex.Message);
-            }
-        }
 
         private void LlenarBoxDepartamento()
         {
@@ -560,8 +649,11 @@ namespace WinFormsApp1
             RestablecerComboBox(boxDireccion, ".   ");
 
             // Restablecer ComboBox que NO tienen opción predeterminada
+            RestablecerComboBoxSinPredeterminado(boxDepartamento);
             RestablecerComboBoxSinPredeterminado(boxMarca);
-            RestablecerComboBoxSinPredeterminado(boxModelo);
+            boxModelo.Items.Clear();
+            boxModelo.SelectedIndex = -1;
+            boxModelo.ResetText();
             RestablecerComboBoxSinPredeterminado(boxEstatus);
             RestablecerComboBoxSinPredeterminado(boxTipo);
 
@@ -572,8 +664,10 @@ namespace WinFormsApp1
 
         private void RestablecerComboBox(ComboBox comboBox, string valorPredeterminado)
         {
-            comboBox.SelectedIndex = -1;
-            comboBox.ResetText();
+            comboBox.Items.Clear();
+            comboBox.Items.Add(valorPredeterminado);
+            comboBox.SelectedIndex = 0; 
+        }
 
 
         private void RestablecerComboBoxSinPredeterminado(ComboBox comboBox)
@@ -600,7 +694,7 @@ namespace WinFormsApp1
         private void ConfigurarBoxResponsable(ComboBox boxResponsable)
         {
             boxResponsable.Items.Clear();
-            boxResponsable.Items.Add("  ");  // Agregar opción por defecto
+            boxResponsable.Items.Add(".   ");  // Agregar opción por defecto
             boxResponsable.DropDownStyle = ComboBoxStyle.DropDown; // Permite escribir manualmente
             boxResponsable.SelectedIndex = 0; // Seleccionar "-" por defecto
 
@@ -770,12 +864,17 @@ namespace WinFormsApp1
                 comboBox.Text = "";
             }
 
-            // Evitar que se ingresen más de 4 caracteres
+            if (comboBox.SelectionLength == comboBox.Text.Length)
+            {
+                comboBox.Text = "";
+            }
+
             if (!char.IsControl(e.KeyChar) && comboBox.Text.Length >= 4)
             {
                 e.Handled = true;
             }
         }
+
 
         private void boxNumFactura_TextChanged(object sender, EventArgs e)
         {
@@ -910,7 +1009,16 @@ namespace WinFormsApp1
         {
             ComboBox comboBox = sender as ComboBox;
 
-            // Evitar que se ingresen más de 15 dígitos
+            if (comboBox.Text == ".   ")
+            {
+                comboBox.Text = "";
+            }
+
+            if (comboBox.SelectionLength == comboBox.Text.Length)
+            {
+                comboBox.Text = "";
+            }
+
             if (!char.IsControl(e.KeyChar) && comboBox.Text.Length >= 15)
             {
                 e.Handled = true;
@@ -1186,17 +1294,19 @@ namespace WinFormsApp1
 
         private void CargarDatosPorFolio(string folio)
         {
-            using (SqlConnection connection = conexionSQL.ObtenerConexion())
+            try 
             {
-                connection.Open();
-                string query = @"SELECT hardware.folio AS Numero, 
+                using (SqlConnection connection = conexionSQL.ObtenerConexion())
+                {
+                    connection.Open();
+                    string query = @"SELECT hardware.folio AS Numero, 
                                 dependencias.descripcion AS Departamento, 
                                 hardware.responsable AS Responsable, 
                                 hardware.nombre AS Nombre, 
                                 marcas.descripcion AS Marca, 
                                 modelos.descripcion AS Modelo, 
                                 hardware.sn AS Serial, 
-                                hardware.activos AS 'Act. Sistema', 
+                                hardware.activos AS 'Act. Sistemas', 
                                 hardware.activocontraloria AS 'Act. Contraloria', 
                                 hardware.numerofactura AS 'Num. Factura', 
                                 hardware.valorfactura AS 'Valor Factura', 
@@ -1211,59 +1321,66 @@ namespace WinFormsApp1
                                 hardware.memoria AS 'Memoria', 
                                 hardware.disco_duro AS 'Disco',        
                                 hardware.fechacaptura AS 'Fecha'
-                FROM hardware 
-                JOIN dependencias ON dependencias.id_dependencia = hardware.depto 
-                JOIN marcas ON marcas.id_marca = hardware.marca
-                JOIN modelos ON modelos.id_modelo = hardware.modelo
-                JOIN estatus ON estatus.id_estatus = hardware.idestatus
-                JOIN tipos ON tipos.id_tipo = hardware.idtipo 
-                WHERE hardware.folio = @folio;";
-                using (SqlCommand cmd = new SqlCommand(query, connection))
-                {
-                    cmd.Parameters.AddWithValue("@folio", folio);
-                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    FROM hardware 
+                    JOIN dependencias ON dependencias.id_dependencia = hardware.depto 
+                    JOIN marcas ON marcas.id_marca = hardware.marca
+                    JOIN modelos ON modelos.id_modelo = hardware.modelo
+                    JOIN estatus ON estatus.id_estatus = hardware.idestatus
+                    JOIN tipos ON tipos.id_tipo = hardware.idtipo 
+                    WHERE hardware.folio = @folio;";
+                    using (SqlCommand cmd = new SqlCommand(query, connection))
                     {
-                        if (reader.Read())
+                        cmd.Parameters.AddWithValue("@folio", folio);
+                        using (SqlDataReader reader = cmd.ExecuteReader())
                         {
-                            //ComboBox
-                            AsignarValorComboBox(boxDepartamento, reader["Departamento"].ToString());
-                            AsignarValorComboBox(boxResponsable, reader["Responsable"].ToString());
-                            AsignarValorComboBox(boxNombre, reader["Nombre"].ToString());
-                            AsignarValorComboBox(boxMarca, reader["Marca"].ToString());
-                            AsignarValorComboBox(boxModelo, reader["Modelo"].ToString());
-                            AsignarValorComboBox(boxNumSerie, reader["Serial"].ToString());
-                            AsignarValorComboBox(boxActSistemas, reader["Act. Sistema"].ToString());
-                            AsignarValorComboBox(boxActivo, reader["Act. Contraloria"].ToString());
-                            AsignarValorComboBox(boxNumFactura, reader["Num. Factura"].ToString());
-                            AsignarValorComboBox(boxValorFactura, reader["Valor Factura"].ToString());
-                            AsignarValorComboBox(boxProveedor, reader["Nom. Proveedor"].ToString());
-                            AsignarValorComboBox(boxEstatus, reader["Estatus"].ToString());
-                            AsignarValorComboBox(boxTipo, reader["Tipo"].ToString());
-                            AsignarValorComboBox(boxArea, reader["Area"].ToString());
-                            AsignarValorComboBox(boxDireccion, reader["Dir. IP"].ToString());
-
-                            //TextBox
-                            txtFolio.Text = reader["Numero"].ToString();
-                            txtProcesador.Text = reader["Procesador"].ToString();
-                            txtMemoria.Text = reader["Memoria"].ToString();
-                            textDisco.Text = reader["Disco"].ToString();
-                            txtDidecon.Text = reader["Didecon"].ToString();
-
-                            // DateTimePicker (manejo de valores nulos)
-                            if (reader["Fecha"] != DBNull.Value)
+                            if (reader.Read())
                             {
-                                dateTimePicker1.Value = Convert.ToDateTime(reader["Fecha"]);
+                                //ComboBox
+                                AsignarValorComboBox(boxDepartamento, reader["Departamento"].ToString());
+                                AsignarValorComboBox(boxResponsable, reader["Responsable"].ToString());
+                                AsignarValorComboBox(boxNombre, reader["Nombre"].ToString());
+                                AsignarValorComboBox(boxMarca, reader["Marca"].ToString());
+                                AsignarValorComboBox(boxModelo, reader["Modelo"].ToString());
+                                AsignarValorComboBox(boxNumSerie, reader["Serial"].ToString());
+                                AsignarValorComboBox(boxActSistemas, reader["Act. Sistemas"].ToString());
+                                AsignarValorComboBox(boxActivo, reader["Act. Contraloria"].ToString());
+                                AsignarValorComboBox(boxNumFactura, reader["Num. Factura"].ToString());
+                                AsignarValorComboBox(boxValorFactura, reader["Valor Factura"].ToString());
+                                AsignarValorComboBox(boxProveedor, reader["Nom. Proveedor"].ToString());
+                                AsignarValorComboBox(boxEstatus, reader["Estatus"].ToString());
+                                AsignarValorComboBox(boxTipo, reader["Tipo"].ToString());
+                                AsignarValorComboBox(boxArea, reader["Area"].ToString());
+                                AsignarValorComboBox(boxDireccion, reader["Dir. IP"].ToString());
+
+                                //TextBox
+                                txtFolio.Text = reader["Numero"].ToString();
+                                txtProcesador.Text = reader["Procesador"].ToString();
+                                txtMemoria.Text = reader["Memoria"].ToString();
+                                textDisco.Text = reader["Disco"].ToString();
+                                txtDidecon.Text = reader["Didecon"].ToString();
+
+                                // DateTimePicker (manejo de valores nulos)
+                                if (reader["Fecha"] != DBNull.Value)
+                                {
+                                    dateTimePicker1.Value = Convert.ToDateTime(reader["Fecha"]);
+                                }
+                                else
+                                {
+                                    dateTimePicker1.Value = DateTime.Today;
+                                }
+
                             }
                             else
                             {
-
-                        }
-                        else
-                        {
-                            MessageBox.Show("No se encontraron datos para el folio");
+                                MessageBox.Show("No se encontraron datos para el folio");
+                            }
                         }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
             }
         }
     }

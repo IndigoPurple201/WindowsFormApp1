@@ -58,6 +58,7 @@ namespace WinFormsApp1
             boxMarca.SelectedIndexChanged += boxMarca_SelectedIndexChanged;
             btnNuevoModelo.Enabled = false;
             txtFolio.Enabled = false;
+            btnActualizar.Enabled = false;
         }
         private void BloquearControles(bool bloquear)
         {
@@ -79,7 +80,11 @@ namespace WinFormsApp1
             boxProveedor.Enabled = !bloquear;
             txtNotas.Enabled = !bloquear;
             boxEstatus.Enabled = !bloquear;
-            btnBuscar.Enabled = bloquear;
+            btnBuscar.Enabled = !bloquear;
+            if (btnActualizar.Enabled == true)
+            {
+                btnActualizar.Enabled = false;
+            }
         }
 
         private void btnNuevo_Click(object sender, EventArgs e)
@@ -106,12 +111,95 @@ namespace WinFormsApp1
                     }
                 }
             }
+            btnAceptar.Enabled = false;
+            btnActualizar.Enabled = true;
 
+        }
+
+        private void AsignarValorComboBox(ComboBox comboBox, string valor)
+        {
+            if (!string.IsNullOrWhiteSpace(valor) && !comboBox.Items.Contains(valor))
+            {
+                comboBox.Items.Add(valor);
+            }
+            comboBox.SelectedItem = valor;
         }
 
         private void CargarDatosPorFolio(string folio)
         {
-            
+            try
+            {
+                using (SqlConnection connection = conexionSQL.ObtenerConexion())
+                {
+                    connection.Open();
+                    string query = @"SELECT perifericos.folio AS Numero,
+                                perifericos.didecon AS Didecon,
+                                hardware.folio,
+                                hardware.procesador,
+                                hardware.didecon,
+                                perifericos.activocontraloria AS 'Act. Contraloria',
+                                perifericos.activos AS 'Act. Sistemas',
+                                perifericos.sn AS 'Serial',
+                                marcas.descripcion AS 'Marca',
+                                tipos.descripcion AS 'Tipo',
+                                modelos.descripcion AS 'Modelo',
+                                perifericos.numerofactura AS 'Num. Factura',
+                                perifericos.valorfactura AS 'Valor Factura',
+                                estatus.descripcion AS 'Estatus',
+                                perifericos.Notas AS 'Notas',
+                                perifericos.fechacaptura AS 'Fecha',
+                                perifericos.nomproveedor AS 'Proveedor'
+                    FROM perifericos
+                    JOIN hardware ON hardware.didecon = perifericos.didecon
+                    JOIN marcas ON marcas.id_marca = perifericos.marca
+                    JOIN tipos ON tipos.id_tipo = perifericos.tipo
+                    JOIN modelos ON modelos.id_modelo = perifericos.modelo
+                    JOIN estatus ON estatus.id_estatus = perifericos.idestatus
+                    WHERE perifericos.folio = @folio;";
+                    using (SqlCommand cmd = new SqlCommand(query,connection))
+                    {
+                        cmd.Parameters.AddWithValue("@folio", folio);
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                //ComboBox
+                                string itemDidecon = $"{reader["folio"]}-{reader["procesador"]}-{reader["didecon"]}";
+                                AsignarValorComboBox(boxDidecon, itemDidecon);
+                                AsignarValorComboBox(boxActivo, reader["Act. Contraloria"].ToString());
+                                AsignarValorComboBox(boxActSistemas, reader["Act. Sistemas"].ToString());
+                                AsignarValorComboBox(boxNumSerie, reader["Serial"].ToString());
+                                AsignarValorComboBox(boxMarca, reader["Marca"].ToString());
+                                AsignarValorComboBox(boxTipo, reader["Tipo"].ToString());
+                                AsignarValorComboBox(boxModelo, reader["Modelo"].ToString());
+                                AsignarValorComboBox(boxNumFactura, reader["Num. Factura"].ToString());
+                                AsignarValorComboBox(boxValorFactura, reader["Valor Factura"].ToString());
+                                AsignarValorComboBox(boxEstatus, reader["Estatus"].ToString());
+                                AsignarValorComboBox(boxProveedor, reader["Proveedor"].ToString());
+
+                                //TextBox
+                                txtFolio.Text = reader["Numero"].ToString();
+                                txtNotas.Text = reader["Notas"].ToString();
+
+                                //DateTimePicker
+                                if (reader["Fecha"] != DBNull.Value)
+                                {
+                                    dateTimePicker1.Value = Convert.ToDateTime(reader["Fecha"]);
+                                }
+                                else
+                                {
+                                    dateTimePicker1.Value = DateTime.Today;
+                                }
+
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
         }
 
         private void btnAceptar_Click(object sender, EventArgs e)
@@ -399,7 +487,7 @@ namespace WinFormsApp1
                 using (SqlConnection conn = conexionSQL.ObtenerConexion())
                 {
                     conn.Open();
-                    string query = "SELECT tipos.descripcion FROM tipos WHERE tipos.descripcion != 'CPU';";
+                    string query = "SELECT tipos.descripcion FROM tipos WHERE tipos.descripcion NOT IN ('CPU','SERVIDOR','LAPTOP','ALL IN ONE');";
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
@@ -772,7 +860,7 @@ namespace WinFormsApp1
                 mensajeError += "- Selecciona un Act. Contraloria válido.\n";
                 esValido = false;
             }
-            if (string.IsNullOrWhiteSpace(boxActivo.Text))
+            if (string.IsNullOrWhiteSpace(boxNumSerie.Text))
             {
                 mensajeError += "- Selecciona un Num. Serie válido.\n";
                 esValido = false;
@@ -792,22 +880,27 @@ namespace WinFormsApp1
                 mensajeError += "- Selecciona un Modelo válido.\n";
                 esValido = false;
             }
-            if (boxActSistemas.SelectedIndex == -1 || string.IsNullOrWhiteSpace(boxActSistemas.Text))
+            if (string.IsNullOrEmpty(boxActivo.Text))
+            {
+                mensajeError += "- Selecciona un Act. Contraloria válido.\n";
+                esValido = false;
+            }
+            if (string.IsNullOrEmpty(boxActSistemas.Text))
             {
                 mensajeError += "- Selecciona un Act. Sistemas válido.\n";
                 esValido = false;
             }
-            if (boxNumFactura.SelectedIndex == -1 || string.IsNullOrWhiteSpace(boxNumFactura.Text))
+            if (string.IsNullOrEmpty(boxNumFactura.Text))
             {
                 mensajeError += "- Selecciona un Num. Factura valido válido.\n";
                 esValido = false;
             }
-            if (boxValorFactura.SelectedIndex == -1 || string.IsNullOrWhiteSpace(boxValorFactura.Text))
+            if (string.IsNullOrEmpty(boxValorFactura.Text))
             {
                 mensajeError += "- Selecciona un Valor Factura válido.\n";
                 esValido = false;
             }
-            if (boxProveedor.SelectedIndex == -1 || string.IsNullOrWhiteSpace(boxProveedor.Text))
+            if (string.IsNullOrEmpty(boxProveedor.Text))
             {
                 mensajeError += "- Selecciona un Proveedor válido.\n";
                 esValido = false;
