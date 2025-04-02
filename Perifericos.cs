@@ -32,7 +32,6 @@ namespace WinFormsApp1
         public Perifericos(Hardware form1)
         {
             InitializeComponent();
-            hardware = form1;
             this.FormBorderStyle = FormBorderStyle.None;
             this.Padding = new Padding(3);
             this.MouseDown += new MouseEventHandler(Periferico_MouseDown);

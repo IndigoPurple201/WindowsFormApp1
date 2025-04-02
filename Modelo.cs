@@ -41,10 +41,7 @@ namespace WinFormsApp1
         public Modelo(string marca, string tipo)
         {
             InitializeComponent();
-            txtMarca.Text = marca;
-            txtMarca.Enabled = false;
             tipoFiltro = tipo;
-
             this.MouseDown += new MouseEventHandler(Modelo_MouseDown);
             //this.MouseMove += new MouseEventHandler(Modelo_MouseMove);
         }
@@ -65,7 +62,6 @@ namespace WinFormsApp1
             this.Click += QuitarFoco;
             ConfigurarDataGridView();
             cargarDatosDGV();
-            label7.Text = txtMarca.Text;
             LlenarComboBox();
             dgvModelos.ClearSelection();
             obtenerSiguienteNumero();
