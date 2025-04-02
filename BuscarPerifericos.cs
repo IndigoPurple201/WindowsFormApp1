@@ -223,7 +223,8 @@ namespace WinFormsApp1
                         JOIN estatus ON estatus.id_estatus = hardware.idestatus
 					    JOIN marcas ON marcas.id_marca = hardware.marca
 						JOIN modelos ON modelos.id_modelo = hardware.modelo
-                        WHERE tipos.descripcion IN ('CPU','SERVIDOR','LAPTOP','ALL IN ONE');";
+                        WHERE tipos.descripcion IN ('CPU','SERVIDOR','LAPTOP','ALL IN ONE')
+                        ORDER BY hardware.folio ASC;";
                 }
                 else
                 {
@@ -245,7 +246,8 @@ namespace WinFormsApp1
                         JOIN hardware ON hardware.didecon = perifericos.didecon 
                         JOIN dependencias ON dependencias.id_dependencia = hardware.depto 
                         JOIN estatus ON estatus.id_estatus = perifericos.idestatus 
-                        WHERE tipos.descripcion NOT IN ('CPU','SERVIDOR','LAPTOP','ALL IN ONE');";
+                        WHERE tipos.descripcion NOT IN ('CPU','SERVIDOR','LAPTOP','ALL IN ONE')
+                        ORDER BY perifericos.folio ASC;";
                 }
                 using (SqlConnection connection = conexionSQL.ObtenerConexion())
                 {
@@ -771,41 +773,46 @@ namespace WinFormsApp1
                     }
                     else if (radioPerifericos.Checked)
                     {
-                        if ((boxBuscarMarca.SelectedIndex == -1 || boxBuscarMarca.SelectedItem == null) || (boxBuscarTipo.SelectedIndex == -1 || boxBuscarTipo.SelectedItem == null))
+                        if (boxBuscarMarca.SelectedIndex == -1 || boxBuscarMarca.SelectedItem == null ||
+                            boxBuscarTipo.SelectedIndex == -1 || boxBuscarTipo.SelectedItem == null)
                         {
-                            MessageBox.Show("Ingrese parametros de busqueda.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            MessageBox.Show("Ingrese parámetros de búsqueda.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return;
                         }
+
                         query = @"SELECT hardware.folio AS 'Numero', 
-	                        hardware.didecon AS 'Didecon', 
-	                        hardware.activos AS 'Act. Sistemas', 
-	                        hardware.activocontraloria AS 'Act Contraloria',
-	                        hardware.responsable AS 'Responsable',
-	                        m2.descripcion AS 'Marca CPU',
-	                        modelos.descripcion AS 'Modelo CPU',
-	                        hardware.procesador AS 'Procesador',
-	                        m1.descripcion AS 'Marca Periferico',
-	                        tipos.descripcion AS 'Tipo Periferico',
-                            estatus.descripcion AS 'Estatus'
-                        FROM perifericos
-                        JOIN marcas m1 ON m1.id_marca = perifericos.marca
-                        JOIN tipos ON tipos.id_tipo = perifericos.tipo
-                        JOIN hardware ON hardware.didecon = perifericos.didecon
-                        JOIN marcas m2 ON m2.id_marca = hardware.marca
-                        JOIN modelos ON modelos.id_modelo = hardware.modelo
-                        JOIN estatus ON estatus.id_estatus = perifericos.idestatus
-                        WHERE m1.descripcion = @marca";
+                                    hardware.didecon AS 'Didecon', 
+                                    hardware.activos AS 'Act. Sistemas', 
+                                    hardware.activocontraloria AS 'Act Contraloria',
+                                    hardware.responsable AS 'Responsable',
+                                    m2.descripcion AS 'Marca CPU',
+                                    modelos.descripcion AS 'Modelo CPU',
+                                    hardware.procesador AS 'Procesador',
+                                    m1.descripcion AS 'Marca Periferico',
+                                    tipos.descripcion AS 'Tipo Periferico',
+                                    estatus.descripcion AS 'Estatus'
+                                FROM perifericos
+                                JOIN marcas m1 ON m1.id_marca = perifericos.marca
+                                JOIN tipos ON tipos.id_tipo = perifericos.tipo
+                                JOIN hardware ON hardware.didecon = perifericos.didecon
+                                JOIN marcas m2 ON m2.id_marca = hardware.marca
+                                JOIN modelos ON modelos.id_modelo = hardware.modelo
+                                JOIN estatus ON estatus.id_estatus = perifericos.idestatus
+                                WHERE m1.descripcion = @marca";
+
                         parametros.Add(new SqlParameter("@marca", Convert.ToString(boxBuscarMarca.SelectedItem)));
-                        if (boxBuscarTipo.SelectedItem != "--TODOS--")
+
+                        if (boxBuscarTipo.SelectedItem.ToString() != "--TODOS--")
                         {
-                            query += " AND tipos.descripcion = @tipo;"; 
+                            query += " AND tipos.descripcion = @tipo";
+                            parametros.Add(new SqlParameter("@tipo", Convert.ToString(boxBuscarTipo.SelectedItem)));
                         }
                         else
                         {
-                            query += " AND tipos.descripcion NOT IN ('CPU','SERVIDOR','LAPTOP','ALL IN ONE');";
+                            query += " AND tipos.descripcion NOT IN ('CPU','SERVIDOR','LAPTOP','ALL IN ONE')";
                         }
-                        parametros.Add(new SqlParameter("@tipo", Convert.ToString(boxBuscarTipo.SelectedItem)));
                     }
+
                     else
                     {
                         MessageBox.Show("Seleccione un campo de búsqueda.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);

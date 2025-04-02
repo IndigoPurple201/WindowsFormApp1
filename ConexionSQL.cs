@@ -40,8 +40,8 @@ public class ConexionSQL
                 try
                 {
                     connection.Open();
-                    MessageBox.Show("✅ Conexión exitosa a la base de datos.",
-                                    "Conectado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    //MessageBox.Show("✅ Conexión exitosa a la base de datos.",
+                    //                "Conectado", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     mensajeMostrado = true;  // Marca que el mensaje ya fue mostrado
                 }
                 catch (SqlException sqlEx)

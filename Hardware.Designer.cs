@@ -64,7 +64,6 @@
             txtMemoria = new TextBox();
             btnNuevoMarca = new Button();
             btnNuevoModelo = new Button();
-            btnPerifericos = new Button();
             label14 = new Label();
             label15 = new Label();
             label16 = new Label();
@@ -464,19 +463,6 @@
             btnNuevoModelo.UseVisualStyleBackColor = true;
             btnNuevoModelo.Click += btnNuevoModelo_Click;
             // 
-            // btnPerifericos
-            // 
-            btnPerifericos.Cursor = Cursors.Hand;
-            btnPerifericos.FlatStyle = FlatStyle.System;
-            btnPerifericos.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnPerifericos.Location = new Point(105, 466);
-            btnPerifericos.Name = "btnPerifericos";
-            btnPerifericos.Size = new Size(89, 21);
-            btnPerifericos.TabIndex = 46;
-            btnPerifericos.Text = "PERIFERICOS";
-            btnPerifericos.UseVisualStyleBackColor = true;
-            btnPerifericos.Click += btnPerifericos_Click;
-            // 
             // label14
             // 
             label14.AutoSize = true;
@@ -726,7 +712,6 @@
             Controls.Add(label16);
             Controls.Add(label15);
             Controls.Add(label14);
-            Controls.Add(btnPerifericos);
             Controls.Add(btnNuevoModelo);
             Controls.Add(btnNuevoMarca);
             Controls.Add(txtMemoria);
@@ -761,6 +746,7 @@
             Controls.Add(label7);
             Controls.Add(txtDireccion);
             FormBorderStyle = FormBorderStyle.None;
+            Location = new Point(5000, 5000);
             Name = "Hardware";
             Text = "TIPO";
             Load += Hardware_Load_1;
@@ -806,7 +792,6 @@
         private TextBox txtMemoria;
         private Button btnNuevoMarca;
         private Button btnNuevoModelo;
-        private Button btnPerifericos;
         private Label label1;
         private Label label14;
         private Label label15;

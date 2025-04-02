@@ -29,7 +29,7 @@ namespace WinFormsApp1
         string didecon = "";
 
         private Hardware hardware;
-        public Perifericos(Hardware form1)
+        public Perifericos()
         {
             InitializeComponent();
             this.FormBorderStyle = FormBorderStyle.None;
@@ -450,7 +450,7 @@ namespace WinFormsApp1
         private void btnNuevoModelo_Click(object sender, EventArgs e)
         {
             string marca = boxMarca.SelectedItem.ToString();
-            Modelo modelo = new Modelo(marca, ""); // No filtra, permite todo excepto CPU
+            Modelo modelo = new Modelo(marca, "PERIFERICO"); // No filtra, permite todo excepto CPU
             modelo.ModeloAgregada += LlenarBoxModelo;
             modelo.ShowDialog();
         }
@@ -514,7 +514,7 @@ namespace WinFormsApp1
 
         private void buttonSalir_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            this.Close();
         }
 
         private void txtFolio_KeyPress(object sender, KeyPressEventArgs e)

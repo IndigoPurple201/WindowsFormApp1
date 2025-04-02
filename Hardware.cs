@@ -557,7 +557,7 @@ namespace WinFormsApp1
 
         private void buttonSalir_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            this.Close();
         }
 
         private void Hardware_MouseDown(object sender, MouseEventArgs e)

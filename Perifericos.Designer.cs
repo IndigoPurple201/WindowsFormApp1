@@ -51,7 +51,6 @@
             btnNuevo = new Button();
             btnAceptar = new Button();
             btnCancelar = new Button();
-            btnHardware = new Button();
             boxActSistemas = new ComboBox();
             label3 = new Label();
             boxNumFactura = new ComboBox();
@@ -313,18 +312,6 @@
             btnCancelar.UseVisualStyleBackColor = true;
             btnCancelar.Click += btnCancelar_Click;
             // 
-            // btnHardware
-            // 
-            btnHardware.Cursor = Cursors.Hand;
-            btnHardware.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnHardware.Location = new Point(27, 498);
-            btnHardware.Name = "btnHardware";
-            btnHardware.Size = new Size(89, 23);
-            btnHardware.TabIndex = 74;
-            btnHardware.Text = "HARDWARE";
-            btnHardware.UseVisualStyleBackColor = true;
-            btnHardware.Click += btnHardware_Click;
-            // 
             // boxActSistemas
             // 
             boxActSistemas.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -521,7 +508,6 @@
             Controls.Add(label4);
             Controls.Add(boxActSistemas);
             Controls.Add(label3);
-            Controls.Add(btnHardware);
             Controls.Add(btnNuevo);
             Controls.Add(btnAceptar);
             Controls.Add(btnCancelar);
@@ -578,7 +564,6 @@
         private Button btnNuevo;
         private Button btnAceptar;
         private Button btnCancelar;
-        private Button btnHardware;
         private ComboBox boxActSistemas;
         private Label label3;
         private ComboBox boxNumFactura;

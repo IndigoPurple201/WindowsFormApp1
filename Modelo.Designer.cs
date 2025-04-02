@@ -44,10 +44,10 @@
             label3 = new Label();
             btnCerrar = new PictureBox();
             label5 = new Label();
-            txtMarca = new TextBox();
             label6 = new Label();
             boxTipo = new ComboBox();
             label7 = new Label();
+            boxMarca = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)dgvModelos).BeginInit();
             ((System.ComponentModel.ISupportInitialize)btnCerrar).BeginInit();
             SuspendLayout();
@@ -215,15 +215,6 @@
             label5.Text = "MARCA";
             label5.TextAlign = ContentAlignment.TopRight;
             // 
-            // txtMarca
-            // 
-            txtMarca.BorderStyle = BorderStyle.FixedSingle;
-            txtMarca.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            txtMarca.Location = new Point(134, 44);
-            txtMarca.Name = "txtMarca";
-            txtMarca.Size = new Size(245, 23);
-            txtMarca.TabIndex = 55;
-            // 
             // label6
             // 
             label6.AutoSize = true;
@@ -253,15 +244,25 @@
             label7.Size = new Size(0, 21);
             label7.TabIndex = 58;
             // 
+            // boxMarca
+            // 
+            boxMarca.DropDownStyle = ComboBoxStyle.DropDownList;
+            boxMarca.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            boxMarca.FormattingEnabled = true;
+            boxMarca.Location = new Point(134, 46);
+            boxMarca.Name = "boxMarca";
+            boxMarca.Size = new Size(245, 23);
+            boxMarca.TabIndex = 59;
+            // 
             // Modelo
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(589, 471);
+            Controls.Add(boxMarca);
             Controls.Add(label7);
             Controls.Add(boxTipo);
             Controls.Add(label6);
-            Controls.Add(txtMarca);
             Controls.Add(label5);
             Controls.Add(btnCerrar);
             Controls.Add(label4);
@@ -304,9 +305,9 @@
         private Label label3;
         private PictureBox btnCerrar;
         private Label label5;
-        private TextBox txtMarca;
         private Label label6;
         private ComboBox boxTipo;
         private Label label7;
+        private ComboBox boxMarca;
     }
 }
