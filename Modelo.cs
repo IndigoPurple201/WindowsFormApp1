@@ -62,12 +62,7 @@ namespace WinFormsApp1
                     ctrl.Enter += ControlSeleccionado;
                 }
             }
-            MessageBox.Show(tipoFiltro);
-            if (tipoFiltro == "CPU" || tipoFiltro == "PERIFERICO")
-            {
-                boxMarca.Text = tipoMarca;
                 boxMarca.Enabled = false;
-                label7.Text = boxMarca.Text;
             }
             else
             {
@@ -213,7 +208,6 @@ namespace WinFormsApp1
                 }
                 else if (tipoFiltro == "PERIFERICO")
                 {
-                    //Si viene de Periféricos, excluir CPUs
                     query = @"SELECT modelos.id_modelo AS Numero, 
                              modelos.descripcion AS Descripcion, 
                              modelos.tipo AS idTipo, 
@@ -242,41 +236,11 @@ namespace WinFormsApp1
                                 dgvModelos.Rows.Clear();
                                 dgvModelos.Columns.Clear();
 
-                                if (tipoFiltro == "CPU")
-                                {
                                     DataTable dtTipos = new DataTable();
                                     using (SqlConnection conexionTipos = conexionSQL.ObtenerConexion())
                                     {
                                         conexionTipos.Open();
                                         string queryTipos = "SELECT id_tipo, descripcion FROM tipos WHERE tipos.descripcion IN ('CPU', 'LAPTOP', 'SERVIDOR', 'ALL IN ONE');";
-                                        using (SqlCommand cmdTipos = new SqlCommand(queryTipos, conexionTipos))
-                                        using (SqlDataReader readerTipos = cmdTipos.ExecuteReader())
-                                        {
-                                            dtTipos.Load(readerTipos);
-                                        }
-                                    }
-                                    dgvModelos.Columns.Add("Numero", "Número");
-                                    dgvModelos.Columns.Add("Descripcion", "Descripción");
-                                    dgvModelos.Columns.Add("Refaccion", "Refaccion");
-                                    DataGridViewComboBoxColumn comboTipo = new DataGridViewComboBoxColumn
-                                    {
-                                        Name = "Tipo",
-                                        HeaderText = "Tipo",
-                                        DataPropertyName = "idTipo",
-                                        DisplayMember = "descripcion",
-                                        ValueMember = "id_tipo",
-                                        DataSource = dtTipos,
-                                        AutoComplete = true
-                                    };
-                                    dgvModelos.Columns.Add(comboTipo);
-                                }
-                                else
-                                {
-                                    DataTable dtTipos = new DataTable();
-                                    using (SqlConnection conexionTipos = conexionSQL.ObtenerConexion())
-                                    {
-                                        conexionTipos.Open();
-                                        string queryTipos = "SELECT id_tipo, descripcion FROM tipos WHERE tipos.descripcion NOT IN ('CPU', 'LAPTOP', 'SERVIDOR', 'ALL IN ONE');";
                                         using (SqlCommand cmdTipos = new SqlCommand(queryTipos, conexionTipos))
                                         using (SqlDataReader readerTipos = cmdTipos.ExecuteReader())
                                         {
@@ -298,7 +262,6 @@ namespace WinFormsApp1
                                         AutoComplete = true
                                     };
                                     dgvModelos.Columns.Add(comboTipo);
-                                }
 
                                 while (reader.Read())
                                 {
@@ -570,11 +533,6 @@ namespace WinFormsApp1
         private void btnNuevo_Click(object sender, EventArgs e)
         {
             BloquearControles(false);
-            //if (tipoFiltro == "CPU")
-            //{
-            //    boxTipo.Enabled = false;
-            //}
-            boxMarca.Enabled = false;
             obtenerSiguienteNumero();
         }
 
