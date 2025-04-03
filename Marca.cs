@@ -341,15 +341,6 @@ namespace WinFormsApp1
             }
         }
 
-        //private void Marca_MouseMove(object sender, MouseEventArgs e)
-        //{
-        //    if (e.Button == MouseButtons.Left)
-        //    {
-        //        this.Left += e.X - mouseDownLocation.X;
-        //        this.Top += e.Y - mouseDownLocation.Y;
-        //    }
-        //}
-
         private void btnCerrar_Click(object sender, EventArgs e)
         {
             this.Close();
