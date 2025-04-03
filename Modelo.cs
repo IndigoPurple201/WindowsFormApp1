@@ -62,10 +62,18 @@ namespace WinFormsApp1
                     ctrl.Enter += ControlSeleccionado;
                 }
             }
-                boxMarca.Enabled = false;
+            boxMarca.Enabled = false;
+            if (tipoFiltro == "CPU" || tipoFiltro == "PERIFERICOS")
+            {
+                boxMarca.Items.Clear();
+                boxMarca.Items.Add(tipoMarca);
+                boxMarca.SelectedIndex = 0;
+                label7.Text = tipoMarca;    
             }
             else
             {
+                label3.Text = "MARCAS REGISTRADAS";
+                label7.Text = "";
                 LlenarBoxMarca();
                 boxMarca.DropDownStyle = ComboBoxStyle.DropDownList;        
             }
@@ -100,7 +108,7 @@ namespace WinFormsApp1
                             }
                         }
                     }
-                    else if (tipoFiltro == "PERIFERICO")
+                    else if (tipoFiltro == "PERIFERICOS")
                     {
                         query = "SELECT tipos.descripcion FROM tipos WHERE tipos.descripcion NOT IN ('CPU', 'LAPTOP', 'SERVIDOR', 'ALL IN ONE');";
                         using (SqlCommand cmd = new SqlCommand(query, conn))
@@ -191,7 +199,7 @@ namespace WinFormsApp1
         {
             try
             {
-                string query;
+                string query, queryTipos;
                 //Si viene de Hardware, usar una consulta específica para CPU
                 if (tipoFiltro == "CPU")
                 {
@@ -200,47 +208,87 @@ namespace WinFormsApp1
                                  modelos.tipo AS idTipo, 
                                  tipos.descripcion AS Tipo, 
                                  tipos.refaccion AS Refaccion 
-                          FROM modelos 
-                          JOIN tipos ON modelos.tipo = tipos.id_tipo 
-                          JOIN marcas ON marcas.id_marca = modelos.marca 
-                          WHERE marcas.descripcion = @marca 
-                          AND tipos.descripcion IN ('CPU','SERVIDOR','ALL IN ONE','LAPTOP');";
+                    FROM modelos 
+                    JOIN tipos ON modelos.tipo = tipos.id_tipo 
+                    JOIN marcas ON marcas.id_marca = modelos.marca 
+                    WHERE marcas.descripcion = @marca 
+                    AND tipos.descripcion IN ('CPU','SERVIDOR','ALL IN ONE','LAPTOP');";
                 }
-                else if (tipoFiltro == "PERIFERICO")
+                else if (tipoFiltro == "PERIFERICOS")
                 {
-                    query = @"SELECT modelos.id_modelo AS Numero, 
-                             modelos.descripcion AS Descripcion, 
-                             modelos.tipo AS idTipo, 
-                             tipos.descripcion AS Tipo, 
-                             tipos.refaccion AS Refaccion 
-                      FROM modelos 
-                      JOIN tipos ON modelos.tipo = tipos.id_tipo 
-                      JOIN marcas ON marcas.id_marca = modelos.marca 
-                      WHERE marcas.descripcion = @marca 
-                      AND tipos.descripcion NOT IN ('CPU','SERVIDOR','ALL IN ONE','LAPTOP');";
+                    //Si viene de Periféricos, excluir CPUs
+                        query = @"SELECT modelos.id_modelo AS Numero, 
+                                 modelos.descripcion AS Descripcion, 
+                                 modelos.tipo AS idTipo, 
+                                 tipos.descripcion AS Tipo, 
+                                 tipos.refaccion AS Refaccion 
+                    FROM modelos 
+                    JOIN tipos ON modelos.tipo = tipos.id_tipo 
+                    JOIN marcas ON marcas.id_marca = modelos.marca 
+                    WHERE marcas.descripcion = @marca 
+                    AND tipos.descripcion NOT IN ('CPU','SERVIDOR','ALL IN ONE','LAPTOP');";
                 }
                 else 
                 {
                     //Si no, incluir todo
-                    query = @"";
+                    query = @"SELECT modelos.id_modelo AS Numero, 
+                                 modelos.descripcion AS Descripcion, 
+                                 modelos.tipo AS idTipo, 
+                                 tipos.descripcion AS Tipo, 
+                                 tipos.refaccion AS Refaccion 
+                    FROM modelos 
+                    JOIN tipos ON modelos.tipo = tipos.id_tipo 
+                    JOIN marcas ON marcas.id_marca = modelos.marca;";
                 }
                     using (SqlConnection conexion = conexionSQL.ObtenerConexion())
                     {
                         conexion.Open();
                         using (SqlCommand cmd = new SqlCommand(query, conexion))
                         {
-                            cmd.Parameters.AddWithValue("@marca", boxMarca.Text);
-
+                            if (tipoFiltro == "CPU" || tipoFiltro == "PERIFERICOS")
+                            {
+                                cmd.Parameters.AddWithValue("@marca", boxMarca.Text);
+                            }
                             using (SqlDataReader reader = cmd.ExecuteReader())
                             {
                                 dgvModelos.Rows.Clear();
                                 dgvModelos.Columns.Clear();
 
+                                if (tipoFiltro == "CPU")
+                                {
                                     DataTable dtTipos = new DataTable();
                                     using (SqlConnection conexionTipos = conexionSQL.ObtenerConexion())
                                     {
                                         conexionTipos.Open();
-                                        string queryTipos = "SELECT id_tipo, descripcion FROM tipos WHERE tipos.descripcion IN ('CPU', 'LAPTOP', 'SERVIDOR', 'ALL IN ONE');";
+                                        queryTipos = "SELECT id_tipo, descripcion FROM tipos WHERE tipos.descripcion IN ('CPU', 'LAPTOP', 'SERVIDOR', 'ALL IN ONE');";
+                                        using (SqlCommand cmdTipos = new SqlCommand(queryTipos, conexionTipos))
+                                        using (SqlDataReader readerTipos = cmdTipos.ExecuteReader())
+                                        {
+                                            dtTipos.Load(readerTipos);
+                                        }
+                                    }
+                                    dgvModelos.Columns.Add("Numero", "Número");
+                                    dgvModelos.Columns.Add("Descripcion", "Descripción");
+                                    dgvModelos.Columns.Add("Refaccion", "Refaccion");
+                                    DataGridViewComboBoxColumn comboTipo = new DataGridViewComboBoxColumn
+                                    {
+                                        Name = "Tipo",
+                                        HeaderText = "Tipo",
+                                        DataPropertyName = "idTipo",
+                                        DisplayMember = "descripcion",
+                                        ValueMember = "id_tipo",
+                                        DataSource = dtTipos,
+                                        AutoComplete = true
+                                    };
+                                    dgvModelos.Columns.Add(comboTipo);
+                                }
+                                else if (tipoFiltro == "PERIFERICOS")
+                                {
+                                    DataTable dtTipos = new DataTable();
+                                    using (SqlConnection conexionTipos = conexionSQL.ObtenerConexion())
+                                    {
+                                        conexionTipos.Open();
+                                        queryTipos = "SELECT id_tipo, descripcion FROM tipos WHERE tipos.descripcion NOT IN ('CPU', 'LAPTOP', 'SERVIDOR', 'ALL IN ONE');";
                                         using (SqlCommand cmdTipos = new SqlCommand(queryTipos, conexionTipos))
                                         using (SqlDataReader readerTipos = cmdTipos.ExecuteReader())
                                         {
@@ -262,6 +310,35 @@ namespace WinFormsApp1
                                         AutoComplete = true
                                     };
                                     dgvModelos.Columns.Add(comboTipo);
+                                }
+                                else
+                                {
+                                    DataTable dtTipos = new DataTable();
+                                    using (SqlConnection conexionTipos = conexionSQL.ObtenerConexion())
+                                    {
+                                        conexionTipos.Open();
+                                        queryTipos = "SELECT id_tipo, descripcion FROM tipos;";
+                                        using (SqlCommand cmdTipos = new SqlCommand(queryTipos, conexionTipos))
+                                        using (SqlDataReader readerTipos = cmdTipos.ExecuteReader())
+                                        {
+                                            dtTipos.Load(readerTipos);
+                                        }
+                                        dgvModelos.Columns.Add("Numero", "Número");
+                                        dgvModelos.Columns.Add("Descripcion", "Descripción");
+                                        dgvModelos.Columns.Add("Refaccion", "Refacción");
+                                        DataGridViewComboBoxColumn comboTipo = new DataGridViewComboBoxColumn
+                                        {
+                                            Name = "Tipo",
+                                            HeaderText = "Tipo",
+                                            DataPropertyName = "idTipo",
+                                            DisplayMember = "descripcion",
+                                            ValueMember = "id_tipo",
+                                            DataSource = dtTipos,
+                                            AutoComplete = true
+                                        };
+                                        dgvModelos.Columns.Add(comboTipo);
+                                    }
+                                }
 
                                 while (reader.Read())
                                 {
@@ -348,26 +425,29 @@ namespace WinFormsApp1
             {
                 if (ctrl is TextBox textBox)
                 {
-                    // Si el TextBox es el de la marca, NO lo limpiamos
-                    if (textBox.Name != "txtMarca" && textBox.Name != "txtFolio")
+                    if (textBox.Name != "txtFolio")
                     {
                         textBox.Clear();
                     }
                 }
                 else if (ctrl is ComboBox comboBox)
                 {
+                    if (comboBox.Name == "boxMarca")
+                    {
+                        continue;
+                    }
+
+                    comboBox.SelectedIndex = -1;
+                    comboBox.Text = String.Empty;
+
                     if (comboBox.Items.Contains("-"))
                     {
                         comboBox.SelectedItem = "-";
                     }
-                    else
-                    {
-                        comboBox.SelectedIndex = -1;
-                        comboBox.Text = String.Empty;
-                    }
                 }
             }
         }
+
 
         private void btnCerrar2_Click(object sender, EventArgs e)
         {
@@ -431,11 +511,15 @@ namespace WinFormsApp1
                             insertCmd.Parameters.AddWithValue("@marca", idMarca);
                             insertCmd.Parameters.AddWithValue("@tipo", idTipo);
                             insertCmd.ExecuteNonQuery();
-                            ModeloAgregada.Invoke();
+                            if (tipoFiltro != "SIN TIPO")
+                            {
+                                ModeloAgregada.Invoke();
+                            }
                             MessageBox.Show("Modelo agregado correctamente");
                         }
                         LimpiarControles();
                         cargarDatosDGV();
+                        obtenerSiguienteNumero();
                         BloquearControles(true);
                     }
                     catch (Exception ex)
@@ -471,7 +555,10 @@ namespace WinFormsApp1
                             cmd.Parameters.AddWithValue("@idModelo", idModelo);
                             cmd.ExecuteNonQuery();
                         }
-                        ModeloAgregada.Invoke();
+                        if (tipoFiltro != "SIN TIPO")
+                        {
+                            ModeloAgregada.Invoke();
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -507,7 +594,10 @@ namespace WinFormsApp1
                             cmd.Parameters.AddWithValue("@idModelo", idModelo);
                             cmd.Parameters.AddWithValue("@tipo", nuevoIdTipo);
                             cmd.ExecuteNonQuery();
-                            ModeloAgregada.Invoke();
+                            if (tipoFiltro != "SIN TIPO")
+                            {
+                                ModeloAgregada.Invoke();
+                            }
                         }
                      }
                     cambiosRealizados = true;
@@ -572,6 +662,10 @@ namespace WinFormsApp1
             btnNuevo.Enabled = bloquear;    // "Nuevo" solo está habilitado cuando los demás están bloqueados
             btnAceptar.Enabled = !bloquear; // "Aceptar" solo se habilita cuando los controles están activos
             btnCancelar.Enabled = !bloquear; // "Cancelar" solo se habilita cuando los controles están activos
+            if (tipoFiltro == "SIN TIPO")
+            {
+                    boxMarca.Enabled = !bloquear;
+            }
         }
 
         private void Modelo_MouseDown(object sender, MouseEventArgs e)

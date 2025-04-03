@@ -90,7 +90,7 @@
             // 
             // panelBarra
             // 
-            panelBarra.BackColor = Color.FromArgb(0, 120, 212);
+            panelBarra.BackColor = Color.FromArgb(145, 145, 145);
             panelBarra.BorderStyle = BorderStyle.FixedSingle;
             panelBarra.Controls.Add(label1);
             panelBarra.Controls.Add(buttonSalir);
@@ -105,7 +105,7 @@
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = SystemColors.ControlLightLight;
-            label1.Location = new Point(448, 2);
+            label1.Location = new Point(427, 3);
             label1.Name = "label1";
             label1.Size = new Size(54, 30);
             label1.TabIndex = 47;
@@ -113,6 +113,7 @@
             // 
             // buttonSalir
             // 
+            buttonSalir.BackColor = Color.FromArgb(145, 145, 145);
             buttonSalir.Cursor = Cursors.Hand;
             buttonSalir.Image = (Image)resources.GetObject("buttonSalir.Image");
             buttonSalir.Location = new Point(847, 5);

@@ -17,6 +17,11 @@ namespace WinFormsApp1
             InitializeComponent();
         }
 
+        private void Menu_Load(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Maximized;
+        }
+
         private void toolHardware_Click(object sender, EventArgs e)
         {
             Hardware hardware = new Hardware();
@@ -39,6 +44,11 @@ namespace WinFormsApp1
         {
             Modelo modelo = new Modelo("","SIN TIPO");
             modelo.ShowDialog();
+        }
+
+        private void menuSalir_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

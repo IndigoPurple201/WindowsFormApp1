@@ -73,30 +73,30 @@
             // 
             // panelBarra
             // 
-            panelBarra.BackColor = Color.FromArgb(0, 120, 212);
+            panelBarra.BackColor = Color.FromArgb(145, 145, 145);
             panelBarra.BorderStyle = BorderStyle.FixedSingle;
             panelBarra.Controls.Add(label1);
             panelBarra.Controls.Add(buttonSalir);
             panelBarra.Location = new Point(0, 0);
             panelBarra.Name = "panelBarra";
-            panelBarra.Size = new Size(707, 37);
+            panelBarra.Size = new Size(707, 41);
             panelBarra.TabIndex = 33;
             panelBarra.Paint += panelBarra_Paint;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.Font = new Font("Segoe UI", 15F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = SystemColors.ControlLightLight;
-            label1.Location = new Point(318, 2);
+            label1.Location = new Point(318, 5);
             label1.Name = "label1";
-            label1.Size = new Size(142, 30);
+            label1.Size = new Size(132, 28);
             label1.TabIndex = 48;
             label1.Text = "PERIFERICOS";
             // 
             // buttonSalir
             // 
-            buttonSalir.BackColor = Color.FromArgb(0, 120, 212);
+            buttonSalir.BackColor = Color.FromArgb(145, 145, 145);
             buttonSalir.Cursor = Cursors.Hand;
             buttonSalir.Image = (Image)resources.GetObject("buttonSalir.Image");
             buttonSalir.Location = new Point(677, 5);

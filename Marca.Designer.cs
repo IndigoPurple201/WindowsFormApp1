@@ -63,7 +63,7 @@
             // 
             txtFolio.BorderStyle = BorderStyle.FixedSingle;
             txtFolio.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            txtFolio.Location = new Point(130, 69);
+            txtFolio.Location = new Point(130, 53);
             txtFolio.Name = "txtFolio";
             txtFolio.Size = new Size(245, 23);
             txtFolio.TabIndex = 35;
@@ -73,7 +73,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(21, 62);
+            label1.Location = new Point(21, 46);
             label1.Name = "label1";
             label1.Size = new Size(106, 30);
             label1.TabIndex = 34;
@@ -83,7 +83,7 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label2.Location = new Point(18, 119);
+            label2.Location = new Point(18, 82);
             label2.Name = "label2";
             label2.Size = new Size(109, 21);
             label2.TabIndex = 36;
@@ -93,7 +93,7 @@
             // 
             txtMarca.BorderStyle = BorderStyle.FixedSingle;
             txtMarca.Font = new Font("Segoe UI", 9F);
-            txtMarca.Location = new Point(130, 119);
+            txtMarca.Location = new Point(130, 82);
             txtMarca.Name = "txtMarca";
             txtMarca.Size = new Size(245, 23);
             txtMarca.TabIndex = 37;
@@ -102,8 +102,8 @@
             // btnNuevo
             // 
             btnNuevo.Cursor = Cursors.Hand;
-            btnNuevo.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnNuevo.Location = new Point(99, 168);
+            btnNuevo.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnNuevo.Location = new Point(128, 123);
             btnNuevo.Name = "btnNuevo";
             btnNuevo.Size = new Size(89, 23);
             btnNuevo.TabIndex = 38;
@@ -114,8 +114,8 @@
             // btnAceptar
             // 
             btnAceptar.Cursor = Cursors.Hand;
-            btnAceptar.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnAceptar.Location = new Point(194, 168);
+            btnAceptar.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnAceptar.Location = new Point(223, 123);
             btnAceptar.Name = "btnAceptar";
             btnAceptar.Size = new Size(89, 23);
             btnAceptar.TabIndex = 39;
@@ -126,8 +126,8 @@
             // btnCancelar
             // 
             btnCancelar.Cursor = Cursors.Hand;
-            btnCancelar.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnCancelar.Location = new Point(289, 168);
+            btnCancelar.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnCancelar.Location = new Point(318, 123);
             btnCancelar.Name = "btnCancelar";
             btnCancelar.Size = new Size(89, 23);
             btnCancelar.TabIndex = 40;
@@ -139,7 +139,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label3.Location = new Point(36, 215);
+            label3.Location = new Point(32, 164);
             label3.Name = "label3";
             label3.Size = new Size(186, 21);
             label3.TabIndex = 41;
@@ -148,7 +148,7 @@
             // dgvMarcas
             // 
             dgvMarcas.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvMarcas.Location = new Point(37, 264);
+            dgvMarcas.Location = new Point(33, 213);
             dgvMarcas.Name = "dgvMarcas";
             dgvMarcas.Size = new Size(528, 150);
             dgvMarcas.TabIndex = 42;
@@ -156,8 +156,8 @@
             // btnEliminar
             // 
             btnEliminar.Cursor = Cursors.Hand;
-            btnEliminar.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnEliminar.Location = new Point(381, 420);
+            btnEliminar.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnEliminar.Location = new Point(377, 369);
             btnEliminar.Name = "btnEliminar";
             btnEliminar.Size = new Size(89, 23);
             btnEliminar.TabIndex = 43;
@@ -168,8 +168,8 @@
             // btnCerrar2
             // 
             btnCerrar2.Cursor = Cursors.Hand;
-            btnCerrar2.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnCerrar2.Location = new Point(476, 420);
+            btnCerrar2.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnCerrar2.Location = new Point(472, 369);
             btnCerrar2.Name = "btnCerrar2";
             btnCerrar2.Size = new Size(89, 23);
             btnCerrar2.TabIndex = 44;
@@ -180,8 +180,8 @@
             // btnActualizar
             // 
             btnActualizar.Cursor = Cursors.Hand;
-            btnActualizar.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnActualizar.Location = new Point(286, 420);
+            btnActualizar.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnActualizar.Location = new Point(282, 369);
             btnActualizar.Name = "btnActualizar";
             btnActualizar.Size = new Size(89, 23);
             btnActualizar.TabIndex = 45;
@@ -193,7 +193,7 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label4.Location = new Point(36, 240);
+            label4.Location = new Point(32, 189);
             label4.Name = "label4";
             label4.Size = new Size(354, 13);
             label4.TabIndex = 46;
@@ -203,7 +203,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(589, 471);
+            ClientSize = new Size(589, 417);
             Controls.Add(label4);
             Controls.Add(btnActualizar);
             Controls.Add(btnCerrar);

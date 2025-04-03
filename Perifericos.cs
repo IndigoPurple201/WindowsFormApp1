@@ -450,7 +450,7 @@ namespace WinFormsApp1
         private void btnNuevoModelo_Click(object sender, EventArgs e)
         {
             string marca = boxMarca.SelectedItem.ToString();
-            Modelo modelo = new Modelo(marca, "PERIFERICO"); // No filtra, permite todo excepto CPU
+            Modelo modelo = new Modelo(marca, "PERIFERICOS"); // No filtra, permite todo excepto CPU
             modelo.ModeloAgregada += LlenarBoxModelo;
             modelo.ShowDialog();
         }

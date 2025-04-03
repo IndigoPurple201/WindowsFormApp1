@@ -61,6 +61,8 @@ namespace WinFormsApp1
             this.Click += QuitarFoco;
             ConfigurarDataGridView();
             cargarDatosDGV();
+            ObtenerSiguienteNumero();
+            txtFolio.Enabled = false;
         }
 
         private void cargarDatosDGV()
@@ -175,6 +177,7 @@ namespace WinFormsApp1
                     }
                 }
                 cargarDatosDGV();
+                ObtenerSiguienteNumero();
             }
         }
 
@@ -259,6 +262,7 @@ namespace WinFormsApp1
             }
             MessageBox.Show("Marca(s) eliminada(s) correctamente.");
             cargarDatosDGV();
+            ObtenerSiguienteNumero();
         }
 
 
@@ -320,7 +324,10 @@ namespace WinFormsApp1
             {
                 if (ctrl is TextBox textBox)
                 {
-                    textBox.Clear();
+                    if (textBox.Name != "txtFolio")
+                    {
+                        textBox.Clear();
+                    }
                 }
             }
         }
@@ -373,7 +380,7 @@ namespace WinFormsApp1
         {
             foreach (Control ctrl in this.Controls)
             {
-                if (ctrl is TextBox)
+                if (ctrl is TextBox && ctrl != txtFolio)
                 {
                     ctrl.Enabled = !bloquear; // Deshabilita o habilita los controles
                 }
@@ -393,6 +400,27 @@ namespace WinFormsApp1
         {
             LimpiarControles();
             BloquearControles(true);
+        }
+
+        private void ObtenerSiguienteNumero()
+        {
+            try 
+            {
+                using (SqlConnection connection = conexionSQL.ObtenerConexion())
+                {
+                    connection.Open();
+                    string query = "SELECT ISNULL(MAX(id_marca), 0) + 1 FROM marcas;";
+                    using (SqlCommand cmd = new SqlCommand(query,connection))
+                    {
+                        object result = cmd.ExecuteScalar();
+                        txtFolio.Text = result.ToString();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
         }
 
         private bool validarCampos()

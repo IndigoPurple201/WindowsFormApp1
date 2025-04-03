@@ -68,7 +68,7 @@
             // 
             toolHardware.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             toolHardware.Name = "toolHardware";
-            toolHardware.Size = new Size(180, 22);
+            toolHardware.Size = new Size(152, 22);
             toolHardware.Text = "HARDWARE";
             toolHardware.Click += toolHardware_Click;
             // 
@@ -76,7 +76,7 @@
             // 
             toolPeriferico.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             toolPeriferico.Name = "toolPeriferico";
-            toolPeriferico.Size = new Size(180, 22);
+            toolPeriferico.Size = new Size(152, 22);
             toolPeriferico.Text = "PERIFERICOS";
             toolPeriferico.Click += toolPeriferico_Click;
             // 
@@ -131,13 +131,14 @@
             menuSalir.Name = "menuSalir";
             menuSalir.Size = new Size(65, 25);
             menuSalir.Text = "SALIR";
+            menuSalir.Click += menuSalir_Click;
             // 
             // pictureBox1
             // 
             pictureBox1.Image = Properties.Resources.escudo;
             pictureBox1.Location = new Point(52, 44);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(1794, 959);
+            pictureBox1.Size = new Size(1794, 936);
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox1.TabIndex = 1;
             pictureBox1.TabStop = false;
@@ -151,8 +152,9 @@
             Controls.Add(pictureBox1);
             Controls.Add(menuStrip1);
             MainMenuStrip = menuStrip1;
-            Name = "Menu";
-            Text = "Menu";
+            Name = "MENU";
+            Text = "MENU";
+            Load += Menu_Load;
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
