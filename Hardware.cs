@@ -1219,7 +1219,6 @@ namespace WinFormsApp1
         {
             Marca marca = new Marca();
             marca.MarcaAgregada += LlenarBoxMarca;
-
             marca.ShowDialog();
         }
 
