@@ -57,6 +57,7 @@
             btnCerrar.SizeMode = PictureBoxSizeMode.StretchImage;
             btnCerrar.TabIndex = 35;
             btnCerrar.TabStop = false;
+            btnCerrar.Click += btnCerrar_Click_1;
             // 
             // btnNuevo
             // 
@@ -68,6 +69,7 @@
             btnNuevo.TabIndex = 45;
             btnNuevo.Text = "NUEVO";
             btnNuevo.UseVisualStyleBackColor = true;
+            btnNuevo.Click += btnNuevo_Click;
             // 
             // btnAceptar
             // 
@@ -79,6 +81,7 @@
             btnAceptar.TabIndex = 46;
             btnAceptar.Text = "ACEPTAR";
             btnAceptar.UseVisualStyleBackColor = true;
+            btnAceptar.Click += btnAceptar_Click;
             // 
             // btnCancelar
             // 
@@ -90,6 +93,7 @@
             btnCancelar.TabIndex = 47;
             btnCancelar.Text = "CANCELAR";
             btnCancelar.UseVisualStyleBackColor = true;
+            btnCancelar.Click += btnCancelar_Click;
             // 
             // txtDepartamento
             // 
@@ -99,6 +103,7 @@
             txtDepartamento.Name = "txtDepartamento";
             txtDepartamento.Size = new Size(245, 23);
             txtDepartamento.TabIndex = 44;
+            txtDepartamento.TextChanged += txtDepartamento_TextChanged;
             // 
             // label2
             // 
@@ -118,6 +123,7 @@
             txtFolio.Name = "txtFolio";
             txtFolio.Size = new Size(245, 23);
             txtFolio.TabIndex = 42;
+            txtFolio.KeyPress += txtFolio_KeyPress;
             // 
             // label1
             // 
@@ -167,6 +173,7 @@
             btnActualizar.TabIndex = 53;
             btnActualizar.Text = "ACTUALIZAR";
             btnActualizar.UseVisualStyleBackColor = true;
+            btnActualizar.Click += btnActualizar_Click;
             // 
             // btnCerrar2
             // 
@@ -178,6 +185,7 @@
             btnCerrar2.TabIndex = 52;
             btnCerrar2.Text = "CERRAR";
             btnCerrar2.UseVisualStyleBackColor = true;
+            btnCerrar2.Click += btnCerrar2_Click;
             // 
             // btnEliminar
             // 
@@ -189,6 +197,7 @@
             btnEliminar.TabIndex = 51;
             btnEliminar.Text = "ELIMINAR";
             btnEliminar.UseVisualStyleBackColor = true;
+            btnEliminar.Click += btnEliminar_Click;
             // 
             // Dependencias
             // 
@@ -212,6 +221,7 @@
             FormBorderStyle = FormBorderStyle.None;
             Name = "Dependencias";
             Text = "Dependencias";
+            Load += Dependencias_Load;
             ((System.ComponentModel.ISupportInitialize)btnCerrar).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvDependencias).EndInit();
             ResumeLayout(false);

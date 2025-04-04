@@ -84,6 +84,7 @@
             boxNumFactura = new ComboBox();
             boxValorFactura = new ComboBox();
             btnActualizar = new Button();
+            btnNuevoDepartamento = new Button();
             panelBarra.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)buttonSalir).BeginInit();
             SuspendLayout();
@@ -687,12 +688,25 @@
             btnActualizar.UseVisualStyleBackColor = true;
             btnActualizar.Click += btnActualizar_Click;
             // 
+            // btnNuevoDepartamento
+            // 
+            btnNuevoDepartamento.Cursor = Cursors.Hand;
+            btnNuevoDepartamento.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnNuevoDepartamento.Location = new Point(427, 98);
+            btnNuevoDepartamento.Name = "btnNuevoDepartamento";
+            btnNuevoDepartamento.Size = new Size(88, 23);
+            btnNuevoDepartamento.TabIndex = 99;
+            btnNuevoDepartamento.Text = "GESTIONAR";
+            btnNuevoDepartamento.UseVisualStyleBackColor = true;
+            btnNuevoDepartamento.Click += btnNuevoDepartamento_Click;
+            // 
             // Hardware
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.WhiteSmoke;
             ClientSize = new Size(877, 514);
+            Controls.Add(btnNuevoDepartamento);
             Controls.Add(btnActualizar);
             Controls.Add(boxValorFactura);
             Controls.Add(boxNumFactura);
@@ -814,5 +828,6 @@
         private ComboBox boxNumFactura;
         private ComboBox boxValorFactura;
         private Button btnActualizar;
+        private Button btnNuevoDepartamento;
     }
 }

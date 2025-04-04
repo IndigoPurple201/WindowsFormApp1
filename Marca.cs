@@ -362,6 +362,7 @@ namespace WinFormsApp1
                 controlActivo = null;
             }
         }
+
         private void btnNuevo_Click(object sender, EventArgs e)
         {
             BloquearControles(false);

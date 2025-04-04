@@ -1,6 +1,6 @@
 ﻿namespace WinFormsApp1
 {
-    partial class BuscarHardware
+    partial class Tipos
     {
         /// <summary>
         /// Required designer variable.
@@ -30,14 +30,14 @@
         {
             SuspendLayout();
             // 
-            // BuscarHardware
+            // Tipos
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(784, 343);
+            ClientSize = new Size(589, 417);
             FormBorderStyle = FormBorderStyle.None;
-            Name = "BuscarHardware";
-            Text = "Form1";
+            Name = "Tipos";
+            Text = "Tipos";
             ResumeLayout(false);
         }
 

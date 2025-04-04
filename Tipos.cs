@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace WinFormsApp1
 {
-    public partial class BuscarHardware: Form
+    public partial class Tipos: Form
     {
-        public BuscarHardware()
+        public Tipos()
         {
             InitializeComponent();
         }

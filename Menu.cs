@@ -39,7 +39,13 @@ namespace WinFormsApp1
             Marca marca = new Marca();
             marca.ShowDialog();
         }
-        
+
+        private void toolDependencias_Click(object sender, EventArgs e)
+        {
+            Dependencias dependencias = new Dependencias();
+            dependencias.ShowDialog();
+        }
+
         private void toolModelo_Click(object sender, EventArgs e)
         {
             Modelo modelo = new Modelo("","SIN TIPO");

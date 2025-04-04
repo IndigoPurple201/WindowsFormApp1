@@ -94,6 +94,7 @@
             toolDependencias.Name = "toolDependencias";
             toolDependencias.Size = new Size(170, 22);
             toolDependencias.Text = "DEPENDENCIAS";
+            toolDependencias.Click += toolDependencias_Click;
             // 
             // toolTipos
             // 

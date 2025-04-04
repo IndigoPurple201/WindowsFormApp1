@@ -463,56 +463,56 @@ namespace WinFormsApp1
             }
         }
 
-            private void boxMarca_SelectedIndexChanged(object sender, EventArgs e)
+        private void boxMarca_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LlenarBoXModelo();
+            if (boxMarca.SelectedItem != null && boxMarca.SelectedItem.ToString() != "-")
             {
-                LlenarBoXModelo();
-                if (boxMarca.SelectedItem != null && boxMarca.SelectedItem.ToString() != "-")
-                {
-                    btnNuevoModelo.Enabled = true;
-                }
-                else
-                {
-                    btnNuevoModelo.Enabled = false;
-                }
+                btnNuevoModelo.Enabled = true;
             }
-
-            private void LlenarBoXModelo()
+            else
             {
-                try
+                btnNuevoModelo.Enabled = false;
+            }
+        }
+
+        private void LlenarBoXModelo()
+        {
+            try
+            {
+                using (SqlConnection conn = conexionSQL.ObtenerConexion())
                 {
-                    using (SqlConnection conn = conexionSQL.ObtenerConexion())
+                    conn.Open();
+                    String query1 = "SELECT id_marca FROM marcas WHERE descripcion = @marca;";
+                    int idMarca = 0;
+                    using (SqlCommand cmd1 = new SqlCommand(query1, conn))
                     {
-                        conn.Open();
-                        String query1 = "SELECT id_marca FROM marcas WHERE descripcion = @marca;";
-                        int idMarca = 0;
-                        using (SqlCommand cmd1 = new SqlCommand(query1, conn))
+                        cmd1.Parameters.AddWithValue("@marca", boxMarca.Text);
+                        object result = cmd1.ExecuteScalar();
+                        idMarca = (result != null) ? Convert.ToInt32(result) : 0;
+                    }
+                    if (idMarca == 0)
+                        return;
+                    boxModelo.Items.Clear();
+                    String query2 = "SELECT modelos.descripcion FROM modelos JOIN tipos ON tipos.id_tipo = modelos.tipo WHERE marca = @idMarca AND tipos.descripcion IN ('CPU','SERVIDOR','LAPTOP','ALL IN ONE');";
+                    using (SqlCommand cmd2 = new SqlCommand(query2, conn))
+                    {
+                        cmd2.Parameters.AddWithValue("@idMarca", idMarca);
+                        using (SqlDataReader reader2 = cmd2.ExecuteReader())
                         {
-                            cmd1.Parameters.AddWithValue("@marca", boxMarca.Text);
-                            object result = cmd1.ExecuteScalar();
-                            idMarca = (result != null) ? Convert.ToInt32(result) : 0;
-                        }
-                        if (idMarca == 0)
-                            return;
-                        boxModelo.Items.Clear();
-                        String query2 = "SELECT modelos.descripcion FROM modelos JOIN tipos ON tipos.id_tipo = modelos.tipo WHERE marca = @idMarca AND tipos.descripcion IN ('CPU','SERVIDOR','LAPTOP','ALL IN ONE');";
-                        using (SqlCommand cmd2 = new SqlCommand(query2, conn))
-                        {
-                            cmd2.Parameters.AddWithValue("@idMarca", idMarca);
-                            using (SqlDataReader reader2 = cmd2.ExecuteReader())
+                            while (reader2.Read())
                             {
-                                while (reader2.Read())
-                                {
-                                    boxModelo.Items.Add(reader2["descripcion"].ToString());
-                                }
+                                boxModelo.Items.Add(reader2["descripcion"].ToString());
                             }
                         }
                     }
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error1: " + ex.Message);
-                }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error1: " + ex.Message);
+            }
+        }
 
         private void LlenarBoxDepartamento()
         {
@@ -606,6 +606,7 @@ namespace WinFormsApp1
             btnAceptar.Enabled = !bloquear; // "Aceptar" solo se habilita cuando los controles están activos
             btnCancelar.Enabled = !bloquear; // "Cancelar" solo se habilita cuando los controles están activos
             btnNuevoMarca.Enabled = !bloquear;
+            btnNuevoDepartamento.Enabled = !bloquear;
             btnBuscar.Enabled = !bloquear;
             if (btnActualizar.Enabled = true)
             {
@@ -653,7 +654,7 @@ namespace WinFormsApp1
         {
             comboBox.Items.Clear();
             comboBox.Items.Add(valorPredeterminado);
-            comboBox.SelectedIndex = 0; 
+            comboBox.SelectedIndex = 0;
         }
 
 
@@ -1230,6 +1231,13 @@ namespace WinFormsApp1
             modelo.ShowDialog();
         }
 
+        private void btnNuevoDepartamento_Click(object sender, EventArgs e)
+        {
+            Dependencias dependencias = new Dependencias();
+            dependencias.DependenciaAgregada += LlenarBoxDepartamento;
+            dependencias.ShowDialog();
+        }
+
         private void panelBarra_Paint(object sender, PaintEventArgs e)
         {
             using (Pen pen = new Pen(Color.Black, 4)) // Borde negro
@@ -1280,7 +1288,7 @@ namespace WinFormsApp1
 
         private void CargarDatosPorFolio(string folio)
         {
-            try 
+            try
             {
                 using (SqlConnection connection = conexionSQL.ObtenerConexion())
                 {
