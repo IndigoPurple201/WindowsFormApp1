@@ -607,7 +607,7 @@ namespace WinFormsApp1
             btnCancelar.Enabled = !bloquear; // "Cancelar" solo se habilita cuando los controles están activos
             btnNuevoMarca.Enabled = !bloquear;
             btnNuevoDepartamento.Enabled = !bloquear;
-            btnNuevoTipo.Enabled = !bloquear;
+            //btnNuevoTipo.Enabled = !bloquear;
             btnBuscar.Enabled = !bloquear;
             if (btnActualizar.Enabled = true)
             {

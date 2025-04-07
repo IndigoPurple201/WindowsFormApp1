@@ -43,6 +43,7 @@
             btnActualizar = new Button();
             btnCerrar2 = new Button();
             btnEliminar = new Button();
+            btnImprimir = new Button();
             ((System.ComponentModel.ISupportInitialize)btnCerrar).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvDependencias).BeginInit();
             SuspendLayout();
@@ -199,11 +200,24 @@
             btnEliminar.UseVisualStyleBackColor = true;
             btnEliminar.Click += btnEliminar_Click;
             // 
+            // btnImprimir
+            // 
+            btnImprimir.Cursor = Cursors.Hand;
+            btnImprimir.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnImprimir.Location = new Point(30, 373);
+            btnImprimir.Name = "btnImprimir";
+            btnImprimir.Size = new Size(89, 23);
+            btnImprimir.TabIndex = 54;
+            btnImprimir.Text = "IMPRIMIR";
+            btnImprimir.UseVisualStyleBackColor = true;
+            btnImprimir.Click += btnImprimir_Click;
+            // 
             // Dependencias
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(589, 417);
+            Controls.Add(btnImprimir);
             Controls.Add(btnActualizar);
             Controls.Add(btnCerrar2);
             Controls.Add(btnEliminar);
@@ -244,5 +258,6 @@
         private Button btnActualizar;
         private Button btnCerrar2;
         private Button btnEliminar;
+        private Button btnImprimir;
     }
 }

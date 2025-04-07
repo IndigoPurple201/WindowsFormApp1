@@ -65,7 +65,7 @@ namespace WinFormsApp1
             btnAceptar.Enabled = !bloquear;
             btnCancelar.Enabled = !bloquear;
             btnNuevoMarca.Enabled = !bloquear;
-            btnNuevoTipo.Enabled = !bloquear;
+            //btnNuevoTipo.Enabled = !bloquear;
             boxDidecon.Enabled = !bloquear;
             boxTipo.Enabled = !bloquear;
             boxTipo.Enabled = !bloquear;
