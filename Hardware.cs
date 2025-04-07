@@ -607,6 +607,7 @@ namespace WinFormsApp1
             btnCancelar.Enabled = !bloquear; // "Cancelar" solo se habilita cuando los controles están activos
             btnNuevoMarca.Enabled = !bloquear;
             btnNuevoDepartamento.Enabled = !bloquear;
+            btnNuevoTipo.Enabled = !bloquear;
             btnBuscar.Enabled = !bloquear;
             if (btnActualizar.Enabled = true)
             {
@@ -1229,6 +1230,13 @@ namespace WinFormsApp1
             Modelo modelo = new Modelo(marca, "CPU");
             modelo.ModeloAgregada += LlenarBoXModelo;
             modelo.ShowDialog();
+        }
+
+        private void btnNuevoTipo_Click(object sender, EventArgs e)
+        {
+            Tipos tipo = new Tipos("CPU");
+            tipo.TipoAgregado += LlenarBoxTipo;
+            tipo.ShowDialog();
         }
 
         private void btnNuevoDepartamento_Click(object sender, EventArgs e)

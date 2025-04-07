@@ -97,7 +97,7 @@
             panelBarra.Controls.Add(buttonSalir);
             panelBarra.Location = new Point(-1, 0);
             panelBarra.Name = "panelBarra";
-            panelBarra.Size = new Size(878, 41);
+            panelBarra.Size = new Size(966, 41);
             panelBarra.TabIndex = 32;
             panelBarra.Paint += panelBarra_Paint;
             // 
@@ -117,7 +117,7 @@
             buttonSalir.BackColor = Color.FromArgb(145, 145, 145);
             buttonSalir.Cursor = Cursors.Hand;
             buttonSalir.Image = (Image)resources.GetObject("buttonSalir.Image");
-            buttonSalir.Location = new Point(847, 5);
+            buttonSalir.Location = new Point(850, 6);
             buttonSalir.Name = "buttonSalir";
             buttonSalir.Size = new Size(25, 27);
             buttonSalir.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -129,7 +129,7 @@
             // 
             btnNuevo.Cursor = Cursors.Hand;
             btnNuevo.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnNuevo.Location = new Point(620, 465);
+            btnNuevo.Location = new Point(620, 464);
             btnNuevo.Name = "btnNuevo";
             btnNuevo.Size = new Size(76, 23);
             btnNuevo.TabIndex = 0;
@@ -141,7 +141,7 @@
             // 
             btnAceptar.Cursor = Cursors.Hand;
             btnAceptar.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnAceptar.Location = new Point(702, 465);
+            btnAceptar.Location = new Point(702, 464);
             btnAceptar.Name = "btnAceptar";
             btnAceptar.Size = new Size(76, 23);
             btnAceptar.TabIndex = 1;
@@ -153,7 +153,7 @@
             // 
             btnCancelar.Cursor = Cursors.Hand;
             btnCancelar.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnCancelar.Location = new Point(784, 465);
+            btnCancelar.Location = new Point(784, 464);
             btnCancelar.Name = "btnCancelar";
             btnCancelar.Size = new Size(76, 23);
             btnCancelar.TabIndex = 2;
@@ -592,7 +592,7 @@
             // 
             btnBuscar.Cursor = Cursors.Hand;
             btnBuscar.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnBuscar.Location = new Point(516, 465);
+            btnBuscar.Location = new Point(516, 464);
             btnBuscar.Name = "btnBuscar";
             btnBuscar.Size = new Size(76, 23);
             btnBuscar.TabIndex = 91;
@@ -705,7 +705,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.WhiteSmoke;
-            ClientSize = new Size(877, 514);
+            ClientSize = new Size(884, 514);
             Controls.Add(btnNuevoDepartamento);
             Controls.Add(btnActualizar);
             Controls.Add(boxValorFactura);

@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace WinFormsApp1
 {
-    public partial class Menu: Form
+    public partial class Menu : Form
     {
         public Menu()
         {
@@ -48,13 +48,19 @@ namespace WinFormsApp1
 
         private void toolModelo_Click(object sender, EventArgs e)
         {
-            Modelo modelo = new Modelo("","SIN TIPO");
+            Modelo modelo = new Modelo("", "SIN TIPO");
             modelo.ShowDialog();
         }
 
         private void menuSalir_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void toolTipos_Click(object sender, EventArgs e)
+        {
+            Tipos tipos = new Tipos("SIN TIPO");
+            tipos.ShowDialog();
         }
     }
 }

@@ -65,7 +65,7 @@ namespace WinFormsApp1
             btnAceptar.Enabled = !bloquear;
             btnCancelar.Enabled = !bloquear;
             btnNuevoMarca.Enabled = !bloquear;
-            //btnNuevoModelo.Enabled = !bloquear;
+            btnNuevoTipo.Enabled = !bloquear;
             boxDidecon.Enabled = !bloquear;
             boxTipo.Enabled = !bloquear;
             boxTipo.Enabled = !bloquear;
@@ -363,7 +363,7 @@ namespace WinFormsApp1
                                                 idestatus = @idNuevoEstatus,
                                                 Notas = @nuevoNotas
                                             WHERE perifericos.folio = @folio;";
-                        using (SqlCommand cmd = new SqlCommand(queryUpdate,connection))
+                        using (SqlCommand cmd = new SqlCommand(queryUpdate, connection))
                         {
                             cmd.Parameters.AddWithValue("@nuevoDidecon", didecon);
                             cmd.Parameters.AddWithValue("@nuevoActContraloria", nuevoActContraloria);
@@ -453,6 +453,13 @@ namespace WinFormsApp1
             Modelo modelo = new Modelo(marca, "PERIFERICOS"); // No filtra, permite todo excepto CPU
             modelo.ModeloAgregada += LlenarBoxModelo;
             modelo.ShowDialog();
+        }
+
+        private void btnNuevoTipo_Click(object sender, EventArgs e)
+        {
+            Tipos tipo = new Tipos("PERIFERICOS");
+            tipo.TipoAgregado += LlenarBoxTipo;
+            tipo.ShowDialog();
         }
 
         private void Periferico_MouseDown(object sender, MouseEventArgs e)

@@ -59,6 +59,7 @@
             btnCerrar.SizeMode = PictureBoxSizeMode.StretchImage;
             btnCerrar.TabIndex = 36;
             btnCerrar.TabStop = false;
+            btnCerrar.Click += btnCerrar_Click;
             // 
             // txtFolio
             // 
@@ -143,6 +144,7 @@
             btnAceptar.TabIndex = 50;
             btnAceptar.Text = "ACEPTAR";
             btnAceptar.UseVisualStyleBackColor = true;
+            btnAceptar.Click += btnAceptar_Click;
             // 
             // btnCancelar
             // 
@@ -194,6 +196,7 @@
             btnActualizar.TabIndex = 57;
             btnActualizar.Text = "ACTUALIZAR";
             btnActualizar.UseVisualStyleBackColor = true;
+            btnActualizar.Click += btnActualizar_Click;
             // 
             // btnCerrar2
             // 
@@ -205,6 +208,7 @@
             btnCerrar2.TabIndex = 56;
             btnCerrar2.Text = "CERRAR";
             btnCerrar2.UseVisualStyleBackColor = true;
+            btnCerrar2.Click += btnCerrar2_Click;
             // 
             // btnEliminar
             // 
@@ -216,6 +220,7 @@
             btnEliminar.TabIndex = 55;
             btnEliminar.Text = "ELIMINAR";
             btnEliminar.UseVisualStyleBackColor = true;
+            btnEliminar.Click += btnEliminar_Click;
             // 
             // Tipos
             // 
@@ -241,6 +246,7 @@
             FormBorderStyle = FormBorderStyle.None;
             Name = "Tipos";
             Text = "Tipos";
+            Load += Tipos_Load;
             ((System.ComponentModel.ISupportInitialize)btnCerrar).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvTipos).EndInit();
             ResumeLayout(false);

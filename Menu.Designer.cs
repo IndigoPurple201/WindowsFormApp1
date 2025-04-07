@@ -34,7 +34,6 @@
             toolPeriferico = new ToolStripMenuItem();
             menuCatalogos = new ToolStripMenuItem();
             toolDependencias = new ToolStripMenuItem();
-            toolTipos = new ToolStripMenuItem();
             toolMarcas = new ToolStripMenuItem();
             toolModelos = new ToolStripMenuItem();
             menuReportes = new ToolStripMenuItem();
@@ -82,7 +81,7 @@
             // 
             // menuCatalogos
             // 
-            menuCatalogos.DropDownItems.AddRange(new ToolStripItem[] { toolDependencias, toolTipos, toolMarcas, toolModelos });
+            menuCatalogos.DropDownItems.AddRange(new ToolStripItem[] { toolDependencias, toolMarcas, toolModelos });
             menuCatalogos.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             menuCatalogos.Name = "menuCatalogos";
             menuCatalogos.Size = new Size(113, 25);
@@ -92,22 +91,15 @@
             // 
             toolDependencias.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             toolDependencias.Name = "toolDependencias";
-            toolDependencias.Size = new Size(170, 22);
+            toolDependencias.Size = new Size(180, 22);
             toolDependencias.Text = "DEPENDENCIAS";
             toolDependencias.Click += toolDependencias_Click;
-            // 
-            // toolTipos
-            // 
-            toolTipos.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            toolTipos.Name = "toolTipos";
-            toolTipos.Size = new Size(170, 22);
-            toolTipos.Text = "TIPOS";
             // 
             // toolMarcas
             // 
             toolMarcas.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             toolMarcas.Name = "toolMarcas";
-            toolMarcas.Size = new Size(170, 22);
+            toolMarcas.Size = new Size(180, 22);
             toolMarcas.Text = "MARCAS";
             toolMarcas.Click += toolMarca_Click;
             // 
@@ -115,7 +107,7 @@
             // 
             toolModelos.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             toolModelos.Name = "toolModelos";
-            toolModelos.Size = new Size(170, 22);
+            toolModelos.Size = new Size(180, 22);
             toolModelos.Text = "MODELOS";
             toolModelos.Click += toolModelo_Click;
             // 
@@ -153,7 +145,7 @@
             Controls.Add(pictureBox1);
             Controls.Add(menuStrip1);
             MainMenuStrip = menuStrip1;
-            Name = "MENU";
+            Name = "Menu";
             Text = "MENU";
             Load += Menu_Load;
             menuStrip1.ResumeLayout(false);
@@ -173,7 +165,6 @@
         private ToolStripMenuItem toolHardware;
         private ToolStripMenuItem toolPeriferico;
         private ToolStripMenuItem toolDependencias;
-        private ToolStripMenuItem toolTipos;
         private ToolStripMenuItem toolMarcas;
         private ToolStripMenuItem toolModelos;
         private PictureBox pictureBox1;

@@ -37,7 +37,8 @@ namespace WinFormsApp1
         private Control controlActivo = null;
         private Point mouseDownLocation;
         private ConexionSQL conexionSQL = new ConexionSQL();
-        public Tipos()
+        string tipoFiltro = "";
+        public Tipos(string tipo)
         {
             InitializeComponent();
             this.FormBorderStyle = FormBorderStyle.None;
@@ -45,6 +46,7 @@ namespace WinFormsApp1
 
             this.MouseDown += new MouseEventHandler(Tipos_MouseDown);
             //this.MouseMove += new MouseEventHandler(Marca_MouseMove)
+            tipoFiltro = tipo;
         }
 
         private void Tipos_Load(object sender, EventArgs e)
@@ -64,6 +66,10 @@ namespace WinFormsApp1
             CargarDatosDGV();
             ObtenerSiguienteNumero();
             txtFolio.Enabled = false;
+            boxRefaccion.Items.Clear();
+            boxRefaccion.Items.Add("S");
+            boxRefaccion.Items.Add("N");
+            boxRefaccion.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
         private void Tipos_MouseDown(object sender, MouseEventArgs e)
@@ -87,7 +93,7 @@ namespace WinFormsApp1
         {
             try
             {
-                string query = "SELECT tipos.id_tipo AS Numero, tipos.descripcion AS Descripcion, tipos.refaccion FROM tipos;";
+                string query = "SELECT tipos.id_tipo AS Numero, tipos.descripcion AS Descripcion, tipos.refaccion AS Refaccion FROM tipos;";
                 using (SqlConnection connection = conexionSQL.ObtenerConexion())
                 {
                     connection.Open();
@@ -100,7 +106,7 @@ namespace WinFormsApp1
                             int index = dgvTipos.Rows.Add();
                             dgvTipos.Rows[index].Cells["Numero"].Value = reader["Numero"].ToString();
                             dgvTipos.Rows[index].Cells["Descripcion"].Value = reader["Descripcion"].ToString();
-                            dgvTipos.Rows[index].Cells["Refaccion"].Value = reader["refaccion"].ToString();
+                            dgvTipos.Rows[index].Cells["Refaccion"].Value = reader["Refaccion"].ToString();
                         }
                     }
                 }
@@ -135,8 +141,9 @@ namespace WinFormsApp1
             {
                 dgvTipos.Columns.Add("Numero", "Número");
                 dgvTipos.Columns.Add("Descripcion", "Descripción");
+                dgvTipos.Columns.Add("Refaccion", "Refacción");
             }
-
+            dgvTipos.Columns["Refaccion"].ReadOnly = false;
             dgvTipos.Columns["Descripcion"].ReadOnly = false;
             dgvTipos.Columns["Numero"].ReadOnly = true;
         }
@@ -226,6 +233,127 @@ namespace WinFormsApp1
             BloquearControles(true);
         }
 
+        private void btnAceptar_Click(object sender, EventArgs e)
+        {
+            if (validarCampos())
+            {
+                try
+                {
+                    using (SqlConnection connection = conexionSQL.ObtenerConexion())
+                    {
+                        connection.Open();
+                        string query = "INSERT INTO tipos (id_tipo, descripcion, refaccion) VALUES (@id_tipo, @descripcion, @refaccion);";
+                        using (SqlCommand cmd = new SqlCommand(query, connection))
+                        {
+                            cmd.Parameters.AddWithValue("@id_tipo", txtFolio.Text);
+                            cmd.Parameters.AddWithValue("@descripcion", txtDescripcion.Text);
+                            cmd.Parameters.AddWithValue("@refaccion", boxRefaccion.Text);
+                            cmd.ExecuteNonQuery();
+                            if (tipoFiltro != "SIN TIPO")
+                            {
+                                TipoAgregado.Invoke();
+                            }
+                            MessageBox.Show("Tipo agregado correctamente");
+                        }
+                    }
+                    LimpiarControles();
+                    CargarDatosDGV();
+                    ObtenerSiguienteNumero();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: " + ex.Message);
+                }
+            }
+        }
+
+        private void btnActualizar_Click(object sender, EventArgs e)
+        {
+            bool cambiosRealizados = false;
+            foreach (DataGridViewRow row in dgvTipos.Rows)
+            {
+                if (row.IsNewRow) continue;
+                string nuevoIdTipo = row.Cells["Numero"].Value.ToString();
+                string nuevoDescripcion = row.Cells["Descripcion"].Value.ToString();
+                string nuevoRefaccion = row.Cells["Refaccion"].Value.ToString();
+                try
+                {
+                    using (SqlConnection connection = conexionSQL.ObtenerConexion())
+                    {
+                        connection.Open();
+                        string query = "UPDATE tipos SET descripcion = @descripcion, refaccion = @refaccion WHERE id_tipo = @id_tipo;";
+                        using (SqlCommand cmd = new SqlCommand(query, connection))
+                        {
+                            cmd.Parameters.AddWithValue("@id_tipo", nuevoIdTipo);
+                            cmd.Parameters.AddWithValue("@descripcion", nuevoDescripcion);
+                            cmd.Parameters.AddWithValue("@refaccion", nuevoRefaccion);
+                            cmd.ExecuteNonQuery();
+                            if (tipoFiltro != "SIN TIPO")
+                            {
+                                TipoAgregado.Invoke();
+                            }
+                        }
+                    }
+                    cambiosRealizados = true;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: " + ex.Message);
+                }
+            }
+            if (cambiosRealizados)
+            {
+                MessageBox.Show("Dependencia(s) actualizada(s) correctamente.");
+                CargarDatosDGV();
+            }
+            else
+            {
+                MessageBox.Show("No se realizaron cambios.");
+                CargarDatosDGV();
+            }
+        }
+
+        private void btnEliminar_Click(object sender, EventArgs e)
+        {
+            if (dgvTipos.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Seleccione un tipo para eliminar");
+                return;
+            }
+            DialogResult confirmacion = MessageBox.Show("¿Está seguro de que desea eliminar lo(s) modelos(s) seleccionado(s)?",
+                                            "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (confirmacion != DialogResult.Yes) return;
+            foreach (DataGridViewRow row in dgvTipos.SelectedRows)
+            {
+                if (row.Cells["Numero"].Value == null) continue;
+                int idTipo = Convert.ToInt32(row.Cells["Numero"].Value);
+                try
+                {
+                    string query = "DELETE FROM tipos WHERE id_tipo = @id_tipo;";
+                    using (SqlConnection connection = conexionSQL.ObtenerConexion())
+                    {
+                        connection.Open();
+                        using (SqlCommand cmd = new SqlCommand(query,connection))
+                        {
+                            cmd.Parameters.AddWithValue("@id_tipo", idTipo);
+                            cmd.ExecuteNonQuery();
+                            if (tipoFiltro != "SIN TIPO")
+                            {
+                                TipoAgregado.Invoke();
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: " + ex.Message);
+                }
+            }
+            MessageBox.Show("Tipo(s) eliminado correctamente");
+            CargarDatosDGV();
+            ObtenerSiguienteNumero();
+        }
+
         private void QuitarFoco(object sender, EventArgs e)
         {
             if (controlActivo != null && !controlActivo.Bounds.Contains(this.PointToClient(Cursor.Position)))
@@ -307,6 +435,16 @@ namespace WinFormsApp1
                 esValido = false;
             }
             return esValido;
+        }
+
+        private void btnCerrar_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void btnCerrar2_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
