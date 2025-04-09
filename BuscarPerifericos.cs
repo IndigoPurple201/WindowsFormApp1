@@ -8,6 +8,7 @@ using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -390,6 +391,101 @@ namespace WinFormsApp1
             }
         }
 
+        private void txtBuscarFolio_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+            // Permitir solo números y la tecla de retroceso
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true; // Bloquear entrada no numérica
+            }
+            // Evitar que se ingresen más de 4 dígitos
+            if (!char.IsControl(e.KeyChar) && txt.Text.Length >= 4)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtBuscarFolioCPU_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+            // Permitir solo números y la tecla de retroceso
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true; // Bloquear entrada no numérica
+            }
+            // Evitar que se ingresen más de 4 dígitos
+            if (!char.IsControl(e.KeyChar) && txt.Text.Length >= 4)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtBuscarDirCPU_TextChanged(object sender, EventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+
+            if (txt.Text == ".   " || txt.Text == "SN")
+            {
+                txt.ForeColor = Color.Black;
+                return;
+            }
+
+            //Expresion regular para validar una direccion IP
+            string pattern = @"^(25[0-5]|2[0-4][0-9]|1?[0-9]?[0-9])(\.(25[0-5]|2[0-4][0-9]|1?[0-9]?[0-9])){3}$";
+            if (!Regex.IsMatch(txt.Text, pattern) && txt.Text.Length > 0)
+            {
+                txt.ForeColor = Color.Red; // Indicar error en rojo
+            }
+            else
+            {
+                txt.ForeColor = Color.Black; // IP válida en negro
+
+            }
+        }
+
+        private void txtBuscarDirCPU_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+
+            // Evitar que se ingresen más de 15 dígitos
+            if (!char.IsControl(e.KeyChar) && txt.Text.Length >= 15)
+            {
+                e.Handled = true;
+            }
+
+            //Permitirsolo numerosy puntos
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
+            {
+                e.Handled = true;
+            }
+
+            // Evitar que haya puntos seguidos
+            if (e.KeyChar == '.' && (txt.Text.EndsWith(".") || txt.Text.Split('.').Length > 3))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtBuscarActivoCPU_TextChanged(object sender, EventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+            // Convertir a mayúsculas
+            txt.Text = txt.Text.ToUpper();
+            // Mover el cursor al final
+            txt.SelectionStart = txt.Text.Length;
+        }
+
+        private void txtBuscarActivoCPU_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+            // Evitar que se ingresen más de 50 caracteres
+            if (!char.IsControl(e.KeyChar) && txt.Text.Length >= 50)
+            {
+                e.Handled = true;
+            }
+        }
+
         private void boxNumSerie_TextChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = sender as ComboBox;
@@ -407,6 +503,21 @@ namespace WinFormsApp1
             txtBox.Text = txtBox.Text.ToUpper();
 
             txtBox.SelectionStart = txtBox.Text.Length;
+        }
+
+        private void txtDidecon_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+            // Permitir solo números y la tecla de retroceso
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true; // Bloquear entrada no numérica
+            }
+            // Evitar que se ingresen más de 7 dígitos
+            if (!char.IsControl(e.KeyChar) && txt.Text.Length >= 7)
+            {
+                e.Handled = true;
+            }
         }
 
         private void cargarDepartamentos()
