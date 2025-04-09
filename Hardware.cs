@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Windows.Forms; 
+using System.Windows.Forms;
 
 namespace WinFormsApp1
 {
@@ -36,7 +36,7 @@ namespace WinFormsApp1
             label1.MouseDown += new MouseEventHandler(Hardware_MouseDown);
             //panelBarra.MouseMove += new MouseEventHandler(Hardware_MouseMove);
         }
-        private void Hardware_Load_1(object sender, EventArgs e)
+        private void Hardware_Load(object sender, EventArgs e)
         {
             conexionSQL.ProbarConexion();
             LlenarBoxMarca();

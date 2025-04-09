@@ -11,6 +11,8 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CrystalDecisions.CrystalReports.Engine;
+using CrystalDecisions.Shared;
 
 namespace WinFormsApp1
 {
@@ -37,6 +39,7 @@ namespace WinFormsApp1
         private Control controlActivo = null;
         private Point mouseDownLocation;
         private ConexionSQL conexionSQL = new ConexionSQL();
+        private CrystalDecisions.Windows.Forms.CrystalReportViewer crystalReportViewer1;
         public Dependencias()
         {
             InitializeComponent();
@@ -436,6 +439,37 @@ namespace WinFormsApp1
         private void btnCerrar_Click_1(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void btnImprimir_Click(object sender, EventArgs e)
+        {
+            try 
+            {
+                using (SqlConnection connection = conexionSQL.ObtenerConexion())
+                {
+                    string query = "SELECT id_dependencia, descripcion FROM dependencias;";
+                    SqlDataAdapter da = new SqlDataAdapter(query, connection);
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+
+                    ReportDocument report = new ReportDocument();
+                    report.Load(@"Reportes\rptdependencias.rpt");
+
+                    report.SetDataSource(dt);
+
+                    Form visor = new Form();
+                    CrystalDecisions.Windows.Forms.CrystalReportViewer visorCrystal = new CrystalDecisions.Windows.Forms.CrystalReportViewer();
+                    visorCrystal.Dock = DockStyle.Fill;
+                    visorCrystal.ReportSource = report;
+                    visor.Controls.Add(visorCrystal);
+                    visor.WindowState = FormWindowState.Maximized;
+                    visor.ShowDialog();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al imprimir: " + ex.Message);
+            }
         }
     }
 }

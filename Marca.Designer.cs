@@ -29,219 +29,221 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Marca));
-            btnCerrar = new PictureBox();
-            txtFolio = new TextBox();
-            label1 = new Label();
-            label2 = new Label();
-            txtMarca = new TextBox();
-            btnNuevo = new Button();
-            btnAceptar = new Button();
-            btnCancelar = new Button();
-            label3 = new Label();
-            dgvMarcas = new DataGridView();
-            btnEliminar = new Button();
-            btnCerrar2 = new Button();
-            btnActualizar = new Button();
-            label4 = new Label();
-            ((System.ComponentModel.ISupportInitialize)btnCerrar).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)dgvMarcas).BeginInit();
-            SuspendLayout();
+            this.btnCerrar = new System.Windows.Forms.PictureBox();
+            this.txtFolio = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtMarca = new System.Windows.Forms.TextBox();
+            this.btnNuevo = new System.Windows.Forms.Button();
+            this.btnAceptar = new System.Windows.Forms.Button();
+            this.btnCancelar = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.dgvMarcas = new System.Windows.Forms.DataGridView();
+            this.btnEliminar = new System.Windows.Forms.Button();
+            this.btnCerrar2 = new System.Windows.Forms.Button();
+            this.btnActualizar = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.btnCerrar)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvMarcas)).BeginInit();
+            this.SuspendLayout();
             // 
             // btnCerrar
             // 
-            btnCerrar.Cursor = Cursors.Hand;
-            btnCerrar.Image = (Image)resources.GetObject("btnCerrar.Image");
-            btnCerrar.Location = new Point(552, 12);
-            btnCerrar.Name = "btnCerrar";
-            btnCerrar.Size = new Size(25, 27);
-            btnCerrar.SizeMode = PictureBoxSizeMode.StretchImage;
-            btnCerrar.TabIndex = 34;
-            btnCerrar.TabStop = false;
-            btnCerrar.Click += btnCerrar_Click;
+            this.btnCerrar.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnCerrar.Image = ((System.Drawing.Image)(resources.GetObject("btnCerrar.Image")));
+            this.btnCerrar.Location = new System.Drawing.Point(473, 10);
+            this.btnCerrar.Name = "btnCerrar";
+            this.btnCerrar.Size = new System.Drawing.Size(21, 23);
+            this.btnCerrar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.btnCerrar.TabIndex = 34;
+            this.btnCerrar.TabStop = false;
+            this.btnCerrar.Click += new System.EventHandler(this.btnCerrar_Click);
             // 
             // txtFolio
             // 
-            txtFolio.BorderStyle = BorderStyle.FixedSingle;
-            txtFolio.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            txtFolio.Location = new Point(130, 53);
-            txtFolio.Name = "txtFolio";
-            txtFolio.Size = new Size(245, 23);
-            txtFolio.TabIndex = 35;
-            txtFolio.KeyPress += txtFolio_KeyPress;
+            this.txtFolio.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtFolio.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtFolio.Location = new System.Drawing.Point(130, 46);
+            this.txtFolio.Name = "txtFolio";
+            this.txtFolio.Size = new System.Drawing.Size(210, 23);
+            this.txtFolio.TabIndex = 35;
+            this.txtFolio.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFolio_KeyPress);
             // 
             // label1
             // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(21, 46);
-            label1.Name = "label1";
-            label1.Size = new Size(106, 30);
-            label1.TabIndex = 34;
-            label1.Text = "NUMERO";
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(18, 40);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(106, 30);
+            this.label1.TabIndex = 34;
+            this.label1.Text = "NUMERO";
             // 
             // label2
             // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label2.Location = new Point(21, 84);
-            label2.Name = "label2";
-            label2.Size = new Size(109, 21);
-            label2.TabIndex = 36;
-            label2.Text = "DESCRIPCION";
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(18, 73);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(109, 21);
+            this.label2.TabIndex = 36;
+            this.label2.Text = "DESCRIPCION";
             // 
             // txtMarca
             // 
-            txtMarca.BorderStyle = BorderStyle.FixedSingle;
-            txtMarca.Font = new Font("Segoe UI", 9F);
-            txtMarca.Location = new Point(130, 82);
-            txtMarca.Name = "txtMarca";
-            txtMarca.Size = new Size(245, 23);
-            txtMarca.TabIndex = 37;
-            txtMarca.TextChanged += txtMarca_TextChanged;
+            this.txtMarca.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtMarca.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.txtMarca.Location = new System.Drawing.Point(130, 71);
+            this.txtMarca.Name = "txtMarca";
+            this.txtMarca.Size = new System.Drawing.Size(210, 23);
+            this.txtMarca.TabIndex = 37;
+            this.txtMarca.TextChanged += new System.EventHandler(this.txtMarca_TextChanged);
             // 
             // btnNuevo
             // 
-            btnNuevo.Cursor = Cursors.Hand;
-            btnNuevo.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnNuevo.Location = new Point(128, 123);
-            btnNuevo.Name = "btnNuevo";
-            btnNuevo.Size = new Size(89, 23);
-            btnNuevo.TabIndex = 38;
-            btnNuevo.Text = "NUEVO";
-            btnNuevo.UseVisualStyleBackColor = true;
-            btnNuevo.Click += btnNuevo_Click;
+            this.btnNuevo.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnNuevo.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnNuevo.Location = new System.Drawing.Point(110, 107);
+            this.btnNuevo.Name = "btnNuevo";
+            this.btnNuevo.Size = new System.Drawing.Size(76, 20);
+            this.btnNuevo.TabIndex = 38;
+            this.btnNuevo.Text = "NUEVO";
+            this.btnNuevo.UseVisualStyleBackColor = true;
+            this.btnNuevo.Click += new System.EventHandler(this.btnNuevo_Click);
             // 
             // btnAceptar
             // 
-            btnAceptar.Cursor = Cursors.Hand;
-            btnAceptar.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnAceptar.Location = new Point(223, 123);
-            btnAceptar.Name = "btnAceptar";
-            btnAceptar.Size = new Size(89, 23);
-            btnAceptar.TabIndex = 39;
-            btnAceptar.Text = "ACEPTAR";
-            btnAceptar.UseVisualStyleBackColor = true;
-            btnAceptar.Click += btnAceptar_Click;
+            this.btnAceptar.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnAceptar.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAceptar.Location = new System.Drawing.Point(191, 107);
+            this.btnAceptar.Name = "btnAceptar";
+            this.btnAceptar.Size = new System.Drawing.Size(76, 20);
+            this.btnAceptar.TabIndex = 39;
+            this.btnAceptar.Text = "ACEPTAR";
+            this.btnAceptar.UseVisualStyleBackColor = true;
+            this.btnAceptar.Click += new System.EventHandler(this.btnAceptar_Click);
             // 
             // btnCancelar
             // 
-            btnCancelar.Cursor = Cursors.Hand;
-            btnCancelar.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnCancelar.Location = new Point(318, 123);
-            btnCancelar.Name = "btnCancelar";
-            btnCancelar.Size = new Size(89, 23);
-            btnCancelar.TabIndex = 40;
-            btnCancelar.Text = "CANCELAR";
-            btnCancelar.UseVisualStyleBackColor = true;
-            btnCancelar.Click += btnCancelar_Click;
+            this.btnCancelar.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnCancelar.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCancelar.Location = new System.Drawing.Point(273, 107);
+            this.btnCancelar.Name = "btnCancelar";
+            this.btnCancelar.Size = new System.Drawing.Size(79, 20);
+            this.btnCancelar.TabIndex = 40;
+            this.btnCancelar.Text = "CANCELAR";
+            this.btnCancelar.UseVisualStyleBackColor = true;
+            this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
             // 
             // label3
             // 
-            label3.AutoSize = true;
-            label3.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label3.Location = new Point(32, 164);
-            label3.Name = "label3";
-            label3.Size = new Size(186, 21);
-            label3.TabIndex = 41;
-            label3.Text = "MARCAS REGISTRADAS";
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(27, 142);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(186, 21);
+            this.label3.TabIndex = 41;
+            this.label3.Text = "MARCAS REGISTRADAS";
             // 
             // dgvMarcas
             // 
-            dgvMarcas.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvMarcas.Location = new Point(33, 213);
-            dgvMarcas.Name = "dgvMarcas";
-            dgvMarcas.Size = new Size(528, 150);
-            dgvMarcas.TabIndex = 42;
+            this.dgvMarcas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvMarcas.Location = new System.Drawing.Point(28, 185);
+            this.dgvMarcas.Name = "dgvMarcas";
+            this.dgvMarcas.Size = new System.Drawing.Size(453, 130);
+            this.dgvMarcas.TabIndex = 42;
             // 
             // btnEliminar
             // 
-            btnEliminar.Cursor = Cursors.Hand;
-            btnEliminar.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnEliminar.Location = new Point(377, 369);
-            btnEliminar.Name = "btnEliminar";
-            btnEliminar.Size = new Size(89, 23);
-            btnEliminar.TabIndex = 43;
-            btnEliminar.Text = "ELIMINAR";
-            btnEliminar.UseVisualStyleBackColor = true;
-            btnEliminar.Click += btnEliminar_Click;
+            this.btnEliminar.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnEliminar.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEliminar.Location = new System.Drawing.Point(297, 321);
+            this.btnEliminar.Name = "btnEliminar";
+            this.btnEliminar.Size = new System.Drawing.Size(89, 20);
+            this.btnEliminar.TabIndex = 43;
+            this.btnEliminar.Text = "ELIMINAR";
+            this.btnEliminar.UseVisualStyleBackColor = true;
+            this.btnEliminar.Click += new System.EventHandler(this.btnEliminar_Click);
             // 
             // btnCerrar2
             // 
-            btnCerrar2.Cursor = Cursors.Hand;
-            btnCerrar2.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnCerrar2.Location = new Point(472, 369);
-            btnCerrar2.Name = "btnCerrar2";
-            btnCerrar2.Size = new Size(89, 23);
-            btnCerrar2.TabIndex = 44;
-            btnCerrar2.Text = "CERRAR";
-            btnCerrar2.UseVisualStyleBackColor = true;
-            btnCerrar2.Click += btnCerrar2_Click;
+            this.btnCerrar2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnCerrar2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCerrar2.Location = new System.Drawing.Point(392, 321);
+            this.btnCerrar2.Name = "btnCerrar2";
+            this.btnCerrar2.Size = new System.Drawing.Size(89, 20);
+            this.btnCerrar2.TabIndex = 44;
+            this.btnCerrar2.Text = "CERRAR";
+            this.btnCerrar2.UseVisualStyleBackColor = true;
+            this.btnCerrar2.Click += new System.EventHandler(this.btnCerrar2_Click);
             // 
             // btnActualizar
             // 
-            btnActualizar.Cursor = Cursors.Hand;
-            btnActualizar.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnActualizar.Location = new Point(282, 369);
-            btnActualizar.Name = "btnActualizar";
-            btnActualizar.Size = new Size(89, 23);
-            btnActualizar.TabIndex = 45;
-            btnActualizar.Text = "ACTUALIZAR";
-            btnActualizar.UseVisualStyleBackColor = true;
-            btnActualizar.Click += btnActualizar_Click;
+            this.btnActualizar.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnActualizar.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnActualizar.Location = new System.Drawing.Point(202, 321);
+            this.btnActualizar.Name = "btnActualizar";
+            this.btnActualizar.Size = new System.Drawing.Size(89, 20);
+            this.btnActualizar.TabIndex = 45;
+            this.btnActualizar.Text = "ACTUALIZAR";
+            this.btnActualizar.UseVisualStyleBackColor = true;
+            this.btnActualizar.Click += new System.EventHandler(this.btnActualizar_Click);
             // 
             // label4
             // 
-            label4.AutoSize = true;
-            label4.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label4.Location = new Point(32, 189);
-            label4.Name = "label4";
-            label4.Size = new Size(354, 13);
-            label4.TabIndex = 46;
-            label4.Text = "SELECCIONE UNO O MAS REGISTROS PARA ACTUALIZAR O ELIMINAR";
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(27, 164);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(354, 13);
+            this.label4.TabIndex = 46;
+            this.label4.Text = "SELECCIONE UNO O MAS REGISTROS PARA ACTUALIZAR O ELIMINAR";
             // 
             // Marca
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
-            AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(589, 417);
-            Controls.Add(label4);
-            Controls.Add(btnActualizar);
-            Controls.Add(btnCerrar);
-            Controls.Add(btnCerrar2);
-            Controls.Add(btnEliminar);
-            Controls.Add(dgvMarcas);
-            Controls.Add(label3);
-            Controls.Add(btnNuevo);
-            Controls.Add(btnAceptar);
-            Controls.Add(btnCancelar);
-            Controls.Add(txtMarca);
-            Controls.Add(label2);
-            Controls.Add(txtFolio);
-            Controls.Add(label1);
-            FormBorderStyle = FormBorderStyle.None;
-            Name = "Marca";
-            Text = "Marca";
-            Load += Marca_Load;
-            ((System.ComponentModel.ISupportInitialize)btnCerrar).EndInit();
-            ((System.ComponentModel.ISupportInitialize)dgvMarcas).EndInit();
-            ResumeLayout(false);
-            PerformLayout();
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(505, 361);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.btnActualizar);
+            this.Controls.Add(this.btnCerrar);
+            this.Controls.Add(this.btnCerrar2);
+            this.Controls.Add(this.btnEliminar);
+            this.Controls.Add(this.dgvMarcas);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.btnNuevo);
+            this.Controls.Add(this.btnAceptar);
+            this.Controls.Add(this.btnCancelar);
+            this.Controls.Add(this.txtMarca);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.txtFolio);
+            this.Controls.Add(this.label1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Name = "Marca";
+            this.Text = "Marca";
+            this.Load += new System.EventHandler(this.Marca_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.btnCerrar)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvMarcas)).EndInit();
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
         }
 
         #endregion
-        private PictureBox btnCerrar;
-        private TextBox txtFolio;
-        private Label label1;
-        private Label label2;
-        private TextBox txtMarca;
-        private Button btnNuevo;
-        private Button btnAceptar;
-        private Button btnCancelar;
-        private Label label3;
-        private DataGridView dgvMarcas;
-        private Button btnEliminar;
-        private Button btnCerrar2;
-        private Button btnActualizar;
-        private Label label4;
+        private System.Windows.Forms.PictureBox btnCerrar;
+        private System.Windows.Forms.TextBox txtFolio;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox txtMarca;
+        private System.Windows.Forms.Button btnNuevo;
+        private System.Windows.Forms.Button btnAceptar;
+        private System.Windows.Forms.Button btnCancelar;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.DataGridView dgvMarcas;
+        private System.Windows.Forms.Button btnEliminar;
+        private System.Windows.Forms.Button btnCerrar2;
+        private System.Windows.Forms.Button btnActualizar;
+        private System.Windows.Forms.Label label4;
+
     }
 }

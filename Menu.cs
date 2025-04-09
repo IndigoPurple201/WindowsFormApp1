@@ -56,11 +56,5 @@ namespace WinFormsApp1
         {
             Application.Exit();
         }
-
-        private void toolTipos_Click(object sender, EventArgs e)
-        {
-            Tipos tipos = new Tipos("SIN TIPO");
-            tipos.ShowDialog();
-        }
     }
 }
