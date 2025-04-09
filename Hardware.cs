@@ -1232,13 +1232,6 @@ namespace WinFormsApp1
             modelo.ShowDialog();
         }
 
-        private void btnNuevoTipo_Click(object sender, EventArgs e)
-        {
-            Tipos tipo = new Tipos("CPU");
-            tipo.TipoAgregado += LlenarBoxTipo;
-            tipo.ShowDialog();
-        }
-
         private void btnNuevoDepartamento_Click(object sender, EventArgs e)
         {
             Dependencias dependencias = new Dependencias();

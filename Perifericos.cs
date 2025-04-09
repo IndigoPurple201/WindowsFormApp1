@@ -455,13 +455,6 @@ namespace WinFormsApp1
             modelo.ShowDialog();
         }
 
-        private void btnNuevoTipo_Click(object sender, EventArgs e)
-        {
-            Tipos tipo = new Tipos("PERIFERICOS");
-            tipo.TipoAgregado += LlenarBoxTipo;
-            tipo.ShowDialog();
-        }
-
         private void Periferico_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)

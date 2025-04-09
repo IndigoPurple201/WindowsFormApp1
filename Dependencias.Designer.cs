@@ -48,18 +48,6 @@
             ((System.ComponentModel.ISupportInitialize)dgvDependencias).BeginInit();
             SuspendLayout();
             // 
-            // btnCerrar
-            // 
-            btnCerrar.Cursor = Cursors.Hand;
-            btnCerrar.Image = (Image)resources.GetObject("btnCerrar.Image");
-            btnCerrar.Location = new Point(552, 12);
-            btnCerrar.Name = "btnCerrar";
-            btnCerrar.Size = new Size(25, 27);
-            btnCerrar.SizeMode = PictureBoxSizeMode.StretchImage;
-            btnCerrar.TabIndex = 35;
-            btnCerrar.TabStop = false;
-            btnCerrar.Click += btnCerrar_Click_1;
-            // 
             // btnNuevo
             // 
             btnNuevo.Cursor = Cursors.Hand;

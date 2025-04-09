@@ -11,10 +11,6 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using CrystalDecisions.CrystalReports.Engine;
-using CrystalDecisions.Shared;
-using CrystalDecisions.Windows.Forms;
-
 
 namespace WinFormsApp1
 {
@@ -31,7 +27,6 @@ namespace WinFormsApp1
         private Color bordeOriginal = Color.Black;
         private Color panelOriginal;
         private bool parpadeoActivo = false;
-        private CrystalReportViewer crystalReportViewer1;
 
         [DllImport("user32.dll")]
         private static extern void MessageBeep(uint uType);
@@ -50,7 +45,6 @@ namespace WinFormsApp1
 
             this.MouseDown += new MouseEventHandler(Dependencias_MouseDown);
             //this.MouseMove += new MouseEventHandler(Marca_MouseMove)
-            InicializarCrystalViewer();
         }
 
         private void Dependencias_Load(object sender, EventArgs e)
@@ -70,13 +64,6 @@ namespace WinFormsApp1
             CargarDatosDGV();
             ObtenerSiguienteNumero();
             txtFolio.Enabled = false;
-        }
-
-        private void InicializarCrystalViewer()
-        {
-            crystalReportViewer1 = new CrystalReportViewer();
-            crystalReportViewer1.Dock = DockStyle.Fill;
-            this.Controls.Add(crystalReportViewer1);
         }
         private void Dependencias_MouseDown(object sender, MouseEventArgs e)
         {
@@ -449,31 +436,6 @@ namespace WinFormsApp1
         private void btnCerrar_Click_1(object sender, EventArgs e)
         {
             this.Close();
-        }
-
-        private void btnImprimir_Click(object sender, EventArgs e)
-        {
-            ReportDocument reporte = new ReportDocument();
-            string ruta = @"Reportes\rptdependencias.rpt";
-            reporte.Load(ruta);
-            try
-            {
-                using (SqlConnection connection = conexionSQL.ObtenerConexion())
-                {
-                    string query = "SELECT id_dependencia, descripcion FROM dependencias;";
-                    SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
-                    DataSet ds = new DataSet();
-                    adapter.Fill(ds, "dependencias");
-
-                    reporte.SetDataSource(ds);
-                    crystalReportViewer1.ReportSource = reporte;
-                    crystalReportViewer1.Refresh();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al cargar el reporte: " + ex.Message);
-            }
         }
     }
 }
