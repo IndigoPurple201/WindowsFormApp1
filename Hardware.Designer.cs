@@ -428,8 +428,6 @@
             this.boxActivo.Name = "boxActivo";
             this.boxActivo.Size = new System.Drawing.Size(211, 23);
             this.boxActivo.TabIndex = 41;
-            this.boxActivo.TextChanged += new System.EventHandler(this.boxActivo_TextChanged);
-            this.boxActivo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.boxActivo_KeyPress);
             // 
             // txtMemoria
             // 
