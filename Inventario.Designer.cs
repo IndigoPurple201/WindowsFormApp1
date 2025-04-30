@@ -31,8 +31,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Inventario));
             this.btnCerrar = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.radioTodos = new System.Windows.Forms.RadioButton();
-            this.radioUno = new System.Windows.Forms.RadioButton();
             this.radioEquipo = new System.Windows.Forms.RadioButton();
             this.boxDepartamentos = new System.Windows.Forms.ComboBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
