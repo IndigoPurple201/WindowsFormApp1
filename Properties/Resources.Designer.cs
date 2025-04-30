@@ -73,6 +73,16 @@ namespace WinFormsApp1.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Escudo_de_Armas_de_Saltillo_Coahuila {
+            get {
+                object obj = ResourceManager.GetObject("Escudo_de_Armas_de_Saltillo_Coahuila", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap escudo1 {
             get {
                 object obj = ResourceManager.GetObject("escudo1", resourceCulture);

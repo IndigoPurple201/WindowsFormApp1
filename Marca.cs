@@ -35,10 +35,12 @@ namespace WinFormsApp1
         private const int SC_MOVE = 0xF012;
         private Control controlActivo = null;
         private Point mouseDownLocation;
-        private ConexionSQL conexionSQL = new ConexionSQL();
+        private ConexionSQL conexionSQL;
         public Marca()
         {
             InitializeComponent();
+            string udlFilePath = @"conexion.udl";
+            conexionSQL = new ConexionSQL(udlFilePath);
             this.FormBorderStyle = FormBorderStyle.None;
             this.Padding = new Padding(3);
 

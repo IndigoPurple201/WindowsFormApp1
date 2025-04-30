@@ -1,6 +1,7 @@
 ﻿using System;
-using System.Configuration;
+using System.Data.OleDb;
 using Microsoft.Data.SqlClient;
+using System.IO;
 using System.Windows.Forms;
 
 public class ConexionSQL
@@ -8,18 +9,47 @@ public class ConexionSQL
     private readonly string connectionString;
     private static bool mensajeMostrado = false;
 
-    public ConexionSQL()
+    public ConexionSQL(string udlFilePath)
     {
-        // Verifica si la cadena de conexión está presente en App.config
-        var conexionConfig = ConfigurationManager.ConnectionStrings["ConexionDB"];
-        if (conexionConfig == null)
+        try
         {
-            MessageBox.Show("Error: No se encontró la cadena de conexión en App.config.",
-                            "Error de Configuración", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            throw new InvalidOperationException("No se encontró la cadena de conexión en App.config.");
-        }
+            // Leer la cadena OLE DB desde el archivo .udl
+            string oleDbConnectionString = File.ReadAllLines(udlFilePath)
+                                               .FirstOrDefault(line => line.StartsWith("Provider=", StringComparison.OrdinalIgnoreCase));
 
-        connectionString = conexionConfig.ConnectionString;
+            if (string.IsNullOrEmpty(oleDbConnectionString))
+                throw new InvalidOperationException("No se pudo leer la cadena de conexión desde el archivo UDL.");
+
+            // Convertirla a formato SqlConnection
+            connectionString = ConvertirOleDbAdoNet(oleDbConnectionString);
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"❌ Error al leer el archivo UDL: {ex.Message}",
+                            "Error de Conexión", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            throw;
+        }
+    }
+
+    private string ConvertirOleDbAdoNet(string oleDbConnectionString)
+    {
+        var builder = new OleDbConnectionStringBuilder(oleDbConnectionString);
+
+        string servidor = builder.ContainsKey("Data Source") ? builder["Data Source"].ToString() : "";
+        string db = builder.ContainsKey("Initial Catalog") ? builder["Initial Catalog"].ToString() : "";
+        string usuario = builder.ContainsKey("User ID") ? builder["User ID"].ToString() : "";
+        string contraseña = builder.ContainsKey("Password") ? builder["Password"].ToString() : "";
+        bool integrado = builder.ContainsKey("Integrated Security") &&
+                         builder["Integrated Security"].ToString().ToLower().Contains("sspi");
+
+        if (integrado)
+        {
+            return $"Server={servidor};Database={db};Integrated Security=True;";
+        }
+        else
+        {
+            return $"Server={servidor};Database={db};User Id={usuario};Password={contraseña};";
+        }
     }
 
     public SqlConnection ObtenerConexion()
@@ -28,6 +58,7 @@ public class ConexionSQL
         {
             throw new InvalidOperationException("La cadena de conexión no ha sido inicializada.");
         }
+        return new SqlConnection(connectionString);
     }
 
     public void ProbarConexion()
@@ -39,7 +70,7 @@ public class ConexionSQL
                 try
                 {
                     connection.Open();
-                    mensajeMostrado = true;  // Marca que el mensaje ya fue mostrado
+                    mensajeMostrado = true;
                 }
                 catch (SqlException sqlEx)
                 {
@@ -54,7 +85,7 @@ public class ConexionSQL
             }
         }
     }
-
 }
+
 
 

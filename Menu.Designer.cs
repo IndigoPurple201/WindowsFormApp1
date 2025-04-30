@@ -28,131 +28,153 @@
         /// </summary>
         private void InitializeComponent()
         {
-            menuStrip1 = new MenuStrip();
-            menuInventario = new ToolStripMenuItem();
-            toolHardware = new ToolStripMenuItem();
-            toolPeriferico = new ToolStripMenuItem();
-            menuCatalogos = new ToolStripMenuItem();
-            toolDependencias = new ToolStripMenuItem();
-            toolMarcas = new ToolStripMenuItem();
-            toolModelos = new ToolStripMenuItem();
-            menuReportes = new ToolStripMenuItem();
-            menuSalir = new ToolStripMenuItem();
-            pictureBox1 = new PictureBox();
-            menuStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
-            SuspendLayout();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.menuInventario = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolHardware = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolPeriferico = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuCatalogos = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolDependencias = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolMarcas = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolModelos = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuReportes = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuSalir = new System.Windows.Forms.ToolStripMenuItem();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.menuServicios = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.SuspendLayout();
             // 
             // menuStrip1
             // 
-            menuStrip1.BackColor = SystemColors.Control;
-            menuStrip1.Items.AddRange(new ToolStripItem[] { menuInventario, menuCatalogos, menuReportes, menuSalir });
-            menuStrip1.Location = new Point(0, 0);
-            menuStrip1.Name = "menuStrip1";
-            menuStrip1.RenderMode = ToolStripRenderMode.System;
-            menuStrip1.RightToLeft = RightToLeft.No;
-            menuStrip1.Size = new Size(1920, 29);
-            menuStrip1.TabIndex = 0;
-            menuStrip1.Text = "menuStrip1";
+            this.menuStrip1.BackColor = System.Drawing.SystemColors.Control;
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuInventario,
+            this.menuCatalogos,
+            this.menuReportes,
+            this.menuServicios,
+            this.menuSalir});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
+            this.menuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.menuStrip1.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.menuStrip1.Size = new System.Drawing.Size(1646, 29);
+            this.menuStrip1.TabIndex = 0;
+            this.menuStrip1.Text = "menuStrip1";
             // 
             // menuInventario
             // 
-            menuInventario.DropDownItems.AddRange(new ToolStripItem[] { toolHardware, toolPeriferico });
-            menuInventario.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            menuInventario.Name = "menuInventario";
-            menuInventario.Size = new Size(119, 25);
-            menuInventario.Text = "INVENTARIO";
+            this.menuInventario.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolHardware,
+            this.toolPeriferico});
+            this.menuInventario.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.menuInventario.Name = "menuInventario";
+            this.menuInventario.Size = new System.Drawing.Size(119, 25);
+            this.menuInventario.Text = "INVENTARIO";
             // 
             // toolHardware
             // 
-            toolHardware.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            toolHardware.Name = "toolHardware";
-            toolHardware.Size = new Size(152, 22);
-            toolHardware.Text = "HARDWARE";
-            toolHardware.Click += toolHardware_Click;
+            this.toolHardware.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.toolHardware.Name = "toolHardware";
+            this.toolHardware.Size = new System.Drawing.Size(180, 22);
+            this.toolHardware.Text = "HARDWARE";
+            this.toolHardware.Click += new System.EventHandler(this.toolHardware_Click);
             // 
             // toolPeriferico
             // 
-            toolPeriferico.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            toolPeriferico.Name = "toolPeriferico";
-            toolPeriferico.Size = new Size(152, 22);
-            toolPeriferico.Text = "PERIFERICOS";
-            toolPeriferico.Click += toolPeriferico_Click;
+            this.toolPeriferico.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.toolPeriferico.Name = "toolPeriferico";
+            this.toolPeriferico.Size = new System.Drawing.Size(180, 22);
+            this.toolPeriferico.Text = "PERIFERICOS";
+            this.toolPeriferico.Click += new System.EventHandler(this.toolPeriferico_Click);
             // 
             // menuCatalogos
             // 
-            menuCatalogos.DropDownItems.AddRange(new ToolStripItem[] { toolDependencias, toolMarcas, toolModelos });
-            menuCatalogos.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            menuCatalogos.Name = "menuCatalogos";
-            menuCatalogos.Size = new Size(113, 25);
-            menuCatalogos.Text = "CATALOGOS";
+            this.menuCatalogos.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolDependencias,
+            this.toolMarcas,
+            this.toolModelos});
+            this.menuCatalogos.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.menuCatalogos.Name = "menuCatalogos";
+            this.menuCatalogos.Size = new System.Drawing.Size(113, 25);
+            this.menuCatalogos.Text = "CATALOGOS";
             // 
             // toolDependencias
             // 
-            toolDependencias.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            toolDependencias.Name = "toolDependencias";
-            toolDependencias.Size = new Size(180, 22);
-            toolDependencias.Text = "DEPENDENCIAS";
-            toolDependencias.Click += toolDependencias_Click;
+            this.toolDependencias.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.toolDependencias.Name = "toolDependencias";
+            this.toolDependencias.Size = new System.Drawing.Size(170, 22);
+            this.toolDependencias.Text = "DEPENDENCIAS";
+            this.toolDependencias.Click += new System.EventHandler(this.toolDependencias_Click);
             // 
             // toolMarcas
             // 
-            toolMarcas.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            toolMarcas.Name = "toolMarcas";
-            toolMarcas.Size = new Size(180, 22);
-            toolMarcas.Text = "MARCAS";
-            toolMarcas.Click += toolMarca_Click;
+            this.toolMarcas.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.toolMarcas.Name = "toolMarcas";
+            this.toolMarcas.Size = new System.Drawing.Size(170, 22);
+            this.toolMarcas.Text = "MARCAS";
+            this.toolMarcas.Click += new System.EventHandler(this.toolMarca_Click);
             // 
             // toolModelos
             // 
-            toolModelos.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            toolModelos.Name = "toolModelos";
-            toolModelos.Size = new Size(180, 22);
-            toolModelos.Text = "MODELOS";
-            toolModelos.Click += toolModelo_Click;
+            this.toolModelos.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.toolModelos.Name = "toolModelos";
+            this.toolModelos.Size = new System.Drawing.Size(170, 22);
+            this.toolModelos.Text = "MODELOS";
+            this.toolModelos.Click += new System.EventHandler(this.toolModelo_Click);
             // 
             // menuReportes
             // 
-            menuReportes.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            menuReportes.Name = "menuReportes";
-            menuReportes.Size = new Size(100, 25);
-            menuReportes.Text = "REPORTES";
+            this.menuReportes.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.menuReportes.Name = "menuReportes";
+            this.menuReportes.Size = new System.Drawing.Size(100, 25);
+            this.menuReportes.Text = "REPORTES";
+            this.menuReportes.Click += new System.EventHandler(this.menuReporte_Click);
             // 
             // menuSalir
             // 
-            menuSalir.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            menuSalir.Name = "menuSalir";
-            menuSalir.Size = new Size(65, 25);
-            menuSalir.Text = "SALIR";
-            menuSalir.Click += menuSalir_Click;
+            this.menuSalir.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.menuSalir.Name = "menuSalir";
+            this.menuSalir.Size = new System.Drawing.Size(65, 25);
+            this.menuSalir.Text = "SALIR";
+            this.menuSalir.Click += new System.EventHandler(this.menuSalir_Click);
             // 
             // pictureBox1
             // 
-            pictureBox1.Image = Properties.Resources.escudo;
-            pictureBox1.Location = new Point(52, 44);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(1794, 936);
-            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox1.TabIndex = 1;
-            pictureBox1.TabStop = false;
+            this.pictureBox1.Image = global::WinFormsApp1.Properties.Resources.escudo;
+            this.pictureBox1.Location = new System.Drawing.Point(45, 38);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(1538, 811);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 1;
+            this.pictureBox1.TabStop = false;
+            // 
+            // menuServicios
+            // 
+            this.menuServicios.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.menuServicios.Name = "menuServicios";
+            this.menuServicios.Size = new System.Drawing.Size(102, 25);
+            this.menuServicios.Text = "SERVICIOS";
+            this.menuServicios.Click += new System.EventHandler(this.menuServicios_Click);
             // 
             // Menu
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
-            AutoScaleMode = AutoScaleMode.Font;
-            BackColor = SystemColors.Control;
-            ClientSize = new Size(1920, 1061);
-            Controls.Add(pictureBox1);
-            Controls.Add(menuStrip1);
-            MainMenuStrip = menuStrip1;
-            Name = "Menu";
-            Text = "MENU";
-            Load += Menu_Load;
-            menuStrip1.ResumeLayout(false);
-            menuStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
-            ResumeLayout(false);
-            PerformLayout();
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.Control;
+            this.ClientSize = new System.Drawing.Size(1646, 920);
+            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.menuStrip1);
+            this.MainMenuStrip = this.menuStrip1;
+            this.Name = "Menu";
+            this.Text = "MENU";
+            this.Load += new System.EventHandler(this.Menu_Load);
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
         }
 
         #endregion
@@ -168,5 +190,6 @@
         private ToolStripMenuItem toolMarcas;
         private ToolStripMenuItem toolModelos;
         private PictureBox pictureBox1;
+        private ToolStripMenuItem menuServicios;
     }
 }

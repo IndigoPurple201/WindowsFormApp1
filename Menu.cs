@@ -52,6 +52,18 @@ namespace WinFormsApp1
             modelo.ShowDialog();
         }
 
+        private void menuReporte_Click(object sender, EventArgs e)
+        {
+            Inventario inventario = new Inventario();
+            inventario.ShowDialog();
+        }   
+
+        private void menuServicios_Click(object sender, EventArgs e)
+        {
+            Servicios servicios = new Servicios();
+            servicios.ShowDialog();
+        }
+
         private void menuSalir_Click(object sender, EventArgs e)
         {
             Application.Exit();

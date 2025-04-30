@@ -25,13 +25,15 @@ namespace WinFormsApp1
         private Color bordeOriginal = Color.Black;
         private Control controlActivo = null;
         private Point mouseDownLocation;
-        private ConexionSQL conexionSQL = new ConexionSQL();
+        private ConexionSQL conexionSQL;
         string didecon = "";
 
         private Hardware hardware;
         public Perifericos()
         {
             InitializeComponent();
+            string udlFilePath = @"conexion.udl";
+            conexionSQL = new ConexionSQL(udlFilePath);
             this.FormBorderStyle = FormBorderStyle.None;
             this.Padding = new Padding(3);
             this.MouseDown += new MouseEventHandler(Periferico_MouseDown);

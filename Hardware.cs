@@ -25,11 +25,13 @@ namespace WinFormsApp1
         private const int SC_MOVE = 0xF012;
         private Control controlActivo = null;
         private Point mouseDownLocation;
-        private ConexionSQL conexionSQL = new ConexionSQL();
+        private ConexionSQL conexionSQL;
 
         public Hardware()
         {
             InitializeComponent();
+            string udlFilePath = @"conexion.udl";
+            conexionSQL = new ConexionSQL(udlFilePath);
             this.MouseDown += new MouseEventHandler(Hardware_MouseDown);
             //this.MouseMove += new MouseEventHandler(Hardware_MouseMove);
             panelBarra.MouseDown += new MouseEventHandler(Hardware_MouseDown);

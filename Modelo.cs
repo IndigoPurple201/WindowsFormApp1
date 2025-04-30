@@ -38,10 +38,12 @@ namespace WinFormsApp1
 
         private Control controlActivo = null;
         private Point mouseDownLocation;
-        private ConexionSQL conexionSQL = new ConexionSQL();
+        private ConexionSQL conexionSQL;
         public Modelo(string marca, string tipo)
         {
             InitializeComponent();
+            string udlFilePath = @"conexion.udl";
+            conexionSQL = new ConexionSQL(udlFilePath);
             tipoFiltro = tipo;
             tipoMarca = marca;
             this.MouseDown += new MouseEventHandler(Modelo_MouseDown);
