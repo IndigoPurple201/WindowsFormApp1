@@ -66,7 +66,6 @@
             this.label13 = new System.Windows.Forms.Label();
             this.radioPeriferico = new System.Windows.Forms.RadioButton();
             this.radioCpu = new System.Windows.Forms.RadioButton();
-            this.txtServicio = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.btnNuevo = new System.Windows.Forms.Button();
@@ -76,31 +75,34 @@
             this.btnSalir = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.txtReparacionExterna = new System.Windows.Forms.TextBox();
             this.label20 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
+            this.label24 = new System.Windows.Forms.Label();
             this.txtReparo = new System.Windows.Forms.TextBox();
             this.label23 = new System.Windows.Forms.Label();
             this.txtReparacionInterna = new System.Windows.Forms.TextBox();
-            this.label24 = new System.Windows.Forms.Label();
-            this.txtReparacionExterna = new System.Windows.Forms.TextBox();
-            this.panel3 = new System.Windows.Forms.Panel();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
             this.panel4 = new System.Windows.Forms.Panel();
-            this.label25 = new System.Windows.Forms.Label();
             this.txtRefacciones = new System.Windows.Forms.TextBox();
+            this.label25 = new System.Windows.Forms.Label();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.btnAceptar = new System.Windows.Forms.Button();
+            this.boxDidecon = new System.Windows.Forms.ComboBox();
+            this.label26 = new System.Windows.Forms.Label();
+            this.boxServicio = new System.Windows.Forms.ComboBox();
             this.panelBarra.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.buttonSalir)).BeginInit();
             this.panel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            this.tabPage2.SuspendLayout();
-            this.tabPage3.SuspendLayout();
             this.panel2.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.panel3.SuspendLayout();
+            this.tabPage3.SuspendLayout();
             this.panel4.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -190,7 +192,7 @@
             this.label8.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.Location = new System.Drawing.Point(6, 410);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(58, 15);
+            this.label8.Size = new System.Drawing.Size(57, 15);
             this.label8.TabIndex = 103;
             this.label8.Text = "ENTREGA";
             // 
@@ -210,7 +212,7 @@
             this.label10.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.Location = new System.Drawing.Point(30, 359);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(116, 15);
+            this.label10.Size = new System.Drawing.Size(115, 15);
             this.label10.TabIndex = 101;
             this.label10.Text = ":: FECHA EXTERNO ::";
             // 
@@ -238,7 +240,7 @@
             this.label7.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.Location = new System.Drawing.Point(5, 327);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(58, 15);
+            this.label7.Size = new System.Drawing.Size(57, 15);
             this.label7.TabIndex = 98;
             this.label7.Text = "ENTREGA";
             // 
@@ -453,7 +455,7 @@
             // 
             this.txtFolio.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtFolio.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtFolio.Location = new System.Drawing.Point(92, 71);
+            this.txtFolio.Location = new System.Drawing.Point(92, 37);
             this.txtFolio.Name = "txtFolio";
             this.txtFolio.Size = new System.Drawing.Size(110, 23);
             this.txtFolio.TabIndex = 110;
@@ -462,7 +464,7 @@
             // 
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.Location = new System.Drawing.Point(32, 73);
+            this.label13.Location = new System.Drawing.Point(32, 37);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(54, 21);
             this.label13.TabIndex = 109;
@@ -492,20 +494,11 @@
             this.radioCpu.Text = "CPU";
             this.radioCpu.UseVisualStyleBackColor = true;
             // 
-            // txtServicio
-            // 
-            this.txtServicio.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtServicio.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtServicio.Location = new System.Drawing.Point(92, 35);
-            this.txtServicio.Name = "txtServicio";
-            this.txtServicio.Size = new System.Drawing.Size(110, 23);
-            this.txtServicio.TabIndex = 106;
-            // 
             // label12
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(9, 37);
+            this.label12.Location = new System.Drawing.Point(9, 73);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(77, 21);
             this.label12.TabIndex = 105;
@@ -604,30 +597,11 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "RECIBIDO Y TERMINADO";
             // 
-            // tabPage2
-            // 
-            this.tabPage2.BackColor = System.Drawing.SystemColors.Control;
-            this.tabPage2.Controls.Add(this.panel3);
-            this.tabPage2.Location = new System.Drawing.Point(4, 24);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(565, 414);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "REPARACION INTERNA Y EXTERNA";
-            // 
-            // tabPage3
-            // 
-            this.tabPage3.BackColor = System.Drawing.SystemColors.Control;
-            this.tabPage3.Controls.Add(this.panel4);
-            this.tabPage3.Location = new System.Drawing.Point(4, 24);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(565, 414);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "REFACCION";
-            // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.boxServicio);
+            this.panel2.Controls.Add(this.label26);
+            this.panel2.Controls.Add(this.boxDidecon);
             this.panel2.Controls.Add(this.txtRecogio);
             this.panel2.Controls.Add(this.label11);
             this.panel2.Controls.Add(this.boxExterno);
@@ -641,7 +615,6 @@
             this.panel2.Controls.Add(this.label12);
             this.panel2.Controls.Add(this.radioPeriferico);
             this.panel2.Controls.Add(this.txtConsecutivo);
-            this.panel2.Controls.Add(this.txtServicio);
             this.panel2.Controls.Add(this.txtFalla);
             this.panel2.Controls.Add(this.label17);
             this.panel2.Controls.Add(this.txtSolicito);
@@ -650,6 +623,43 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(565, 414);
             this.panel2.TabIndex = 0;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage2.Controls.Add(this.panel3);
+            this.tabPage2.Location = new System.Drawing.Point(4, 24);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(565, 414);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "REPARACION INTERNA Y EXTERNA";
+            // 
+            // panel3
+            // 
+            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel3.Controls.Add(this.txtReparacionExterna);
+            this.panel3.Controls.Add(this.label20);
+            this.panel3.Controls.Add(this.label21);
+            this.panel3.Controls.Add(this.label24);
+            this.panel3.Controls.Add(this.txtReparo);
+            this.panel3.Controls.Add(this.label23);
+            this.panel3.Controls.Add(this.txtReparacionInterna);
+            this.panel3.Location = new System.Drawing.Point(0, 3);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(565, 411);
+            this.panel3.TabIndex = 124;
+            // 
+            // txtReparacionExterna
+            // 
+            this.txtReparacionExterna.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtReparacionExterna.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtReparacionExterna.Location = new System.Drawing.Point(8, 265);
+            this.txtReparacionExterna.Multiline = true;
+            this.txtReparacionExterna.Name = "txtReparacionExterna";
+            this.txtReparacionExterna.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtReparacionExterna.Size = new System.Drawing.Size(442, 63);
+            this.txtReparacionExterna.TabIndex = 123;
             // 
             // label20
             // 
@@ -670,6 +680,16 @@
             this.label21.Size = new System.Drawing.Size(124, 21);
             this.label21.TabIndex = 106;
             this.label21.Text = "REPARADO POR";
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label24.Location = new System.Drawing.Point(4, 240);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(185, 21);
+            this.label24.TabIndex = 122;
+            this.label24.Text = "REPARACION EXTERNA";
             // 
             // txtReparo
             // 
@@ -701,41 +721,16 @@
             this.txtReparacionInterna.Size = new System.Drawing.Size(442, 63);
             this.txtReparacionInterna.TabIndex = 121;
             // 
-            // label24
+            // tabPage3
             // 
-            this.label24.AutoSize = true;
-            this.label24.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label24.Location = new System.Drawing.Point(4, 240);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(185, 21);
-            this.label24.TabIndex = 122;
-            this.label24.Text = "REPARACION EXTERNA";
-            // 
-            // txtReparacionExterna
-            // 
-            this.txtReparacionExterna.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtReparacionExterna.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtReparacionExterna.Location = new System.Drawing.Point(8, 265);
-            this.txtReparacionExterna.Multiline = true;
-            this.txtReparacionExterna.Name = "txtReparacionExterna";
-            this.txtReparacionExterna.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtReparacionExterna.Size = new System.Drawing.Size(442, 63);
-            this.txtReparacionExterna.TabIndex = 123;
-            // 
-            // panel3
-            // 
-            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel3.Controls.Add(this.txtReparacionExterna);
-            this.panel3.Controls.Add(this.label20);
-            this.panel3.Controls.Add(this.label21);
-            this.panel3.Controls.Add(this.label24);
-            this.panel3.Controls.Add(this.txtReparo);
-            this.panel3.Controls.Add(this.label23);
-            this.panel3.Controls.Add(this.txtReparacionInterna);
-            this.panel3.Location = new System.Drawing.Point(0, 3);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(565, 411);
-            this.panel3.TabIndex = 124;
+            this.tabPage3.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage3.Controls.Add(this.panel4);
+            this.tabPage3.Location = new System.Drawing.Point(4, 24);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(565, 414);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "REFACCION";
             // 
             // panel4
             // 
@@ -747,16 +742,6 @@
             this.panel4.Size = new System.Drawing.Size(565, 411);
             this.panel4.TabIndex = 0;
             // 
-            // label25
-            // 
-            this.label25.AutoSize = true;
-            this.label25.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label25.Location = new System.Drawing.Point(6, 7);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(115, 21);
-            this.label25.TabIndex = 9;
-            this.label25.Text = "REFACCIONES";
-            // 
             // txtRefacciones
             // 
             this.txtRefacciones.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -767,6 +752,16 @@
             this.txtRefacciones.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtRefacciones.Size = new System.Drawing.Size(442, 63);
             this.txtRefacciones.TabIndex = 122;
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label25.Location = new System.Drawing.Point(6, 7);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(115, 21);
+            this.label25.TabIndex = 9;
+            this.label25.Text = "REFACCIONES";
             // 
             // btnCancelar
             // 
@@ -790,6 +785,39 @@
             this.btnAceptar.TabIndex = 125;
             this.btnAceptar.Text = "ACEPTAR";
             this.btnAceptar.UseVisualStyleBackColor = true;
+            this.btnAceptar.Click += new System.EventHandler(this.btnAceptar_Click);
+            // 
+            // boxDidecon
+            // 
+            this.boxDidecon.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.boxDidecon.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.boxDidecon.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.boxDidecon.FormattingEnabled = true;
+            this.boxDidecon.Location = new System.Drawing.Point(92, 110);
+            this.boxDidecon.Name = "boxDidecon";
+            this.boxDidecon.Size = new System.Drawing.Size(172, 23);
+            this.boxDidecon.TabIndex = 105;
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label26.Location = new System.Drawing.Point(9, 116);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(78, 21);
+            this.label26.TabIndex = 122;
+            this.label26.Text = "DIDECON";
+            // 
+            // boxServicio
+            // 
+            this.boxServicio.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.boxServicio.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.boxServicio.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.boxServicio.FormattingEnabled = true;
+            this.boxServicio.Location = new System.Drawing.Point(92, 71);
+            this.boxServicio.Name = "boxServicio";
+            this.boxServicio.Size = new System.Drawing.Size(110, 23);
+            this.boxServicio.TabIndex = 105;
             // 
             // Servicios
             // 
@@ -817,12 +845,12 @@
             this.panel1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
-            this.tabPage2.ResumeLayout(false);
-            this.tabPage3.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
+            this.tabPage3.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
             this.ResumeLayout(false);
@@ -864,7 +892,6 @@
         private Label label13;
         private RadioButton radioPeriferico;
         private RadioButton radioCpu;
-        private TextBox txtServicio;
         private Label label15;
         private TextBox txtConsecutivo;
         private Label label14;
@@ -894,5 +921,8 @@
         private Label label25;
         private Button btnCancelar;
         private Button btnAceptar;
+        private Label label26;
+        private ComboBox boxDidecon;
+        private ComboBox boxServicio;
     }
 }
