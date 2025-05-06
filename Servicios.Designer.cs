@@ -60,7 +60,7 @@
             this.label16 = new System.Windows.Forms.Label();
             this.boxExterno = new System.Windows.Forms.ComboBox();
             this.label15 = new System.Windows.Forms.Label();
-            this.txtConsecutivo = new System.Windows.Forms.TextBox();
+            this.txtDidecon = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
             this.txtFolio = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
@@ -76,6 +76,7 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.txtServicio = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.panel3 = new System.Windows.Forms.Panel();
             this.txtReparacionExterna = new System.Windows.Forms.TextBox();
@@ -91,9 +92,6 @@
             this.label25 = new System.Windows.Forms.Label();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.btnAceptar = new System.Windows.Forms.Button();
-            this.boxDidecon = new System.Windows.Forms.ComboBox();
-            this.label26 = new System.Windows.Forms.Label();
-            this.boxServicio = new System.Windows.Forms.ComboBox();
             this.panelBarra.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.buttonSalir)).BeginInit();
             this.panel1.SuspendLayout();
@@ -192,7 +190,7 @@
             this.label8.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.Location = new System.Drawing.Point(6, 410);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(57, 15);
+            this.label8.Size = new System.Drawing.Size(58, 15);
             this.label8.TabIndex = 103;
             this.label8.Text = "ENTREGA";
             // 
@@ -212,7 +210,7 @@
             this.label10.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.Location = new System.Drawing.Point(30, 359);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(115, 15);
+            this.label10.Size = new System.Drawing.Size(116, 15);
             this.label10.TabIndex = 101;
             this.label10.Text = ":: FECHA EXTERNO ::";
             // 
@@ -240,7 +238,7 @@
             this.label7.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.Location = new System.Drawing.Point(5, 327);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(57, 15);
+            this.label7.Size = new System.Drawing.Size(58, 15);
             this.label7.TabIndex = 98;
             this.label7.Text = "ENTREGA";
             // 
@@ -417,7 +415,7 @@
             this.boxExterno.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.boxExterno.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.boxExterno.FormattingEnabled = true;
-            this.boxExterno.Location = new System.Drawing.Point(435, 114);
+            this.boxExterno.Location = new System.Drawing.Point(361, 117);
             this.boxExterno.Name = "boxExterno";
             this.boxExterno.Size = new System.Drawing.Size(110, 23);
             this.boxExterno.TabIndex = 114;
@@ -426,36 +424,36 @@
             // 
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label15.Location = new System.Drawing.Point(352, 116);
+            this.label15.Location = new System.Drawing.Point(282, 119);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(77, 21);
             this.label15.TabIndex = 113;
             this.label15.Text = "EXTERNO";
             // 
-            // txtConsecutivo
+            // txtDidecon
             // 
-            this.txtConsecutivo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtConsecutivo.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtConsecutivo.Location = new System.Drawing.Point(435, 76);
-            this.txtConsecutivo.Name = "txtConsecutivo";
-            this.txtConsecutivo.Size = new System.Drawing.Size(110, 23);
-            this.txtConsecutivo.TabIndex = 112;
+            this.txtDidecon.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtDidecon.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtDidecon.Location = new System.Drawing.Point(361, 78);
+            this.txtDidecon.Name = "txtDidecon";
+            this.txtDidecon.Size = new System.Drawing.Size(110, 23);
+            this.txtDidecon.TabIndex = 112;
             // 
             // label14
             // 
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label14.Location = new System.Drawing.Point(227, 79);
+            this.label14.Location = new System.Drawing.Point(281, 80);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(202, 21);
+            this.label14.Size = new System.Drawing.Size(78, 21);
             this.label14.TabIndex = 111;
-            this.label14.Text = "DIR. DEPTO. CONSECUTIVO";
+            this.label14.Text = "DIDECON";
             // 
             // txtFolio
             // 
             this.txtFolio.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtFolio.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtFolio.Location = new System.Drawing.Point(92, 37);
+            this.txtFolio.Location = new System.Drawing.Point(92, 74);
             this.txtFolio.Name = "txtFolio";
             this.txtFolio.Size = new System.Drawing.Size(110, 23);
             this.txtFolio.TabIndex = 110;
@@ -464,7 +462,7 @@
             // 
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.Location = new System.Drawing.Point(32, 37);
+            this.label13.Location = new System.Drawing.Point(32, 74);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(54, 21);
             this.label13.TabIndex = 109;
@@ -473,6 +471,7 @@
             // radioPeriferico
             // 
             this.radioPeriferico.AutoSize = true;
+            this.radioPeriferico.Cursor = System.Windows.Forms.Cursors.Hand;
             this.radioPeriferico.Font = new System.Drawing.Font("Segoe UI", 12F);
             this.radioPeriferico.Location = new System.Drawing.Point(275, 35);
             this.radioPeriferico.Name = "radioPeriferico";
@@ -485,6 +484,7 @@
             // radioCpu
             // 
             this.radioCpu.AutoSize = true;
+            this.radioCpu.Cursor = System.Windows.Forms.Cursors.Hand;
             this.radioCpu.Font = new System.Drawing.Font("Segoe UI", 12F);
             this.radioCpu.Location = new System.Drawing.Point(211, 35);
             this.radioCpu.Name = "radioCpu";
@@ -498,7 +498,7 @@
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(9, 73);
+            this.label12.Location = new System.Drawing.Point(10, 39);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(77, 21);
             this.label12.TabIndex = 105;
@@ -552,12 +552,13 @@
             // 
             this.btnBuscar.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnBuscar.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnBuscar.Location = new System.Drawing.Point(136, 500);
+            this.btnBuscar.Location = new System.Drawing.Point(92, 107);
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Size = new System.Drawing.Size(90, 29);
             this.btnBuscar.TabIndex = 101;
             this.btnBuscar.Text = "BUSCAR";
             this.btnBuscar.UseVisualStyleBackColor = true;
+            this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
             // 
             // btnSalir
             // 
@@ -599,12 +600,11 @@
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.boxServicio);
-            this.panel2.Controls.Add(this.label26);
-            this.panel2.Controls.Add(this.boxDidecon);
+            this.panel2.Controls.Add(this.txtServicio);
             this.panel2.Controls.Add(this.txtRecogio);
             this.panel2.Controls.Add(this.label11);
             this.panel2.Controls.Add(this.boxExterno);
+            this.panel2.Controls.Add(this.btnBuscar);
             this.panel2.Controls.Add(this.label19);
             this.panel2.Controls.Add(this.txtFolio);
             this.panel2.Controls.Add(this.label13);
@@ -614,7 +614,7 @@
             this.panel2.Controls.Add(this.label14);
             this.panel2.Controls.Add(this.label12);
             this.panel2.Controls.Add(this.radioPeriferico);
-            this.panel2.Controls.Add(this.txtConsecutivo);
+            this.panel2.Controls.Add(this.txtDidecon);
             this.panel2.Controls.Add(this.txtFalla);
             this.panel2.Controls.Add(this.label17);
             this.panel2.Controls.Add(this.txtSolicito);
@@ -623,6 +623,15 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(565, 414);
             this.panel2.TabIndex = 0;
+            // 
+            // txtServicio
+            // 
+            this.txtServicio.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtServicio.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtServicio.Location = new System.Drawing.Point(92, 37);
+            this.txtServicio.Name = "txtServicio";
+            this.txtServicio.Size = new System.Drawing.Size(110, 23);
+            this.txtServicio.TabIndex = 122;
             // 
             // tabPage2
             // 
@@ -787,38 +796,6 @@
             this.btnAceptar.UseVisualStyleBackColor = true;
             this.btnAceptar.Click += new System.EventHandler(this.btnAceptar_Click);
             // 
-            // boxDidecon
-            // 
-            this.boxDidecon.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.boxDidecon.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.boxDidecon.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.boxDidecon.FormattingEnabled = true;
-            this.boxDidecon.Location = new System.Drawing.Point(92, 110);
-            this.boxDidecon.Name = "boxDidecon";
-            this.boxDidecon.Size = new System.Drawing.Size(172, 23);
-            this.boxDidecon.TabIndex = 105;
-            // 
-            // label26
-            // 
-            this.label26.AutoSize = true;
-            this.label26.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label26.Location = new System.Drawing.Point(9, 116);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(78, 21);
-            this.label26.TabIndex = 122;
-            this.label26.Text = "DIDECON";
-            // 
-            // boxServicio
-            // 
-            this.boxServicio.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.boxServicio.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.boxServicio.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.boxServicio.FormattingEnabled = true;
-            this.boxServicio.Location = new System.Drawing.Point(92, 71);
-            this.boxServicio.Name = "boxServicio";
-            this.boxServicio.Size = new System.Drawing.Size(110, 23);
-            this.boxServicio.TabIndex = 105;
-            // 
             // Servicios
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -828,7 +805,6 @@
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.btnSalir);
-            this.Controls.Add(this.btnBuscar);
             this.Controls.Add(this.btnEliminar);
             this.Controls.Add(this.btnActualizar);
             this.Controls.Add(this.btnNuevo);
@@ -893,7 +869,7 @@
         private RadioButton radioPeriferico;
         private RadioButton radioCpu;
         private Label label15;
-        private TextBox txtConsecutivo;
+        private TextBox txtDidecon;
         private Label label14;
         private Label label16;
         private ComboBox boxExterno;
@@ -921,8 +897,6 @@
         private Label label25;
         private Button btnCancelar;
         private Button btnAceptar;
-        private Label label26;
-        private ComboBox boxDidecon;
-        private ComboBox boxServicio;
+        private TextBox txtServicio;
     }
 }

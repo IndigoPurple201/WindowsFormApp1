@@ -1375,10 +1375,10 @@ namespace WinFormsApp1
                     }
                 }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error: " + ex.Message);
-            }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: " + ex.Message);
+                }
         }
     }
 }

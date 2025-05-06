@@ -227,6 +227,7 @@ namespace WinFormsApp1
 					    JOIN marcas ON marcas.id_marca = hardware.marca
 						JOIN modelos ON modelos.id_modelo = hardware.modelo
                         WHERE tipos.descripcion IN ('CPU','SERVIDOR','LAPTOP','ALL IN ONE')
+                        AND estatus.descripcion = 'ACTIVO'
                         ORDER BY hardware.folio ASC;";
                 }
                 else
@@ -250,6 +251,7 @@ namespace WinFormsApp1
                         JOIN dependencias ON dependencias.id_dependencia = hardware.depto 
                         JOIN estatus ON estatus.id_estatus = perifericos.idestatus 
                         WHERE tipos.descripcion NOT IN ('CPU','SERVIDOR','LAPTOP','ALL IN ONE')
+                        AND estatus.descripcion = 'ACTIVO'
                         ORDER BY perifericos.folio ASC;";
                 }
                 using (SqlConnection connection = conexionSQL.ObtenerConexion())

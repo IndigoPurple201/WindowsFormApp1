@@ -62,6 +62,28 @@ namespace WinFormsApp1
             dateRefaccionEntrega.Enabled = false;
             dateExternoPedido.Enabled = false;
             dateExternoEntrega.Enabled = false;
+            ObtenerSiguienteNumero();
+        }
+
+        private void ObtenerSiguienteNumero()
+        {
+            try 
+            {
+                using (SqlConnection connection = conexionSQL.ObtenerConexion())
+                {
+                    connection.Open();
+                    string query = "SELECT ISNULL(MAX(id_servicio), 0) + 1 AS SiguienteNumero FROM servicios;";
+                    using (SqlCommand cmd = new SqlCommand(query,connection))
+                    {
+                        object result = cmd.ExecuteScalar();
+                        txtServicio.Text = result.ToString();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
         }
 
         private void LlenarBoxEstatus()
@@ -71,7 +93,7 @@ namespace WinFormsApp1
                 using (SqlConnection conn = conexionSQL.ObtenerConexion())
                 {
                     conn.Open();
-                    String query = "SELECT estatus.descripcion FROM estatus WHERE estatus.id_estatus = 1;";
+                    String query = "SELECT estatus.descripcion FROM estatus;";
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
@@ -80,6 +102,16 @@ namespace WinFormsApp1
                         {
                             boxEstatus.Items.Add(reader["descripcion"].ToString());
                         }
+                    }
+                    int indexRecibido = boxEstatus.Items.IndexOf("RECIBIDO");
+                    if (indexRecibido >= 0)
+                    {
+                        boxEstatus.SelectedIndex = indexRecibido;
+                        boxEstatus.Enabled = false; // Bloquear el ComboBox
+                    }
+                    else
+                    {
+                        MessageBox.Show("El estatus 'Recibido' no se encontró.");
                     }
                 }
             }
@@ -184,10 +216,11 @@ namespace WinFormsApp1
         {
             //txtServicio.Clear();
             txtFolio.Clear();
-            txtConsecutivo.Clear();
+            txtDidecon.Clear();
             txtFalla.Clear();
             txtSolicito.Clear();
             txtRecogio.Clear();
+            txtServicio.Clear();
         }
 
         private void RestablecerComboBox(ComboBox comboBox, string valorPredeterminado)
@@ -241,14 +274,16 @@ namespace WinFormsApp1
             }
             tabControl1.SelectedTab = tabPage1;
             radioCpu.Checked = true;
-            //txtServicio.Text = "1";
-            //txtServicio.Enabled = false;
+            txtServicio.Enabled = false;
+            boxEstatus.Enabled = false;
+            ObtenerSiguienteNumero();
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {
             LimpiarControles();
             BloquearControles(this, true);
+            LlenarBoxEstatus();
             if (boxEstatus.Items.Count == 1)
             {
                 boxEstatus.SelectedIndex = -1;
@@ -268,6 +303,7 @@ namespace WinFormsApp1
         {
             if (ValidarCampos())
             {
+                DateTime fechaSeleccionada = dateEntrada.Value;
                 using (SqlConnection connection = conexionSQL.ObtenerConexion())
                 {
                     connection.Open();
@@ -279,16 +315,23 @@ namespace WinFormsApp1
                         object result = cmd.ExecuteScalar();
                         idEstatus = (result != null) ? Convert.ToInt32(result) : 0;
                     }
-                    string queryInsert = "INSERT INTO servicios(id_servicio, tipo_serv, estatus, didecon, falla, reporto) VALUES (@folio, @servicio, @estatus, @didecon, @falla, @reporto);";
+                    string queryInsert = "INSERT INTO servicios(id_servicio, folio, didecon, fecha_llegada, falla, reporto, estatus) VALUES (@id_servicio, @folio, @didecon, @fecha_llegada, @falla, @reporto, @estatus);";
                     using (SqlCommand insertCmd = new SqlCommand(queryInsert, connection))
                     {
+                        insertCmd.Parameters.AddWithValue("@id_servicio", txtServicio.Text);
                         insertCmd.Parameters.AddWithValue("@folio", txtFolio.Text);
-                        insertCmd.Parameters.AddWithValue("@servicio", idServicio);
-                        insertCmd.Parameters.AddWithValue("@estatus", idEstatus);
-                        insertCmd.Parameters.AddWithValue("@didecon", didecon);
+                        insertCmd.Parameters.AddWithValue("@didecon", txtDidecon.Text);
+                        insertCmd.Parameters.AddWithValue("fecha_llegada", fechaSeleccionada);
                         insertCmd.Parameters.AddWithValue("@falla", txtFalla.Text);
                         insertCmd.Parameters.AddWithValue("@reporto", txtSolicito.Text);
+                        insertCmd.Parameters.AddWithValue("@estatus", idEstatus);
                         insertCmd.ExecuteNonQuery();    
+                    }
+                    string queryUpdate = "UPDATE hardware SET idestatus = 1 WHERE hardware.folio = @folio;";
+                    using (SqlCommand updateCmd = new SqlCommand(queryUpdate, connection))
+                    {
+                        updateCmd.Parameters.AddWithValue("@folio", txtFolio.Text);
+                        updateCmd.ExecuteNonQuery();
                     }
                     MessageBox.Show("Registro guardado con éxito.");
                     LimpiarControles();
@@ -297,11 +340,97 @@ namespace WinFormsApp1
             }
         }
 
+        private void btnBuscar_Click(object sender, EventArgs e)
+        {
+            using (var buscarPerifericos = new BuscarPerifericos("CPU"))
+            {
+                buscarPerifericos.FormClosed += (s, args) => ObtenerSiguienteNumero();
+                if (buscarPerifericos.ShowDialog() == DialogResult.OK)
+                {
+                    string folio = buscarPerifericos.FolioSeleccionado;
+                    if (!string.IsNullOrEmpty(folio))
+                    {
+                        CargarDatosPorFolio(folio);
+                    }
+                    else 
+                    {
+                        MessageBox.Show("No se selecciono ningun folio");
+                    }
+                }
+            }
+            txtDidecon.Enabled = false;
+            txtFolio.Enabled = false;
+        }
+
+        private void CargarDatosPorFolio(string folio)
+        {
+            try
+            {
+                using (SqlConnection conn = conexionSQL.ObtenerConexion())
+                {
+                    conn.Open();
+                    string query = @"SELECT hardware.folio AS Numero, 
+                                        hardware.didecon AS Didecon, 
+                                        estatus.descripcion AS Estatus
+                                    FROM hardware 
+                                    JOIN estatus ON hardware.idestatus = estatus.id_estatus 
+                                    WHERE hardware.folio = @folio;";
+                    using (SqlCommand cmd = new SqlCommand(query,conn))
+                    {
+                        cmd.Parameters.AddWithValue("@folio", folio);
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                txtFolio.Text = reader["Numero"].ToString();
+                                txtDidecon.Text = reader["Didecon"].ToString();
+                                boxEstatus.Text = reader["Estatus"].ToString();
+                            }
+                            else 
+                            {
+                                MessageBox.Show("No se encontraron datos para ese folio");
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+
         private bool ValidarCampos()
         {
             bool esValido = true;
             string mensajeError = "Los siguientes campos son invalidos: \n";
-            if (boxServicio.SelectedIndex == -1 || string.IsNullOrWhiteSpace(boxServicio.Text))
+            if (string.IsNullOrWhiteSpace(txtFolio.Text))
+            {
+                mensajeError += "- Especifique un folio valido. \n";
+                esValido = false;
+            }
+            else 
+            {
+                if (!ExisteFolio(txtFolio.Text))
+                {
+                    mensajeError += "- El folio no existe. \n";
+                    esValido = false;
+                }
+            }
+            if (string.IsNullOrWhiteSpace(txtDidecon.Text))
+            {
+                mensajeError += "- Especifique un didecon valido. \n";
+                esValido = false;
+            }
+            else
+            {
+                if (!ExisteDidecon(txtDidecon.Text))
+                {
+                    mensajeError += "- El didecon no existe. \n";
+                    esValido = false;
+                }
+            }
+            if (string.IsNullOrWhiteSpace(txtServicio.Text))
             {
                 mensajeError += "- Especifique un servicio valido.\n";
                 esValido = false;
@@ -326,6 +455,52 @@ namespace WinFormsApp1
                 MessageBox.Show(mensajeError, "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             return esValido;
+        }
+
+        private bool ExisteFolio(string folio)
+        {
+            bool existe = false;
+            try 
+            {
+                using (SqlConnection connection = conexionSQL.ObtenerConexion())
+                {
+                    connection.Open();
+                    string query = "SELECT COUNT(1) FROM hardware WHERE folio = @folio";
+                    using (SqlCommand cmd = new SqlCommand(query,connection))
+                    {
+                        cmd.Parameters.AddWithValue("@folio",folio);
+                        existe = (int)cmd.ExecuteScalar() > 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+            return existe;
+        }
+
+        private bool ExisteDidecon(string didecon)
+        {
+            bool existe = false;
+            try
+            {
+                using (SqlConnection connection = conexionSQL.ObtenerConexion())
+                {
+                    connection.Open();
+                    string query = "SELECT COUNT(1) FROM hardware WHERE didecon = @didecon;";
+                    using (SqlCommand cmd = new SqlCommand(query,connection))
+                    {
+                        cmd.Parameters.AddWithValue("@didecon",didecon);
+                        existe = (int)cmd.ExecuteScalar() > 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+            return existe;
         }
     }
 }
