@@ -352,12 +352,6 @@ namespace WinFormsApp1
                     {
                         CargarDatosPorFolio(folio);
                     }
-                    else 
-                    {
-                        MessageBox.Show("No se selecciono ningun folio");
-                    }
-                }
-            }
             txtDidecon.Enabled = false;
             txtFolio.Enabled = false;
         }
