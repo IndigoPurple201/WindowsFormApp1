@@ -81,6 +81,7 @@
             this.btnBuscar.TabIndex = 95;
             this.btnBuscar.Text = "BUSCAR";
             this.btnBuscar.UseVisualStyleBackColor = true;
+            this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
             // 
             // radioCpu
             // 

@@ -212,6 +212,9 @@ namespace WinFormsApp1
             btnSalir.Enabled = bloquear;
             radioCpu.Enabled = !bloquear;
             radioPeriferico.Enabled = !bloquear;
+            btnBuscar2.Enabled = bloquear;
+            btnActualizar.Enabled = bloquear;
+            btnEliminar.Enabled = bloquear;
         }
 
         private void LimpiarControles()

@@ -343,6 +343,135 @@ namespace WinFormsApp1
             }
         }
 
+        private void btnBuscar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string query = "";
+                using (SqlConnection conexion = conexionSQL.ObtenerConexion())
+                {
+                    conexion.Open();
+                    if (radioCpu.Checked == true)
+                    {
+                        query = @"SELECT hardware.folio AS Numero, 
+                            hardware.didecon AS Didecon, 
+                            hardware.activocontraloria AS 'Act. Contraloria', 
+                            hardware.ip AS 'Dir. IP', 
+                            hardware.responsable AS 'Responsable',
+							tipos.descripcion AS Tipo,
+                            marcas.descripcion AS Marca, 
+							modelos.descripcion AS Modelo, 
+                            hardware.procesador AS Procesador,
+                            estatus.descripcion AS Estatus
+                        FROM hardware 
+                        JOIN tipos on tipos.id_tipo = hardware.idtipo
+                        JOIN estatus ON estatus.id_estatus = hardware.idestatus
+					    JOIN marcas ON marcas.id_marca = hardware.marca
+						JOIN modelos ON modelos.id_modelo = hardware.modelo
+                        JOIN dependencias ON dependencias.id_dependencia = hardware.depto
+                        WHERE tipos.descripcion IN ('CPU','SERVIDOR','LAPTOP','ALL IN ONE')";
+                    }
+                    else if (radioPeriferico.Checked == true)
+                    {
+                        query = @"SELECT perifericos.folio AS Numero, 
+                            perifericos.didecon AS Didecon,  
+                            tipos.descripcion AS Tipo, 
+                            marcas.descripcion AS Marca, 
+                            modelos.descripcion AS Modelo, 
+                            perifericos.sn AS 'N. Serie', 
+                            perifericos.activocontraloria AS 'Act. Contraloria', 
+                            dependencias.descripcion AS Departamento, 
+                            hardware.area AS Area, 
+                            hardware.responsable AS Responsable, 
+                            estatus.descripcion AS Estatus 
+                        FROM perifericos 
+                        JOIN tipos ON tipos.id_tipo = perifericos.tipo 
+                        JOIN marcas ON marcas.id_marca = perifericos.marca 
+                        JOIN modelos ON modelos.id_modelo = perifericos.modelo 
+                        JOIN hardware ON hardware.didecon = perifericos.didecon 
+                        JOIN dependencias ON dependencias.id_dependencia = hardware.depto 
+                        JOIN estatus ON estatus.id_estatus = perifericos.idestatus 
+                        WHERE tipos.descripcion NOT IN ('CPU','SERVIDOR','LAPTOP','ALL IN ONE')";
+                    }
+                    if (boxDepartamento.SelectedIndex == -1 || boxDepartamento.SelectedItem == null)
+                    {
+                        MessageBox.Show("Por favor selecciona un departamento.");
+                        return;
+                    }
+                    query += " AND dependencias.descripcion = @departamento";
+                    using (SqlCommand cmd = new SqlCommand(query,conexion))
+                    {
+                        cmd.Parameters.AddWithValue("@departamento", boxDepartamento.SelectedItem.ToString());
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            dgvServicios.Rows.Clear();
+                            dgvServicios.Columns.Clear();
+                            if (radioCpu.Checked == true)
+                            {
+                                dgvServicios.Columns.Add("Numero", "Número");
+                                dgvServicios.Columns.Add("Didecon", "Didecon");
+                                dgvServicios.Columns.Add("Act. Contraloria", "Act. Contraloria");
+                                dgvServicios.Columns.Add("Dir. IP", "Dir. IP");
+                                dgvServicios.Columns.Add("Responsable", "Responsable");
+                                dgvServicios.Columns.Add("Tipo", "Tipo");
+                                dgvServicios.Columns.Add("Marca", "Marca");
+                                dgvServicios.Columns.Add("Modelo", "Modelo");
+                                dgvServicios.Columns.Add("Procesador", "Procesador");
+                                dgvServicios.Columns.Add("Estatus", "Estatus");
+                                while (reader.Read())
+                                {
+                                    int index = dgvServicios.Rows.Add();
+                                    dgvServicios.Rows[index].Cells["Numero"].Value = reader["Numero"].ToString();
+                                    dgvServicios.Rows[index].Cells["Didecon"].Value = reader["Didecon"].ToString();
+                                    dgvServicios.Rows[index].Cells["Act. Contraloria"].Value = reader["Act. Contraloria"].ToString();
+                                    dgvServicios.Rows[index].Cells["Dir. IP"].Value = reader["Dir. IP"].ToString();
+                                    dgvServicios.Rows[index].Cells["Responsable"].Value = reader["Responsable"].ToString();
+                                    dgvServicios.Rows[index].Cells["Tipo"].Value = reader["Tipo"];
+                                    dgvServicios.Rows[index].Cells["Marca"].Value = reader["Marca"].ToString();
+                                    dgvServicios.Rows[index].Cells["Modelo"].Value = reader["Modelo"].ToString();
+                                    dgvServicios.Rows[index].Cells["Procesador"].Value = reader["Procesador"].ToString();
+                                    dgvServicios.Rows[index].Cells["Estatus"].Value = reader["Estatus"].ToString();
+                                }
+                            }
+                            else if(radioPeriferico.Checked == true) 
+                            {
+                                dgvServicios.Columns.Add("Numero", "Número");
+                                dgvServicios.Columns.Add("Didecon", "Didecon");
+                                dgvServicios.Columns.Add("Tipo", "Tipo");
+                                dgvServicios.Columns.Add("Marca", "Marca");
+                                dgvServicios.Columns.Add("Modelo", "Modelo");
+                                dgvServicios.Columns.Add("N. Serie", "N. Serie");
+                                dgvServicios.Columns.Add("Act. Contraloria", "Act. Contraloria");
+                                dgvServicios.Columns.Add("Departamento", "Departamento");
+                                dgvServicios.Columns.Add("Area", "Área");
+                                dgvServicios.Columns.Add("Responsable", "Responsable");
+                                dgvServicios.Columns.Add("Estatus", "Estatus");
+                                while (reader.Read())
+                                {
+                                    int index = dgvServicios.Rows.Add();
+                                    dgvServicios.Rows[index].Cells["Numero"].Value = reader["Numero"].ToString();
+                                    dgvServicios.Rows[index].Cells["Didecon"].Value = reader["Didecon"].ToString();
+                                    dgvServicios.Rows[index].Cells["Tipo"].Value = reader["Tipo"];
+                                    dgvServicios.Rows[index].Cells["Marca"].Value = reader["Marca"].ToString();
+                                    dgvServicios.Rows[index].Cells["Modelo"].Value = reader["Modelo"].ToString();
+                                    dgvServicios.Rows[index].Cells["N. Serie"].Value = reader["N. Serie"].ToString();
+                                    dgvServicios.Rows[index].Cells["Act. Contraloria"].Value = reader["Act. Contraloria"].ToString();
+                                    dgvServicios.Rows[index].Cells["Departamento"].Value = reader["Departamento"].ToString();
+                                    dgvServicios.Rows[index].Cells["Area"].Value = reader["Area"].ToString();
+                                    dgvServicios.Rows[index].Cells["Responsable"].Value = reader["Responsable"].ToString();
+                                    dgvServicios.Rows[index].Cells["Estatus"].Value = reader["Estatus"].ToString();
+                                }
+                            }
+                        }
+                    }
+                }     
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
