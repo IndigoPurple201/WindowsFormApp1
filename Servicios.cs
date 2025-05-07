@@ -210,6 +210,8 @@ namespace WinFormsApp1
             btnEliminar.Enabled = !bloquear;
             btnBuscar.Enabled = !bloquear;
             btnSalir.Enabled = bloquear;
+            radioCpu.Enabled = !bloquear;
+            radioPeriferico.Enabled = !bloquear;
         }
 
         private void LimpiarControles()
@@ -303,6 +305,7 @@ namespace WinFormsApp1
         {
             if (ValidarCampos())
             {
+                string queryUpdate = "";
                 DateTime fechaSeleccionada = dateEntrada.Value;
                 using (SqlConnection connection = conexionSQL.ObtenerConexion())
                 {
@@ -327,7 +330,14 @@ namespace WinFormsApp1
                         insertCmd.Parameters.AddWithValue("@estatus", idEstatus);
                         insertCmd.ExecuteNonQuery();    
                     }
-                    string queryUpdate = "UPDATE hardware SET idestatus = 1 WHERE hardware.folio = @folio;";
+                    if (radioCpu.Checked == true)
+                    {
+                        queryUpdate = "UPDATE hardware SET idestatus = 1 WHERE hardware.folio = @folio;";
+                    }
+                    else if (radioPeriferico.Checked == true)
+                    {
+                        queryUpdate = "UPDATE perifericos SET idestatus = 1 WHERE perifericos.folio = @folio;";
+                    }
                     using (SqlCommand updateCmd = new SqlCommand(queryUpdate, connection))
                     {
                         updateCmd.Parameters.AddWithValue("@folio", txtFolio.Text);
@@ -342,18 +352,52 @@ namespace WinFormsApp1
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
-            using (var buscarPerifericos = new BuscarPerifericos("CPU"))
+            if (radioCpu.Checked == true)
             {
-                buscarPerifericos.FormClosed += (s, args) => ObtenerSiguienteNumero();
-                if (buscarPerifericos.ShowDialog() == DialogResult.OK)
+                using (var buscarPerifericos = new BuscarPerifericos("CPU-2"))
                 {
-                    string folio = buscarPerifericos.FolioSeleccionado;
-                    if (!string.IsNullOrEmpty(folio))
+                    buscarPerifericos.FormClosed += (s, args) => ObtenerSiguienteNumero();
+                    if (buscarPerifericos.ShowDialog() == DialogResult.OK)
                     {
-                        CargarDatosPorFolio(folio);
+                        string folio = buscarPerifericos.FolioSeleccionado;
+                        if (!string.IsNullOrEmpty(folio))
+                        {
+                            CargarDatosPorFolio(folio);
+                        }
+                        else
+                        {
+                            MessageBox.Show("No se selecciono ningun folio");
+                        }
                     }
+                }
+            }
+            else if (radioPeriferico.Checked == true)
+            {
+                using (var buscarPerifericos = new BuscarPerifericos("PERIFERICOS-2"))
+                {
+                    buscarPerifericos.FormClosed += (s, args) => ObtenerSiguienteNumero();
+                    if (buscarPerifericos.ShowDialog() == DialogResult.OK)
+                    {
+                        string folio = buscarPerifericos.FolioSeleccionado;
+                        if (!string.IsNullOrEmpty(folio))
+                        {
+                            CargarDatosPorFolio(folio);
+                        }
+                        else
+                        {
+                            MessageBox.Show("No se selecciono ningun folio");
+                        }
+                    }
+                }
+            }
             txtDidecon.Enabled = false;
             txtFolio.Enabled = false;
+        }
+
+        private void btnBuscar2_Click(object sender, EventArgs e)
+        {
+            BuscarServicios buscarServicios = new BuscarServicios();
+            buscarServicios.ShowDialog();
         }
 
         private void CargarDatosPorFolio(string folio)
@@ -362,13 +406,26 @@ namespace WinFormsApp1
             {
                 using (SqlConnection conn = conexionSQL.ObtenerConexion())
                 {
+                    string query = "";
                     conn.Open();
-                    string query = @"SELECT hardware.folio AS Numero, 
-                                        hardware.didecon AS Didecon, 
-                                        estatus.descripcion AS Estatus
-                                    FROM hardware 
-                                    JOIN estatus ON hardware.idestatus = estatus.id_estatus 
-                                    WHERE hardware.folio = @folio;";
+                    if (radioCpu.Checked == true)
+                    {
+                        query = @"SELECT hardware.folio AS Numero, 
+                                hardware.didecon AS Didecon, 
+                                estatus.descripcion AS Estatus
+                            FROM hardware 
+                            JOIN estatus ON hardware.idestatus = estatus.id_estatus 
+                            WHERE hardware.folio = @folio;";
+                    }
+                    else if(radioPeriferico.Checked == true)
+                    {
+                        query = @"SELECT perifericos.folio AS Numero, 
+                                perifericos.didecon AS Didecon, 
+                                estatus.descripcion AS Estatus 
+                        FROM perifericos 
+                        JOIN estatus ON perifericos.idestatus = estatus.id_estatus 
+                        WHERE perifericos.folio = @folio;";
+                    }
                     using (SqlCommand cmd = new SqlCommand(query,conn))
                     {
                         cmd.Parameters.AddWithValue("@folio", folio);
@@ -444,6 +501,11 @@ namespace WinFormsApp1
                 mensajeError += "- Especifique quien solicito el servicio.\n";
                 esValido = false;
             }
+            if (dateEntrada.Value.Date > DateTime.Now.Date)
+            {
+                mensajeError += "- Especifique una fecha valida.\n";
+                esValido = false;
+            }
             if(!esValido)
             {
                 MessageBox.Show(mensajeError, "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -453,16 +515,24 @@ namespace WinFormsApp1
 
         private bool ExisteFolio(string folio)
         {
+            string query = "";
             bool existe = false;
             try 
             {
                 using (SqlConnection connection = conexionSQL.ObtenerConexion())
                 {
                     connection.Open();
-                    string query = "SELECT COUNT(1) FROM hardware WHERE folio = @folio";
-                    using (SqlCommand cmd = new SqlCommand(query,connection))
+                    if (radioCpu.Checked == true)
                     {
-                        cmd.Parameters.AddWithValue("@folio",folio);
+                        query = "SELECT COUNT(1) FROM hardware WHERE folio = @folio";
+                    }
+                    else if (radioPeriferico.Checked == true)
+                    {
+                        query = "SELECT COUNT(1) FROM perifericos WHERE folio = @folio";
+                    }
+                    using (SqlCommand cmd = new SqlCommand(query, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@folio", folio);
                         existe = (int)cmd.ExecuteScalar() > 0;
                     }
                 }
@@ -481,11 +551,19 @@ namespace WinFormsApp1
             {
                 using (SqlConnection connection = conexionSQL.ObtenerConexion())
                 {
+                    string query = "";
                     connection.Open();
-                    string query = "SELECT COUNT(1) FROM hardware WHERE didecon = @didecon;";
-                    using (SqlCommand cmd = new SqlCommand(query,connection))
+                    if (radioCpu.Checked == true)
                     {
-                        cmd.Parameters.AddWithValue("@didecon",didecon);
+                        query = "SELECT COUNT(1) FROM hardware WHERE didecon = @didecon;";
+                    }
+                    else if (radioPeriferico.Checked == true)
+                    {
+                        query = "SELECT COUNT(1) FROM perifericos WHERE didecon = @didecon;";
+                    }
+                    using (SqlCommand cmd = new SqlCommand(query, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@didecon", didecon);
                         existe = (int)cmd.ExecuteScalar() > 0;
                     }
                 }
@@ -496,5 +574,54 @@ namespace WinFormsApp1
             }
             return existe;
         }
+
+        private void txtFolio_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+            // Permitir solo números y la tecla de retroceso
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true; // Bloquear entrada no numérica
+            }
+            // Evitar que se ingresen más de 4 dígitos
+            if (!char.IsControl(e.KeyChar) && txt.Text.Length >= 4)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtDidecon_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+            // Permitir solo números y la tecla de retroceso
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true; // Bloquear entrada no numérica
+            }
+            // Evitar que se ingresen más de 7 dígitos
+            if (!char.IsControl(e.KeyChar) && txt.Text.Length >= 7)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtFalla_TextChanged(object sender, EventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+            // Convertir todo el texto a mayúsculas
+            txt.Text = txt.Text.ToUpper();
+            // Mover el cursor al final para evitar que vuelva atrás
+            txt.SelectionStart = txt.Text.Length;
+        }
+
+        private void txtSolicito_TextChanged(object sender, EventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+            // Convertir todo el texto a mayúsculas
+            txt.Text = txt.Text.ToUpper();
+            // Mover el cursor al final para evitar que vuelva atrás
+            txt.SelectionStart = txt.Text.Length;
+        }
+
     }
 }

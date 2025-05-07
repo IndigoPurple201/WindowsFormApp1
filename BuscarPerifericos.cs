@@ -207,7 +207,7 @@ namespace WinFormsApp1
             try
             {
                 string query = "";
-                if (tipoFiltro == "CPU")
+                if (tipoFiltro == "CPU" || tipoFiltro == "CPU-2")
                 {
                     query = @"SELECT hardware.folio AS Numero, 
                             hardware.didecon AS Didecon, 
@@ -224,11 +224,14 @@ namespace WinFormsApp1
                         JOIN estatus ON estatus.id_estatus = hardware.idestatus
 					    JOIN marcas ON marcas.id_marca = hardware.marca
 						JOIN modelos ON modelos.id_modelo = hardware.modelo
-                        WHERE tipos.descripcion IN ('CPU','SERVIDOR','LAPTOP','ALL IN ONE')
-                        AND estatus.descripcion = 'ACTIVO'
-                        ORDER BY hardware.folio ASC;";
+                        WHERE tipos.descripcion IN ('CPU','SERVIDOR','LAPTOP','ALL IN ONE')";
+                    if (tipoFiltro == "CPU-2")
+                    {
+                        query += " AND estatus.descripcion = 'ACTIVO'";
+                    }
+                    query += " ORDER BY hardware.folio ASC;";
                 }
-                else
+                else if(tipoFiltro == "PERIFERICOS" || tipoFiltro == "PERIFERICOS-2")
                 {
                     query = @"SELECT perifericos.folio AS Numero, 
                             perifericos.didecon AS Didecon,  
@@ -248,9 +251,12 @@ namespace WinFormsApp1
                         JOIN hardware ON hardware.didecon = perifericos.didecon 
                         JOIN dependencias ON dependencias.id_dependencia = hardware.depto 
                         JOIN estatus ON estatus.id_estatus = perifericos.idestatus 
-                        WHERE tipos.descripcion NOT IN ('CPU','SERVIDOR','LAPTOP','ALL IN ONE')
-                        AND estatus.descripcion = 'ACTIVO'
-                        ORDER BY perifericos.folio ASC;";
+                        WHERE tipos.descripcion NOT IN ('CPU','SERVIDOR','LAPTOP','ALL IN ONE')";
+                    if (tipoFiltro == "PERIFERICOS-2")
+                    {
+                        query += " AND estatus.descripcion = 'ACTIVO'";
+                    }
+                    query += " ORDER BY perifericos.folio ASC;";
                 }
                 using (SqlConnection connection = conexionSQL.ObtenerConexion())
                 {
@@ -260,7 +266,7 @@ namespace WinFormsApp1
                     {
                         dgvPerifericos.Rows.Clear();
                         dgvPerifericos.Columns.Clear();
-                        if (tipoFiltro == "CPU")
+                        if (tipoFiltro == "CPU" || tipoFiltro == "CPU-2")
                         {
                             dgvPerifericos.Columns.Add("Numero", "Número");
                             dgvPerifericos.Columns.Add("Didecon", "Didecon");
@@ -287,7 +293,7 @@ namespace WinFormsApp1
                                 dgvPerifericos.Rows[index].Cells["Estatus"].Value = reader["Estatus"].ToString();
                             }
                         }
-                        else
+                        else if (tipoFiltro == "PERIFERICOS" || tipoFiltro == "PERIFERICOS-2")
                         {
                             dgvPerifericos.Columns.Add("Numero", "Número");
                             dgvPerifericos.Columns.Add("Didecon", "Didecon");
@@ -318,7 +324,7 @@ namespace WinFormsApp1
                         }
                     }
                 }
-                if (tipoFiltro == "CPU")
+                if (tipoFiltro == "CPU" || tipoFiltro == "CPU-2")
                 {
                     dgvPerifericos.Columns["Numero"].ReadOnly = true;
                     dgvPerifericos.Columns["Didecon"].ReadOnly = true;
@@ -341,7 +347,7 @@ namespace WinFormsApp1
                     dgvPerifericos.Columns["Procesador"].DisplayIndex = 8;
                     dgvPerifericos.Columns["Estatus"].DisplayIndex = 9;
                 }
-                else
+                else if (tipoFiltro == "PERIFERICOS" || tipoFiltro == "PERIFERICOS-2")
                 {
                     dgvPerifericos.Columns["Numero"].ReadOnly = true;
                     dgvPerifericos.Columns["Didecon"].ReadOnly = true;

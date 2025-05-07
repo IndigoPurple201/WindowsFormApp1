@@ -92,6 +92,7 @@
             this.label25 = new System.Windows.Forms.Label();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.btnAceptar = new System.Windows.Forms.Button();
+            this.btnBuscar2 = new System.Windows.Forms.Button();
             this.panelBarra.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.buttonSalir)).BeginInit();
             this.panel1.SuspendLayout();
@@ -372,11 +373,12 @@
             // txtSolicito
             // 
             this.txtSolicito.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtSolicito.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSolicito.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtSolicito.Location = new System.Drawing.Point(92, 243);
             this.txtSolicito.Name = "txtSolicito";
             this.txtSolicito.Size = new System.Drawing.Size(445, 23);
             this.txtSolicito.TabIndex = 118;
+            this.txtSolicito.TextChanged += new System.EventHandler(this.txtSolicito_TextChanged);
             // 
             // label17
             // 
@@ -398,6 +400,7 @@
             this.txtFalla.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtFalla.Size = new System.Drawing.Size(453, 63);
             this.txtFalla.TabIndex = 116;
+            this.txtFalla.TextChanged += new System.EventHandler(this.txtFalla_TextChanged);
             // 
             // label16
             // 
@@ -438,6 +441,7 @@
             this.txtDidecon.Name = "txtDidecon";
             this.txtDidecon.Size = new System.Drawing.Size(110, 23);
             this.txtDidecon.TabIndex = 112;
+            this.txtDidecon.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDidecon_KeyPress);
             // 
             // label14
             // 
@@ -457,6 +461,7 @@
             this.txtFolio.Name = "txtFolio";
             this.txtFolio.Size = new System.Drawing.Size(110, 23);
             this.txtFolio.TabIndex = 110;
+            this.txtFolio.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFolio_KeyPress);
             // 
             // label13
             // 
@@ -796,11 +801,24 @@
             this.btnAceptar.UseVisualStyleBackColor = true;
             this.btnAceptar.Click += new System.EventHandler(this.btnAceptar_Click);
             // 
+            // btnBuscar2
+            // 
+            this.btnBuscar2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnBuscar2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnBuscar2.Location = new System.Drawing.Point(136, 503);
+            this.btnBuscar2.Name = "btnBuscar2";
+            this.btnBuscar2.Size = new System.Drawing.Size(90, 29);
+            this.btnBuscar2.TabIndex = 123;
+            this.btnBuscar2.Text = "BUSCAR";
+            this.btnBuscar2.UseVisualStyleBackColor = true;
+            this.btnBuscar2.Click += new System.EventHandler(this.btnBuscar2_Click);
+            // 
             // Servicios
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(829, 538);
+            this.Controls.Add(this.btnBuscar2);
             this.Controls.Add(this.btnAceptar);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.tabControl1);
@@ -898,5 +916,6 @@
         private Button btnCancelar;
         private Button btnAceptar;
         private TextBox txtServicio;
+        private Button btnBuscar2;
     }
 }
