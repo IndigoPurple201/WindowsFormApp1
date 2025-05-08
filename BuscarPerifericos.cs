@@ -931,7 +931,6 @@ namespace WinFormsApp1
                             query += " AND tipos.descripcion NOT IN ('CPU','SERVIDOR','LAPTOP','ALL IN ONE')";
                         }
                     }
-
                     else
                     {
                         MessageBox.Show("Seleccione un campo de búsqueda.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
