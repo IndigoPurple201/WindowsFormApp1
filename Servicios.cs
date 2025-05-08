@@ -26,6 +26,7 @@ namespace WinFormsApp1
         private Control controlActivo = null;
         private Point mouseDownLocation;
         private ConexionSQL conexionSQL;
+        private bool seEcontro = false;
         public Servicios()
         {
             InitializeComponent();
@@ -384,6 +385,7 @@ namespace WinFormsApp1
                         string folio = buscarPerifericos.FolioSeleccionado;
                         if (!string.IsNullOrEmpty(folio))
                         {
+                            seEcontro = false;
                             CargarDatosPorFolio(folio);
                         }
                         else
@@ -399,8 +401,57 @@ namespace WinFormsApp1
 
         private void btnBuscar2_Click(object sender, EventArgs e)
         {
-            BuscarServicios buscarServicios = new BuscarServicios();
-            buscarServicios.ShowDialog();
+            using (var buscarServicios = new BuscarServicios())
+            {
+                buscarServicios.FormClosed += (s, args) => ObtenerSiguienteNumero();
+                if (buscarServicios.ShowDialog() == DialogResult.OK)
+                {
+                    string folio = buscarServicios.FolioSeleccionado;
+                    string tipo = buscarServicios.TipoSeleccionado;
+                    if (tipo == "CPU")
+                    {
+                        radioCpu.Checked = true;
+                        radioPeriferico.Checked = false;
+                    }
+                    else
+                    {
+                        radioCpu.Checked = false;
+                        radioPeriferico.Checked = true;
+                    }
+                    if (!string.IsNullOrEmpty(folio))
+                    {
+                        seEcontro = true;
+                        boxEstatus.Enabled = true;
+                        HabilitarDateTimePickers(this);
+                        txtFalla.Enabled = true;
+                        txtSolicito.Enabled = true;
+                        txtRecogio.Enabled = true;
+                        txtReparo.Enabled = true;
+                        txtReparacionInterna.Enabled = true;
+                        txtReparacionExterna.Enabled = true;
+                        txtRefacciones.Enabled = true;
+                        btnCancelar.Enabled = true;
+                        btnEliminar.Enabled = true;
+                        btnCancelar.Enabled = true;
+                        btnNuevo.Enabled = false;
+                    }
+                }
+            }
+        }
+
+        private void HabilitarDateTimePickers(Control parent)
+        {
+            foreach (Control ctrl in parent.Controls)
+            {
+                if (ctrl is DateTimePicker dtp)
+                {
+                    dtp.Enabled = true;
+                }
+                else if (ctrl.HasChildren)
+                {
+                    HabilitarDateTimePickers(ctrl);
+                }
+            }
         }
 
         private void CargarDatosPorFolio(string folio)

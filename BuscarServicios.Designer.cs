@@ -52,6 +52,7 @@
             this.buttonSalir.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.buttonSalir.TabIndex = 88;
             this.buttonSalir.TabStop = false;
+            this.buttonSalir.Click += new System.EventHandler(this.buttonSalir_Click);
             // 
             // dgvServicios
             // 
@@ -95,6 +96,7 @@
             this.radioCpu.TabStop = true;
             this.radioCpu.Text = "CPU";
             this.radioCpu.UseVisualStyleBackColor = true;
+            this.radioCpu.CheckedChanged += new System.EventHandler(this.radioCpu_CheckedChanged);
             // 
             // radioPeriferico
             // 
@@ -108,6 +110,7 @@
             this.radioPeriferico.TabStop = true;
             this.radioPeriferico.Text = "PERIFERICO";
             this.radioPeriferico.UseVisualStyleBackColor = true;
+            this.radioPeriferico.CheckedChanged += new System.EventHandler(this.radioPeriferico_CheckedChanged);
             // 
             // btnActualizar
             // 
@@ -119,6 +122,7 @@
             this.btnActualizar.TabIndex = 110;
             this.btnActualizar.Text = "SELECCIONAR";
             this.btnActualizar.UseVisualStyleBackColor = true;
+            this.btnActualizar.Click += new System.EventHandler(this.btnActualizar_Click);
             // 
             // label4
             // 

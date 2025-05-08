@@ -61,7 +61,7 @@ namespace WinFormsApp1
             }
             this.Click += QuitarFoco;
             ConfigurarDataGridView();
-            if (tipoFiltro == "CPU")
+            if (tipoFiltro == "CPU" || tipoFiltro == "CPU-2")
             {
                 CargarDatosDGV();
                 label3.Text = "NUMERO:";
@@ -86,7 +86,7 @@ namespace WinFormsApp1
                 radioNumSerie.Visible = false;
                 radioActivo.Visible = false;
             }
-            else
+            else if(tipoFiltro == "PERIFERICOS" || tipoFiltro == "PERIFERICOS-2")
             {
                 CargarDatosDGV();
                 label3.Text = "NUMERO:";
@@ -541,7 +541,7 @@ namespace WinFormsApp1
                     {
                         while (reader.Read())
                         {
-                            if (tipoFiltro == "CPU")
+                            if (tipoFiltro == "CPU" || tipoFiltro == "CPU-2")
                             {
                                 boxBuscarDepartmanentoCPU.Items.Add(reader["descripcion"].ToString());
                             }
@@ -805,7 +805,7 @@ namespace WinFormsApp1
                 string query = "";
                 string queryAux = "";
                 List<SqlParameter> parametros = new List<SqlParameter>();
-                if (tipoFiltro == "CPU")
+                if (tipoFiltro == "CPU" || tipoFiltro == "CPU-2")
                 {
                     query = @"SELECT hardware.folio AS Numero, 
                         hardware.didecon AS Didecon, 
@@ -824,9 +824,13 @@ namespace WinFormsApp1
 				    JOIN modelos ON modelos.id_modelo = hardware.modelo
                     JOIN dependencias ON dependencias.id_dependencia = hardware.depto
                     WHERE tipos.descripcion IN ('CPU','SERVIDOR','LAPTOP','ALL IN ONE')";
+                    if (tipoFiltro == "CPU-2")
+                    {
+                        query += " AND estatus.descripcion = 'ACTIVO'";
+                    }
                     queryAux = query;
                 }
-                else
+                else if(tipoFiltro == "PERIFERICOS" || tipoFiltro == "PERIFERICOS-2")
                 {
                     query = @"SELECT perifericos.folio AS Numero, 
                         perifericos.didecon AS Didecon,  
@@ -847,8 +851,12 @@ namespace WinFormsApp1
                     JOIN dependencias ON dependencias.id_dependencia = hardware.depto 
                     JOIN estatus ON estatus.id_estatus = perifericos.idestatus 
                     WHERE tipos.descripcion NOT IN ('CPU','SERVIDOR','LAPTOP','ALL IN ONE')";
+                    if (tipoFiltro == "PERIFERICOS-2")
+                    {
+                        query += " AND estatus.descripcion = 'ACTIVO'";
+                    }
                 }
-                if (tipoFiltro == "CPU")
+                if (tipoFiltro == "CPU" || tipoFiltro == "CPU-2")
                 {
                     if (radioNumeroCPU.Checked)
                     {
@@ -918,7 +926,10 @@ namespace WinFormsApp1
                                 JOIN modelos ON modelos.id_modelo = hardware.modelo
                                 JOIN estatus ON estatus.id_estatus = perifericos.idestatus
                                 WHERE m1.descripcion = @marca";
-
+                        if (tipoFiltro == "CPU-2")
+                        {
+                            query += " AND estatus.descripcion = 'ACTIVO'";
+                        }
                         parametros.Add(new SqlParameter("@marca", Convert.ToString(boxBuscarMarca.SelectedItem)));
 
                         if (boxBuscarTipo.SelectedItem.ToString() != "--TODOS--")
@@ -936,8 +947,9 @@ namespace WinFormsApp1
                         MessageBox.Show("Seleccione un campo de búsqueda.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
+                    query += " ORDER BY hardware.folio ASC;";
                 }
-                else
+                else if(tipoFiltro == "PERIFERICOS" || tipoFiltro == "PERIFERICOS-2")
                 {
                     if (radioFolio.Checked)
                     {
@@ -1009,7 +1021,7 @@ namespace WinFormsApp1
                         {
                             dgvPerifericos.Rows.Clear();
                             dgvPerifericos.Columns.Clear();
-                            if (tipoFiltro == "CPU")
+                            if (tipoFiltro == "CPU" || tipoFiltro == "CPU-2")
                             {
                                 if (radioPerifericos.Checked)
                                 {
@@ -1069,7 +1081,7 @@ namespace WinFormsApp1
                                     }
                                 }
                             }
-                            else
+                            else if(tipoFiltro == "PERIFERICOS" || tipoFiltro == "PERIFERICOS-2")
                             {
                                 dgvPerifericos.Columns.Add("Numero", "Número");
                                 dgvPerifericos.Columns.Add("Didecon", "Didecon");

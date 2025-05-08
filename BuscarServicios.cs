@@ -28,6 +28,7 @@ namespace WinFormsApp1
         private Color panelOriginal;
         private bool parpadeoActivo = false;
         public string FolioSeleccionado { get; private set; }
+        public string TipoSeleccionado { get; private set; }
         [DllImport("user32.dll")]
         private static extern void MessageBeep(uint uType);
         private const uint MB_ICONERROR = 0x10; // Sonido de error del sistema
@@ -194,6 +195,7 @@ namespace WinFormsApp1
 					    JOIN marcas ON marcas.id_marca = hardware.marca
 						JOIN modelos ON modelos.id_modelo = hardware.modelo
                         WHERE tipos.descripcion IN ('CPU','SERVIDOR','LAPTOP','ALL IN ONE')
+                        AND estatus.descripcion = 'RECIBIDO'
                         ORDER BY hardware.folio ASC;";
                 }
                 else if (radioPeriferico.Checked == true)
@@ -217,6 +219,7 @@ namespace WinFormsApp1
                         JOIN dependencias ON dependencias.id_dependencia = hardware.depto 
                         JOIN estatus ON estatus.id_estatus = perifericos.idestatus 
                         WHERE tipos.descripcion NOT IN ('CPU','SERVIDOR','LAPTOP','ALL IN ONE')
+                        AND estatus.descripcion = 'RECIBIDO'
                         ORDER BY perifericos.folio ASC;";
                 }
                 using (SqlConnection connection = conexionSQL.ObtenerConexion())
@@ -343,6 +346,24 @@ namespace WinFormsApp1
             }
         }
 
+        private void radioCpu_CheckedChanged(object sender, EventArgs e)
+        {
+            CargarDatosDGV();
+            if (boxDepartamento.SelectedIndex != 1)
+            {
+                boxDepartamento.SelectedIndex = -1;
+            }
+        }
+
+        private void radioPeriferico_CheckedChanged(object sender, EventArgs e)
+        {
+            CargarDatosDGV();
+            if (boxDepartamento.SelectedIndex != 1)
+            {
+                boxDepartamento.SelectedIndex = -1;
+            }
+        }
+
         private void btnBuscar_Click(object sender, EventArgs e)
         {
             try
@@ -369,7 +390,8 @@ namespace WinFormsApp1
 					    JOIN marcas ON marcas.id_marca = hardware.marca
 						JOIN modelos ON modelos.id_modelo = hardware.modelo
                         JOIN dependencias ON dependencias.id_dependencia = hardware.depto
-                        WHERE tipos.descripcion IN ('CPU','SERVIDOR','LAPTOP','ALL IN ONE')";
+                        WHERE tipos.descripcion IN ('CPU','SERVIDOR','LAPTOP','ALL IN ONE')
+                        AND estatus.descripcion = 'RECIBIDO'";
                     }
                     else if (radioPeriferico.Checked == true)
                     {
@@ -391,7 +413,8 @@ namespace WinFormsApp1
                         JOIN hardware ON hardware.didecon = perifericos.didecon 
                         JOIN dependencias ON dependencias.id_dependencia = hardware.depto 
                         JOIN estatus ON estatus.id_estatus = perifericos.idestatus 
-                        WHERE tipos.descripcion NOT IN ('CPU','SERVIDOR','LAPTOP','ALL IN ONE')";
+                        WHERE tipos.descripcion NOT IN ('CPU','SERVIDOR','LAPTOP','ALL IN ONE')
+                        AND estatus.descripcion = 'RECIBIDO'";
                     }
                     if (boxDepartamento.SelectedIndex == -1 || boxDepartamento.SelectedItem == null)
                     {
@@ -522,6 +545,38 @@ namespace WinFormsApp1
                 };
             }
             parpadeoTimer.Start();
+        }
+
+        private void buttonSalir_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void btnActualizar_Click(object sender, EventArgs e)
+        {
+            if (dgvServicios.SelectedRows.Count != 1)
+            {
+                MessageBox.Show("Por favor selecciona un servicio.");
+                return;
+            }
+            FolioSeleccionado = dgvServicios.SelectedRows[0].Cells["Numero"].Value.ToString();
+            if (radioCpu.Checked == true)
+            {
+                TipoSeleccionado = "CPU";
+            }
+            else if (radioPeriferico.Checked == true)
+            {
+                TipoSeleccionado = "PERIFERICO";
+            }
+            if (!string.IsNullOrEmpty(FolioSeleccionado))
+            {
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            }
+            else 
+            {
+                MessageBox.Show("No se pudo obtener el folio..");
+            }
         }
     }
 }
