@@ -26,7 +26,6 @@ namespace WinFormsApp1
         private Control controlActivo = null;
         private Point mouseDownLocation;
         private ConexionSQL conexionSQL;
-        private bool seEcontro = false;
         public Servicios()
         {
             InitializeComponent();
@@ -214,8 +213,6 @@ namespace WinFormsApp1
             radioCpu.Enabled = !bloquear;
             radioPeriferico.Enabled = !bloquear;
             btnBuscar2.Enabled = bloquear;
-            btnActualizar.Enabled = bloquear;
-            btnEliminar.Enabled = bloquear;
         }
 
         private void LimpiarControles()
@@ -385,7 +382,6 @@ namespace WinFormsApp1
                         string folio = buscarPerifericos.FolioSeleccionado;
                         if (!string.IsNullOrEmpty(folio))
                         {
-                            seEcontro = false;
                             CargarDatosPorFolio(folio);
                         }
                         else
@@ -403,7 +399,6 @@ namespace WinFormsApp1
         {
             using (var buscarServicios = new BuscarServicios())
             {
-                buscarServicios.FormClosed += (s, args) => ObtenerSiguienteNumero();
                 if (buscarServicios.ShowDialog() == DialogResult.OK)
                 {
                     string folio = buscarServicios.FolioSeleccionado;
@@ -420,7 +415,6 @@ namespace WinFormsApp1
                     }
                     if (!string.IsNullOrEmpty(folio))
                     {
-                        seEcontro = true;
                         boxEstatus.Enabled = true;
                         HabilitarDateTimePickers(this);
                         txtFalla.Enabled = true;
@@ -676,6 +670,5 @@ namespace WinFormsApp1
             // Mover el cursor al final para evitar que vuelva atrás
             txt.SelectionStart = txt.Text.Length;
         }
-
     }
 }
