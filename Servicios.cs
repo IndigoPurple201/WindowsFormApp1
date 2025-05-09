@@ -213,6 +213,8 @@ namespace WinFormsApp1
             radioCpu.Enabled = !bloquear;
             radioPeriferico.Enabled = !bloquear;
             btnBuscar2.Enabled = bloquear;
+            btnActualizar.Enabled = !bloquear;
+            btnEliminar.Enabled = !bloquear;
         }
 
         private void LimpiarControles()
@@ -269,6 +271,8 @@ namespace WinFormsApp1
         {
             BloquearControles(this, false);
             btnSalir.Enabled = true;
+            btnActualizar.Enabled = false;
+            btnEliminar.Enabled = false;
             dateEntrada.Enabled = true;
             if (boxEstatus.Items.Count == 1)
             {
@@ -292,6 +296,12 @@ namespace WinFormsApp1
                 boxEstatus.SelectedIndex = -1;
             }
             dateEntrada.Enabled = false;
+            dateSalida.Enabled = false;
+            dateReparacion.Enabled = false;
+            dateRefaccionPedido.Enabled = false;
+            dateRefaccionEntrega.Enabled = false;
+            dateExternoPedido.Enabled = false;
+            dateExternoEntrega.Enabled = false;
             tabControl1.SelectedTab = tabPage1;
             radioCpu.Checked = false;
             radioPeriferico.Checked = false;
@@ -348,6 +358,85 @@ namespace WinFormsApp1
                     LimpiarControles();
                     BloquearControles(this, true);
                 }
+            }
+        }
+
+        private void btnActualizar_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(txtServicio.Text))
+            {
+                string queryUpdate = "";
+                string queryEstatus = "";
+                DateTime nuevaFechaLlegada = dateEntrada.Value;
+                DateTime nuevaFechSalida = dateSalida.Value;
+                DateTime nuevaFechaReparacion = dateReparacion.Value;
+                DateTime nuevaFechaRefaccionPedido = dateRefaccionPedido.Value;
+                DateTime nuevaFechaRefaccionEntrega = dateRefaccionEntrega.Value;
+                DateTime nuevaFechaExternoPedido = dateExternoPedido.Value;
+                DateTime nuevaFechaExternoEntrega = dateExternoEntrega.Value;
+                try 
+                {
+                    using (SqlConnection connection = conexionSQL.ObtenerConexion())
+                    {
+                        connection.Open();
+                        int idEstatus = 0;
+                        queryEstatus = "SELECT id_estatus FROM estatus WHERE descripcion = @estatus ORDER BY id_estatus;";
+                        using (SqlCommand cmd = new SqlCommand(queryEstatus, connection))
+                        {
+                            cmd.Parameters.AddWithValue("@estatus", boxEstatus.Text);
+                            object result = cmd.ExecuteScalar();
+                            idEstatus = (result != null) ? Convert.ToInt32(result) : 0;
+                        }
+                        queryUpdate = @"UPDATE servicios SET
+                                    fecha_llegada = @nuevaFechaLlegada,
+                                    fecha_salida = @nuevaFechSalida,
+                                    fecha_reparacion = @nuevaFechaReparacion,
+                                    fecha_refaccion_pedida = @nuevaFechaRefaccionPedido,
+                                    fecha_refaccion_entrega = @nuevaFechaRefaccionEntrega,
+                                    fecha_externo_llegada = @nuevaFechaExternoPedido,
+                                    fecha_externo_salida = @nuevaFechaExternoEntrega,
+                                    estatus = @idEstatus,
+                                    falla = @falla,
+                                    reporto = @reporto,
+                                    recoge = @recoge,
+                                    quien_reparo = @reparo,
+                                    reparacion = @reparacion,
+                                    reparacion_externa = @externa,
+                                    refacciones = @refacciones
+                        WHERE id_servicio = @id_servicio;";
+                        using (SqlCommand cmdUpdate = new SqlCommand(queryUpdate,connection))
+                        {
+                            cmdUpdate.Parameters.AddWithValue("@nuevaFechaLlegada",nuevaFechaLlegada);
+                            cmdUpdate.Parameters.AddWithValue("@nuevaFechSalida", nuevaFechSalida);
+                            cmdUpdate.Parameters.AddWithValue("@nuevaFechaReparacion", nuevaFechaReparacion);
+                            cmdUpdate.Parameters.AddWithValue("@nuevaFechaRefaccionPedido", nuevaFechaRefaccionPedido);
+                            cmdUpdate.Parameters.AddWithValue("@nuevaFechaRefaccionEntrega", nuevaFechaRefaccionEntrega);
+                            cmdUpdate.Parameters.AddWithValue("@nuevaFechaExternoPedido", nuevaFechaExternoPedido);
+                            cmdUpdate.Parameters.AddWithValue("@nuevaFechaExternoEntrega", nuevaFechaExternoEntrega);
+                            cmdUpdate.Parameters.AddWithValue("@idEstatus",idEstatus);
+                            cmdUpdate.Parameters.AddWithValue("@falla", txtFalla.Text);
+                            cmdUpdate.Parameters.AddWithValue("@reporto", txtSolicito.Text);
+                            cmdUpdate.Parameters.AddWithValue("@recoge", txtRecogio.Text);
+                            cmdUpdate.Parameters.AddWithValue("@reparo", txtReparo.Text);
+                            cmdUpdate.Parameters.AddWithValue("@reparacion", txtReparacionInterna.Text);
+                            cmdUpdate.Parameters.AddWithValue("@externa", txtReparacionExterna.Text);
+                            cmdUpdate.Parameters.AddWithValue("@refacciones", txtRefacciones.Text);
+                            cmdUpdate.Parameters.AddWithValue("@id_servicio", txtServicio.Text);
+                            cmdUpdate.ExecuteNonQuery();
+                        }
+                        MessageBox.Show("Registro actualizado con éxito.");
+                        LimpiarControles();
+                        BloquearControles(this, true);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: " + ex.Message);
+                }
+            }
+            else
+            {
+                MessageBox.Show("No se ha seleccionado ningun servicio para actualizar");
             }
         }
 
@@ -428,6 +517,9 @@ namespace WinFormsApp1
                         btnEliminar.Enabled = true;
                         btnCancelar.Enabled = true;
                         btnNuevo.Enabled = false;
+                        btnActualizar.Enabled = true;
+                        btnEliminar.Enabled = true;
+                        CargarDatosPorFolio2(folio);
                     }
                 }
             }
@@ -486,6 +578,103 @@ namespace WinFormsApp1
                                 boxEstatus.Text = reader["Estatus"].ToString();
                             }
                             else 
+                            {
+                                MessageBox.Show("No se encontraron datos para ese folio");
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+
+        private void CargarDatosPorFolio2(string folio)
+        {
+            try
+            {
+                using (SqlConnection conn = conexionSQL.ObtenerConexion())
+                {
+                    string query = "";
+                    conn.Open();
+                    if (radioCpu.Checked == true)
+                    {
+                        query = @"SELECT hardware.folio AS Numero, 
+	                            hardware.didecon AS Didecon, 
+                                estatus.descripcion AS Estatus,
+                                servicios.id_servicio AS idServicio,
+	                            servicios.falla AS Falla,
+	                            servicios.reporto AS Reporto,
+                                servicios.recoge AS Recogio,
+								servicios.quien_reparo AS Reparo,
+								servicios.reparacion AS Reparacion,
+								servicios.reparacion_externa AS Externa,
+								servicios.refacciones AS Refacciones,
+	                            servicios.fecha_llegada AS Llegada,
+	                            servicios.fecha_salida AS Salida,
+	                            servicios.fecha_reparacion AS Reparacion,
+	                            servicios.fecha_refaccion_pedida AS RefaccionPedido,
+	                            servicios.fecha_externo_salida AS RefaccionEntrega,
+	                            servicios.fecha_externo_llegada AS ExternoLlegada,
+	                            servicios.fecha_externo_salida AS ExternoSalida
+                        FROM hardware 
+                        JOIN estatus ON hardware.idestatus = estatus.id_estatus
+                        JOIN servicios ON hardware.didecon = servicios.didecon
+                        WHERE hardware.folio = @folio;";
+                    }
+                    else if (radioPeriferico.Checked == true)
+                    {
+                        query = @"SELECT perifericos.folio AS Numero, 
+	                            perifericos.didecon AS Didecon, 
+	                            estatus.descripcion AS Estatus,
+                                servicios.id_servicio AS idServicio,
+	                            servicios.falla AS Falla,
+	                            servicios.reporto AS Reporto,
+                                servicios.recoge AS Recogio,
+                                servicios.quien_reparo AS Reparo,
+								servicios.reparacion AS Reparacion,
+								servicios.reparacion_externa AS Externa,
+								servicios.refacciones AS Refacciones,
+	                            servicios.fecha_llegada AS Llegada,
+	                            servicios.fecha_salida AS Salida,
+	                            servicios.fecha_reparacion AS Reparacion,
+	                            servicios.fecha_refaccion_pedida AS RefaccionPedido,
+	                            servicios.fecha_externo_salida AS RefaccionEntrega,
+	                            servicios.fecha_externo_llegada AS ExternoLlegada,
+	                            servicios.fecha_externo_salida AS ExternoSalida
+                        FROM perifericos 
+                        JOIN estatus ON perifericos.idestatus = estatus.id_estatus
+                        JOIN servicios ON perifericos.didecon = servicios.didecon
+                        WHERE perifericos.folio = @folio;";
+                    }
+
+                    using (SqlCommand cmd = new SqlCommand(query,conn))
+                    {
+                        cmd.Parameters.AddWithValue("@folio", folio);
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                txtServicio.Text = reader["idServicio"].ToString();
+                                txtFolio.Text = reader["Numero"].ToString();
+                                txtDidecon.Text = reader["Didecon"].ToString();
+                                boxEstatus.Text = reader["Estatus"].ToString();
+                                txtFalla.Text = reader["Falla"].ToString();
+                                txtSolicito.Text = reader["Reporto"].ToString();
+                                txtRecogio.Text = reader["Recogio"].ToString();
+                                txtReparo.Text = reader["Reparo"].ToString();
+                                txtReparacionInterna.Text = reader["Reparacion"].ToString();
+                                txtReparacionExterna.Text = reader["Externa"].ToString();
+                                txtRefacciones.Text = reader["Refacciones"].ToString();
+                                dateEntrada.Value = reader["Llegada"] != DBNull.Value ? Convert.ToDateTime(reader["Llegada"]) : DateTime.Now;
+                                dateSalida.Value = reader["Salida"] != DBNull.Value ? Convert.ToDateTime(reader["Salida"]) : DateTime.Now;
+                                dateRefaccionPedido.Value = reader["RefaccionPedido"] != DBNull.Value ? Convert.ToDateTime(reader["RefaccionPedido"]) : DateTime.Now;
+                                dateRefaccionEntrega.Value = reader["RefaccionEntrega"] != DBNull.Value ? Convert.ToDateTime(reader["RefaccionEntrega"]) : DateTime.Now;
+                                dateExternoPedido.Value = reader["ExternoLlegada"] != DBNull.Value ? Convert.ToDateTime(reader["ExternoLlegada"]) : DateTime.Now;
+                            }
+                            else
                             {
                                 MessageBox.Show("No se encontraron datos para ese folio");
                             }
