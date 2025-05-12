@@ -344,11 +344,12 @@
             // txtRecogio
             // 
             this.txtRecogio.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtRecogio.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtRecogio.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtRecogio.Location = new System.Drawing.Point(95, 315);
             this.txtRecogio.Name = "txtRecogio";
             this.txtRecogio.Size = new System.Drawing.Size(442, 23);
             this.txtRecogio.TabIndex = 121;
+            this.txtRecogio.TextChanged += new System.EventHandler(this.txtRecogio_TextChanged);
             // 
             // label19
             // 
@@ -553,6 +554,7 @@
             this.btnEliminar.TabIndex = 100;
             this.btnEliminar.Text = "ELIMINAR";
             this.btnEliminar.UseVisualStyleBackColor = true;
+            this.btnEliminar.Click += new System.EventHandler(this.btnEliminar_Click);
             // 
             // btnBuscar
             // 
@@ -675,6 +677,7 @@
             this.txtReparacionExterna.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtReparacionExterna.Size = new System.Drawing.Size(442, 63);
             this.txtReparacionExterna.TabIndex = 123;
+            this.txtReparacionExterna.TextChanged += new System.EventHandler(this.txtReparacionExterna_TextChanged);
             // 
             // label20
             // 
@@ -709,11 +712,12 @@
             // txtReparo
             // 
             this.txtReparo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtReparo.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtReparo.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtReparo.Location = new System.Drawing.Point(8, 62);
             this.txtReparo.Name = "txtReparo";
             this.txtReparo.Size = new System.Drawing.Size(442, 23);
             this.txtReparo.TabIndex = 119;
+            this.txtReparo.TextChanged += new System.EventHandler(this.txtReparo_TextChanged);
             // 
             // label23
             // 
@@ -735,6 +739,7 @@
             this.txtReparacionInterna.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtReparacionInterna.Size = new System.Drawing.Size(442, 63);
             this.txtReparacionInterna.TabIndex = 121;
+            this.txtReparacionInterna.TextChanged += new System.EventHandler(this.txtReparacionInterna_TextChanged);
             // 
             // tabPage3
             // 
@@ -767,6 +772,7 @@
             this.txtRefacciones.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtRefacciones.Size = new System.Drawing.Size(442, 63);
             this.txtRefacciones.TabIndex = 122;
+            this.txtRefacciones.TextChanged += new System.EventHandler(this.txtRefacciones_TextChanged);
             // 
             // label25
             // 

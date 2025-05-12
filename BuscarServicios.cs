@@ -179,28 +179,31 @@ namespace WinFormsApp1
                 string query = "";
                 if (radioCpu.Checked == true)
                 {
-                    query = @"SELECT hardware.folio AS Numero, 
-                            hardware.didecon AS Didecon, 
-                            hardware.activocontraloria AS 'Act. Contraloria', 
-                            hardware.ip AS 'Dir. IP', 
-                            hardware.responsable AS 'Responsable',
-							tipos.descripcion AS Tipo,
-                            marcas.descripcion AS Marca, 
-							modelos.descripcion AS Modelo, 
-                            hardware.procesador AS Procesador,
-                            estatus.descripcion AS Estatus
-                        FROM hardware 
-                        JOIN tipos on tipos.id_tipo = hardware.idtipo
-                        JOIN estatus ON estatus.id_estatus = hardware.idestatus
-					    JOIN marcas ON marcas.id_marca = hardware.marca
-						JOIN modelos ON modelos.id_modelo = hardware.modelo
-                        WHERE tipos.descripcion IN ('CPU','SERVIDOR','LAPTOP','ALL IN ONE')
-                        AND estatus.descripcion = 'RECIBIDO'
-                        ORDER BY hardware.folio ASC;";
+                    query = @"SELECT 
+                                hardware.folio AS Numero, 
+                                hardware.didecon AS Didecon, 
+                                hardware.activocontraloria AS 'Act. Contraloria', 
+                                hardware.ip AS 'Dir. IP', 
+                                hardware.responsable AS 'Responsable',
+                                tipos.descripcion AS Tipo,
+                                marcas.descripcion AS Marca, 
+                                modelos.descripcion AS Modelo, 
+                                hardware.procesador AS Procesador,
+                                estatus.descripcion AS Estatus
+                            FROM hardware 
+                            JOIN tipos ON tipos.id_tipo = hardware.idtipo
+                            JOIN marcas ON marcas.id_marca = hardware.marca
+                            JOIN modelos ON modelos.id_modelo = hardware.modelo
+                            JOIN servicios ON hardware.didecon = servicios.didecon
+                            JOIN estatus ON estatus.id_estatus = servicios.estatus
+                            WHERE tipos.descripcion IN ('CPU','SERVIDOR','LAPTOP','ALL IN ONE')
+                            AND estatus.descripcion IN ('RECIBIDO','REPARACION','EXTERNO','REFACCION')
+                            ORDER BY hardware.folio ASC;";
                 }
                 else if (radioPeriferico.Checked == true)
                 {
-                    query = @"SELECT perifericos.folio AS Numero, 
+                    query = @"SELECT 
+                            perifericos.folio AS Numero, 
                             perifericos.didecon AS Didecon,  
                             tipos.descripcion AS Tipo, 
                             marcas.descripcion AS Marca, 
@@ -216,10 +219,11 @@ namespace WinFormsApp1
                         JOIN marcas ON marcas.id_marca = perifericos.marca 
                         JOIN modelos ON modelos.id_modelo = perifericos.modelo 
                         JOIN hardware ON hardware.didecon = perifericos.didecon 
-                        JOIN dependencias ON dependencias.id_dependencia = hardware.depto 
-                        JOIN estatus ON estatus.id_estatus = perifericos.idestatus 
+                        JOIN dependencias ON dependencias.id_dependencia = hardware.depto
+                        JOIN servicios ON hardware.didecon = servicios.didecon
+                        JOIN estatus ON estatus.id_estatus = servicios.estatus
                         WHERE tipos.descripcion NOT IN ('CPU','SERVIDOR','LAPTOP','ALL IN ONE')
-                        AND estatus.descripcion = 'RECIBIDO'
+                        AND estatus.descripcion IN ('RECIBIDO','REPARACION','EXTERNO','REFACCION')
                         ORDER BY perifericos.folio ASC;";
                 }
                 using (SqlConnection connection = conexionSQL.ObtenerConexion())

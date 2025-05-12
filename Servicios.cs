@@ -108,7 +108,7 @@ namespace WinFormsApp1
             catch (Exception ex)
             {
                 MessageBox.Show("Error: " + ex.Message);
-            }   
+            }
         }
 
         private void ControlSeleccionado(object sender, EventArgs e)
@@ -216,6 +216,14 @@ namespace WinFormsApp1
             txtSolicito.Clear();
             txtRecogio.Clear();
             txtServicio.Clear();
+            dateEntrada.Value = DateTime.Now;
+            dateSalida.Value = DateTime.Now;
+            dateReparacion.Value = DateTime.Now;
+            dateRefaccionPedido.Value = DateTime.Now;
+            dateRefaccionEntrega.Value = DateTime.Now;
+            dateExternoPedido.Value = DateTime.Now;
+            dateExternoEntrega.Value = DateTime.Now;
+
         }
 
         private void RestablecerComboBox(ComboBox comboBox, string valorPredeterminado)
@@ -274,6 +282,11 @@ namespace WinFormsApp1
             txtServicio.Enabled = false;
             boxEstatus.Enabled = false;
             ObtenerSiguienteNumero();
+            int index = boxEstatus.Items.IndexOf("RECIBIDO");
+            if (index >= 0)
+            {
+                boxEstatus.SelectedIndex = index;
+            }
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
@@ -427,6 +440,40 @@ namespace WinFormsApp1
             else
             {
                 MessageBox.Show("No se ha seleccionado ningun servicio para actualizar");
+            }
+        }
+
+        private void btnEliminar_Click(object sender, EventArgs e)
+        {
+            DialogResult confirmacion = MessageBox.Show("¿Está seguro de que desea eliminar lo(s) perifericos(s) seleccionado(s)?",
+                                                        "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (confirmacion != DialogResult.Yes)
+            {
+                return;
+            }
+            else 
+            {
+                int idServicio = Convert.ToInt32(txtServicio.Text);
+                try
+                {
+                    string queryDelete = "DELETE FROM servicios WHERE id_servicio = @id_servicio;";
+                    using (SqlConnection connection = conexionSQL.ObtenerConexion())
+                    {
+                        connection.Open();
+                        using (SqlCommand cmd = new SqlCommand(queryDelete,connection))
+                        {
+                            cmd.Parameters.AddWithValue("@id_servicio", idServicio);
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+                }
+                catch (Exception EX)
+                {
+                    MessageBox.Show("Error: " + EX.Message);
+                }
+                MessageBox.Show("Registro eliminado correctamente");
+                LimpiarControles();
+                BloquearControles(this,true);
             }
         }
 
@@ -592,25 +639,27 @@ namespace WinFormsApp1
                     if (radioCpu.Checked == true)
                     {
                         query = @"SELECT hardware.folio AS Numero, 
-	                            hardware.didecon AS Didecon, 
-                                estatus.descripcion AS Estatus,
-                                servicios.id_servicio AS idServicio,
-	                            servicios.falla AS Falla,
-	                            servicios.reporto AS Reporto,
-                                servicios.recoge AS Recogio,
-								servicios.quien_reparo AS Reparo,
-								servicios.reparacion AS Reparacion,
-								servicios.reparacion_externa AS Externa,
-								servicios.refacciones AS Refacciones,
-	                            servicios.fecha_llegada AS Llegada,
-	                            servicios.fecha_salida AS Salida,
-	                            servicios.fecha_reparacion AS Reparacion,
-	                            servicios.fecha_refaccion_pedida AS RefaccionPedido,
-	                            servicios.fecha_externo_salida AS RefaccionEntrega,
-	                            servicios.fecha_externo_llegada AS ExternoLlegada,
-                        FROM hardware 
-                        JOIN servicios ON hardware.didecon = servicios.didecon
-                        WHERE hardware.folio = @folio;";
+                                    hardware.didecon AS Didecon, 
+                                    estatus.descripcion AS Estatus,
+                                    servicios.id_servicio AS idServicio,
+                                    servicios.falla AS Falla,
+                                    servicios.reporto AS Reporto,
+                                    servicios.recoge AS Recogio,
+                                    servicios.quien_reparo AS Reparo,
+                                    servicios.reparacion AS Reparacion,
+                                    servicios.reparacion_externa AS Externa,
+                                    servicios.refacciones AS Refacciones,
+                                    servicios.fecha_llegada AS Entrada,
+                                    servicios.fecha_salida AS Salida,
+                                    servicios.fecha_reparacion AS ReparacionInterna,
+                                    servicios.fecha_refaccion_pedida AS RefaccionPedido,
+                                    servicios.fecha_refaccion_entrega AS RefaccionEntrega,
+                                    servicios.fecha_externo_llegada AS ExternoLlegada,
+                                    servicios.fecha_externo_salida AS ExternoSalida
+                                FROM hardware
+                                JOIN servicios ON hardware.didecon = servicios.didecon
+                                JOIN estatus ON servicios.estatus = estatus.id_estatus
+                                WHERE hardware.folio = @folio;";
                     }
                     else if (radioPeriferico.Checked == true)
                     {
@@ -625,14 +674,16 @@ namespace WinFormsApp1
 								servicios.reparacion AS Reparacion,
 								servicios.reparacion_externa AS Externa,
 								servicios.refacciones AS Refacciones,
-	                            servicios.fecha_llegada AS Llegada,
+	                            servicios.fecha_llegada AS Entrada,
 	                            servicios.fecha_salida AS Salida,
-	                            servicios.fecha_reparacion AS Reparacion,
+	                            servicios.fecha_reparacion AS ReparacionInterna,
 	                            servicios.fecha_refaccion_pedida AS RefaccionPedido,
-	                            servicios.fecha_externo_salida AS RefaccionEntrega,
-	                            servicios.fecha_externo_llegada AS ExternoLlegada,
+                                servicios.fecha_refaccion_entrega AS RefaccionEntrega,
+	                            servicios.fecha_externo_salida AS ExternoSalida,
+	                            servicios.fecha_externo_llegada AS ExternoLlegada
                         FROM perifericos 
                         JOIN servicios ON perifericos.didecon = servicios.didecon
+                        JOIN estatus ON servicios.estatus = estatus.id_estatus
                         WHERE perifericos.folio = @folio;";
                     }
 
@@ -646,7 +697,11 @@ namespace WinFormsApp1
                                 txtServicio.Text = reader["idServicio"].ToString();
                                 txtFolio.Text = reader["Numero"].ToString();
                                 txtDidecon.Text = reader["Didecon"].ToString();
-                                boxEstatus.Text = reader["Estatus"].ToString();
+                                string estatus = reader["Estatus"].ToString();
+                                if (boxEstatus.Items.Contains(estatus))
+                                {
+                                    boxEstatus.SelectedItem = estatus;
+                                }
                                 txtFalla.Text = reader["Falla"].ToString();
                                 txtSolicito.Text = reader["Reporto"].ToString();
                                 txtRecogio.Text = reader["Recogio"].ToString();
@@ -654,11 +709,13 @@ namespace WinFormsApp1
                                 txtReparacionInterna.Text = reader["Reparacion"].ToString();
                                 txtReparacionExterna.Text = reader["Externa"].ToString();
                                 txtRefacciones.Text = reader["Refacciones"].ToString();
-                                dateEntrada.Value = reader["Llegada"] != DBNull.Value ? Convert.ToDateTime(reader["Llegada"]) : DateTime.Now;
+                                dateEntrada.Value = reader["Entrada"] != DBNull.Value ? Convert.ToDateTime(reader["Entrada"]) : DateTime.Now;
                                 dateSalida.Value = reader["Salida"] != DBNull.Value ? Convert.ToDateTime(reader["Salida"]) : DateTime.Now;
+                                dateReparacion.Value = reader["ReparacionInterna"] != DBNull.Value ? Convert.ToDateTime(reader["ReparacionInterna"]) : DateTime.Now;
                                 dateRefaccionPedido.Value = reader["RefaccionPedido"] != DBNull.Value ? Convert.ToDateTime(reader["RefaccionPedido"]) : DateTime.Now;
                                 dateRefaccionEntrega.Value = reader["RefaccionEntrega"] != DBNull.Value ? Convert.ToDateTime(reader["RefaccionEntrega"]) : DateTime.Now;
-                                dateExternoPedido.Value = reader["ExternoLlegada"] != DBNull.Value ? Convert.ToDateTime(reader["ExternoLlegada"]) : DateTime.Now;
+                                dateExternoPedido.Value = reader["ExternoSalida"] != DBNull.Value ? Convert.ToDateTime(reader["ExternoSalida"]) : DateTime.Now;
+                                dateExternoEntrega.Value = reader["ExternoLlegada"] != DBNull.Value ? Convert.ToDateTime(reader["ExternoLlegada"]) : DateTime.Now;
                             }
                             else
                             {
@@ -670,8 +727,20 @@ namespace WinFormsApp1
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message);
+                MessageBox.Show("Error 1: " + ex.Message);
             }
+        }
+
+        private DateTime TryGetDateTime(object value)
+        {
+            if (value == DBNull.Value || value == null)
+                return DateTime.Now;
+
+            if (DateTime.TryParse(value.ToString(), out DateTime result))
+                return result;
+
+            MessageBox.Show("Fecha inválida detectada: " + value.ToString());
+            return DateTime.Now;
         }
 
         private bool ValidarCampos()
@@ -838,6 +907,51 @@ namespace WinFormsApp1
         }
 
         private void txtSolicito_TextChanged(object sender, EventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+            // Convertir todo el texto a mayúsculas
+            txt.Text = txt.Text.ToUpper();
+            // Mover el cursor al final para evitar que vuelva atrás
+            txt.SelectionStart = txt.Text.Length;
+        }
+
+        private void txtReparo_TextChanged(object sender, EventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+            // Convertir todo el texto a mayúsculas
+            txt.Text = txt.Text.ToUpper();
+            // Mover el cursor al final para evitar que vuelva atrás
+            txt.SelectionStart = txt.Text.Length;   
+        }
+
+        private void txtReparacionInterna_TextChanged(object sender, EventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+            // Convertir todo el texto a mayúsculas
+            txt.Text = txt.Text.ToUpper();
+            // Mover el cursor al final para evitar que vuelva atrás
+            txt.SelectionStart = txt.Text.Length;
+        }
+
+        private void txtReparacionExterna_TextChanged(object sender, EventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+            // Convertir todo el texto a mayúsculas
+            txt.Text = txt.Text.ToUpper();
+            // Mover el cursor al final para evitar que vuelva atrás
+            txt.SelectionStart = txt.Text.Length;
+        }
+
+        private void txtRecogio_TextChanged(object sender, EventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+            // Convertir todo el texto a mayúsculas
+            txt.Text = txt.Text.ToUpper();
+            // Mover el cursor al final para evitar que vuelva atrás
+            txt.SelectionStart = txt.Text.Length;
+        }
+
+        private void txtRefacciones_TextChanged(object sender, EventArgs e)
         {
             TextBox txt = sender as TextBox;
             // Convertir todo el texto a mayúsculas
