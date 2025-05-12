@@ -103,16 +103,6 @@ namespace WinFormsApp1
                             boxEstatus.Items.Add(reader["descripcion"].ToString());
                         }
                     }
-                    int indexRecibido = boxEstatus.Items.IndexOf("RECIBIDO");
-                    if (indexRecibido >= 0)
-                    {
-                        boxEstatus.SelectedIndex = indexRecibido;
-                        boxEstatus.Enabled = false; // Bloquear el ComboBox
-                    }
-                    else
-                    {
-                        MessageBox.Show("El estatus 'Recibido' no se encontró.");
-                    }
                 }
             }
             catch (Exception ex)
@@ -618,9 +608,7 @@ namespace WinFormsApp1
 	                            servicios.fecha_refaccion_pedida AS RefaccionPedido,
 	                            servicios.fecha_externo_salida AS RefaccionEntrega,
 	                            servicios.fecha_externo_llegada AS ExternoLlegada,
-	                            servicios.fecha_externo_salida AS ExternoSalida
                         FROM hardware 
-                        JOIN estatus ON hardware.idestatus = estatus.id_estatus
                         JOIN servicios ON hardware.didecon = servicios.didecon
                         WHERE hardware.folio = @folio;";
                     }
@@ -643,9 +631,7 @@ namespace WinFormsApp1
 	                            servicios.fecha_refaccion_pedida AS RefaccionPedido,
 	                            servicios.fecha_externo_salida AS RefaccionEntrega,
 	                            servicios.fecha_externo_llegada AS ExternoLlegada,
-	                            servicios.fecha_externo_salida AS ExternoSalida
                         FROM perifericos 
-                        JOIN estatus ON perifericos.idestatus = estatus.id_estatus
                         JOIN servicios ON perifericos.didecon = servicios.didecon
                         WHERE perifericos.folio = @folio;";
                     }
