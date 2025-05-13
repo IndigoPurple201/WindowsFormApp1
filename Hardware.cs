@@ -1280,6 +1280,12 @@ namespace WinFormsApp1
             btnActualizar.Enabled = true;
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            CambiarPerifericos cambiarPerifericos = new CambiarPerifericos();
+            cambiarPerifericos.ShowDialog();
+        }
+
         private void AsignarValorComboBox(ComboBox comboBox, string valor)
         {
             if (!comboBox.Items.Contains(valor))

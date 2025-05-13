@@ -30,7 +30,7 @@ namespace WinFormsApp1
         public string FolioSeleccionado { get; private set; }
         [DllImport("user32.dll")]
         private static extern void MessageBeep(uint uType);
-        private const uint MB_ICONERROR = 0x10; // Sonido de error del sistema
+        private const uint MB_ICONERROR = 0x10;
         private const int WM_SYSCOMMAND = 0x112;
         private const int SC_MOVE = 0xF012;
         private Control controlActivo = null;

@@ -57,10 +57,10 @@
             this.btnCerrar2 = new System.Windows.Forms.Button();
             this.btnEliminar = new System.Windows.Forms.Button();
             this.dgvPerifericos = new System.Windows.Forms.DataGridView();
-            this.buttonSalir = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.btnActualizar = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
+            this.buttonSalir = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
             this.panelBusqueda.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPerifericos)).BeginInit();
@@ -404,19 +404,6 @@
             this.dgvPerifericos.Size = new System.Drawing.Size(640, 130);
             this.dgvPerifericos.TabIndex = 83;
             // 
-            // buttonSalir
-            // 
-            this.buttonSalir.BackColor = System.Drawing.SystemColors.Control;
-            this.buttonSalir.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.buttonSalir.Image = ((System.Drawing.Image)(resources.GetObject("buttonSalir.Image")));
-            this.buttonSalir.Location = new System.Drawing.Point(699, 10);
-            this.buttonSalir.Name = "buttonSalir";
-            this.buttonSalir.Size = new System.Drawing.Size(21, 23);
-            this.buttonSalir.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.buttonSalir.TabIndex = 87;
-            this.buttonSalir.TabStop = false;
-            this.buttonSalir.Click += new System.EventHandler(this.buttonSalir_Click);
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -448,6 +435,19 @@
             this.label4.Size = new System.Drawing.Size(180, 15);
             this.label4.TabIndex = 82;
             this.label4.Text = "ELIJA UN CAMPO DE BUSQUEDA";
+            // 
+            // buttonSalir
+            // 
+            this.buttonSalir.BackColor = System.Drawing.SystemColors.Control;
+            this.buttonSalir.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.buttonSalir.Image = ((System.Drawing.Image)(resources.GetObject("buttonSalir.Image")));
+            this.buttonSalir.Location = new System.Drawing.Point(699, 10);
+            this.buttonSalir.Name = "buttonSalir";
+            this.buttonSalir.Size = new System.Drawing.Size(21, 23);
+            this.buttonSalir.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.buttonSalir.TabIndex = 87;
+            this.buttonSalir.TabStop = false;
+            this.buttonSalir.Click += new System.EventHandler(this.buttonSalir_Click);
             // 
             // BuscarPerifericos
             // 

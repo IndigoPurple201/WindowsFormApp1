@@ -89,5 +89,27 @@ namespace WinFormsApp1.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap left_arrow_icon_black_arrow_to_the_left_isolated_on_white_background_red_large_forward_or_left_pointing_solid_long_arrow_icon_sketched_as_symbol_vector_2 {
+            get {
+                object obj = ResourceManager.GetObject("left-arrow-icon-black-arrow-to-the-left-isolated-on-white-background-red-large-fo" +
+                        "rward-or-left-pointing-solid-long-arrow-icon-sketched-as-symbol-vector-2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap left_arrow_icon_black_arrow_to_the_left_isolated_on_white_background_red_large_forward_or_left_pointing_solid_long_arrow_icon_sketched_as_symbol_vector_21 {
+            get {
+                object obj = ResourceManager.GetObject("left-arrow-icon-black-arrow-to-the-left-isolated-on-white-background-red-large-fo" +
+                        "rward-or-left-pointing-solid-long-arrow-icon-sketched-as-symbol-vector-21", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

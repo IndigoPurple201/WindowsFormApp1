@@ -124,4 +124,13 @@
   <data name="Escudo_de_Armas_de_Saltillo_Coahuila" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Imagenes\Escudo_de_Armas_de_Saltillo_Coahuila.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="left-arrow-icon-black-arrow-to-the-left-isolated-on-white-background-red-large-forward-or-left-pointing-solid-long-arrow-icon-sketched-as-symbol-vector-2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Imagenes\left-arrow-icon-black-arrow-to-the-left-isolated-on-white-background-red-large-forward-or-left-pointing-solid-long-arrow-icon-sketched-as-symbol-vector-2.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="escudo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Imagenes\escudo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="left-arrow-icon-black-arrow-to-the-left-isolated-on-white-background-red-large-forward-or-left-pointing-solid-long-arrow-icon-sketched-as-symbol-vector-21" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Imagenes\left-arrow-icon-black-arrow-to-the-left-isolated-on-white-background-red-large-forward-or-left-pointing-solid-long-arrow-icon-sketched-as-symbol-vector-2.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>
