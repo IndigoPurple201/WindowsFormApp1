@@ -42,6 +42,7 @@ namespace WinFormsApp1
             this.FormBorderStyle = FormBorderStyle.None;
             this.Padding = new Padding(3);
             this.MouseDown += new MouseEventHandler(CambiarPerifericos_MouseDown);
+            this.MouseClick += new MouseEventHandler(Form1_MouseClick);
         }
 
         private void CambiarPerifericos_Load(object sender, EventArgs e)
@@ -108,6 +109,8 @@ namespace WinFormsApp1
             dgvPerifericos1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             dgvPerifericos1.ColumnHeadersHeight = 35; // Aumenta la altura del encabezado
             dgvPerifericos1.EnableHeadersVisualStyles = false;
+            dgvPerifericos1.AllowUserToResizeRows = false;
+            dgvPerifericos1.AllowUserToResizeColumns = false;
             if (dgvPerifericos1.Columns.Count == 0)
             {
                 dgvPerifericos1.Columns.Add("Numero", "Número");
@@ -122,6 +125,7 @@ namespace WinFormsApp1
                 dgvPerifericos1.Columns.Add("Responsable", "Responsable");
                 dgvPerifericos1.Columns.Add("Estatus", "Estatus");
             }
+            dgvPerifericos1.ReadOnly = true;
         }
 
         private void ConfigurarDataGridView2()
@@ -147,6 +151,8 @@ namespace WinFormsApp1
             dgvPerifericos2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             dgvPerifericos2.ColumnHeadersHeight = 35; // Aumenta la altura del encabezado
             dgvPerifericos2.EnableHeadersVisualStyles = false;
+            dgvPerifericos2.AllowUserToResizeRows = false;
+            dgvPerifericos2.AllowUserToResizeColumns = false;
             if (dgvPerifericos2.Columns.Count == 0)
             {
                 dgvPerifericos2.Columns.Add("Numero", "Número");
@@ -161,6 +167,7 @@ namespace WinFormsApp1
                 dgvPerifericos2.Columns.Add("Responsable", "Responsable");
                 dgvPerifericos2.Columns.Add("Estatus", "Estatus");
             }
+            dgvPerifericos2.ReadOnly = true;
         }
 
         private void txtBuscarActivo1_KeyPress(object sender, KeyPressEventArgs e)
@@ -253,6 +260,7 @@ namespace WinFormsApp1
                                 dgvPerifericos1.Rows[index].Cells["Responsable"].Value = reader["Responsable"].ToString();
                                 dgvPerifericos1.Rows[index].Cells["Estatus"].Value = reader["Estatus"].ToString();
                             }
+                            dgvPerifericos1.ClearSelection();
                         }
                     }
 
@@ -290,6 +298,7 @@ namespace WinFormsApp1
                                 dgvPerifericos2.Rows[index].Cells["Responsable"].Value = reader2["Responsable"].ToString();
                                 dgvPerifericos2.Rows[index].Cells["Estatus"].Value = reader2["Estatus"].ToString();
                             }
+                            dgvPerifericos2.ClearSelection();
                         }
                     }
                 }
@@ -437,6 +446,7 @@ namespace WinFormsApp1
 
                                 }
                             }
+                            txtBuscarActivo1.Text = activo.ToString();
                         }
                         catch (Exception ex)
                         {
@@ -448,6 +458,95 @@ namespace WinFormsApp1
                         MessageBox.Show("No se seleccionó ningún folio.");
                     }
                 }
+            }
+        }
+
+        private void btnBuscar2_Click(object sender, EventArgs e)
+        {
+            using (var buscarPerifericos = new BuscarPerifericos("PERIFERICOS"))
+            {
+                if (buscarPerifericos.ShowDialog() == DialogResult.OK)
+                {
+                    string folio = buscarPerifericos.FolioSeleccionado;
+                    if (!string.IsNullOrEmpty(folio))
+                    {
+                        try 
+                        {
+                            long activo = 0;
+                            string query = "SELECT perifericos.activocontraloria AS ACTIVO FROM perifericos WHERE perifericos.folio = @folio;";
+                            using (SqlConnection connection = conexionSQL.ObtenerConexion())
+                            {
+                                connection.Open();
+                                using (SqlCommand cmd = new SqlCommand(query,connection))
+                                {
+                                    cmd.Parameters.AddWithValue("@folio", folio);
+                                    object result = cmd.ExecuteScalar();
+                                    activo = (result != null) ? Convert.ToInt64(result) : 0;
+                                }
+                            }
+                            txtBuscarActivo2.Text = activo.ToString();
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Error: " + ex.Message);
+                        }
+                    }
+                    else 
+                    {
+                        MessageBox.Show("No se seleccionó ningún folio.");
+                    }
+                }
+            }
+        }
+
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void pbFlechaDerecha_Click(object sender, EventArgs e)
+        {
+            if (dgvPerifericos1.CurrentRow != null)
+            {
+                int index = dgvPerifericos2.Rows.Add();
+                foreach (DataGridViewCell cell in dgvPerifericos1.CurrentRow.Cells)
+                {
+                    dgvPerifericos2.Rows[index].Cells[cell.ColumnIndex].Value = cell.Value;
+                }
+                dgvPerifericos1.Rows.RemoveAt(dgvPerifericos1.CurrentRow.Index);
+            }
+            else 
+            {
+                MessageBox.Show("No se ha seleccionado ningún elemento para mover.");
+            }
+        }
+
+        private void pbFlechaIzquierda_Click(object sender, EventArgs e)
+        {
+            if (dgvPerifericos2.CurrentRow != null)
+            {
+                int index = dgvPerifericos1.Rows.Add();
+                foreach (DataGridViewCell cell in dgvPerifericos2.CurrentRow.Cells)
+                {
+                    dgvPerifericos1.Rows[index].Cells[cell.ColumnIndex].Value = cell.Value;
+                }
+                dgvPerifericos2.Rows.RemoveAt(dgvPerifericos2.CurrentRow.Index);
+            }
+            else
+            {
+                MessageBox.Show("No se ha seleccionado ningún elemento para mover.");
+            }
+        }
+
+        private void Form1_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (!dgvPerifericos1.Bounds.Contains(e.Location))
+            {
+                dgvPerifericos1.ClearSelection();
+            }
+            if (!dgvPerifericos2.Bounds.Contains(e.Location))
+            {
+                dgvPerifericos2.ClearSelection();
             }
         }
     }

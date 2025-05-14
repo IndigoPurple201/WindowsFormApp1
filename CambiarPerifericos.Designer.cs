@@ -39,15 +39,17 @@
             this.label1 = new System.Windows.Forms.Label();
             this.btnBuscar = new System.Windows.Forms.Button();
             this.dgvPerifericos1 = new System.Windows.Forms.DataGridView();
-            this.picture1 = new System.Windows.Forms.PictureBox();
+            this.pbFlechaDerecha = new System.Windows.Forms.PictureBox();
             this.buttonSalir = new System.Windows.Forms.PictureBox();
-            this.picture2 = new System.Windows.Forms.PictureBox();
+            this.pbFlechaIzquierda = new System.Windows.Forms.PictureBox();
             this.dgvPerifericos2 = new System.Windows.Forms.DataGridView();
+            this.btnAceptar = new System.Windows.Forms.Button();
+            this.btnCancelar = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPerifericos1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picture1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbFlechaDerecha)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.buttonSalir)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picture2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbFlechaIzquierda)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPerifericos2)).BeginInit();
             this.SuspendLayout();
             // 
@@ -72,24 +74,25 @@
             this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(17, 34);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(704, 33);
+            this.panel1.Size = new System.Drawing.Size(663, 33);
             this.panel1.TabIndex = 84;
             // 
             // btnBuscar2
             // 
             this.btnBuscar2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnBuscar2.Location = new System.Drawing.Point(656, 4);
+            this.btnBuscar2.Location = new System.Drawing.Point(609, 4);
             this.btnBuscar2.Name = "btnBuscar2";
             this.btnBuscar2.Size = new System.Drawing.Size(36, 23);
             this.btnBuscar2.TabIndex = 96;
             this.btnBuscar2.Text = "...";
             this.btnBuscar2.UseVisualStyleBackColor = true;
+            this.btnBuscar2.Click += new System.EventHandler(this.btnBuscar2_Click);
             // 
             // txtBuscarActivo2
             // 
-            this.txtBuscarActivo2.Location = new System.Drawing.Point(556, 5);
+            this.txtBuscarActivo2.Location = new System.Drawing.Point(487, 5);
             this.txtBuscarActivo2.Name = "txtBuscarActivo2";
-            this.txtBuscarActivo2.Size = new System.Drawing.Size(94, 20);
+            this.txtBuscarActivo2.Size = new System.Drawing.Size(116, 20);
             this.txtBuscarActivo2.TabIndex = 95;
             this.txtBuscarActivo2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtBuscarActivo2_KeyPress);
             // 
@@ -97,7 +100,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(447, 8);
+            this.label2.Location = new System.Drawing.Point(378, 10);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(103, 15);
             this.label2.TabIndex = 94;
@@ -106,7 +109,7 @@
             // btnBuscar1
             // 
             this.btnBuscar1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnBuscar1.Location = new System.Drawing.Point(216, 3);
+            this.btnBuscar1.Location = new System.Drawing.Point(238, 5);
             this.btnBuscar1.Name = "btnBuscar1";
             this.btnBuscar1.Size = new System.Drawing.Size(36, 23);
             this.btnBuscar1.TabIndex = 85;
@@ -118,7 +121,7 @@
             // 
             this.txtBuscarActivo1.Location = new System.Drawing.Point(116, 6);
             this.txtBuscarActivo1.Name = "txtBuscarActivo1";
-            this.txtBuscarActivo1.Size = new System.Drawing.Size(94, 20);
+            this.txtBuscarActivo1.Size = new System.Drawing.Size(116, 20);
             this.txtBuscarActivo1.TabIndex = 92;
             this.txtBuscarActivo1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtBuscarActivo1_KeyPress);
             // 
@@ -136,9 +139,9 @@
             // 
             this.btnBuscar.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnBuscar.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnBuscar.Location = new System.Drawing.Point(727, 43);
+            this.btnBuscar.Location = new System.Drawing.Point(686, 45);
             this.btnBuscar.Name = "btnBuscar";
-            this.btnBuscar.Size = new System.Drawing.Size(77, 25);
+            this.btnBuscar.Size = new System.Drawing.Size(79, 22);
             this.btnBuscar.TabIndex = 85;
             this.btnBuscar.Text = "BUSCAR";
             this.btnBuscar.UseVisualStyleBackColor = true;
@@ -152,16 +155,17 @@
             this.dgvPerifericos1.Size = new System.Drawing.Size(403, 226);
             this.dgvPerifericos1.TabIndex = 89;
             // 
-            // picture1
+            // pbFlechaDerecha
             // 
-            this.picture1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.picture1.Image = ((System.Drawing.Image)(resources.GetObject("picture1.Image")));
-            this.picture1.Location = new System.Drawing.Point(433, 165);
-            this.picture1.Name = "picture1";
-            this.picture1.Size = new System.Drawing.Size(45, 33);
-            this.picture1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picture1.TabIndex = 91;
-            this.picture1.TabStop = false;
+            this.pbFlechaDerecha.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pbFlechaDerecha.Image = ((System.Drawing.Image)(resources.GetObject("pbFlechaDerecha.Image")));
+            this.pbFlechaDerecha.Location = new System.Drawing.Point(433, 165);
+            this.pbFlechaDerecha.Name = "pbFlechaDerecha";
+            this.pbFlechaDerecha.Size = new System.Drawing.Size(45, 33);
+            this.pbFlechaDerecha.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbFlechaDerecha.TabIndex = 91;
+            this.pbFlechaDerecha.TabStop = false;
+            this.pbFlechaDerecha.Click += new System.EventHandler(this.pbFlechaDerecha_Click);
             // 
             // buttonSalir
             // 
@@ -176,16 +180,17 @@
             this.buttonSalir.TabStop = false;
             this.buttonSalir.Click += new System.EventHandler(this.buttonSalir_Click);
             // 
-            // picture2
+            // pbFlechaIzquierda
             // 
-            this.picture2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.picture2.Image = ((System.Drawing.Image)(resources.GetObject("picture2.Image")));
-            this.picture2.Location = new System.Drawing.Point(433, 204);
-            this.picture2.Name = "picture2";
-            this.picture2.Size = new System.Drawing.Size(45, 33);
-            this.picture2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picture2.TabIndex = 92;
-            this.picture2.TabStop = false;
+            this.pbFlechaIzquierda.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pbFlechaIzquierda.Image = ((System.Drawing.Image)(resources.GetObject("pbFlechaIzquierda.Image")));
+            this.pbFlechaIzquierda.Location = new System.Drawing.Point(433, 204);
+            this.pbFlechaIzquierda.Name = "pbFlechaIzquierda";
+            this.pbFlechaIzquierda.Size = new System.Drawing.Size(45, 33);
+            this.pbFlechaIzquierda.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbFlechaIzquierda.TabIndex = 92;
+            this.pbFlechaIzquierda.TabStop = false;
+            this.pbFlechaIzquierda.Click += new System.EventHandler(this.pbFlechaIzquierda_Click);
             // 
             // dgvPerifericos2
             // 
@@ -195,14 +200,39 @@
             this.dgvPerifericos2.Size = new System.Drawing.Size(403, 226);
             this.dgvPerifericos2.TabIndex = 93;
             // 
+            // btnAceptar
+            // 
+            this.btnAceptar.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnAceptar.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAceptar.Location = new System.Drawing.Point(734, 321);
+            this.btnAceptar.Name = "btnAceptar";
+            this.btnAceptar.Size = new System.Drawing.Size(74, 25);
+            this.btnAceptar.TabIndex = 94;
+            this.btnAceptar.Text = "ACEPTAR";
+            this.btnAceptar.UseVisualStyleBackColor = true;
+            // 
+            // btnCancelar
+            // 
+            this.btnCancelar.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnCancelar.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCancelar.Location = new System.Drawing.Point(814, 321);
+            this.btnCancelar.Name = "btnCancelar";
+            this.btnCancelar.Size = new System.Drawing.Size(78, 25);
+            this.btnCancelar.TabIndex = 95;
+            this.btnCancelar.Text = "CANCELAR";
+            this.btnCancelar.UseVisualStyleBackColor = true;
+            this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
+            // 
             // CambiarPerifericos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(917, 350);
+            this.Controls.Add(this.btnAceptar);
+            this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.dgvPerifericos2);
-            this.Controls.Add(this.picture2);
-            this.Controls.Add(this.picture1);
+            this.Controls.Add(this.pbFlechaIzquierda);
+            this.Controls.Add(this.pbFlechaDerecha);
             this.Controls.Add(this.dgvPerifericos1);
             this.Controls.Add(this.buttonSalir);
             this.Controls.Add(this.btnBuscar);
@@ -215,9 +245,9 @@
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPerifericos1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picture1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbFlechaDerecha)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.buttonSalir)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picture2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbFlechaIzquierda)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPerifericos2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -236,9 +266,11 @@
         private Button btnBuscar;
         private PictureBox buttonSalir;
         private DataGridView dgvPerifericos1;
-        private PictureBox picture1;
-        private PictureBox picture2;
+        private PictureBox pbFlechaDerecha;
+        private PictureBox pbFlechaIzquierda;
         private DataGridView dgvPerifericos2;
         private Button btnBuscar2;
+        private Button btnAceptar;
+        private Button btnCancelar;
     }
 }
