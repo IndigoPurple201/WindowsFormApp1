@@ -41,7 +41,6 @@ namespace WinFormsApp1
             conexionSQL = new ConexionSQL(udlFilePath);
             this.FormBorderStyle = FormBorderStyle.None;
             this.Padding = new Padding(3);
-
             this.MouseDown += new MouseEventHandler(CambiarPerifericos_MouseDown);
         }
 
@@ -162,16 +161,6 @@ namespace WinFormsApp1
                 dgvPerifericos2.Columns.Add("Responsable", "Responsable");
                 dgvPerifericos2.Columns.Add("Estatus", "Estatus");
             }
-        }
-
-        private void CargarDatos1()
-        {
-        
-        }
-
-        private void CargarDatos2()
-        {
-        
         }
 
         private void txtBuscarActivo1_KeyPress(object sender, KeyPressEventArgs e)
