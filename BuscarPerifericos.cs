@@ -165,7 +165,8 @@ namespace WinFormsApp1
             dgvPerifericos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             dgvPerifericos.ColumnHeadersHeight = 35; // Aumenta la altura del encabezado
             dgvPerifericos.EnableHeadersVisualStyles = false;
-
+            dgvPerifericos.AllowUserToResizeRows = false;
+            dgvPerifericos.AllowUserToResizeColumns = false;
 
             if (tipoFiltro == "CPU")
             {

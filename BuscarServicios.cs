@@ -136,6 +136,8 @@ namespace WinFormsApp1
             dgvServicios.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             dgvServicios.ColumnHeadersHeight = 35; // Aumenta la altura del encabezado
             dgvServicios.EnableHeadersVisualStyles = false;
+            dgvServicios.AllowUserToResizeRows = false;
+            dgvServicios.AllowUserToResizeColumns = false;
 
             if (radioCpu.Checked == true)
             {

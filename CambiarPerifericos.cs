@@ -42,7 +42,7 @@ namespace WinFormsApp1
             this.FormBorderStyle = FormBorderStyle.None;
             this.Padding = new Padding(3);
             this.MouseDown += new MouseEventHandler(CambiarPerifericos_MouseDown);
-            this.MouseClick += new MouseEventHandler(Form1_MouseClick);
+            this.MouseClick += new MouseEventHandler(CambiarPerifericos_MouseClick);
         }
 
         private void CambiarPerifericos_Load(object sender, EventArgs e)
@@ -201,10 +201,16 @@ namespace WinFormsApp1
             if (ValidarCampos())
             {
                 string query1 = "";
+                string query2 = "";
+                string didecon1 = "";
+                string didecon2 = "";
                 using (SqlConnection connection = conexionSQL.ObtenerConexion())
                 {
                     connection.Open();
-                    query1 = @"SELECT perifericos.folio AS Numero, 
+
+                    query2 = @"SELECT DISTINCT hardware.didecon FROM hardware WHERE hardware.activocontraloria = @activo;";
+
+                    query1 = @"SELECT DISTINCT perifericos.folio AS Numero, 
                         perifericos.didecon AS Didecon,  
                         tipos.descripcion AS Tipo, 
                         marcas.descripcion AS Marca, 
@@ -224,11 +230,26 @@ namespace WinFormsApp1
                     JOIN estatus ON estatus.id_estatus = perifericos.idestatus 
                     WHERE tipos.descripcion NOT IN ('CPU','SERVIDOR','LAPTOP','ALL IN ONE')
                     AND estatus.descripcion = 'ACTIVO'
-                    AND perifericos.activocontraloria = @activo;";
+                    AND hardware.didecon = @didecon
+                    ORDER BY Numero ASC;";
 
-                    using (SqlCommand cmd = new SqlCommand(query1,connection))
+                    using (SqlCommand cmd = new SqlCommand(query2,connection))
                     {
                         cmd.Parameters.AddWithValue("@activo", txtBuscarActivo1.Text.Trim());
+                        object result = cmd.ExecuteScalar();
+                        didecon1 = (result != null) ? result.ToString() : null;
+                    }
+
+                    using (SqlCommand cmd = new SqlCommand(query2,connection))
+                    {
+                        cmd.Parameters.AddWithValue("@activo", txtBuscarActivo2.Text.Trim());
+                        object result = cmd.ExecuteScalar();
+                        didecon2 = (result != null) ? result.ToString() : null;
+                    }
+
+                    using (SqlCommand cmd = new SqlCommand(query1, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@didecon", didecon1);
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
                             dgvPerifericos1.Rows.Clear();
@@ -260,13 +281,15 @@ namespace WinFormsApp1
                                 dgvPerifericos1.Rows[index].Cells["Responsable"].Value = reader["Responsable"].ToString();
                                 dgvPerifericos1.Rows[index].Cells["Estatus"].Value = reader["Estatus"].ToString();
                             }
-                            dgvPerifericos1.ClearSelection();
+                            this.BeginInvoke((MethodInvoker)delegate {
+                                dgvPerifericos1.ClearSelection();
+                            });
                         }
                     }
 
                     using (SqlCommand cmd2 = new SqlCommand(query1,connection))
                     {
-                        cmd2.Parameters.AddWithValue("@activo", txtBuscarActivo2.Text.Trim());
+                        cmd2.Parameters.AddWithValue("@didecon",didecon2);
                         using (SqlDataReader reader2 = cmd2.ExecuteReader())
                         {
                             dgvPerifericos2.Rows.Clear();
@@ -298,7 +321,9 @@ namespace WinFormsApp1
                                 dgvPerifericos2.Rows[index].Cells["Responsable"].Value = reader2["Responsable"].ToString();
                                 dgvPerifericos2.Rows[index].Cells["Estatus"].Value = reader2["Estatus"].ToString();
                             }
-                            dgvPerifericos2.ClearSelection();
+                            this.BeginInvoke((MethodInvoker)delegate {
+                                dgvPerifericos2.ClearSelection();
+                            });
                         }
                     }
                 }
@@ -343,7 +368,7 @@ namespace WinFormsApp1
         private bool ExisteActivo(string activo)
         {
             bool existe = false;
-            string query = "SELECT COUNT(*) FROM perifericos WHERE activocontraloria = @activo";
+            string query = "SELECT COUNT(*) FROM hardware WHERE hardware.activocontraloria = @activo;";
 
             try
             {
@@ -424,17 +449,17 @@ namespace WinFormsApp1
 
         private void btnBuscar1_Click(object sender, EventArgs e)
         {
-            using (var buscarPerifericos = new BuscarPerifericos("PERIFERICOS"))
+            using (var buscarHardware = new BuscarPerifericos("CPU-2"))
             {
-                if (buscarPerifericos.ShowDialog() == DialogResult.OK)
+                if (buscarHardware.ShowDialog() == DialogResult.OK)
                 {
-                    string folio = buscarPerifericos.FolioSeleccionado;
+                    string folio = buscarHardware .FolioSeleccionado;
                     if (!string.IsNullOrEmpty(folio))
                     {
                         try 
                         {
                             long activo = 0;
-                            string query = "SELECT perifericos.activocontraloria AS ACTIVO FROM perifericos WHERE perifericos.folio = @folio;";
+                            string query = "SELECT hardware.activocontraloria AS Actico FROM hardware WHERE hardware.folio = @folio;";
                             using (SqlConnection connection = conexionSQL.ObtenerConexion())
                             {
                                 connection.Open();
@@ -463,17 +488,17 @@ namespace WinFormsApp1
 
         private void btnBuscar2_Click(object sender, EventArgs e)
         {
-            using (var buscarPerifericos = new BuscarPerifericos("PERIFERICOS"))
+            using (var buscarHardware = new BuscarPerifericos("CPU-2"))
             {
-                if (buscarPerifericos.ShowDialog() == DialogResult.OK)
+                if (buscarHardware.ShowDialog() == DialogResult.OK)
                 {
-                    string folio = buscarPerifericos.FolioSeleccionado;
+                    string folio = buscarHardware.FolioSeleccionado;
                     if (!string.IsNullOrEmpty(folio))
                     {
                         try 
                         {
                             long activo = 0;
-                            string query = "SELECT perifericos.activocontraloria AS ACTIVO FROM perifericos WHERE perifericos.folio = @folio;";
+                            string query = "SELECT hardware.activocontraloria AS Actico FROM hardware WHERE hardware.folio = @folio;";
                             using (SqlConnection connection = conexionSQL.ObtenerConexion())
                             {
                                 connection.Open();
@@ -538,7 +563,7 @@ namespace WinFormsApp1
             }
         }
 
-        private void Form1_MouseClick(object sender, MouseEventArgs e)
+        private void CambiarPerifericos_MouseClick(object sender, MouseEventArgs e)
         {
             if (!dgvPerifericos1.Bounds.Contains(e.Location))
             {
@@ -547,6 +572,85 @@ namespace WinFormsApp1
             if (!dgvPerifericos2.Bounds.Contains(e.Location))
             {
                 dgvPerifericos2.ClearSelection();
+            }
+        }
+
+        private void btnAceptar_Click(object sender, EventArgs e)
+        {
+            if (ValidarCampos())
+            {
+                using (SqlConnection connection = conexionSQL.ObtenerConexion())
+                {   
+                    connection.Open();
+                    int registrosActualizados = 0;
+                    string activo1 = txtBuscarActivo1.Text.Trim();
+                    string didecon1 = ObtenerDideconDesdeActivo(connection,activo1);
+                    if (didecon1 != null)
+                    {
+                        foreach (DataGridViewRow row in dgvPerifericos1.Rows)
+                        {
+                            if (row.Cells["Numero"].Value != null && row.Cells["Didecon"].Value != null)
+                            {
+                                string dideconActual = row.Cells["Didecon"].Value.ToString();
+                                if (dideconActual != didecon1)
+                                {
+                                    int folio = Convert.ToInt32(row.Cells["Numero"].Value);
+                                    string queryUpdate = "UPDATE perifericos SET didecon = @nuevoDidecon WHERE folio = @folio";
+                                    using (SqlCommand cmd = new SqlCommand(queryUpdate, connection))
+                                    {
+                                        cmd.Parameters.AddWithValue("@nuevoDidecon", didecon1);
+                                        cmd.Parameters.AddWithValue("@folio", folio);
+                                        registrosActualizados += cmd.ExecuteNonQuery();
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    string activo2 = txtBuscarActivo2.Text.Trim();
+                    string didecon2 = ObtenerDideconDesdeActivo(connection, activo2);
+                    if (didecon2 != null)
+                    {
+                        foreach(DataGridViewRow row in dgvPerifericos2.Rows)
+                        {
+                            if (row.Cells["Numero"].Value != null && row.Cells["Didecon"].Value != null)
+                            {
+                                string dideconActual = row.Cells["Didecon"].Value.ToString();
+                                if(dideconActual != didecon2)
+                                {
+                                    int folio = Convert.ToInt32(row.Cells["Numero"].Value);
+                                    string queryUpdate = "UPDATE perifericos SET didecon = @nuevoDidecon WHERE folio = @folio";
+                                    using (SqlCommand cmd = new SqlCommand(queryUpdate, connection))
+                                    {
+                                        cmd.Parameters.AddWithValue("@nuevoDidecon", didecon2);
+                                        cmd.Parameters.AddWithValue("@folio", folio);
+                                        registrosActualizados += cmd.ExecuteNonQuery();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if (registrosActualizados > 0)
+                    {
+                        MessageBox.Show("Cambios realizados correctamente");
+                        btnBuscar_Click(null, EventArgs.Empty);
+                    }
+                    else
+                    {
+                        MessageBox.Show("No se encontraron registros para actualizar.");
+                    }
+                }
+            }
+        }
+
+        private string ObtenerDideconDesdeActivo(SqlConnection connection, string activoContraloria)
+        {
+            string query = "SELECt DISTINCT hardware.didecon FROM hardware WHERE hardware.activocontraloria = @activoContraloria;";
+            using (SqlCommand cmd = new SqlCommand(query,connection))
+            {
+                cmd.Parameters.AddWithValue("@activoContraloria", activoContraloria);
+                object result = cmd.ExecuteScalar();
+                return result?.ToString();
             }
         }
     }

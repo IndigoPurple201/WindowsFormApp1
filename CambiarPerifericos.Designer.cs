@@ -172,7 +172,7 @@
             this.buttonSalir.BackColor = System.Drawing.SystemColors.Control;
             this.buttonSalir.Cursor = System.Windows.Forms.Cursors.Hand;
             this.buttonSalir.Image = ((System.Drawing.Image)(resources.GetObject("buttonSalir.Image")));
-            this.buttonSalir.Location = new System.Drawing.Point(868, 10);
+            this.buttonSalir.Location = new System.Drawing.Point(886, 9);
             this.buttonSalir.Name = "buttonSalir";
             this.buttonSalir.Size = new System.Drawing.Size(21, 23);
             this.buttonSalir.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -210,6 +210,7 @@
             this.btnAceptar.TabIndex = 94;
             this.btnAceptar.Text = "ACEPTAR";
             this.btnAceptar.UseVisualStyleBackColor = true;
+            this.btnAceptar.Click += new System.EventHandler(this.btnAceptar_Click);
             // 
             // btnCancelar
             // 
