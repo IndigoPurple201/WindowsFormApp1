@@ -148,26 +148,21 @@ namespace WinFormsApp1
             dgvPerifericos.BorderStyle = BorderStyle.None;
             dgvPerifericos.AllowUserToAddRows = false;
             dgvPerifericos.RowHeadersVisible = false;
-
             dgvPerifericos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvPerifericos.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
             dgvPerifericos.RowTemplate.Height = 20;
-
             dgvPerifericos.RowsDefaultCellStyle.BackColor = Color.LightGray;
             dgvPerifericos.AlternatingRowsDefaultCellStyle.BackColor = Color.White;
             dgvPerifericos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
-
             dgvPerifericos.DefaultCellStyle.SelectionBackColor = Color.LightSkyBlue;
             dgvPerifericos.DefaultCellStyle.SelectionForeColor = Color.White;
             dgvPerifericos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-
             dgvPerifericos.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dgvPerifericos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             dgvPerifericos.ColumnHeadersHeight = 35; // Aumenta la altura del encabezado
             dgvPerifericos.EnableHeadersVisualStyles = false;
             dgvPerifericos.AllowUserToResizeRows = false;
             dgvPerifericos.AllowUserToResizeColumns = false;
-
             if (tipoFiltro == "CPU")
             {
                 if (dgvPerifericos.Columns.Count == 0)
@@ -633,7 +628,6 @@ namespace WinFormsApp1
                 boxBuscarMarca.Visible = false;
                 boxBuscarTipo.Visible = false;
                 txtBuscarFolioCPU.Visible = true;
-                //txtBuscarFolioCPU.Text = "NUMERO";
                 txtBuscarFolioCPU.Focus();
                 boxBuscarDepartmanentoCPU.SelectedIndex = -1;
                 txtBuscarDirCPU.Text = "";

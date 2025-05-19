@@ -612,7 +612,6 @@ namespace WinFormsApp1
                             {
                                 txtFolio.Text = reader["Numero"].ToString();
                                 txtDidecon.Text = reader["Didecon"].ToString();
-                                boxEstatus.Text = reader["Estatus"].ToString();
                             }
                             else 
                             {

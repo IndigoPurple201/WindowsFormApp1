@@ -951,11 +951,6 @@ namespace WinFormsApp1
         {
             bool esValido = true;
             string mensajeError = "Los siguientes campos son inválidos:\n";
-            if (txtFolio.Text.Length != 4 || !int.TryParse(txtFolio.Text, out _))
-            {
-                mensajeError += "- El numero debe tener 4 dígitos.\n";
-                esValido = false;
-            }
             if (boxDidecon.SelectedIndex == -1 || string.IsNullOrWhiteSpace(boxDidecon.Text))
             {
                 mensajeError += "- Selecciona un Didecon válido.\n";

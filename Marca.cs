@@ -103,27 +103,17 @@ namespace WinFormsApp1
         {
             dgvMarcas.BackgroundColor = Color.White;
             dgvMarcas.BorderStyle = BorderStyle.None;
-
-
             dgvMarcas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-
-
             dgvMarcas.RowsDefaultCellStyle.BackColor = Color.LightGray;
             dgvMarcas.AlternatingRowsDefaultCellStyle.BackColor = Color.White;
-
-
             dgvMarcas.DefaultCellStyle.SelectionBackColor = Color.LightSkyBlue;
             dgvMarcas.DefaultCellStyle.SelectionForeColor = Color.White;
-
-
             dgvMarcas.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-
             if (dgvMarcas.Columns.Count == 0)
             {
                 dgvMarcas.Columns.Add("Numero", "Número");
                 dgvMarcas.Columns.Add("Descripcion", "Descripción");
             }
-
             dgvMarcas.Columns["Descripcion"].ReadOnly = false;
             dgvMarcas.Columns["Numero"].ReadOnly = true;
         }

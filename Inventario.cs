@@ -267,21 +267,11 @@ namespace WinFormsApp1
                         report.Load(@"C:\Users\Administrador\Documents\WinFormsApp1\Reportes\rptCpu_depto_detalle.rpt");
                         report.SetDataSource(dt);
 
-                        Form visor = new Form();
-                        CrystalDecisions.Windows.Forms.CrystalReportViewer visorCrystal = new CrystalDecisions.Windows.Forms.CrystalReportViewer();
-                        visorCrystal.Dock = DockStyle.Fill;
-                        visorCrystal.ReportSource = report;
-                        visor.Controls.Add(visorCrystal);
-                        visor.WindowState = FormWindowState.Maximized;
-                        visor.ShowDialog();
                     }
                     else if (radioUno.Checked)
                     {
                         MessageBox.Show("Jijija");
                     }
-                    else
-                    {
-                        MessageBox.Show("Equipo específico");
                     }
                 }
             }
@@ -299,7 +289,5 @@ namespace WinFormsApp1
                 }
             }
         }
-
-
     }
 }

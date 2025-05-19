@@ -173,21 +173,12 @@ namespace WinFormsApp1
         {
             dgvModelos.BackgroundColor = Color.White;
             dgvModelos.BorderStyle = BorderStyle.None;
-
-
             dgvModelos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-
-
             dgvModelos.RowsDefaultCellStyle.BackColor = Color.LightGray;
             dgvModelos.AlternatingRowsDefaultCellStyle.BackColor = Color.White;
-
-
             dgvModelos.DefaultCellStyle.SelectionBackColor = Color.LightSkyBlue;
             dgvModelos.DefaultCellStyle.SelectionForeColor = Color.White;
-
-
             dgvModelos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-
             if (dgvModelos.Columns.Count == 0)
             {
                 dgvModelos.Columns.Add("Numero", "Numero");

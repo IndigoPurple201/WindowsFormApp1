@@ -92,19 +92,15 @@ namespace WinFormsApp1
             dgvPerifericos1.BorderStyle = BorderStyle.None;
             dgvPerifericos1.AllowUserToAddRows = false;
             dgvPerifericos1.RowHeadersVisible = false;
-
             dgvPerifericos1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvPerifericos1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
             dgvPerifericos1.RowTemplate.Height = 20;
-
             dgvPerifericos1.RowsDefaultCellStyle.BackColor = Color.LightGray;
             dgvPerifericos1.AlternatingRowsDefaultCellStyle.BackColor = Color.White;
             dgvPerifericos1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
-
             dgvPerifericos1.DefaultCellStyle.SelectionBackColor = Color.LightSkyBlue;
             dgvPerifericos1.DefaultCellStyle.SelectionForeColor = Color.White;
             dgvPerifericos1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-
             dgvPerifericos1.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dgvPerifericos1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             dgvPerifericos1.ColumnHeadersHeight = 35; // Aumenta la altura del encabezado

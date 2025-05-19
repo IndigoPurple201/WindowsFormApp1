@@ -119,27 +119,17 @@ namespace WinFormsApp1
         {
             dgvDependencias.BackgroundColor = Color.White;
             dgvDependencias.BorderStyle = BorderStyle.None;
-
-
             dgvDependencias.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-
-
             dgvDependencias.RowsDefaultCellStyle.BackColor = Color.LightGray;
             dgvDependencias.AlternatingRowsDefaultCellStyle.BackColor = Color.White;
-
-
             dgvDependencias.DefaultCellStyle.SelectionBackColor = Color.LightSkyBlue;
             dgvDependencias.DefaultCellStyle.SelectionForeColor = Color.White;
-
-
             dgvDependencias.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-
             if (dgvDependencias.Columns.Count == 0)
             {
                 dgvDependencias.Columns.Add("Numero", "Número");
                 dgvDependencias.Columns.Add("Descripcion", "Descripción");
             }
-
             dgvDependencias.Columns["Descripcion"].ReadOnly = false;
             dgvDependencias.Columns["Numero"].ReadOnly = true;
         }
@@ -147,12 +137,10 @@ namespace WinFormsApp1
         private void txtFolio_KeyPress(object sender, KeyPressEventArgs e)
         {
             TextBox txt = sender as TextBox;
-            // Permitir solo números y la tecla de retroceso
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
             {
                 e.Handled = true; // Bloquear entrada no numérica
             }
-            // Evitar que se ingresen más de 4 dígitos
             if (!char.IsControl(e.KeyChar) && txt.Text.Length >= 4)
             {
                 e.Handled = true;
