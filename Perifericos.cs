@@ -619,7 +619,7 @@ namespace WinFormsApp1
                 using (SqlConnection conn = conexionSQL.ObtenerConexion())
                 {
                     conn.Open();
-                    string query = "SELECT descripcion FROM estatus;";
+                    string query = "SELECT descripcion FROM estatus where id_estatus IN (7,8);";
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {

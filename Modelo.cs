@@ -186,6 +186,10 @@ namespace WinFormsApp1
                 dgvModelos.Columns.Add("Tipo", "Tipo");
                 dgvModelos.Columns.Add("Refaccion", "Refaccion");
             }
+            foreach (DataGridViewColumn column in dgvModelos.Columns)
+            {
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
         }
 
         private void cargarDatosDGV()

@@ -132,6 +132,10 @@ namespace WinFormsApp1
             }
             dgvDependencias.Columns["Descripcion"].ReadOnly = false;
             dgvDependencias.Columns["Numero"].ReadOnly = true;
+            foreach (DataGridViewColumn column in dgvDependencias.Columns)
+            {
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
         }
 
         private void txtFolio_KeyPress(object sender, KeyPressEventArgs e)
@@ -139,7 +143,7 @@ namespace WinFormsApp1
             TextBox txt = sender as TextBox;
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
             {
-                e.Handled = true; // Bloquear entrada no numérica
+                e.Handled = true;
             }
             if (!char.IsControl(e.KeyChar) && txt.Text.Length >= 4)
             {
@@ -443,7 +447,7 @@ namespace WinFormsApp1
                     da.Fill(dt);
 
                     ReportDocument report = new ReportDocument();
-                    report.Load(@"Reportes\rptdependencias.rpt");
+                    report.Load(@"C:\Users\Administrador\Documents\WinFormsApp1\Reportes\rptdependencias.rpt");
 
                     report.SetDataSource(dt);
 

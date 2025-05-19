@@ -590,7 +590,7 @@
             this.tabControl1.Location = new System.Drawing.Point(237, 51);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(573, 442);
+            this.tabControl1.Size = new System.Drawing.Size(569, 442);
             this.tabControl1.TabIndex = 103;
             // 
             // tabPage1
@@ -602,7 +602,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 24);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(565, 414);
+            this.tabPage1.Size = new System.Drawing.Size(561, 414);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "RECIBIDO Y TERMINADO";
             // 
@@ -675,7 +675,7 @@
             this.txtReparacionExterna.Multiline = true;
             this.txtReparacionExterna.Name = "txtReparacionExterna";
             this.txtReparacionExterna.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtReparacionExterna.Size = new System.Drawing.Size(442, 63);
+            this.txtReparacionExterna.Size = new System.Drawing.Size(540, 63);
             this.txtReparacionExterna.TabIndex = 123;
             this.txtReparacionExterna.TextChanged += new System.EventHandler(this.txtReparacionExterna_TextChanged);
             // 
@@ -715,7 +715,7 @@
             this.txtReparo.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtReparo.Location = new System.Drawing.Point(8, 62);
             this.txtReparo.Name = "txtReparo";
-            this.txtReparo.Size = new System.Drawing.Size(442, 23);
+            this.txtReparo.Size = new System.Drawing.Size(540, 23);
             this.txtReparo.TabIndex = 119;
             this.txtReparo.TextChanged += new System.EventHandler(this.txtReparo_TextChanged);
             // 
@@ -737,7 +737,7 @@
             this.txtReparacionInterna.Multiline = true;
             this.txtReparacionInterna.Name = "txtReparacionInterna";
             this.txtReparacionInterna.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtReparacionInterna.Size = new System.Drawing.Size(442, 63);
+            this.txtReparacionInterna.Size = new System.Drawing.Size(540, 63);
             this.txtReparacionInterna.TabIndex = 121;
             this.txtReparacionInterna.TextChanged += new System.EventHandler(this.txtReparacionInterna_TextChanged);
             // 
@@ -748,7 +748,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 24);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(565, 414);
+            this.tabPage3.Size = new System.Drawing.Size(561, 414);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "REFACCION";
             // 
@@ -770,7 +770,7 @@
             this.txtRefacciones.Multiline = true;
             this.txtRefacciones.Name = "txtRefacciones";
             this.txtRefacciones.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtRefacciones.Size = new System.Drawing.Size(442, 63);
+            this.txtRefacciones.Size = new System.Drawing.Size(534, 63);
             this.txtRefacciones.TabIndex = 122;
             this.txtRefacciones.TextChanged += new System.EventHandler(this.txtRefacciones_TextChanged);
             // 

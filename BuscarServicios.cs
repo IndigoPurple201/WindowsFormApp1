@@ -172,6 +172,10 @@ namespace WinFormsApp1
                     dgvServicios.Columns.Add("Estatus", "Estatus");
                 }
             }
+            foreach (DataGridViewColumn column in dgvServicios.Columns)
+            {
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
         }
 
         private void CargarDatosDGV()

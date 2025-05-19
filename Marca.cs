@@ -116,6 +116,10 @@ namespace WinFormsApp1
             }
             dgvMarcas.Columns["Descripcion"].ReadOnly = false;
             dgvMarcas.Columns["Numero"].ReadOnly = true;
+            foreach (DataGridViewColumn column in dgvMarcas.Columns)
+            {
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
         }
 
 

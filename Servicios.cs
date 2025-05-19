@@ -332,6 +332,7 @@ namespace WinFormsApp1
                         object result = cmd.ExecuteScalar();
                         idEstatus = (result != null) ? Convert.ToInt32(result) : 0;
                     }
+                    MessageBox.Show("idEstatus: " + idEstatus.ToString());
                     string queryInsert = "INSERT INTO servicios(id_servicio, folio, didecon, fecha_llegada, falla, reporto, estatus) VALUES (@id_servicio, @folio, @didecon, @fecha_llegada, @falla, @reporto, @estatus);";
                     using (SqlCommand insertCmd = new SqlCommand(queryInsert, connection))
                     {
@@ -588,8 +589,7 @@ namespace WinFormsApp1
                     if (radioCpu.Checked == true)
                     {
                         query = @"SELECT hardware.folio AS Numero, 
-                                hardware.didecon AS Didecon, 
-                                estatus.descripcion AS Estatus
+                                hardware.didecon AS Didecon
                             FROM hardware 
                             JOIN estatus ON hardware.idestatus = estatus.id_estatus 
                             WHERE hardware.folio = @folio;";
@@ -597,8 +597,7 @@ namespace WinFormsApp1
                     else if(radioPeriferico.Checked == true)
                     {
                         query = @"SELECT perifericos.folio AS Numero, 
-                                perifericos.didecon AS Didecon, 
-                                estatus.descripcion AS Estatus 
+                                perifericos.didecon AS Didecon
                         FROM perifericos 
                         JOIN estatus ON perifericos.idestatus = estatus.id_estatus 
                         WHERE perifericos.folio = @folio;";

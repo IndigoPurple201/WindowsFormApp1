@@ -159,7 +159,7 @@ namespace WinFormsApp1
             dgvPerifericos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvPerifericos.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dgvPerifericos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            dgvPerifericos.ColumnHeadersHeight = 35; // Aumenta la altura del encabezado
+            dgvPerifericos.ColumnHeadersHeight = 35;
             dgvPerifericos.EnableHeadersVisualStyles = false;
             dgvPerifericos.AllowUserToResizeRows = false;
             dgvPerifericos.AllowUserToResizeColumns = false;
@@ -195,6 +195,10 @@ namespace WinFormsApp1
                     dgvPerifericos.Columns.Add("Responsable", "Responsable");
                     dgvPerifericos.Columns.Add("Estatus", "Estatus");
                 }
+            }
+            foreach (DataGridViewColumn column in dgvPerifericos.Columns)
+            {
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
             }
         }
 
@@ -614,6 +618,10 @@ namespace WinFormsApp1
                 txtBuscarNumero.Visible = false;
                 txtBuscarFolio.Visible = true;
                 txtBuscarFolio.Focus();
+                boxBuscarDepartamento.SelectedIndex = -1;
+                txtBuscarDidecon.Text = "";
+                txtBuscarActivo.Text = "";
+                txtBuscarNumero.Text = "";
             }
         }
 
@@ -649,6 +657,10 @@ namespace WinFormsApp1
                 txtBuscarFolio.Visible = false;
                 cargarDepartamentos();
                 boxBuscarDepartamento.Focus();
+                txtBuscarFolio.Text = "";
+                txtBuscarDidecon.Text = "";
+                txtBuscarActivo.Text = "";
+                txtBuscarNumero.Text = "";
             }
         }
 
@@ -684,6 +696,10 @@ namespace WinFormsApp1
                 txtBuscarNumero.Visible = false;
                 txtBuscarFolio.Visible = false;
                 txtBuscarDidecon.Focus();
+                txtBuscarFolio.Text = "";
+                boxBuscarDepartamento.SelectedIndex = -1;
+                txtBuscarActivo.Text = "";
+                txtBuscarNumero.Text = "";
             }
         }
 
@@ -740,6 +756,10 @@ namespace WinFormsApp1
                 txtBuscarNumero.Visible = false;
                 txtBuscarFolio.Visible = false;
                 txtBuscarActivo.Focus();
+                txtBuscarFolio.Text = "";
+                boxBuscarDepartamento.SelectedIndex = -1;
+                txtBuscarDidecon.Text = "";
+                txtBuscarNumero.Text = "";
             }
         }
 
@@ -774,6 +794,10 @@ namespace WinFormsApp1
                 txtBuscarNumero.Visible = true;
                 txtBuscarFolio.Visible = false;
                 txtBuscarNumero.Focus();
+                txtBuscarFolio.Text = "";
+                boxBuscarDepartamento.SelectedIndex = -1;
+                txtBuscarDidecon.Text = "";
+                txtBuscarActivo.Text = "";
             }
         }
 

@@ -130,7 +130,7 @@
             // 
             this.btnNuevo.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnNuevo.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNuevo.Location = new System.Drawing.Point(534, 421);
+            this.btnNuevo.Location = new System.Drawing.Point(548, 421);
             this.btnNuevo.Name = "btnNuevo";
             this.btnNuevo.Size = new System.Drawing.Size(78, 20);
             this.btnNuevo.TabIndex = 0;
@@ -142,7 +142,7 @@
             // 
             this.btnAceptar.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnAceptar.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAceptar.Location = new System.Drawing.Point(618, 421);
+            this.btnAceptar.Location = new System.Drawing.Point(632, 421);
             this.btnAceptar.Name = "btnAceptar";
             this.btnAceptar.Size = new System.Drawing.Size(78, 20);
             this.btnAceptar.TabIndex = 1;
@@ -154,7 +154,7 @@
             // 
             this.btnCancelar.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnCancelar.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCancelar.Location = new System.Drawing.Point(702, 421);
+            this.btnCancelar.Location = new System.Drawing.Point(716, 421);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(78, 20);
             this.btnCancelar.TabIndex = 2;
@@ -196,7 +196,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(508, 81);
+            this.label3.Location = new System.Drawing.Point(522, 81);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(48, 21);
             this.label3.TabIndex = 7;
@@ -206,7 +206,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(508, 106);
+            this.label4.Location = new System.Drawing.Point(522, 106);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(78, 21);
             this.label4.TabIndex = 9;
@@ -216,7 +216,7 @@
             // 
             this.txtDidecon.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtDidecon.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.txtDidecon.Location = new System.Drawing.Point(597, 106);
+            this.txtDidecon.Location = new System.Drawing.Point(611, 106);
             this.txtDidecon.Name = "txtDidecon";
             this.txtDidecon.Size = new System.Drawing.Size(185, 23);
             this.txtDidecon.TabIndex = 10;
@@ -243,7 +243,7 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(527, 133);
+            this.label7.Location = new System.Drawing.Point(541, 133);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(55, 21);
             this.label7.TabIndex = 16;
@@ -295,7 +295,7 @@
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(479, 185);
+            this.label11.Location = new System.Drawing.Point(493, 185);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(111, 21);
             this.label11.TabIndex = 23;
@@ -305,7 +305,7 @@
             // 
             this.txtProcesador.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtProcesador.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.txtProcesador.Location = new System.Drawing.Point(597, 182);
+            this.txtProcesador.Location = new System.Drawing.Point(611, 182);
             this.txtProcesador.Name = "txtProcesador";
             this.txtProcesador.Size = new System.Drawing.Size(184, 23);
             this.txtProcesador.TabIndex = 24;
@@ -326,7 +326,7 @@
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(504, 209);
+            this.label12.Location = new System.Drawing.Point(518, 209);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(82, 21);
             this.label12.TabIndex = 26;
@@ -336,7 +336,7 @@
             // 
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.Location = new System.Drawing.Point(485, 234);
+            this.label13.Location = new System.Drawing.Point(499, 234);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(104, 21);
             this.label13.TabIndex = 28;
@@ -369,7 +369,7 @@
             this.boxArea.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.boxArea.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.boxArea.FormattingEnabled = true;
-            this.boxArea.Location = new System.Drawing.Point(571, 81);
+            this.boxArea.Location = new System.Drawing.Point(585, 81);
             this.boxArea.Name = "boxArea";
             this.boxArea.Size = new System.Drawing.Size(211, 23);
             this.boxArea.TabIndex = 35;
@@ -391,7 +391,7 @@
             this.boxDireccion.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.boxDireccion.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.boxDireccion.FormattingEnabled = true;
-            this.boxDireccion.Location = new System.Drawing.Point(597, 132);
+            this.boxDireccion.Location = new System.Drawing.Point(611, 132);
             this.boxDireccion.Name = "boxDireccion";
             this.boxDireccion.Size = new System.Drawing.Size(184, 23);
             this.boxDireccion.TabIndex = 37;
@@ -413,7 +413,7 @@
             // 
             this.textDisco.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textDisco.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.textDisco.Location = new System.Drawing.Point(597, 232);
+            this.textDisco.Location = new System.Drawing.Point(611, 232);
             this.textDisco.Name = "textDisco";
             this.textDisco.Size = new System.Drawing.Size(184, 23);
             this.textDisco.TabIndex = 40;
@@ -434,7 +434,7 @@
             // 
             this.txtMemoria.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtMemoria.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.txtMemoria.Location = new System.Drawing.Point(597, 207);
+            this.txtMemoria.Location = new System.Drawing.Point(611, 207);
             this.txtMemoria.Name = "txtMemoria";
             this.txtMemoria.Size = new System.Drawing.Size(184, 23);
             this.txtMemoria.TabIndex = 42;
@@ -446,7 +446,7 @@
             this.btnNuevoMarca.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNuevoMarca.Location = new System.Drawing.Point(389, 160);
             this.btnNuevoMarca.Name = "btnNuevoMarca";
-            this.btnNuevoMarca.Size = new System.Drawing.Size(75, 20);
+            this.btnNuevoMarca.Size = new System.Drawing.Size(82, 20);
             this.btnNuevoMarca.TabIndex = 44;
             this.btnNuevoMarca.Text = "GESTIONAR";
             this.btnNuevoMarca.UseVisualStyleBackColor = true;
@@ -458,7 +458,7 @@
             this.btnNuevoModelo.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNuevoModelo.Location = new System.Drawing.Point(389, 185);
             this.btnNuevoModelo.Name = "btnNuevoModelo";
-            this.btnNuevoModelo.Size = new System.Drawing.Size(75, 20);
+            this.btnNuevoModelo.Size = new System.Drawing.Size(82, 20);
             this.btnNuevoModelo.TabIndex = 45;
             this.btnNuevoModelo.Text = "GESTIONAR";
             this.btnNuevoModelo.UseVisualStyleBackColor = true;
@@ -541,16 +541,16 @@
             this.boxTipo.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.boxTipo.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.boxTipo.FormattingEnabled = true;
-            this.boxTipo.Location = new System.Drawing.Point(569, 55);
+            this.boxTipo.Location = new System.Drawing.Point(583, 55);
             this.boxTipo.Name = "boxTipo";
-            this.boxTipo.Size = new System.Drawing.Size(211, 23);
+            this.boxTipo.Size = new System.Drawing.Size(213, 23);
             this.boxTipo.TabIndex = 59;
             // 
             // label20
             // 
             this.label20.AutoSize = true;
             this.label20.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label20.Location = new System.Drawing.Point(510, 57);
+            this.label20.Location = new System.Drawing.Point(524, 57);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(43, 21);
             this.label20.TabIndex = 60;
@@ -560,7 +560,7 @@
             // 
             this.label21.AutoSize = true;
             this.label21.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label21.Location = new System.Drawing.Point(521, 160);
+            this.label21.Location = new System.Drawing.Point(535, 160);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(63, 21);
             this.label21.TabIndex = 62;
@@ -568,12 +568,12 @@
             // 
             // dateTimePicker1
             // 
-            this.dateTimePicker1.CalendarFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dateTimePicker1.CalendarFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dateTimePicker1.Enabled = false;
             this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dateTimePicker1.Location = new System.Drawing.Point(597, 260);
+            this.dateTimePicker1.Location = new System.Drawing.Point(611, 263);
             this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(73, 20);
+            this.dateTimePicker1.Size = new System.Drawing.Size(185, 20);
             this.dateTimePicker1.TabIndex = 90;
             this.dateTimePicker1.Value = new System.DateTime(2025, 3, 14, 9, 28, 11, 0);
             // 
@@ -581,7 +581,7 @@
             // 
             this.label22.AutoSize = true;
             this.label22.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label22.Location = new System.Drawing.Point(526, 262);
+            this.label22.Location = new System.Drawing.Point(540, 262);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(57, 21);
             this.label22.TabIndex = 89;
@@ -591,7 +591,7 @@
             // 
             this.btnBuscar.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnBuscar.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnBuscar.Location = new System.Drawing.Point(450, 421);
+            this.btnBuscar.Location = new System.Drawing.Point(464, 421);
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Size = new System.Drawing.Size(78, 20);
             this.btnBuscar.TabIndex = 91;
@@ -617,7 +617,7 @@
             this.boxGrupo.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.boxGrupo.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.boxGrupo.FormattingEnabled = true;
-            this.boxGrupo.Location = new System.Drawing.Point(597, 157);
+            this.boxGrupo.Location = new System.Drawing.Point(611, 157);
             this.boxGrupo.Name = "boxGrupo";
             this.boxGrupo.Size = new System.Drawing.Size(184, 23);
             this.boxGrupo.TabIndex = 93;
@@ -693,7 +693,7 @@
             this.btnNuevoDepartamento.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNuevoDepartamento.Location = new System.Drawing.Point(389, 85);
             this.btnNuevoDepartamento.Name = "btnNuevoDepartamento";
-            this.btnNuevoDepartamento.Size = new System.Drawing.Size(75, 20);
+            this.btnNuevoDepartamento.Size = new System.Drawing.Size(82, 20);
             this.btnNuevoDepartamento.TabIndex = 99;
             this.btnNuevoDepartamento.Text = "GESTIONAR";
             this.btnNuevoDepartamento.UseVisualStyleBackColor = true;

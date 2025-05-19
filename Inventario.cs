@@ -234,44 +234,106 @@ namespace WinFormsApp1
         {
             try
             {
+                string query = "";
+                string queryId = "";
                 using (SqlConnection connection = conexionSQL.ObtenerConexion())
                 {
+                    connection.Open();
                     if (radioTodos.Checked)
                     {
-                        string query = @"SELECT DISTINCT
-                                        h.folio,
-                                        h.depto,
-                                        h.area,
-                                        h.didecon,
-                                        h.responsable,
-                                        h.ip,
-                                        h.sn,
-                                        h.procesador,
-                                        h.memoria,
-                                        h.disco_duro,
-                                        h.activocontraloria,
-                                        d.id_dependencia,
-                                        d.descripcion AS dependencia,
-                                        m.descripcion AS marca,
-                                        mo.descripcion AS modelo
-                                    FROM inventarios.dbo.hardware h
-                                    LEFT JOIN inventarios.dbo.dependencias d ON h.depto = d.id_dependencia
-                                    LEFT JOIN inventarios.dbo.Marcas m ON h.marca = m.id_marca
-                                    LEFT JOIN inventarios.dbo.Modelos mo ON h.modelo = mo.id_modelo
-					                WHERE h.depto = 1406
-                                    ORDER BY d.id_dependencia ASC;";
-                        SqlDataAdapter da = new SqlDataAdapter(query, connection);
-                        DataTable dt = new DataTable();
-                        da.Fill(dt);
-                        ReportDocument report = new ReportDocument();
-                        report.Load(@"C:\Users\Administrador\Documents\WinFormsApp1\Reportes\rptCpu_depto_detalle.rpt");
-                        report.SetDataSource(dt);
+                        try
+                        {
+                            query = "EXEC SpHardware '0000';";
+                            SqlDataAdapter da = new SqlDataAdapter(query, connection);
+                            DataTable dt = new DataTable();
+                            da.Fill(dt);
 
+                            ReportDocument report = new ReportDocument();
+                            report.Load(@"C:\Users\Administrador\Documents\WinFormsApp1\Reportes\rptCpu_depto_detalle.rpt");
+
+                            report.SetDataSource(dt);
+
+                            Form visor = new Form();
+                            CrystalDecisions.Windows.Forms.CrystalReportViewer visorCrystal = new CrystalDecisions.Windows.Forms.CrystalReportViewer();
+                            visorCrystal.Dock = DockStyle.Fill;
+                            visorCrystal.ReportSource = report;
+                            visor.Controls.Add(visorCrystal);
+                            visor.WindowState = FormWindowState.Maximized;
+                            visor.ShowDialog();
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Error: " + ex.Message);
+                        }
                     }
-                    else if (radioUno.Checked)
+                    if (radioUno.Checked)
                     {
-                        MessageBox.Show("Jijija");
+                        if (boxDepartamentos.SelectedIndex != -1 && !string.IsNullOrWhiteSpace(boxDepartamentos.Text))
+                        {
+                            string descripcionDepartamento = boxDepartamentos.Text;
+                            queryId = "SELECT id_dependencia FROM dependencias WHERE descripcion = @descripcion;";
+                            SqlCommand cmd = new SqlCommand(queryId, connection);
+                            cmd.Parameters.AddWithValue("@descripcion", descripcionDepartamento);
+                            string idDepartamento = cmd.ExecuteScalar()?.ToString();
+                            if (string.IsNullOrEmpty(idDepartamento))
+                            {
+                                MessageBox.Show("No se encontró el id departamento seleccionado");
+                                return;
+                            }
+
+                            query = $"EXEC SpHardware '{idDepartamento}';";
+                            SqlDataAdapter da = new SqlDataAdapter(query, connection);
+                            DataTable dt = new DataTable();
+                            da.Fill(dt);
+                            ReportDocument report = new ReportDocument();
+                            report.Load(@"C:\Users\Administrador\Documents\WinFormsApp1\Reportes\rptCpu_depto_detalle.rpt");
+                            report.SetDataSource(dt);
+
+                            Form visor = new Form();
+                            CrystalDecisions.Windows.Forms.CrystalReportViewer visorCrystal = new CrystalDecisions.Windows.Forms.CrystalReportViewer();
+                            visorCrystal.Dock = DockStyle.Fill;
+                            visorCrystal.ReportSource = report;
+                            visor.Controls.Add(visorCrystal);
+                            visor.WindowState = FormWindowState.Maximized;
+                            visor.ShowDialog();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Seleccione un departamento");
+                        }
                     }
+                    if (radioEquipo.Checked)
+                    {
+                        if (!string.IsNullOrWhiteSpace(txtFolio.Text))
+                        {
+                            string folio = txtFolio.Text.Trim();
+                            string depto = "0000";
+                            query = "EXEC SpHardware @depto, @folio";
+                            SqlCommand cmd = new SqlCommand(query, connection);
+                            if (!string.IsNullOrEmpty(folio))
+                                cmd.Parameters.AddWithValue("@folio", folio);
+                            else
+                                cmd.Parameters.AddWithValue("@folio", DBNull.Value);
+                            cmd.Parameters.AddWithValue("@depto", depto);
+                            SqlDataAdapter da = new SqlDataAdapter(cmd);
+                            DataTable dt = new DataTable();
+                            da.Fill(dt);
+                            ReportDocument report = new ReportDocument();
+                            report.Load(@"C:\Users\Administrador\Documents\WinFormsApp1\Reportes\rptCpu_depto_detalle.rpt");
+                            report.SetDataSource(dt);
+
+                            Form visor = new Form();
+                            CrystalDecisions.Windows.Forms.CrystalReportViewer visorCrystal = new CrystalDecisions.Windows.Forms.CrystalReportViewer();
+                            visorCrystal.Dock = DockStyle.Fill;
+                            visorCrystal.ReportSource = report;
+                            visor.Controls.Add(visorCrystal);
+                            visor.WindowState = FormWindowState.Maximized;
+                            visor.ShowDialog();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Ingrese un folio");
+                        }
                     }
                 }
             }

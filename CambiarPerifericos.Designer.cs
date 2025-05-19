@@ -74,7 +74,7 @@
             this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(17, 34);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(663, 33);
+            this.panel1.Size = new System.Drawing.Size(650, 33);
             this.panel1.TabIndex = 84;
             // 
             // btnBuscar2

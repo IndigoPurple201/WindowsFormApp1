@@ -122,6 +122,10 @@ namespace WinFormsApp1
                 dgvPerifericos1.Columns.Add("Estatus", "Estatus");
             }
             dgvPerifericos1.ReadOnly = true;
+            foreach (DataGridViewColumn column in dgvPerifericos1.Columns)
+            {
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
         }
 
         private void ConfigurarDataGridView2()
@@ -164,6 +168,10 @@ namespace WinFormsApp1
                 dgvPerifericos2.Columns.Add("Estatus", "Estatus");
             }
             dgvPerifericos2.ReadOnly = true;
+            foreach (DataGridViewColumn column in dgvPerifericos2.Columns)
+            {
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
         }
 
         private void txtBuscarActivo1_KeyPress(object sender, KeyPressEventArgs e)
