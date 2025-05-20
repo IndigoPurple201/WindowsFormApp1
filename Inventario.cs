@@ -306,29 +306,7 @@ namespace WinFormsApp1
                     {
                         if (!string.IsNullOrWhiteSpace(txtFolio.Text))
                         {
-                            string folio = txtFolio.Text.Trim();
-                            string depto = "0000";
-                            query = "EXEC SpHardware @depto, @folio";
-                            SqlCommand cmd = new SqlCommand(query, connection);
-                            if (!string.IsNullOrEmpty(folio))
-                                cmd.Parameters.AddWithValue("@folio", folio);
-                            else
-                                cmd.Parameters.AddWithValue("@folio", DBNull.Value);
-                            cmd.Parameters.AddWithValue("@depto", depto);
-                            SqlDataAdapter da = new SqlDataAdapter(cmd);
-                            DataTable dt = new DataTable();
-                            da.Fill(dt);
-                            ReportDocument report = new ReportDocument();
-                            report.Load(@"C:\Users\Administrador\Documents\WinFormsApp1\Reportes\rptCpu_depto_detalle.rpt");
-                            report.SetDataSource(dt);
 
-                            Form visor = new Form();
-                            CrystalDecisions.Windows.Forms.CrystalReportViewer visorCrystal = new CrystalDecisions.Windows.Forms.CrystalReportViewer();
-                            visorCrystal.Dock = DockStyle.Fill;
-                            visorCrystal.ReportSource = report;
-                            visor.Controls.Add(visorCrystal);
-                            visor.WindowState = FormWindowState.Maximized;
-                            visor.ShowDialog();
                         }
                         else
                         {
