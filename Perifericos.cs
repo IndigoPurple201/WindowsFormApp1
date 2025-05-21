@@ -350,46 +350,6 @@ namespace WinFormsApp1
                             idNuevoEstatus = (result != null) ? Convert.ToInt32(result) : 0;
                         }
 
-                        string nuevoNotas = txtNotas.Text;
-
-                        string queryUpdate = @"UPDATE perifericos SET didecon = @nuevoDidecon,
-                                                activocontraloria = @nuevoActContraloria,
-                                                activos = @nuevoActSistemas,
-                                                sn = @nuevoNumSerie,
-                                                marca = @idNuevoMarca,
-                                                tipo = @idNuevoTipo,
-                                                modelo = @idNuevoModelo,
-                                                numerofactura = @nuevoNumFactura,
-                                                valorfactura = @nuevoValorFactura,
-                                                nomproveedor = @nuevoProveedor,
-                                                idestatus = @idNuevoEstatus,
-                                                Notas = @nuevoNotas
-                                            WHERE perifericos.folio = @folio;";
-                        using (SqlCommand cmd = new SqlCommand(queryUpdate, connection))
-                        {
-                            cmd.Parameters.AddWithValue("@nuevoDidecon", didecon);
-                            cmd.Parameters.AddWithValue("@nuevoActContraloria", nuevoActContraloria);
-                            cmd.Parameters.AddWithValue("@nuevoActSistemas", nuevoActSistemas);
-                            cmd.Parameters.AddWithValue("@nuevoNumSerie", nuevoNumSerie);
-                            cmd.Parameters.AddWithValue("@idNuevoMarca", idNuevoMarca);
-                            cmd.Parameters.AddWithValue("@idNuevoTipo", idNuevoTipo);
-                            cmd.Parameters.AddWithValue("@idNuevoModelo", idNuevoModelo);
-                            cmd.Parameters.AddWithValue("@nuevoNumFactura", nuevoNumFactura);
-                            cmd.Parameters.AddWithValue("@nuevoValorFactura", nuevoValorFactura);
-                            cmd.Parameters.AddWithValue("@nuevoProveedor", nuevoProveedor);
-                            cmd.Parameters.AddWithValue("@idNuevoEstatus", idNuevoEstatus);
-                            cmd.Parameters.AddWithValue("@nuevoNotas", nuevoNotas);
-                            cmd.Parameters.AddWithValue("@folio", txtFolio.Text);
-                            cmd.ExecuteNonQuery();
-                            MessageBox.Show("Registro actualizado correctamente.");
-                            LimpiarControles();
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error: " + ex.Message);
-                }
             }
         }
 

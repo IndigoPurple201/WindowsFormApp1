@@ -611,39 +611,6 @@ namespace WinFormsApp1
                         }
                     }
 
-                    string activo2 = txtBuscarActivo2.Text.Trim();
-                    string didecon2 = ObtenerDideconDesdeActivo(connection, activo2);
-                    if (didecon2 != null)
-                    {
-                        foreach(DataGridViewRow row in dgvPerifericos2.Rows)
-                        {
-                            if (row.Cells["Numero"].Value != null && row.Cells["Didecon"].Value != null)
-                            {
-                                string dideconActual = row.Cells["Didecon"].Value.ToString();
-                                if(dideconActual != didecon2)
-                                {
-                                    int folio = Convert.ToInt32(row.Cells["Numero"].Value);
-                                    string queryUpdate = "UPDATE perifericos SET didecon = @nuevoDidecon WHERE folio = @folio";
-                                    using (SqlCommand cmd = new SqlCommand(queryUpdate, connection))
-                                    {
-                                        cmd.Parameters.AddWithValue("@nuevoDidecon", didecon2);
-                                        cmd.Parameters.AddWithValue("@folio", folio);
-                                        registrosActualizados += cmd.ExecuteNonQuery();
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    if (registrosActualizados > 0)
-                    {
-                        MessageBox.Show("Cambios realizados correctamente");
-                        btnBuscar_Click(null, EventArgs.Empty);
-                    }
-                    else
-                    {
-                        MessageBox.Show("No se encontraron registros para actualizar.");
-                    }
-                }
             }
         }
 

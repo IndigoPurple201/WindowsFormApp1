@@ -39,7 +39,6 @@
             this.menuReportes = new System.Windows.Forms.ToolStripMenuItem();
             this.menuSalir = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.menuServicios = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -148,14 +147,6 @@
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
-            // 
-            // menuServicios
-            // 
-            this.menuServicios.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
-            this.menuServicios.Name = "menuServicios";
-            this.menuServicios.Size = new System.Drawing.Size(102, 25);
-            this.menuServicios.Text = "SERVICIOS";
-            this.menuServicios.Click += new System.EventHandler(this.menuServicios_Click);
             // 
             // Menu
             // 

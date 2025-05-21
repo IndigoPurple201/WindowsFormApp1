@@ -246,64 +246,6 @@ namespace WinFormsApp1
                             idNuevoTipo = (result != null) ? Convert.ToInt32(result) : 0;
                         }
 
-                        string nuevoArea = boxArea.Text;
-                        string nuevoDidecon = txtDidecon.Text;
-                        string nuevoDirIP = boxDireccion.Text;
-                        string nuevoGrupo = boxGrupo.Text;
-                        string nuevoProcesador = txtProcesador.Text;
-                        string nuevoMemoria = txtMemoria.Text;
-                        string nuevoDisco = textDisco.Text;
-
-                        string queryUpdate = @"UPDATE hardware SET depto = @idNuevoDependencia,
-                                           responsable = @nuevoResponsable,
-                                           nombre = @nuevoNombre,
-                                           marca = @idNuevoMarca,
-                                           modelo = @idNuevoModelo,
-                                           sn =  @nuevoNumSerie,
-                                           activos = @nuevoActivoSistemas,
-                                           activocontraloria = @nuevoActivo,
-                                           numerofactura = @nuevoNumFactura,
-                                           idestatus = @idNuevoEstatus,
-                                           idtipo = @idNuevoTipo,
-                                           area = @nuevoArea,
-                                           didecon = @nuevoDidecon,
-                                           ip = @nuevoDirIp,
-                                           grupo = @nuevoGrupo,
-                                           procesador = @nuevoProcesador,
-                                           memoria = @nuevoMemoria,
-                                           disco_duro = @nuevoDisco
-                                         WHERE hardware.folio = @folio;";
-                        using (SqlCommand cmd = new SqlCommand(queryUpdate, conexion))
-                        {
-                            cmd.Parameters.AddWithValue("@idNuevoDependencia", idNuevoDependencia);
-                            cmd.Parameters.AddWithValue("@nuevoResponsable", nuevoResponsable);
-                            cmd.Parameters.AddWithValue("@nuevoNombre", nuevoNombre);
-                            cmd.Parameters.AddWithValue("@idNuevoMarca", idNuevoMarca);
-                            cmd.Parameters.AddWithValue("@idNuevoModelo", idNuevoModelo);
-                            cmd.Parameters.AddWithValue("@nuevoNumSerie", nuevoNumserie);
-                            cmd.Parameters.AddWithValue("@nuevoActivoSistemas", nuevoActivoSistemas);
-                            cmd.Parameters.AddWithValue("@nuevoActivo", nuevoActivo);
-                            cmd.Parameters.AddWithValue("@nuevoNumFactura", nuevoNumFactura);
-                            cmd.Parameters.AddWithValue("@idNuevoEstatus", idNuevoEstatus);
-                            cmd.Parameters.AddWithValue("@idNuevoTipo", idNuevoTipo);
-                            cmd.Parameters.AddWithValue("@nuevoArea", nuevoArea);
-                            cmd.Parameters.AddWithValue("@nuevoDidecon", nuevoDidecon);
-                            cmd.Parameters.AddWithValue("@nuevoDirIp", nuevoDirIP);
-                            cmd.Parameters.AddWithValue("@nuevoGrupo", nuevoGrupo);
-                            cmd.Parameters.AddWithValue("@nuevoProcesador", nuevoProcesador);
-                            cmd.Parameters.AddWithValue("@nuevoMemoria", nuevoMemoria);
-                            cmd.Parameters.AddWithValue("@nuevoDisco", nuevoDisco);
-                            cmd.Parameters.AddWithValue("@folio", txtFolio.Text);
-                            cmd.ExecuteNonQuery();
-                            MessageBox.Show("Registro actualizado correctamente.");
-                            LimpiarControles();
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error: " + ex.Message);
-                }
             }
         }
 
