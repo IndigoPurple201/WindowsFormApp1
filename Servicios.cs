@@ -358,7 +358,7 @@ namespace WinFormsApp1
                         updateCmd.Parameters.AddWithValue("@folio", txtFolio.Text);
                         updateCmd.ExecuteNonQuery();
                     }
-                    MessageBox.Show("Registro guardado con éxito.");
+                    MessageBox.Show("Registro ingresado correctamente.", "Confirmación", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     LimpiarControles();
                     BloquearControles(this, true);
                 }
@@ -367,31 +367,34 @@ namespace WinFormsApp1
 
         private void btnActualizar_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(txtServicio.Text))
+            DialogResult confirmacion = MessageBox.Show("¿Está seguro que desea acutalizar el registro?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (confirmacion == DialogResult.Yes)
             {
-                string queryUpdate = "";
-                string queryEstatus = "";
-                DateTime nuevaFechaLlegada = dateEntrada.Value;
-                DateTime nuevaFechSalida = dateSalida.Value;
-                DateTime nuevaFechaReparacion = dateReparacion.Value;
-                DateTime nuevaFechaRefaccionPedido = dateRefaccionPedido.Value;
-                DateTime nuevaFechaRefaccionEntrega = dateRefaccionEntrega.Value;
-                DateTime nuevaFechaExternoPedido = dateExternoPedido.Value;
-                DateTime nuevaFechaExternoEntrega = dateExternoEntrega.Value;
-                try 
+                if (!string.IsNullOrWhiteSpace(txtServicio.Text))
                 {
-                    using (SqlConnection connection = conexionSQL.ObtenerConexion())
+                    string queryUpdate = "";
+                    string queryEstatus = "";
+                    DateTime nuevaFechaLlegada = dateEntrada.Value;
+                    DateTime nuevaFechSalida = dateSalida.Value;
+                    DateTime nuevaFechaReparacion = dateReparacion.Value;
+                    DateTime nuevaFechaRefaccionPedido = dateRefaccionPedido.Value;
+                    DateTime nuevaFechaRefaccionEntrega = dateRefaccionEntrega.Value;
+                    DateTime nuevaFechaExternoPedido = dateExternoPedido.Value;
+                    DateTime nuevaFechaExternoEntrega = dateExternoEntrega.Value;
+                    try
                     {
-                        connection.Open();
-                        int idEstatus = 0;
-                        queryEstatus = "SELECT id_estatus FROM estatus WHERE descripcion = @estatus ORDER BY id_estatus;";
-                        using (SqlCommand cmd = new SqlCommand(queryEstatus, connection))
+                        using (SqlConnection connection = conexionSQL.ObtenerConexion())
                         {
-                            cmd.Parameters.AddWithValue("@estatus", boxEstatus.Text);
-                            object result = cmd.ExecuteScalar();
-                            idEstatus = (result != null) ? Convert.ToInt32(result) : 0;
-                        }
-                        queryUpdate = @"UPDATE servicios SET
+                            connection.Open();
+                            int idEstatus = 0;
+                            queryEstatus = "SELECT id_estatus FROM estatus WHERE descripcion = @estatus ORDER BY id_estatus;";
+                            using (SqlCommand cmd = new SqlCommand(queryEstatus, connection))
+                            {
+                                cmd.Parameters.AddWithValue("@estatus", boxEstatus.Text);
+                                object result = cmd.ExecuteScalar();
+                                idEstatus = (result != null) ? Convert.ToInt32(result) : 0;
+                            }
+                            queryUpdate = @"UPDATE servicios SET
                                     fecha_llegada = @nuevaFechaLlegada,
                                     fecha_salida = @nuevaFechSalida,
                                     fecha_reparacion = @nuevaFechaReparacion,
@@ -408,39 +411,40 @@ namespace WinFormsApp1
                                     reparacion_externa = @externa,
                                     refacciones = @refacciones
                         WHERE id_servicio = @id_servicio;";
-                        using (SqlCommand cmdUpdate = new SqlCommand(queryUpdate,connection))
-                        {
-                            cmdUpdate.Parameters.AddWithValue("@nuevaFechaLlegada",nuevaFechaLlegada);
-                            cmdUpdate.Parameters.AddWithValue("@nuevaFechSalida", nuevaFechSalida);
-                            cmdUpdate.Parameters.AddWithValue("@nuevaFechaReparacion", nuevaFechaReparacion);
-                            cmdUpdate.Parameters.AddWithValue("@nuevaFechaRefaccionPedido", nuevaFechaRefaccionPedido);
-                            cmdUpdate.Parameters.AddWithValue("@nuevaFechaRefaccionEntrega", nuevaFechaRefaccionEntrega);
-                            cmdUpdate.Parameters.AddWithValue("@nuevaFechaExternoPedido", nuevaFechaExternoPedido);
-                            cmdUpdate.Parameters.AddWithValue("@nuevaFechaExternoEntrega", nuevaFechaExternoEntrega);
-                            cmdUpdate.Parameters.AddWithValue("@idEstatus",idEstatus);
-                            cmdUpdate.Parameters.AddWithValue("@falla", txtFalla.Text);
-                            cmdUpdate.Parameters.AddWithValue("@reporto", txtSolicito.Text);
-                            cmdUpdate.Parameters.AddWithValue("@recoge", txtRecogio.Text);
-                            cmdUpdate.Parameters.AddWithValue("@reparo", txtReparo.Text);
-                            cmdUpdate.Parameters.AddWithValue("@reparacion", txtReparacionInterna.Text);
-                            cmdUpdate.Parameters.AddWithValue("@externa", txtReparacionExterna.Text);
-                            cmdUpdate.Parameters.AddWithValue("@refacciones", txtRefacciones.Text);
-                            cmdUpdate.Parameters.AddWithValue("@id_servicio", txtServicio.Text);
-                            cmdUpdate.ExecuteNonQuery();
+                            using (SqlCommand cmdUpdate = new SqlCommand(queryUpdate, connection))
+                            {
+                                cmdUpdate.Parameters.AddWithValue("@nuevaFechaLlegada", nuevaFechaLlegada);
+                                cmdUpdate.Parameters.AddWithValue("@nuevaFechSalida", nuevaFechSalida);
+                                cmdUpdate.Parameters.AddWithValue("@nuevaFechaReparacion", nuevaFechaReparacion);
+                                cmdUpdate.Parameters.AddWithValue("@nuevaFechaRefaccionPedido", nuevaFechaRefaccionPedido);
+                                cmdUpdate.Parameters.AddWithValue("@nuevaFechaRefaccionEntrega", nuevaFechaRefaccionEntrega);
+                                cmdUpdate.Parameters.AddWithValue("@nuevaFechaExternoPedido", nuevaFechaExternoPedido);
+                                cmdUpdate.Parameters.AddWithValue("@nuevaFechaExternoEntrega", nuevaFechaExternoEntrega);
+                                cmdUpdate.Parameters.AddWithValue("@idEstatus", idEstatus);
+                                cmdUpdate.Parameters.AddWithValue("@falla", txtFalla.Text);
+                                cmdUpdate.Parameters.AddWithValue("@reporto", txtSolicito.Text);
+                                cmdUpdate.Parameters.AddWithValue("@recoge", txtRecogio.Text);
+                                cmdUpdate.Parameters.AddWithValue("@reparo", txtReparo.Text);
+                                cmdUpdate.Parameters.AddWithValue("@reparacion", txtReparacionInterna.Text);
+                                cmdUpdate.Parameters.AddWithValue("@externa", txtReparacionExterna.Text);
+                                cmdUpdate.Parameters.AddWithValue("@refacciones", txtRefacciones.Text);
+                                cmdUpdate.Parameters.AddWithValue("@id_servicio", txtServicio.Text);
+                                cmdUpdate.ExecuteNonQuery();
+                            }
+                            MessageBox.Show("Registro actualizado correctamente.", "Confirmación", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            LimpiarControles();
+                            BloquearControles(this, true);
                         }
-                        MessageBox.Show("Registro actualizado con éxito.");
-                        LimpiarControles();
-                        BloquearControles(this, true);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error: " + ex.Message);
                     }
                 }
-                catch (Exception ex)
+                else
                 {
-                    MessageBox.Show("Error: " + ex.Message);
+                    MessageBox.Show("No se ha seleccionado ningun servicio para actualizar");
                 }
-            }
-            else
-            {
-                MessageBox.Show("No se ha seleccionado ningun servicio para actualizar");
             }
         }
 
@@ -472,7 +476,7 @@ namespace WinFormsApp1
                 {
                     MessageBox.Show("Error: " + EX.Message);
                 }
-                MessageBox.Show("Registro eliminado correctamente");
+                MessageBox.Show("Registro eliminado correctamente.", "Confirmación", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 LimpiarControles();
                 BloquearControles(this,true);
             }

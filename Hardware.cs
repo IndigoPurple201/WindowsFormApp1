@@ -169,7 +169,7 @@ namespace WinFormsApp1
                             insertCmd.Parameters.AddWithValue("@idTipo", idTipo);
                             insertCmd.Parameters.AddWithValue("@numeroFactura", boxNumFactura.Text);
                             insertCmd.ExecuteNonQuery();
-                            MessageBox.Show("Registro insertado correctamente.");
+                            MessageBox.Show("Registro insertado correctamente.","Confirmación",MessageBoxButtons.OK,MessageBoxIcon.Information);
                             LimpiarControles();
                             BloquearControles(true);
                         }
@@ -184,68 +184,130 @@ namespace WinFormsApp1
 
         private void btnActualizar_Click(object sender, EventArgs e)
         {
-            if (ValidarCampos())
+            DialogResult confirmacion = MessageBox.Show("¿Está seguro que desea acutalizar el registro?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (confirmacion == DialogResult.Yes) 
             {
-                try
+                if (ValidarCampos())
                 {
-                    using (SqlConnection conexion = conexionSQL.ObtenerConexion())
+                    try
                     {
-                        conexion.Open();
-                        string idNuevoDependencia = "";
-                        string queryDependencia = "SELECT id_dependencia FROM dependencias WHERE descripcion = @descripcion ORDER BY id_dependencia;";
-                        using (SqlCommand cmd = new SqlCommand(queryDependencia, conexion))
+                        using (SqlConnection conexion = conexionSQL.ObtenerConexion())
                         {
-                            cmd.Parameters.AddWithValue("@descripcion", boxDepartamento.Text);
-                            object result = cmd.ExecuteScalar();
-                            idNuevoDependencia = (result != null) ? result.ToString() : "";
+                            conexion.Open();
+                            string idNuevoDependencia = "";
+                            string queryDependencia = "SELECT id_dependencia FROM dependencias WHERE descripcion = @descripcion ORDER BY id_dependencia;";
+                            using (SqlCommand cmd = new SqlCommand(queryDependencia, conexion))
+                            {
+                                cmd.Parameters.AddWithValue("@descripcion", boxDepartamento.Text);
+                                object result = cmd.ExecuteScalar();
+                                idNuevoDependencia = (result != null) ? result.ToString() : "";
+                            }
+
+                            string nuevoResponsable = boxResponsable.Text;
+                            string nuevoNombre = boxNombre.Text;
+
+                            int idNuevoMarca = 0;
+                            string queryMarca = "SELECT id_marca FROM marcas WHERE descripcion = @marca ORDER BY id_marca;";
+                            using (SqlCommand cmd = new SqlCommand(queryMarca, conexion))
+                            {
+                                cmd.Parameters.AddWithValue("@marca", boxMarca.Text);
+                                object result = cmd.ExecuteScalar();
+                                idNuevoMarca = (result != null) ? Convert.ToInt32(result) : 0;
+                            }
+
+                            int idNuevoModelo = 0;
+                            string queryModelo = "SELECT id_modelo FROM modelos WHERE descripcion = @modelo ORDER BY id_modelo;";
+                            using (SqlCommand cmd = new SqlCommand(queryModelo, conexion))
+                            {
+                                cmd.Parameters.AddWithValue("@modelo", boxModelo.Text);
+                                object result = cmd.ExecuteScalar();
+                                idNuevoModelo = (result != null) ? Convert.ToInt32(result) : 0;
+                            }
+
+                            string nuevoNumserie = boxNumSerie.Text;
+                            string nuevoActivoSistemas = boxActSistemas.Text;
+                            string nuevoActivo = boxActivo.Text;
+                            string nuevoNumFactura = boxNumFactura.Text;
+                            string nuevoValorFactura = boxValorFactura.Text;
+                            string nuevoProveedor = boxProveedor.Text;
+
+                            int idNuevoEstatus = 0;
+                            string queryEstatus = "SELECT id_estatus FROM estatus WHERE descripcion = @estatus ORDER BY id_estatus;";
+                            using (SqlCommand cmd = new SqlCommand(queryEstatus, conexion))
+                            {
+                                cmd.Parameters.AddWithValue("@estatus", boxEstatus.Text);
+                                object result = cmd.ExecuteScalar();
+                                idNuevoEstatus = (result != null) ? Convert.ToInt32(result) : 0;
+                            }
+
+                            int idNuevoTipo = 0;
+                            string queryTipo = "SELECT id_tipo FROM tipos WHERE descripcion = @tipo ORDER BY id_tipo;";
+                            using (SqlCommand cmd = new SqlCommand(queryTipo, conexion))
+                            {
+                                cmd.Parameters.AddWithValue("@tipo", boxTipo.Text);
+                                object result = cmd.ExecuteScalar();
+                                idNuevoTipo = (result != null) ? Convert.ToInt32(result) : 0;
+                            }
+
+                            string nuevoArea = boxArea.Text;
+                            string nuevoDidecon = txtDidecon.Text;
+                            string nuevoDirIP = boxDireccion.Text;
+                            string nuevoGrupo = boxGrupo.Text;
+                            string nuevoProcesador = txtProcesador.Text;
+                            string nuevoMemoria = txtMemoria.Text;
+                            string nuevoDisco = textDisco.Text;
+
+                            string queryUpdate = @"UPDATE hardware SET depto = @idNuevoDependencia,
+                                           responsable = @nuevoResponsable,
+                                           nombre = @nuevoNombre,
+                                           marca = @idNuevoMarca,
+                                           modelo = @idNuevoModelo,
+                                           sn =  @nuevoNumSerie,
+                                           activos = @nuevoActivoSistemas,
+                                           activocontraloria = @nuevoActivo,
+                                           numerofactura = @nuevoNumFactura,
+                                           idestatus = @idNuevoEstatus,
+                                           idtipo = @idNuevoTipo,
+                                           area = @nuevoArea,
+                                           didecon = @nuevoDidecon,
+                                           ip = @nuevoDirIp,
+                                           grupo = @nuevoGrupo,
+                                           procesador = @nuevoProcesador,
+                                           memoria = @nuevoMemoria,
+                                           disco_duro = @nuevoDisco
+                                         WHERE hardware.folio = @folio;";
+                            using (SqlCommand cmd = new SqlCommand(queryUpdate, conexion))
+                            {
+                                cmd.Parameters.AddWithValue("@idNuevoDependencia", idNuevoDependencia);
+                                cmd.Parameters.AddWithValue("@nuevoResponsable", nuevoResponsable);
+                                cmd.Parameters.AddWithValue("@nuevoNombre", nuevoNombre);
+                                cmd.Parameters.AddWithValue("@idNuevoMarca", idNuevoMarca);
+                                cmd.Parameters.AddWithValue("@idNuevoModelo", idNuevoModelo);
+                                cmd.Parameters.AddWithValue("@nuevoNumSerie", nuevoNumserie);
+                                cmd.Parameters.AddWithValue("@nuevoActivoSistemas", nuevoActivoSistemas);
+                                cmd.Parameters.AddWithValue("@nuevoActivo", nuevoActivo);
+                                cmd.Parameters.AddWithValue("@nuevoNumFactura", nuevoNumFactura);
+                                cmd.Parameters.AddWithValue("@idNuevoEstatus", idNuevoEstatus);
+                                cmd.Parameters.AddWithValue("@idNuevoTipo", idNuevoTipo);
+                                cmd.Parameters.AddWithValue("@nuevoArea", nuevoArea);
+                                cmd.Parameters.AddWithValue("@nuevoDidecon", nuevoDidecon);
+                                cmd.Parameters.AddWithValue("@nuevoDirIp", nuevoDirIP);
+                                cmd.Parameters.AddWithValue("@nuevoGrupo", nuevoGrupo);
+                                cmd.Parameters.AddWithValue("@nuevoProcesador", nuevoProcesador);
+                                cmd.Parameters.AddWithValue("@nuevoMemoria", nuevoMemoria);
+                                cmd.Parameters.AddWithValue("@nuevoDisco", nuevoDisco);
+                                cmd.Parameters.AddWithValue("@folio", txtFolio.Text);
+                                cmd.ExecuteNonQuery();
+                                MessageBox.Show("Registro actualizado correctamente.", "Confirmación", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                LimpiarControles();
+                            }
                         }
-
-                        string nuevoResponsable = boxResponsable.Text;
-                        string nuevoNombre = boxNombre.Text;
-
-                        int idNuevoMarca = 0;
-                        string queryMarca = "SELECT id_marca FROM marcas WHERE descripcion = @marca ORDER BY id_marca;";
-                        using (SqlCommand cmd = new SqlCommand(queryMarca, conexion))
-                        {
-                            cmd.Parameters.AddWithValue("@marca", boxMarca.Text);
-                            object result = cmd.ExecuteScalar();
-                            idNuevoMarca = (result != null) ? Convert.ToInt32(result) : 0;
-                        }
-
-                        int idNuevoModelo = 0;
-                        string queryModelo = "SELECT id_modelo FROM modelos WHERE descripcion = @modelo ORDER BY id_modelo;";
-                        using (SqlCommand cmd = new SqlCommand(queryModelo, conexion))
-                        {
-                            cmd.Parameters.AddWithValue("@modelo", boxModelo.Text);
-                            object result = cmd.ExecuteScalar();
-                            idNuevoModelo = (result != null) ? Convert.ToInt32(result) : 0;
-                        }
-
-                        string nuevoNumserie = boxNumSerie.Text;
-                        string nuevoActivoSistemas = boxActSistemas.Text;
-                        string nuevoActivo = boxActivo.Text;
-                        string nuevoNumFactura = boxNumFactura.Text;
-                        string nuevoValorFactura = boxValorFactura.Text;
-                        string nuevoProveedor = boxProveedor.Text;
-
-                        int idNuevoEstatus = 0;
-                        string queryEstatus = "SELECT id_estatus FROM estatus WHERE descripcion = @estatus ORDER BY id_estatus;";
-                        using (SqlCommand cmd = new SqlCommand(queryEstatus, conexion))
-                        {
-                            cmd.Parameters.AddWithValue("@estatus", boxEstatus.Text);
-                            object result = cmd.ExecuteScalar();
-                            idNuevoEstatus = (result != null) ? Convert.ToInt32(result) : 0;
-                        }
-
-                        int idNuevoTipo = 0;
-                        string queryTipo = "SELECT id_tipo FROM tipos WHERE descripcion = @tipo ORDER BY id_tipo;";
-                        using (SqlCommand cmd = new SqlCommand(queryTipo, conexion))
-                        {
-                            cmd.Parameters.AddWithValue("@tipo", boxTipo.Text);
-                            object result = cmd.ExecuteScalar();
-                            idNuevoTipo = (result != null) ? Convert.ToInt32(result) : 0;
-                        }
-
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error: " + ex.Message);
+                    }
+                }
             }
         }
 

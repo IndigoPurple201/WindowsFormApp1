@@ -512,7 +512,7 @@ namespace WinFormsApp1
                             {
                                 ModeloAgregada.Invoke();
                             }
-                            MessageBox.Show("Modelo agregado correctamente");
+                            MessageBox.Show("Registro agredado correctamente.", "Confirmación", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
                         LimpiarControles();
                         cargarDatosDGV();
@@ -564,56 +564,60 @@ namespace WinFormsApp1
                     return;
                 }
             }
-            MessageBox.Show("Modelo(s) eliminado correctamente");
+            MessageBox.Show("Registro eliminado correctamente.", "Confirmación", MessageBoxButtons.OK, MessageBoxIcon.Information);
             cargarDatosDGV();
             obtenerSiguienteNumero();
         }
 
         private void btnActualizar_Click(object sender, EventArgs e)
         {
-            bool cambiosRealizados = false;
-            foreach (DataGridViewRow row in dgvModelos.Rows)
+            DialogResult confirmacion = MessageBox.Show("¿Está seguro que desea acutalizar el registro?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (confirmacion == DialogResult.Yes)
             {
-                if (row.IsNewRow) continue;
-                int idModelo = Convert.ToInt32(row.Cells["Numero"].Value);
-                string nuevaDescripcion = row.Cells["Descripcion"].Value.ToString();
-                int nuevoIdTipo = Convert.ToInt32(row.Cells["Tipo"].Value);
-                try
+                bool cambiosRealizados = false;
+                foreach (DataGridViewRow row in dgvModelos.Rows)
                 {
-                    using(SqlConnection connection = conexionSQL.ObtenerConexion())
+                    if (row.IsNewRow) continue;
+                    int idModelo = Convert.ToInt32(row.Cells["Numero"].Value);
+                    string nuevaDescripcion = row.Cells["Descripcion"].Value.ToString();
+                    int nuevoIdTipo = Convert.ToInt32(row.Cells["Tipo"].Value);
+                    try
                     {
-                        connection.Open();
-                        string queryUpdate;
-                        queryUpdate = "UPDATE modelos SET descripcion = @descripcion, tipo = @tipo WHERE id_modelo = @idModelo;";
-                        using (SqlCommand cmd = new SqlCommand(queryUpdate, connection))
+                        using (SqlConnection connection = conexionSQL.ObtenerConexion())
                         {
-                            cmd.Parameters.AddWithValue("@descripcion", nuevaDescripcion);
-                            cmd.Parameters.AddWithValue("@idModelo", idModelo);
-                            cmd.Parameters.AddWithValue("@tipo", nuevoIdTipo);
-                            cmd.ExecuteNonQuery();
-                            if (tipoFiltro != "SIN TIPO")
+                            connection.Open();
+                            string queryUpdate;
+                            queryUpdate = "UPDATE modelos SET descripcion = @descripcion, tipo = @tipo WHERE id_modelo = @idModelo;";
+                            using (SqlCommand cmd = new SqlCommand(queryUpdate, connection))
                             {
-                                ModeloAgregada.Invoke();
+                                cmd.Parameters.AddWithValue("@descripcion", nuevaDescripcion);
+                                cmd.Parameters.AddWithValue("@idModelo", idModelo);
+                                cmd.Parameters.AddWithValue("@tipo", nuevoIdTipo);
+                                cmd.ExecuteNonQuery();
+                                if (tipoFiltro != "SIN TIPO")
+                                {
+                                    ModeloAgregada.Invoke();
+                                }
                             }
                         }
-                     }
-                    cambiosRealizados = true;
+                        cambiosRealizados = true;
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error" + ex.Message);
+                        return;
+                    }
                 }
-                catch (Exception ex)
+                if (cambiosRealizados)
                 {
-                    MessageBox.Show("Error" + ex.Message);
-                    return;
-                }         
-            }
-            if (cambiosRealizados)
-            {
-                MessageBox.Show("Modelos(s) actualizado(s) correctamente.");
-                cargarDatosDGV();
-            }
-            else
-            {
-                MessageBox.Show("No se realizaron cambios.");
-                cargarDatosDGV();
+                    MessageBox.Show("Registro actualizado correctamente.", "Confirmación", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    cargarDatosDGV();
+                }
+                else
+                {
+                    MessageBox.Show("Registro actualizado correctamente.", "Confirmación", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    cargarDatosDGV();
+                }
             }
         }
 

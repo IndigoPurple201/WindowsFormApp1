@@ -1234,7 +1234,7 @@ namespace WinFormsApp1
                 {
                     MessageBox.Show("Error al eliminar el periferico: " + ex.Message);
                 }
-                MessageBox.Show("Periferico eliminado correctamente.");
+                MessageBox.Show("Registro eliminado correctamente.", "Confirmación", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();
             }
         }

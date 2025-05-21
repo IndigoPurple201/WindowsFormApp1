@@ -273,7 +273,7 @@ namespace WinFormsApp1
                             insertCmd.Parameters.AddWithValue("@numerofactura", boxNumFactura.Text);
                             insertCmd.ExecuteNonQuery();
                         }
-                        MessageBox.Show("Registro guardado con éxito.");
+                        MessageBox.Show("Registro ingresado correctamente.", "Confirmación", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         LimpiarControles();
                         BloquearControles(true);
                         //obtenerSiguienteNumero();
@@ -288,68 +288,112 @@ namespace WinFormsApp1
 
         private void btnActualizar_Click(object sender, EventArgs e)
         {
-            if (validarCampos())
+            DialogResult confirmacion = MessageBox.Show("¿Está seguro que desea acutalizar el registro?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (confirmacion == DialogResult.Yes)
             {
-                try
+                if (validarCampos())
                 {
-                    using (SqlConnection connection = conexionSQL.ObtenerConexion())
+                    try
                     {
-                        connection.Open();
-                        String seleccion = boxDidecon.SelectedItem.ToString();
-                        string[] partes = seleccion.Split('-');
-                        if (partes.Length == 3)
+                        using (SqlConnection connection = conexionSQL.ObtenerConexion())
                         {
-                            didecon = partes[2];
+                            connection.Open();
+                            String seleccion = boxDidecon.SelectedItem.ToString();
+                            string[] partes = seleccion.Split('-');
+                            if (partes.Length == 3)
+                            {
+                                didecon = partes[2];
+                            }
+                            else
+                            {
+                                MessageBox.Show("Error al procesar la selección.");
+                            }
+
+                            string nuevoActContraloria = boxActivo.Text;
+                            string nuevoActSistemas = boxActSistemas.Text;
+                            string nuevoNumSerie = boxNumSerie.Text;
+
+                            int idNuevoMarca = 0;
+                            string queryMarca = "SELECT id_marca FROM marcas WHERE descripcion = @marca ORDER BY id_marca;";
+                            using (SqlCommand cmd = new SqlCommand(queryMarca, connection))
+                            {
+                                cmd.Parameters.AddWithValue("@marca", boxMarca.Text);
+                                object result = cmd.ExecuteScalar();
+                                idNuevoMarca = (result != null) ? Convert.ToInt32(result) : 0;
+                            }
+
+                            int idNuevoTipo = 0;
+                            string queryTipo = "SELECT id_tipo FROM tipos WHERE descripcion = @tipo ORDER BY id_tipo;";
+                            using (SqlCommand cmd = new SqlCommand(queryTipo, connection))
+                            {
+                                cmd.Parameters.AddWithValue("@tipo", boxTipo.Text);
+                                object result = cmd.ExecuteScalar();
+                                idNuevoTipo = (result != null) ? Convert.ToInt32(result) : 0;
+                            }
+
+                            int idNuevoModelo = 0;
+                            string queryModelo = "SELECT id_modelo FROM modelos WHERE descripcion = @modelo ORDER BY id_modelo;";
+                            using (SqlCommand cmd = new SqlCommand(queryModelo, connection))
+                            {
+                                cmd.Parameters.AddWithValue("@modelo", boxModelo.Text);
+                                object result = cmd.ExecuteScalar();
+                                idNuevoModelo = (result != null) ? Convert.ToInt32(result) : 0;
+                            }
+
+                            string nuevoNumFactura = boxNumFactura.Text;
+                            string nuevoValorFactura = boxValorFactura.Text;
+                            string nuevoProveedor = boxProveedor.Text;
+
+                            int idNuevoEstatus = 0;
+                            string queryEstatus = "SELECT id_estatus FROM estatus WHERE descripcion = @estatus ORDER BY id_estatus;";
+                            using (SqlCommand cmd = new SqlCommand(queryEstatus, connection))
+                            {
+                                cmd.Parameters.AddWithValue("@estatus", boxEstatus.Text);
+                                object result = cmd.ExecuteScalar();
+                                idNuevoEstatus = (result != null) ? Convert.ToInt32(result) : 0;
+                            }
+
+                            string nuevoNotas = txtNotas.Text;
+
+                            string queryUpdate = @"UPDATE perifericos SET didecon = @nuevoDidecon,
+                                                activocontraloria = @nuevoActContraloria,
+                                                activos = @nuevoActSistemas,
+                                                sn = @nuevoNumSerie,
+                                                marca = @idNuevoMarca,
+                                                tipo = @idNuevoTipo,
+                                                modelo = @idNuevoModelo,
+                                                numerofactura = @nuevoNumFactura,
+                                                valorfactura = @nuevoValorFactura,
+                                                nomproveedor = @nuevoProveedor,
+                                                idestatus = @idNuevoEstatus,
+                                                Notas = @nuevoNotas
+                                            WHERE perifericos.folio = @folio;";
+                            using (SqlCommand cmd = new SqlCommand(queryUpdate, connection))
+                            {
+                                cmd.Parameters.AddWithValue("@nuevoDidecon", didecon);
+                                cmd.Parameters.AddWithValue("@nuevoActContraloria", nuevoActContraloria);
+                                cmd.Parameters.AddWithValue("@nuevoActSistemas", nuevoActSistemas);
+                                cmd.Parameters.AddWithValue("@nuevoNumSerie", nuevoNumSerie);
+                                cmd.Parameters.AddWithValue("@idNuevoMarca", idNuevoMarca);
+                                cmd.Parameters.AddWithValue("@idNuevoTipo", idNuevoTipo);
+                                cmd.Parameters.AddWithValue("@idNuevoModelo", idNuevoModelo);
+                                cmd.Parameters.AddWithValue("@nuevoNumFactura", nuevoNumFactura);
+                                cmd.Parameters.AddWithValue("@nuevoValorFactura", nuevoValorFactura);
+                                cmd.Parameters.AddWithValue("@nuevoProveedor", nuevoProveedor);
+                                cmd.Parameters.AddWithValue("@idNuevoEstatus", idNuevoEstatus);
+                                cmd.Parameters.AddWithValue("@nuevoNotas", nuevoNotas);
+                                cmd.Parameters.AddWithValue("@folio", txtFolio.Text);
+                                cmd.ExecuteNonQuery();
+                                MessageBox.Show("Registro actualizado correctamente.", "Confirmación", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                LimpiarControles();
+                            }
                         }
-                        else
-                        {
-                            MessageBox.Show("Error al procesar la selección.");
-                        }
-
-                        string nuevoActContraloria = boxActivo.Text;
-                        string nuevoActSistemas = boxActSistemas.Text;
-                        string nuevoNumSerie = boxNumSerie.Text;
-
-                        int idNuevoMarca = 0;
-                        string queryMarca = "SELECT id_marca FROM marcas WHERE descripcion = @marca ORDER BY id_marca;";
-                        using (SqlCommand cmd = new SqlCommand(queryMarca, connection))
-                        {
-                            cmd.Parameters.AddWithValue("@marca", boxMarca.Text);
-                            object result = cmd.ExecuteScalar();
-                            idNuevoMarca = (result != null) ? Convert.ToInt32(result) : 0;
-                        }
-
-                        int idNuevoTipo = 0;
-                        string queryTipo = "SELECT id_tipo FROM tipos WHERE descripcion = @tipo ORDER BY id_tipo;";
-                        using (SqlCommand cmd = new SqlCommand(queryTipo, connection))
-                        {
-                            cmd.Parameters.AddWithValue("@tipo", boxTipo.Text);
-                            object result = cmd.ExecuteScalar();
-                            idNuevoTipo = (result != null) ? Convert.ToInt32(result) : 0;
-                        }
-
-                        int idNuevoModelo = 0;
-                        string queryModelo = "SELECT id_modelo FROM modelos WHERE descripcion = @modelo ORDER BY id_modelo;";
-                        using (SqlCommand cmd = new SqlCommand(queryModelo, connection))
-                        {
-                            cmd.Parameters.AddWithValue("@modelo", boxModelo.Text);
-                            object result = cmd.ExecuteScalar();
-                            idNuevoModelo = (result != null) ? Convert.ToInt32(result) : 0;
-                        }
-
-                        string nuevoNumFactura = boxNumFactura.Text;
-                        string nuevoValorFactura = boxValorFactura.Text;
-                        string nuevoProveedor = boxProveedor.Text;
-
-                        int idNuevoEstatus = 0;
-                        string queryEstatus = "SELECT id_estatus FROM estatus WHERE descripcion = @estatus ORDER BY id_estatus;";
-                        using (SqlCommand cmd = new SqlCommand(queryEstatus, connection))
-                        {
-                            cmd.Parameters.AddWithValue("@estatus", boxEstatus.Text);
-                            object result = cmd.ExecuteScalar();
-                            idNuevoEstatus = (result != null) ? Convert.ToInt32(result) : 0;
-                        }
-
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error: " + ex.Message);
+                    }
+                }
             }
         }
 

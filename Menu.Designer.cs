@@ -37,6 +37,7 @@
             this.toolMarcas = new System.Windows.Forms.ToolStripMenuItem();
             this.toolModelos = new System.Windows.Forms.ToolStripMenuItem();
             this.menuReportes = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuServicios = new System.Windows.Forms.ToolStripMenuItem();
             this.menuSalir = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.menuStrip1.SuspendLayout();
@@ -130,6 +131,14 @@
             this.menuReportes.Text = "REPORTES";
             this.menuReportes.Click += new System.EventHandler(this.menuReporte_Click);
             // 
+            // menuServicios
+            // 
+            this.menuServicios.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.menuServicios.Name = "menuServicios";
+            this.menuServicios.Size = new System.Drawing.Size(102, 25);
+            this.menuServicios.Text = "SERVICIOS";
+            this.menuServicios.Click += new System.EventHandler(this.menuServicios_Click);
+            // 
             // menuSalir
             // 
             this.menuSalir.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -141,9 +150,9 @@
             // pictureBox1
             // 
             this.pictureBox1.Image = global::WinFormsApp1.Properties.Resources.escudo;
-            this.pictureBox1.Location = new System.Drawing.Point(45, 38);
+            this.pictureBox1.Location = new System.Drawing.Point(12, 32);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(1538, 811);
+            this.pictureBox1.Size = new System.Drawing.Size(1634, 876);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;

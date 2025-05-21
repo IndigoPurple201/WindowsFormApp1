@@ -106,10 +106,10 @@ namespace WinFormsApp1
             {
                 if (txtContraseña.Text == "S")
                 {
-                    Menu menu = new Menu();
+                    Menu menu = new Menu(this);
                     this.Hide();
-                    menu.FormClosed += (s, args) => this.Close();
-                    menu.Show(); ;
+                    menu.Show();
+                    txtContraseña.Clear();
                 }
                 else
                 {

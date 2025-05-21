@@ -581,36 +581,73 @@ namespace WinFormsApp1
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-            if (ValidarCampos())
+            DialogResult confirmacion = MessageBox.Show("¿Está seguro que desea cambiar los perifericos?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (confirmacion == DialogResult.Yes)
             {
-                using (SqlConnection connection = conexionSQL.ObtenerConexion())
-                {   
-                    connection.Open();
-                    int registrosActualizados = 0;
-                    string activo1 = txtBuscarActivo1.Text.Trim();
-                    string didecon1 = ObtenerDideconDesdeActivo(connection,activo1);
-                    if (didecon1 != null)
+                if (ValidarCampos())
+                {
+                    using (SqlConnection connection = conexionSQL.ObtenerConexion())
                     {
-                        foreach (DataGridViewRow row in dgvPerifericos1.Rows)
+                        connection.Open();
+                        int registrosActualizados = 0;
+                        string activo1 = txtBuscarActivo1.Text.Trim();
+                        string didecon1 = ObtenerDideconDesdeActivo(connection, activo1);
+                        if (didecon1 != null)
                         {
-                            if (row.Cells["Numero"].Value != null && row.Cells["Didecon"].Value != null)
+                            foreach (DataGridViewRow row in dgvPerifericos1.Rows)
                             {
-                                string dideconActual = row.Cells["Didecon"].Value.ToString();
-                                if (dideconActual != didecon1)
+                                if (row.Cells["Numero"].Value != null && row.Cells["Didecon"].Value != null)
                                 {
-                                    int folio = Convert.ToInt32(row.Cells["Numero"].Value);
-                                    string queryUpdate = "UPDATE perifericos SET didecon = @nuevoDidecon WHERE folio = @folio";
-                                    using (SqlCommand cmd = new SqlCommand(queryUpdate, connection))
+                                    string dideconActual = row.Cells["Didecon"].Value.ToString();
+                                    if (dideconActual != didecon1)
                                     {
-                                        cmd.Parameters.AddWithValue("@nuevoDidecon", didecon1);
-                                        cmd.Parameters.AddWithValue("@folio", folio);
-                                        registrosActualizados += cmd.ExecuteNonQuery();
+                                        int folio = Convert.ToInt32(row.Cells["Numero"].Value);
+                                        string queryUpdate = "UPDATE perifericos SET didecon = @nuevoDidecon WHERE folio = @folio";
+                                        using (SqlCommand cmd = new SqlCommand(queryUpdate, connection))
+                                        {
+                                            cmd.Parameters.AddWithValue("@nuevoDidecon", didecon1);
+                                            cmd.Parameters.AddWithValue("@folio", folio);
+                                            registrosActualizados += cmd.ExecuteNonQuery();
+                                        }
                                     }
                                 }
                             }
                         }
-                    }
 
+                        string activo2 = txtBuscarActivo2.Text.Trim();
+                        string didecon2 = ObtenerDideconDesdeActivo(connection, activo2);
+                        if (didecon2 != null)
+                        {
+                            foreach (DataGridViewRow row in dgvPerifericos2.Rows)
+                            {
+                                if (row.Cells["Numero"].Value != null && row.Cells["Didecon"].Value != null)
+                                {
+                                    string dideconActual = row.Cells["Didecon"].Value.ToString();
+                                    if (dideconActual != didecon2)
+                                    {
+                                        int folio = Convert.ToInt32(row.Cells["Numero"].Value);
+                                        string queryUpdate = "UPDATE perifericos SET didecon = @nuevoDidecon WHERE folio = @folio";
+                                        using (SqlCommand cmd = new SqlCommand(queryUpdate, connection))
+                                        {
+                                            cmd.Parameters.AddWithValue("@nuevoDidecon", didecon2);
+                                            cmd.Parameters.AddWithValue("@folio", folio);
+                                            registrosActualizados += cmd.ExecuteNonQuery();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        if (registrosActualizados > 0)
+                        {
+                            MessageBox.Show("Cambios realizados correctamente");
+                            btnBuscar_Click(null, EventArgs.Empty);
+                        }
+                        else
+                        {
+                            MessageBox.Show("No se encontraron registros para actualizar.");
+                        }
+                    }
+                }
             }
         }
 

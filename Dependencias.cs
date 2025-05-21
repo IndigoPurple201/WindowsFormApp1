@@ -188,7 +188,7 @@ namespace WinFormsApp1
                             insertCmd.Parameters.AddWithValue("@descripcion", txtDepartamento.Text);
                             insertCmd.ExecuteNonQuery();
                             DependenciaAgregada?.Invoke();
-                            MessageBox.Show("Dependencia agregada correctamente");
+                            MessageBox.Show("Registro insertado correctamente.", "Confirmación", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
                     }
                     LimpiarControles();
@@ -204,46 +204,50 @@ namespace WinFormsApp1
 
         private void btnActualizar_Click(object sender, EventArgs e)
         {
-            bool cambiosRealizados = false;
-            foreach (DataGridViewRow row in dgvDependencias.Rows)
+            DialogResult confirmacion = MessageBox.Show("¿Está seguro que desea acutalizar el registro?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (confirmacion == DialogResult.Yes)
             {
-                if (row.Cells["Descripcion"].Value == null) continue;
-                var valorOriginal = row.Cells["Descripcion"].Tag?.ToString() ?? "";
-                var valorNuevo = row.Cells["Descripcion"].Value.ToString();
-                if (!valorOriginal.Equals(valorNuevo))
+                bool cambiosRealizados = false;
+                foreach (DataGridViewRow row in dgvDependencias.Rows)
                 {
-                    int idDependencia = Convert.ToInt32(row.Cells["Numero"].Value);
-                    try
+                    if (row.Cells["Descripcion"].Value == null) continue;
+                    var valorOriginal = row.Cells["Descripcion"].Tag?.ToString() ?? "";
+                    var valorNuevo = row.Cells["Descripcion"].Value.ToString();
+                    if (!valorOriginal.Equals(valorNuevo))
                     {
-                        string queryUpdate = "UPDATE dependencias SET descripcion = @descripcion WHERE id_dependencia = @id_dependencia;";
-                        using (SqlConnection connection = conexionSQL.ObtenerConexion())
+                        int idDependencia = Convert.ToInt32(row.Cells["Numero"].Value);
+                        try
                         {
-                            connection.Open();
-                            using (SqlCommand updateCmd = new SqlCommand(queryUpdate, connection))
+                            string queryUpdate = "UPDATE dependencias SET descripcion = @descripcion WHERE id_dependencia = @id_dependencia;";
+                            using (SqlConnection connection = conexionSQL.ObtenerConexion())
                             {
-                                updateCmd.Parameters.AddWithValue("@descripcion", valorNuevo);
-                                updateCmd.Parameters.AddWithValue("@id_dependencia", idDependencia);
-                                updateCmd.ExecuteNonQuery();
-                                DependenciaAgregada?.Invoke();
+                                connection.Open();
+                                using (SqlCommand updateCmd = new SqlCommand(queryUpdate, connection))
+                                {
+                                    updateCmd.Parameters.AddWithValue("@descripcion", valorNuevo);
+                                    updateCmd.Parameters.AddWithValue("@id_dependencia", idDependencia);
+                                    updateCmd.ExecuteNonQuery();
+                                    DependenciaAgregada?.Invoke();
+                                }
                             }
+                            cambiosRealizados = true;
                         }
-                        cambiosRealizados = true;
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Error: " + ex.Message);
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Error: " + ex.Message);
+                        }
                     }
                 }
-            }
-            if (cambiosRealizados)
-            {
-                MessageBox.Show("Dependencia(s) actualizada(s) correctamente.");
-                CargarDatosDGV();
-            }
-            else
-            {
-                MessageBox.Show("No se realizaron cambios.");
-                CargarDatosDGV();
+                if (cambiosRealizados)
+                {
+                    MessageBox.Show("Registro actualizado correctamente.", "Confirmación", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    CargarDatosDGV();
+                }
+                else
+                {
+                    MessageBox.Show("No se realizaron cambios .", "Confirmación", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    CargarDatosDGV();
+                }
             }
         }
 
@@ -272,7 +276,7 @@ namespace WinFormsApp1
                             deleteCmd.Parameters.AddWithValue("@id_dependencia", idDependencia);
                             deleteCmd.ExecuteNonQuery();
                             DependenciaAgregada?.Invoke();
-                            MessageBox.Show("Dependencia eliminada");
+                            MessageBox.Show("Registro eliminado correctamente.", "Confirmación", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
                     }
                 }

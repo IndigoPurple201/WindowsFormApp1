@@ -163,7 +163,7 @@ namespace WinFormsApp1
                             insertCmd.Parameters.AddWithValue("@descripcion", txtMarca.Text);
                             insertCmd.ExecuteNonQuery();
                             MarcaAgregada?.Invoke();
-                            MessageBox.Show("Marca agregada correctamente");
+                            MessageBox.Show("Registro agredado correctamente.", "Confirmación", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             LimpiarControles();
                         }
                     }
@@ -179,46 +179,50 @@ namespace WinFormsApp1
 
         private void btnActualizar_Click(object sender, EventArgs e)
         {
-            bool cambiosRealizados = false;
-            foreach (DataGridViewRow row in dgvMarcas.Rows)
+            DialogResult confirmacion = MessageBox.Show("¿Está seguro que desea acutalizar el registro?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (confirmacion == DialogResult.Yes)
             {
-                if (row.Cells["Descripcion"].Value == null) continue; // Evitar errores con valores nulos
-                var valorOriginal = row.Cells["Descripcion"].Tag?.ToString() ?? "";
-                var valorNuevo = row.Cells["Descripcion"].Value.ToString();
-                if (!valorOriginal.Equals(valorNuevo))
+                bool cambiosRealizados = false;
+                foreach (DataGridViewRow row in dgvMarcas.Rows)
                 {
-                    int idMarca = Convert.ToInt32(row.Cells["Numero"].Value);
-                    try
+                    if (row.Cells["Descripcion"].Value == null) continue; // Evitar errores con valores nulos
+                    var valorOriginal = row.Cells["Descripcion"].Tag?.ToString() ?? "";
+                    var valorNuevo = row.Cells["Descripcion"].Value.ToString();
+                    if (!valorOriginal.Equals(valorNuevo))
                     {
-                        string queryUpdate = "UPDATE marcas SET descripcion = @descripcion WHERE id_marca = @id_marca";
-                        using (SqlConnection conexion = conexionSQL.ObtenerConexion())
+                        int idMarca = Convert.ToInt32(row.Cells["Numero"].Value);
+                        try
                         {
-                            conexion.Open();
-                            using (SqlCommand updateCmd = new SqlCommand(queryUpdate, conexion))
+                            string queryUpdate = "UPDATE marcas SET descripcion = @descripcion WHERE id_marca = @id_marca";
+                            using (SqlConnection conexion = conexionSQL.ObtenerConexion())
                             {
-                                updateCmd.Parameters.AddWithValue("@descripcion", valorNuevo);
-                                updateCmd.Parameters.AddWithValue("@id_marca", idMarca);
-                                updateCmd.ExecuteNonQuery();
-                                MarcaAgregada?.Invoke();
+                                conexion.Open();
+                                using (SqlCommand updateCmd = new SqlCommand(queryUpdate, conexion))
+                                {
+                                    updateCmd.Parameters.AddWithValue("@descripcion", valorNuevo);
+                                    updateCmd.Parameters.AddWithValue("@id_marca", idMarca);
+                                    updateCmd.ExecuteNonQuery();
+                                    MarcaAgregada?.Invoke();
+                                }
                             }
+                            cambiosRealizados = true;
                         }
-                        cambiosRealizados = true;
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Error al actualizar marca ID " + idMarca + ": " + ex.Message);
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Error al actualizar marca ID " + idMarca + ": " + ex.Message);
+                        }
                     }
                 }
-            }
-            if (cambiosRealizados)
-            {
-                MessageBox.Show("Marca(s) actualizada(s) correctamente.");
-                cargarDatosDGV();
-            }
-            else
-            {
-                MessageBox.Show("No se realizaron cambios.");
-                cargarDatosDGV();
+                if (cambiosRealizados)
+                {
+                    MessageBox.Show("Registro actualizado correctamente.", "Confirmación", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    cargarDatosDGV();
+                }
+                else
+                {
+                    MessageBox.Show("No se realizaron cambios.", "Confirmación", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    cargarDatosDGV();
+                }
             }
         }
 
@@ -256,7 +260,7 @@ namespace WinFormsApp1
                     return;
                 }
             }
-            MessageBox.Show("Marca(s) eliminada(s) correctamente.");
+            MessageBox.Show("Registro eliminado correctamente.", "Confirmación", MessageBoxButtons.OK, MessageBoxIcon.Information);
             cargarDatosDGV();
             ObtenerSiguienteNumero();
         }

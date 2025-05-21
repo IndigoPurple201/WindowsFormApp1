@@ -12,14 +12,18 @@ namespace WinFormsApp1
 {
     public partial class Menu : Form
     {
-        public Menu()
+        private Form formularioConectar;
+        private bool cerrarDesdeBotonSalir = false;
+        public Menu(Form conectar)
         {
             InitializeComponent();
+            this.formularioConectar = conectar;
         }
 
         private void Menu_Load(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Maximized;
+            this.FormClosing += Menu_FormClosing;
         }
 
         private void toolHardware_Click(object sender, EventArgs e)
@@ -66,7 +70,30 @@ namespace WinFormsApp1
 
         private void menuSalir_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            DialogResult result = MessageBox.Show("¿Está seguro que desea salir al menú de inicio?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                cerrarDesdeBotonSalir = true;
+                formularioConectar.Show();
+                this.Close();
+            }
+        }
+
+        private void Menu_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (!cerrarDesdeBotonSalir)
+            {
+                DialogResult result = MessageBox.Show("¿Está seguro que desea salir?", "Salir", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
+                {
+                    formularioConectar.Show();
+                }
+                else
+                {
+                    e.Cancel = true;
+                }
+            }
         }
     }
 }
