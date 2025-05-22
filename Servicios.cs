@@ -543,8 +543,8 @@ namespace WinFormsApp1
                     }
                 }
             }
-            txtDidecon.Enabled = false;
-            txtFolio.Enabled = false;
+            txtDidecon.Enabled = string.IsNullOrWhiteSpace(txtDidecon.Text);
+            txtFolio.Enabled = string.IsNullOrWhiteSpace(txtFolio.Text);
         }
 
         private void btnBuscar2_Click(object sender, EventArgs e)
