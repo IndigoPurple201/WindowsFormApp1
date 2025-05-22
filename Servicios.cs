@@ -45,6 +45,7 @@ namespace WinFormsApp1
         {
             conexionSQL.ProbarConexion();
             LlenarBoxEstatus();
+            LlenarBoxExterno();
             BloquearControles(this, true);
             this.MouseDown += new MouseEventHandler(Servicios_MouseDown);
             foreach (Control ctrl in this.Controls)
@@ -109,6 +110,13 @@ namespace WinFormsApp1
             {
                 MessageBox.Show("Error: " + ex.Message);
             }
+        }
+
+        private void LlenarBoxExterno()
+        {
+            boxExterno.Items.Clear();
+            boxExterno.Items.Add("S");
+            boxExterno.Items.Add("N");  
         }
 
         private void ControlSeleccionado(object sender, EventArgs e)
@@ -223,7 +231,7 @@ namespace WinFormsApp1
             dateRefaccionEntrega.Value = DateTime.Now;
             dateExternoPedido.Value = DateTime.Now;
             dateExternoEntrega.Value = DateTime.Now;
-
+            boxExterno.SelectedIndex = -1;
         }
 
         private void RestablecerComboBox(ComboBox comboBox, string valorPredeterminado)
@@ -281,6 +289,11 @@ namespace WinFormsApp1
             radioCpu.Checked = true;
             txtServicio.Enabled = false;
             boxEstatus.Enabled = false;
+            txtRecogio.Enabled = false;
+            txtReparo.Enabled = false;
+            txtReparacionInterna.Enabled = false;
+            txtReparacionExterna.Enabled = false;
+            txtRefacciones.Enabled = false;
             ObtenerSiguienteNumero();
             int index = boxEstatus.Items.IndexOf("RECIBIDO");
             if (index >= 0)
@@ -332,8 +345,7 @@ namespace WinFormsApp1
                         object result = cmd.ExecuteScalar();
                         idEstatus = (result != null) ? Convert.ToInt32(result) : 0;
                     }
-                    MessageBox.Show("idEstatus: " + idEstatus.ToString());
-                    string queryInsert = "INSERT INTO servicios(id_servicio, folio, didecon, fecha_llegada, falla, reporto, estatus) VALUES (@id_servicio, @folio, @didecon, @fecha_llegada, @falla, @reporto, @estatus);";
+                    string queryInsert = "INSERT INTO servicios(id_servicio, folio, didecon, fecha_llegada, falla, reporto, estatus, externo) VALUES (@id_servicio, @folio, @didecon, @fecha_llegada, @falla, @reporto, @estatus, @externo);";
                     using (SqlCommand insertCmd = new SqlCommand(queryInsert, connection))
                     {
                         insertCmd.Parameters.AddWithValue("@id_servicio", txtServicio.Text);
@@ -343,6 +355,15 @@ namespace WinFormsApp1
                         insertCmd.Parameters.AddWithValue("@falla", txtFalla.Text);
                         insertCmd.Parameters.AddWithValue("@reporto", txtSolicito.Text);
                         insertCmd.Parameters.AddWithValue("@estatus", idEstatus);
+                        string externo = boxExterno.Text;
+                        if (string.IsNullOrWhiteSpace(externo))
+                        {
+                            insertCmd.Parameters.AddWithValue("@externo", DBNull.Value);
+                        }
+                        else
+                        {
+                            insertCmd.Parameters.AddWithValue("@externo", externo);
+                        }
                         insertCmd.ExecuteNonQuery();    
                     }
                     if (radioCpu.Checked == true)

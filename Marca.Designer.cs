@@ -148,7 +148,7 @@
             // dgvMarcas
             // 
             this.dgvMarcas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvMarcas.Location = new System.Drawing.Point(28, 185);
+            this.dgvMarcas.Location = new System.Drawing.Point(28, 189);
             this.dgvMarcas.Name = "dgvMarcas";
             this.dgvMarcas.Size = new System.Drawing.Size(453, 130);
             this.dgvMarcas.TabIndex = 42;
@@ -157,7 +157,7 @@
             // 
             this.btnEliminar.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnEliminar.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnEliminar.Location = new System.Drawing.Point(297, 321);
+            this.btnEliminar.Location = new System.Drawing.Point(297, 325);
             this.btnEliminar.Name = "btnEliminar";
             this.btnEliminar.Size = new System.Drawing.Size(89, 20);
             this.btnEliminar.TabIndex = 43;
@@ -169,7 +169,7 @@
             // 
             this.btnCerrar2.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnCerrar2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCerrar2.Location = new System.Drawing.Point(392, 321);
+            this.btnCerrar2.Location = new System.Drawing.Point(392, 325);
             this.btnCerrar2.Name = "btnCerrar2";
             this.btnCerrar2.Size = new System.Drawing.Size(89, 20);
             this.btnCerrar2.TabIndex = 44;
@@ -181,7 +181,7 @@
             // 
             this.btnActualizar.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnActualizar.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnActualizar.Location = new System.Drawing.Point(202, 321);
+            this.btnActualizar.Location = new System.Drawing.Point(202, 325);
             this.btnActualizar.Name = "btnActualizar";
             this.btnActualizar.Size = new System.Drawing.Size(89, 20);
             this.btnActualizar.TabIndex = 45;

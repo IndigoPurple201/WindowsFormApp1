@@ -187,7 +187,8 @@ namespace WinFormsApp1
                 {
                     if (row.Cells["Descripcion"].Value == null) continue; // Evitar errores con valores nulos
                     var valorOriginal = row.Cells["Descripcion"].Tag?.ToString() ?? "";
-                    var valorNuevo = row.Cells["Descripcion"].Value.ToString();
+                    var valorNuevo = row.Cells["Descripcion"].Value.ToString().ToUpper();
+                    row.Cells["Descripcion"].Tag = valorNuevo;
                     if (!valorOriginal.Equals(valorNuevo))
                     {
                         int idMarca = Convert.ToInt32(row.Cells["Numero"].Value);

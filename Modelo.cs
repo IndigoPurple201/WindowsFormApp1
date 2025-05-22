@@ -579,8 +579,9 @@ namespace WinFormsApp1
                 {
                     if (row.IsNewRow) continue;
                     int idModelo = Convert.ToInt32(row.Cells["Numero"].Value);
-                    string nuevaDescripcion = row.Cells["Descripcion"].Value.ToString();
+                    string nuevaDescripcion = row.Cells["Descripcion"].Value.ToString().ToUpper();
                     int nuevoIdTipo = Convert.ToInt32(row.Cells["Tipo"].Value);
+                    row.Cells["Descripcion"].Value = nuevaDescripcion;
                     try
                     {
                         using (SqlConnection connection = conexionSQL.ObtenerConexion())

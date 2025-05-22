@@ -136,6 +136,9 @@ namespace WinFormsApp1
             {
                 column.SortMode = DataGridViewColumnSortMode.NotSortable;
             }
+            dgvDependencias.EnableHeadersVisualStyles = false;
+            dgvDependencias.AllowUserToResizeRows = false;
+            dgvDependencias.AllowUserToResizeColumns = false;
         }
 
         private void txtFolio_KeyPress(object sender, KeyPressEventArgs e)
@@ -212,7 +215,8 @@ namespace WinFormsApp1
                 {
                     if (row.Cells["Descripcion"].Value == null) continue;
                     var valorOriginal = row.Cells["Descripcion"].Tag?.ToString() ?? "";
-                    var valorNuevo = row.Cells["Descripcion"].Value.ToString();
+                    var valorNuevo = row.Cells["Descripcion"].Value.ToString().ToUpper();
+                    row.Cells["Descripcion"].Value = valorNuevo;
                     if (!valorOriginal.Equals(valorNuevo))
                     {
                         int idDependencia = Convert.ToInt32(row.Cells["Numero"].Value);
