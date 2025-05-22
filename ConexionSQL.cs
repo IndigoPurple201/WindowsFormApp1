@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Data.OleDb;
 using Microsoft.Data.SqlClient;
-using System.IO;
 using System.Windows.Forms;
 
 public class ConexionSQL
@@ -13,14 +12,12 @@ public class ConexionSQL
     {
         try
         {
-            // Leer la cadena OLE DB desde el archivo .udl
             string oleDbConnectionString = File.ReadAllLines(udlFilePath)
                                                .FirstOrDefault(line => line.StartsWith("Provider=", StringComparison.OrdinalIgnoreCase));
 
             if (string.IsNullOrEmpty(oleDbConnectionString))
                 throw new InvalidOperationException("No se pudo leer la cadena de conexión desde el archivo UDL.");
 
-            // Convertirla a formato SqlConnection
             connectionString = ConvertirOleDbAdoNet(oleDbConnectionString);
         }
         catch (Exception ex)
@@ -30,28 +27,6 @@ public class ConexionSQL
             throw;
         }
     }
-
-    private string ConvertirOleDbAdoNet(string oleDbConnectionString)
-    {
-        var builder = new OleDbConnectionStringBuilder(oleDbConnectionString);
-
-        string servidor = builder.ContainsKey("Data Source") ? builder["Data Source"].ToString() : "";
-        string db = builder.ContainsKey("Initial Catalog") ? builder["Initial Catalog"].ToString() : "";
-        string usuario = builder.ContainsKey("User ID") ? builder["User ID"].ToString() : "";
-        string contraseña = builder.ContainsKey("Password") ? builder["Password"].ToString() : "";
-        bool integrado = builder.ContainsKey("Integrated Security") &&
-                         builder["Integrated Security"].ToString().ToLower().Contains("sspi");
-
-        if (integrado)
-        {
-            return $"Server={servidor};Database={db};Integrated Security=True;";
-        }
-        else
-        {
-            return $"Server={servidor};Database={db};User Id={usuario};Password={contraseña};";
-        }
-    }
-
     public SqlConnection ObtenerConexion()
     {
         if (string.IsNullOrEmpty(connectionString))
