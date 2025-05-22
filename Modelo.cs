@@ -43,7 +43,7 @@ namespace WinFormsApp1
         {
             InitializeComponent();
             string udlFilePath = @"conexion.udl";
-            conexionSQL = new ConexionSQL(udlFilePath);
+            conexionSQL = new ConexionSQL();
             tipoFiltro = tipo;
             tipoMarca = marca;
             this.MouseDown += new MouseEventHandler(Modelo_MouseDown);

@@ -30,7 +30,7 @@ namespace WinFormsApp1
         {
             InitializeComponent();
             string udlFilePath = @"conexion.udl";
-            conexionSQL = new ConexionSQL(udlFilePath);
+            conexionSQL = new ConexionSQL();
             this.MouseDown += new MouseEventHandler(Servicios_MouseDown);
             //this.MouseMove += new MouseEventHandler(Hardware_MouseMove);
             panelBarra.MouseDown += new MouseEventHandler(Servicios_MouseDown);

@@ -38,7 +38,7 @@ namespace WinFormsApp1
         {
             InitializeComponent();
             string udlFilePath = @"conexion.udl";
-            conexionSQL = new ConexionSQL(udlFilePath);
+            conexionSQL = new ConexionSQL();
             this.FormBorderStyle = FormBorderStyle.None;
             this.Padding = new Padding(3);
             this.MouseDown += new MouseEventHandler(CambiarPerifericos_MouseDown);

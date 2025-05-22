@@ -44,7 +44,7 @@ namespace WinFormsApp1
         {
             InitializeComponent();
             string udlFilePath = @"conexion.udl";
-            conexionSQL = new ConexionSQL(udlFilePath);
+            conexionSQL = new ConexionSQL();
             this.FormBorderStyle = FormBorderStyle.None;
             this.Padding = new Padding(3);
 
@@ -449,13 +449,16 @@ namespace WinFormsApp1
             {
                 using (SqlConnection connection = conexionSQL.ObtenerConexion())
                 {
+
                     string query = "SELECT id_dependencia, descripcion FROM dependencias;";
                     SqlDataAdapter da = new SqlDataAdapter(query, connection);
                     DataTable dt = new DataTable();
                     da.Fill(dt);
 
                     ReportDocument report = new ReportDocument();
-                    report.Load(@"C:\Users\Administrador\Documents\WinFormsApp1\Reportes\rptdependencias.rpt");
+                    string basePath = AppDomain.CurrentDomain.BaseDirectory;
+                    string rutaReporte = Path.Combine(basePath, "Reportes", "rptdependencias.rpt");
+                    report.Load(rutaReporte);
 
                     report.SetDataSource(dt);
 

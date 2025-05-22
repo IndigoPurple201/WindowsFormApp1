@@ -44,7 +44,7 @@ namespace WinFormsApp1
         {
             InitializeComponent();
             string udlFilePath = @"conexion.udl";
-            conexionSQL = new ConexionSQL(udlFilePath);
+            conexionSQL = new ConexionSQL();
             this.FormBorderStyle = FormBorderStyle.None;
             this.Padding = new Padding(3);
 
@@ -249,7 +249,14 @@ namespace WinFormsApp1
                             da.Fill(dt);
 
                             ReportDocument report = new ReportDocument();
-                            report.Load(@"C:\Users\Administrador\Documents\WinFormsApp1\Reportes\rptCpu_depto_detalle.rpt");
+                            string basePath = AppDomain.CurrentDomain.BaseDirectory;
+                            string reportPath1 = Path.Combine(basePath, "Reportes" ,"rptCpu_depto_detalle.rpt");
+                            if (!File.Exists(reportPath1))
+                            {
+                                MessageBox.Show("⚠️ El archivo de reporte no se encontró:\n" + reportPath1, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                return;
+                            }
+                            report.Load(reportPath1);
 
                             report.SetDataSource(dt);
 
@@ -286,7 +293,15 @@ namespace WinFormsApp1
                             DataTable dt = new DataTable();
                             da.Fill(dt);
                             ReportDocument report = new ReportDocument();
-                            report.Load(@"C:\Users\Administrador\Documents\WinFormsApp1\Reportes\rptCpu_depto_detalle.rpt");
+                            string basePath = AppDomain.CurrentDomain.BaseDirectory;
+                            string reportPath2 = Path.Combine(basePath, "Reportes", "rptCpu_depto_detalle.rpt");
+                            if (!File.Exists(reportPath2))
+                            {
+                                MessageBox.Show("⚠️ El archivo de reporte no se encontró:\n" + reportPath2, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                return;
+                            }
+                            report.Load(reportPath2);
+
                             report.SetDataSource(dt);
 
                             Form visor = new Form();
@@ -325,7 +340,15 @@ namespace WinFormsApp1
                                 }
 
                                 ReportDocument report = new ReportDocument();
-                                report.Load(@"C:\Users\Administrador\Documents\WinFormsApp1\Reportes\rptCpu_depto_detalle.rpt");
+                                string basePath = AppDomain.CurrentDomain.BaseDirectory;
+                                string reportPath3 = Path.Combine(basePath, "Reportes", "rptCpu_depto_detalle.rpt");
+                                if (!File.Exists(reportPath3))
+                                {
+                                    MessageBox.Show("⚠️ El archivo de reporte no se encontró:\n" + reportPath3, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    return;
+                                }
+                                report.Load(reportPath3);
+
                                 report.SetDataSource(dt);
 
                                 Form visor = new Form();

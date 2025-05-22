@@ -86,6 +86,9 @@
     <None Update="conexion.udl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Reportes\rptCpu_depto_detalle.rpt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

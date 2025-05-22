@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Data.OleDb;
+using System.Configuration;
 using Microsoft.Data.SqlClient;
 using System.Windows.Forms;
 
@@ -8,17 +8,14 @@ public class ConexionSQL
     private readonly string connectionString;
     private static bool mensajeMostrado = false;
 
-    public ConexionSQL(string udlFilePath)
+    public ConexionSQL()
     {
         try
         {
-            string oleDbConnectionString = File.ReadAllLines(udlFilePath)
-                                               .FirstOrDefault(line => line.StartsWith("Provider=", StringComparison.OrdinalIgnoreCase));
+            connectionString = ConfigurationManager.ConnectionStrings["ConexionDB"].ConnectionString;
 
-            if (string.IsNullOrEmpty(oleDbConnectionString))
-                throw new InvalidOperationException("No se pudo leer la cadena de conexión desde el archivo UDL.");
-
-            connectionString = ConvertirOleDbAdoNet(oleDbConnectionString);
+            if (string.IsNullOrEmpty(connectionString))
+                throw new InvalidOperationException("No se pudo leer la cadena de conexión.");
         }
         catch (Exception ex)
         {
