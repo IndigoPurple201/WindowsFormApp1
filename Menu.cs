@@ -56,6 +56,12 @@ namespace WinFormsApp1
             modelo.ShowDialog();
         }
 
+        private void toolCompras_Click(object sender, EventArgs e)
+        {
+            Compras compras = new Compras();
+            compras.ShowDialog();
+        }
+
         private void menuReporte_Click(object sender, EventArgs e)
         {
             Inventario inventario = new Inventario();

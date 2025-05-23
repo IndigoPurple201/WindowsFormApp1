@@ -32,6 +32,7 @@
             this.menuInventario = new System.Windows.Forms.ToolStripMenuItem();
             this.toolHardware = new System.Windows.Forms.ToolStripMenuItem();
             this.toolPeriferico = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolCompras = new System.Windows.Forms.ToolStripMenuItem();
             this.menuCatalogos = new System.Windows.Forms.ToolStripMenuItem();
             this.toolDependencias = new System.Windows.Forms.ToolStripMenuItem();
             this.toolMarcas = new System.Windows.Forms.ToolStripMenuItem();
@@ -66,7 +67,8 @@
             // 
             this.menuInventario.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolHardware,
-            this.toolPeriferico});
+            this.toolPeriferico,
+            this.toolCompras});
             this.menuInventario.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.menuInventario.Name = "menuInventario";
             this.menuInventario.Size = new System.Drawing.Size(119, 25);
@@ -87,6 +89,14 @@
             this.toolPeriferico.Size = new System.Drawing.Size(180, 22);
             this.toolPeriferico.Text = "PERIFERICOS";
             this.toolPeriferico.Click += new System.EventHandler(this.toolPeriferico_Click);
+            // 
+            // toolCompras
+            // 
+            this.toolCompras.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.toolCompras.Name = "toolCompras";
+            this.toolCompras.Size = new System.Drawing.Size(180, 22);
+            this.toolCompras.Text = "COMPRAS";
+            this.toolCompras.Click += new System.EventHandler(this.toolCompras_Click);
             // 
             // menuCatalogos
             // 
@@ -191,5 +201,6 @@
         private ToolStripMenuItem toolModelos;
         private PictureBox pictureBox1;
         private ToolStripMenuItem menuServicios;
+        private ToolStripMenuItem toolCompras;
     }
 }
