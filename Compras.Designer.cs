@@ -31,7 +31,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Compras));
             this.panelBarra = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
-            this.buttonSalir = new System.Windows.Forms.PictureBox();
             this.txtOrden = new System.Windows.Forms.TextBox();
             this.Numero = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -65,21 +64,27 @@
             this.txtTotal = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.btnEliminar = new System.Windows.Forms.Button();
-            this.btnActualizar = new System.Windows.Forms.Button();
-            this.btnBuscar2 = new System.Windows.Forms.Button();
-            this.btnAceptar2 = new System.Windows.Forms.Button();
-            this.btnCancelar2 = new System.Windows.Forms.Button();
+            this.boxCompra = new System.Windows.Forms.ComboBox();
+            this.label13 = new System.Windows.Forms.Label();
             this.btnEliminar2 = new System.Windows.Forms.Button();
             this.btnActualizar2 = new System.Windows.Forms.Button();
+            this.btnAceptar2 = new System.Windows.Forms.Button();
             this.btnNuevo2 = new System.Windows.Forms.Button();
-            this.label13 = new System.Windows.Forms.Label();
-            this.boxCompra = new System.Windows.Forms.ComboBox();
+            this.btnBuscar2 = new System.Windows.Forms.Button();
+            this.btnCancelar2 = new System.Windows.Forms.Button();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.btnRegistros = new System.Windows.Forms.Button();
+            this.btnEliminar = new System.Windows.Forms.Button();
+            this.btnActualizar = new System.Windows.Forms.Button();
+            this.dgvDetalles = new System.Windows.Forms.DataGridView();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.buttonSalir = new System.Windows.Forms.PictureBox();
             this.panelBarra.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.buttonSalir)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvDetalles)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.buttonSalir)).BeginInit();
             this.SuspendLayout();
             // 
             // panelBarra
@@ -104,19 +109,6 @@
             this.label1.Size = new System.Drawing.Size(116, 30);
             this.label1.TabIndex = 47;
             this.label1.Text = "COMPRAS";
-            // 
-            // buttonSalir
-            // 
-            this.buttonSalir.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(145)))), ((int)(((byte)(145)))), ((int)(((byte)(145)))));
-            this.buttonSalir.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.buttonSalir.Image = ((System.Drawing.Image)(resources.GetObject("buttonSalir.Image")));
-            this.buttonSalir.Location = new System.Drawing.Point(615, 5);
-            this.buttonSalir.Name = "buttonSalir";
-            this.buttonSalir.Size = new System.Drawing.Size(21, 23);
-            this.buttonSalir.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.buttonSalir.TabIndex = 32;
-            this.buttonSalir.TabStop = false;
-            this.buttonSalir.Click += new System.EventHandler(this.buttonSalir_Click);
             // 
             // txtOrden
             // 
@@ -167,6 +159,7 @@
             this.btnBuscar.TabIndex = 100;
             this.btnBuscar.Text = "BUSCAR";
             this.btnBuscar.UseVisualStyleBackColor = true;
+            this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
             // 
             // dateTimePicker1
             // 
@@ -293,6 +286,7 @@
             this.btnAceptar.TabIndex = 112;
             this.btnAceptar.Text = "ACEPTAR";
             this.btnAceptar.UseVisualStyleBackColor = true;
+            this.btnAceptar.Click += new System.EventHandler(this.btnAceptar_Click);
             // 
             // btnCancelar
             // 
@@ -478,9 +472,100 @@
             this.panel1.Size = new System.Drawing.Size(628, 277);
             this.panel1.TabIndex = 129;
             // 
+            // boxCompra
+            // 
+            this.boxCompra.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.boxCompra.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.boxCompra.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.boxCompra.FormattingEnabled = true;
+            this.boxCompra.Location = new System.Drawing.Point(95, 46);
+            this.boxCompra.Name = "boxCompra";
+            this.boxCompra.Size = new System.Drawing.Size(120, 23);
+            this.boxCompra.TabIndex = 117;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.Location = new System.Drawing.Point(14, 48);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(75, 21);
+            this.label13.TabIndex = 132;
+            this.label13.Text = "COMPRA";
+            // 
+            // btnEliminar2
+            // 
+            this.btnEliminar2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnEliminar2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEliminar2.Location = new System.Drawing.Point(526, 67);
+            this.btnEliminar2.Name = "btnEliminar2";
+            this.btnEliminar2.Size = new System.Drawing.Size(87, 28);
+            this.btnEliminar2.TabIndex = 119;
+            this.btnEliminar2.Text = "ELIMINAR";
+            this.btnEliminar2.UseVisualStyleBackColor = true;
+            // 
+            // btnActualizar2
+            // 
+            this.btnActualizar2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnActualizar2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnActualizar2.Location = new System.Drawing.Point(413, 67);
+            this.btnActualizar2.Name = "btnActualizar2";
+            this.btnActualizar2.Size = new System.Drawing.Size(107, 28);
+            this.btnActualizar2.TabIndex = 118;
+            this.btnActualizar2.Text = "ACTUALIZAR";
+            this.btnActualizar2.UseVisualStyleBackColor = true;
+            // 
+            // btnAceptar2
+            // 
+            this.btnAceptar2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnAceptar2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAceptar2.Location = new System.Drawing.Point(334, 204);
+            this.btnAceptar2.Name = "btnAceptar2";
+            this.btnAceptar2.Size = new System.Drawing.Size(87, 28);
+            this.btnAceptar2.TabIndex = 117;
+            this.btnAceptar2.Text = "ACEPTAR";
+            this.btnAceptar2.UseVisualStyleBackColor = true;
+            this.btnAceptar2.Click += new System.EventHandler(this.btnAceptar2_Click);
+            // 
+            // btnNuevo2
+            // 
+            this.btnNuevo2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnNuevo2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnNuevo2.Location = new System.Drawing.Point(320, 67);
+            this.btnNuevo2.Name = "btnNuevo2";
+            this.btnNuevo2.Size = new System.Drawing.Size(87, 28);
+            this.btnNuevo2.TabIndex = 117;
+            this.btnNuevo2.Text = "NUEVO";
+            this.btnNuevo2.UseVisualStyleBackColor = true;
+            this.btnNuevo2.Click += new System.EventHandler(this.btnNuevo2_Click);
+            // 
+            // btnBuscar2
+            // 
+            this.btnBuscar2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnBuscar2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnBuscar2.Location = new System.Drawing.Point(221, 67);
+            this.btnBuscar2.Name = "btnBuscar2";
+            this.btnBuscar2.Size = new System.Drawing.Size(92, 28);
+            this.btnBuscar2.TabIndex = 131;
+            this.btnBuscar2.Text = "BUSCAR";
+            this.btnBuscar2.UseVisualStyleBackColor = true;
+            // 
+            // btnCancelar2
+            // 
+            this.btnCancelar2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnCancelar2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCancelar2.Location = new System.Drawing.Point(427, 204);
+            this.btnCancelar2.Name = "btnCancelar2";
+            this.btnCancelar2.Size = new System.Drawing.Size(87, 28);
+            this.btnCancelar2.TabIndex = 118;
+            this.btnCancelar2.Text = "CANCELAR";
+            this.btnCancelar2.UseVisualStyleBackColor = true;
+            this.btnCancelar2.Click += new System.EventHandler(this.btnCancelar2_Click);
+            // 
             // panel2
             // 
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.Controls.Add(this.btnRegistros);
             this.panel2.Controls.Add(this.txtFolioOrden);
             this.panel2.Controls.Add(this.txtRecibe);
             this.panel2.Controls.Add(this.label6);
@@ -506,6 +591,18 @@
             this.panel2.Size = new System.Drawing.Size(628, 275);
             this.panel2.TabIndex = 130;
             // 
+            // btnRegistros
+            // 
+            this.btnRegistros.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnRegistros.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRegistros.Location = new System.Drawing.Point(444, 38);
+            this.btnRegistros.Name = "btnRegistros";
+            this.btnRegistros.Size = new System.Drawing.Size(108, 24);
+            this.btnRegistros.TabIndex = 117;
+            this.btnRegistros.Text = "VER REGISTROS";
+            this.btnRegistros.UseVisualStyleBackColor = true;
+            this.btnRegistros.Click += new System.EventHandler(this.btnRegistros_Click);
+            // 
             // btnEliminar
             // 
             this.btnEliminar.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -528,101 +625,54 @@
             this.btnActualizar.Text = "ACTUALIZAR";
             this.btnActualizar.UseVisualStyleBackColor = true;
             // 
-            // btnBuscar2
+            // dgvDetalles
             // 
-            this.btnBuscar2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnBuscar2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnBuscar2.Location = new System.Drawing.Point(221, 67);
-            this.btnBuscar2.Name = "btnBuscar2";
-            this.btnBuscar2.Size = new System.Drawing.Size(92, 28);
-            this.btnBuscar2.TabIndex = 131;
-            this.btnBuscar2.Text = "BUSCAR";
-            this.btnBuscar2.UseVisualStyleBackColor = true;
+            this.dgvDetalles.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvDetalles.Location = new System.Drawing.Point(8, 641);
+            this.dgvDetalles.Name = "dgvDetalles";
+            this.dgvDetalles.Size = new System.Drawing.Size(628, 101);
+            this.dgvDetalles.TabIndex = 131;
             // 
-            // btnAceptar2
+            // label14
             // 
-            this.btnAceptar2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnAceptar2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAceptar2.Location = new System.Drawing.Point(334, 204);
-            this.btnAceptar2.Name = "btnAceptar2";
-            this.btnAceptar2.Size = new System.Drawing.Size(87, 28);
-            this.btnAceptar2.TabIndex = 117;
-            this.btnAceptar2.Text = "ACEPTAR";
-            this.btnAceptar2.UseVisualStyleBackColor = true;
-            this.btnAceptar2.Click += new System.EventHandler(this.btnAceptar2_Click);
+            this.label14.AutoSize = true;
+            this.label14.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label14.Location = new System.Drawing.Point(5, 613);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(183, 21);
+            this.label14.TabIndex = 133;
+            this.label14.Text = "REGISTROS DE ORDEN:";
             // 
-            // btnCancelar2
+            // label15
             // 
-            this.btnCancelar2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnCancelar2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCancelar2.Location = new System.Drawing.Point(427, 204);
-            this.btnCancelar2.Name = "btnCancelar2";
-            this.btnCancelar2.Size = new System.Drawing.Size(87, 28);
-            this.btnCancelar2.TabIndex = 118;
-            this.btnCancelar2.Text = "CANCELAR";
-            this.btnCancelar2.UseVisualStyleBackColor = true;
-            this.btnCancelar2.Click += new System.EventHandler(this.btnCancelar2_Click);
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.Location = new System.Drawing.Point(184, 613);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(0, 21);
+            this.label15.TabIndex = 134;
             // 
-            // btnEliminar2
+            // buttonSalir
             // 
-            this.btnEliminar2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnEliminar2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnEliminar2.Location = new System.Drawing.Point(526, 67);
-            this.btnEliminar2.Name = "btnEliminar2";
-            this.btnEliminar2.Size = new System.Drawing.Size(87, 28);
-            this.btnEliminar2.TabIndex = 119;
-            this.btnEliminar2.Text = "ELIMINAR";
-            this.btnEliminar2.UseVisualStyleBackColor = true;
-            // 
-            // btnActualizar2
-            // 
-            this.btnActualizar2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnActualizar2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnActualizar2.Location = new System.Drawing.Point(413, 67);
-            this.btnActualizar2.Name = "btnActualizar2";
-            this.btnActualizar2.Size = new System.Drawing.Size(107, 28);
-            this.btnActualizar2.TabIndex = 118;
-            this.btnActualizar2.Text = "ACTUALIZAR";
-            this.btnActualizar2.UseVisualStyleBackColor = true;
-            // 
-            // btnNuevo2
-            // 
-            this.btnNuevo2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnNuevo2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNuevo2.Location = new System.Drawing.Point(320, 67);
-            this.btnNuevo2.Name = "btnNuevo2";
-            this.btnNuevo2.Size = new System.Drawing.Size(87, 28);
-            this.btnNuevo2.TabIndex = 117;
-            this.btnNuevo2.Text = "NUEVO";
-            this.btnNuevo2.UseVisualStyleBackColor = true;
-            this.btnNuevo2.Click += new System.EventHandler(this.btnNuevo2_Click);
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.Location = new System.Drawing.Point(14, 48);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(75, 21);
-            this.label13.TabIndex = 132;
-            this.label13.Text = "COMPRA";
-            // 
-            // boxCompra
-            // 
-            this.boxCompra.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.boxCompra.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.boxCompra.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.boxCompra.FormattingEnabled = true;
-            this.boxCompra.Location = new System.Drawing.Point(95, 46);
-            this.boxCompra.Name = "boxCompra";
-            this.boxCompra.Size = new System.Drawing.Size(120, 23);
-            this.boxCompra.TabIndex = 117;
+            this.buttonSalir.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(145)))), ((int)(((byte)(145)))), ((int)(((byte)(145)))));
+            this.buttonSalir.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.buttonSalir.Image = ((System.Drawing.Image)(resources.GetObject("buttonSalir.Image")));
+            this.buttonSalir.Location = new System.Drawing.Point(615, 5);
+            this.buttonSalir.Name = "buttonSalir";
+            this.buttonSalir.Size = new System.Drawing.Size(21, 23);
+            this.buttonSalir.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.buttonSalir.TabIndex = 32;
+            this.buttonSalir.TabStop = false;
+            this.buttonSalir.Click += new System.EventHandler(this.buttonSalir_Click);
             // 
             // Compras
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(643, 612);
+            this.ClientSize = new System.Drawing.Size(643, 753);
+            this.Controls.Add(this.label15);
+            this.Controls.Add(this.label14);
+            this.Controls.Add(this.dgvDetalles);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panelBarra);
@@ -633,11 +683,12 @@
             this.Load += new System.EventHandler(this.Compras_Load);
             this.panelBarra.ResumeLayout(false);
             this.panelBarra.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.buttonSalir)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvDetalles)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.buttonSalir)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -692,5 +743,9 @@
         private Button btnCancelar2;
         private ComboBox boxCompra;
         private Label label13;
+        private DataGridView dgvDetalles;
+        private Label label14;
+        private Label label15;
+        private Button btnRegistros;
     }
 }
