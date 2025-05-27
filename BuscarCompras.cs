@@ -43,11 +43,6 @@ namespace WinFormsApp1
             this.MouseDown += new MouseEventHandler(BuscarCompras_MouseDown);
         }
 
-        private void btnActualizar_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void BuscarCompras_Load(object sender, EventArgs e)
         {
             conexionSQL = new ConexionSQL();
