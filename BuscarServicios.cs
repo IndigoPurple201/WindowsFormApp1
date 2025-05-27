@@ -585,7 +585,7 @@ namespace WinFormsApp1
             }
             else 
             {
-                MessageBox.Show("No se pudo obtener el folio..");
+                MessageBox.Show("No se pudo obtener el folio.");
             }
         }
     }

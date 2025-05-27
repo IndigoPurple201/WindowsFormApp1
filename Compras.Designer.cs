@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Compras));
             this.panelBarra = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
+            this.buttonSalir = new System.Windows.Forms.PictureBox();
             this.txtOrden = new System.Windows.Forms.TextBox();
             this.Numero = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -79,12 +80,11 @@
             this.dgvDetalles = new System.Windows.Forms.DataGridView();
             this.label14 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
-            this.buttonSalir = new System.Windows.Forms.PictureBox();
             this.panelBarra.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.buttonSalir)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDetalles)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.buttonSalir)).BeginInit();
             this.SuspendLayout();
             // 
             // panelBarra
@@ -109,6 +109,19 @@
             this.label1.Size = new System.Drawing.Size(116, 30);
             this.label1.TabIndex = 47;
             this.label1.Text = "COMPRAS";
+            // 
+            // buttonSalir
+            // 
+            this.buttonSalir.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(145)))), ((int)(((byte)(145)))), ((int)(((byte)(145)))));
+            this.buttonSalir.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.buttonSalir.Image = ((System.Drawing.Image)(resources.GetObject("buttonSalir.Image")));
+            this.buttonSalir.Location = new System.Drawing.Point(615, 5);
+            this.buttonSalir.Name = "buttonSalir";
+            this.buttonSalir.Size = new System.Drawing.Size(21, 23);
+            this.buttonSalir.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.buttonSalir.TabIndex = 32;
+            this.buttonSalir.TabStop = false;
+            this.buttonSalir.Click += new System.EventHandler(this.buttonSalir_Click);
             // 
             // txtOrden
             // 
@@ -549,6 +562,7 @@
             this.btnBuscar2.TabIndex = 131;
             this.btnBuscar2.Text = "BUSCAR";
             this.btnBuscar2.UseVisualStyleBackColor = true;
+            this.btnBuscar2.Click += new System.EventHandler(this.btnBuscar2_Click);
             // 
             // btnCancelar2
             // 
@@ -613,6 +627,7 @@
             this.btnEliminar.TabIndex = 116;
             this.btnEliminar.Text = "ELIMINAR";
             this.btnEliminar.UseVisualStyleBackColor = true;
+            this.btnEliminar.Click += new System.EventHandler(this.btnEliminar_Click);
             // 
             // btnActualizar
             // 
@@ -624,6 +639,7 @@
             this.btnActualizar.TabIndex = 115;
             this.btnActualizar.Text = "ACTUALIZAR";
             this.btnActualizar.UseVisualStyleBackColor = true;
+            this.btnActualizar.Click += new System.EventHandler(this.btnActualizar_Click);
             // 
             // dgvDetalles
             // 
@@ -652,21 +668,9 @@
             this.label15.Size = new System.Drawing.Size(0, 21);
             this.label15.TabIndex = 134;
             // 
-            // buttonSalir
-            // 
-            this.buttonSalir.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(145)))), ((int)(((byte)(145)))), ((int)(((byte)(145)))));
-            this.buttonSalir.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.buttonSalir.Image = ((System.Drawing.Image)(resources.GetObject("buttonSalir.Image")));
-            this.buttonSalir.Location = new System.Drawing.Point(615, 5);
-            this.buttonSalir.Name = "buttonSalir";
-            this.buttonSalir.Size = new System.Drawing.Size(21, 23);
-            this.buttonSalir.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.buttonSalir.TabIndex = 32;
-            this.buttonSalir.TabStop = false;
-            this.buttonSalir.Click += new System.EventHandler(this.buttonSalir_Click);
-            // 
             // Compras
             // 
+            this.AcceptButton = this.btnRegistros;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(643, 753);
@@ -683,12 +687,12 @@
             this.Load += new System.EventHandler(this.Compras_Load);
             this.panelBarra.ResumeLayout(false);
             this.panelBarra.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.buttonSalir)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDetalles)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.buttonSalir)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

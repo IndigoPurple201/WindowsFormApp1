@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BuscarCompras));
-            this.btnActualizar = new System.Windows.Forms.Button();
+            this.btnSeleccionar = new System.Windows.Forms.Button();
             this.dgvBuscarCompras = new System.Windows.Forms.DataGridView();
             this.buttonSalir = new System.Windows.Forms.PictureBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -37,17 +37,17 @@
             ((System.ComponentModel.ISupportInitialize)(this.buttonSalir)).BeginInit();
             this.SuspendLayout();
             // 
-            // btnActualizar
+            // btnSeleccionar
             // 
-            this.btnActualizar.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnActualizar.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnActualizar.Location = new System.Drawing.Point(622, 265);
-            this.btnActualizar.Name = "btnActualizar";
-            this.btnActualizar.Size = new System.Drawing.Size(100, 29);
-            this.btnActualizar.TabIndex = 113;
-            this.btnActualizar.Text = "SELECCIONAR";
-            this.btnActualizar.UseVisualStyleBackColor = true;
-            this.btnActualizar.Click += new System.EventHandler(this.btnActualizar_Click);
+            this.btnSeleccionar.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnSeleccionar.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSeleccionar.Location = new System.Drawing.Point(622, 265);
+            this.btnSeleccionar.Name = "btnSeleccionar";
+            this.btnSeleccionar.Size = new System.Drawing.Size(100, 29);
+            this.btnSeleccionar.TabIndex = 113;
+            this.btnSeleccionar.Text = "SELECCIONAR";
+            this.btnSeleccionar.UseVisualStyleBackColor = true;
+            this.btnSeleccionar.Click += new System.EventHandler(this.btnSeleccionar_Click);
             // 
             // dgvBuscarCompras
             // 
@@ -69,6 +69,7 @@
             this.buttonSalir.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.buttonSalir.TabIndex = 111;
             this.buttonSalir.TabStop = false;
+            this.buttonSalir.Click += new System.EventHandler(this.buttonSalir_Click);
             // 
             // label4
             // 
@@ -86,7 +87,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(737, 309);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.btnActualizar);
+            this.Controls.Add(this.btnSeleccionar);
             this.Controls.Add(this.dgvBuscarCompras);
             this.Controls.Add(this.buttonSalir);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -102,7 +103,7 @@
 
         #endregion
 
-        private Button btnActualizar;
+        private Button btnSeleccionar;
         private DataGridView dgvBuscarCompras;
         private PictureBox buttonSalir;
         private Label label4;
