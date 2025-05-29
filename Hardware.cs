@@ -57,7 +57,6 @@ namespace WinFormsApp1
             ConfigurarBoxActSistemas(boxActSistemas);
             ConfigurarBoxNumFactura(boxNumFactura);
             ConfigurarBoxValorFactura(boxValorFactura);
-            ConfigurarBoxProveedor(boxProveedor);
             ConfigurarBoxGrupo(boxGrupo);
             //obtenerSiguienteNumero();
             txtFolio.Enabled = false;
@@ -767,16 +766,6 @@ namespace WinFormsApp1
             boxActivo.SelectedIndex = 0; // Seleccionar "-" por defecto
             boxActivo.TextChanged += boxActivo_TextChanged;
             boxActivo.KeyPress += boxActivo_KeyPress;
-        }
-
-        private void ConfigurarBoxProveedor(ComboBox boxProveedor)
-        {
-            boxProveedor.Items.Clear();
-            boxProveedor.Items.Add(".   ");  // Agregar opción por defecto
-            boxProveedor.DropDownStyle = ComboBoxStyle.DropDown; // Permite escribir manualmente
-            boxProveedor.SelectedIndex = 0; // Seleccionar "-" por defecto
-            boxProveedor.TextChanged += boxProveedor_TextChanged;
-            boxProveedor.KeyPress += boxProveedor_KeyPress;
         }
 
         private void ConfigurarBoxGrupo(ComboBox boxGrupo)

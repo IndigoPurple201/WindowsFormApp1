@@ -377,15 +377,12 @@ namespace WinFormsApp1
                         }
 
                         string queryDelete = "DELETE FROM OrdenCompra WHERE idOrdenCompra = @idOrdenCompra";
-
-                        connection.Open();
                         using (SqlCommand cmd = new SqlCommand(queryDelete, connection))
                         {
                             cmd.Parameters.AddWithValue("@idOrdenCompra", idOrdenCompra);
                             cmd.ExecuteNonQuery();
                         }
                     }
-                    
                 }
                 catch (Exception ex)
                 {
@@ -549,7 +546,6 @@ namespace WinFormsApp1
                 btnActualizar2.Enabled = !bloquear;
                 btnEliminar2.Enabled = !bloquear;
                 btnBuscar2.Enabled = !bloquear;
-                btnImprimir.Enabled = !bloquear;
             }
         }
 

@@ -55,7 +55,6 @@ namespace WinFormsApp1
             ConfigurarBoxActivoSistemas(boxActSistemas);
             ConfigurarBoxValorFactura(boxValorFactura);
             ConfigurarBoxNumeroFactura(boxNumFactura);
-            ConfigurarBoxProveedor(boxProveedor);
             boxMarca.SelectedIndexChanged += boxMarca_SelectedIndexChanged;
             btnNuevoModelo.Enabled = false;
             txtFolio.Enabled = false;
@@ -409,7 +408,6 @@ namespace WinFormsApp1
             RestablecerComboBox(boxNumSerie, ".   ");
             RestablecerComboBox(boxNumFactura, ".   ");
             RestablecerComboBox(boxValorFactura, "0.00");
-            RestablecerComboBox(boxProveedor, ".   ");
 
             RestablecerComboBoxSinPredeterminado(boxDidecon);
             RestablecerComboBoxSinPredeterminado(boxMarca);
@@ -833,16 +831,6 @@ namespace WinFormsApp1
             }
         }
 
-        private void boxProveedor_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            ComboBox comboBox = sender as ComboBox;
-            // Evitar que se ingresen más de 50 caracteres
-            if (!char.IsControl(e.KeyChar) && comboBox.Text.Length >= 50)
-            {
-                e.Handled = true;
-            }
-        }
-
         private void txtNotas_KeyPress(object sender, KeyPressEventArgs e)
         {
             TextBox txt = sender as TextBox;
@@ -918,16 +906,6 @@ namespace WinFormsApp1
             boxNumeroFactura.DropDownStyle = ComboBoxStyle.DropDown; // Permite escribir manualmente
             boxNumeroFactura.SelectedIndex = 0; // Seleccionar "-" por defecto
             boxNumeroFactura.KeyPress += boxNumeroFactura_KeyPress;
-        }
-
-        private void ConfigurarBoxProveedor(ComboBox boxProveedor)
-        {
-            boxProveedor.Items.Clear();
-            boxProveedor.Items.Add(".   ");  // Agregar opción por defecto
-            boxProveedor.DropDownStyle = ComboBoxStyle.DropDown; // Permite escribir manualmente
-            boxProveedor.SelectedIndex = 0; // Seleccionar "-" por defecto
-
-            boxProveedor.TextChanged += boxProveedor_TextChanged;
         }
 
         private void obtenerSiguienteNumero()

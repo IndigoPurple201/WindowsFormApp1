@@ -300,7 +300,6 @@ namespace WinFormsApp1
                     }
                     else
                     {
-                        // Alternar entre blanco y negro
                         bordeOriginal = (bordeOriginal == Color.Black) ? Color.White : Color.Black;
                         this.Invalidate();
                         parpadeoContador++;
