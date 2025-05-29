@@ -367,7 +367,7 @@ namespace WinFormsApp1
                             }
                         }
                         else
-                        {
+                        {   
                             MessageBox.Show("Ingrese un folio");
                         }
                     }

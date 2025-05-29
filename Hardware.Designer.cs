@@ -86,6 +86,7 @@
             this.btnActualizar = new System.Windows.Forms.Button();
             this.btnNuevoDepartamento = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.btnNuevoProveedor = new System.Windows.Forms.Button();
             this.panelBarra.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.buttonSalir)).BeginInit();
             this.SuspendLayout();
@@ -711,12 +712,25 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // btnNuevoProveedor
+            // 
+            this.btnNuevoProveedor.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnNuevoProveedor.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnNuevoProveedor.Location = new System.Drawing.Point(389, 336);
+            this.btnNuevoProveedor.Name = "btnNuevoProveedor";
+            this.btnNuevoProveedor.Size = new System.Drawing.Size(82, 20);
+            this.btnNuevoProveedor.TabIndex = 101;
+            this.btnNuevoProveedor.Text = "GESTIONAR";
+            this.btnNuevoProveedor.UseVisualStyleBackColor = true;
+            this.btnNuevoProveedor.Click += new System.EventHandler(this.btnNuevoProveedor_Click);
+            // 
             // Hardware
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
             this.ClientSize = new System.Drawing.Size(811, 453);
+            this.Controls.Add(this.btnNuevoProveedor);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.btnNuevoDepartamento);
             this.Controls.Add(this.btnActualizar);
@@ -844,5 +858,6 @@
         private System.Windows.Forms.Button btnActualizar;
         private System.Windows.Forms.Button btnNuevoDepartamento;
         private Button button1;
+        private Button btnNuevoProveedor;
     }
 }

@@ -24,6 +24,14 @@
     <None Remove="Database1.mdf" />
     <None Remove="Database1_log.ldf" />
     <None Remove="Reportes\rptdependencias.rpt" />
+    <None Remove="Reportes\rptOrdenCompra.rpt" />
+    <None Remove="Reportes\rptOrdenCompra2.rpt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Reportes\rptOrdenCompra2.rpt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -31,6 +39,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Reportes\rptdependencias.rpt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Reportes\rptOrdenCompra.rpt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

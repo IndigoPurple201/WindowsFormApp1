@@ -80,6 +80,7 @@
             this.dgvDetalles = new System.Windows.Forms.DataGridView();
             this.label14 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
+            this.btnNuevoProveedor = new System.Windows.Forms.Button();
             this.panelBarra.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.buttonSalir)).BeginInit();
             this.panel1.SuspendLayout();
@@ -317,7 +318,7 @@
             // 
             this.btnImprimir.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnImprimir.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnImprimir.Location = new System.Drawing.Point(520, 202);
+            this.btnImprimir.Location = new System.Drawing.Point(444, 175);
             this.btnImprimir.Name = "btnImprimir";
             this.btnImprimir.Size = new System.Drawing.Size(93, 28);
             this.btnImprimir.TabIndex = 114;
@@ -467,7 +468,6 @@
             this.panel1.Controls.Add(this.btnNuevo2);
             this.panel1.Controls.Add(this.btnBuscar2);
             this.panel1.Controls.Add(this.btnCancelar2);
-            this.panel1.Controls.Add(this.btnImprimir);
             this.panel1.Controls.Add(this.txtDescripcion);
             this.panel1.Controls.Add(this.label9);
             this.panel1.Controls.Add(this.txtCantidad);
@@ -516,6 +516,7 @@
             this.btnEliminar2.TabIndex = 119;
             this.btnEliminar2.Text = "ELIMINAR";
             this.btnEliminar2.UseVisualStyleBackColor = true;
+            this.btnEliminar2.Click += new System.EventHandler(this.btnEliminar2_Click);
             // 
             // btnActualizar2
             // 
@@ -527,12 +528,13 @@
             this.btnActualizar2.TabIndex = 118;
             this.btnActualizar2.Text = "ACTUALIZAR";
             this.btnActualizar2.UseVisualStyleBackColor = true;
+            this.btnActualizar2.Click += new System.EventHandler(this.btnActualizar2_Click);
             // 
             // btnAceptar2
             // 
             this.btnAceptar2.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnAceptar2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAceptar2.Location = new System.Drawing.Point(334, 204);
+            this.btnAceptar2.Location = new System.Drawing.Point(433, 202);
             this.btnAceptar2.Name = "btnAceptar2";
             this.btnAceptar2.Size = new System.Drawing.Size(87, 28);
             this.btnAceptar2.TabIndex = 117;
@@ -568,7 +570,7 @@
             // 
             this.btnCancelar2.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnCancelar2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCancelar2.Location = new System.Drawing.Point(427, 204);
+            this.btnCancelar2.Location = new System.Drawing.Point(526, 202);
             this.btnCancelar2.Name = "btnCancelar2";
             this.btnCancelar2.Size = new System.Drawing.Size(87, 28);
             this.btnCancelar2.TabIndex = 118;
@@ -579,6 +581,7 @@
             // panel2
             // 
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.Controls.Add(this.btnNuevoProveedor);
             this.panel2.Controls.Add(this.btnRegistros);
             this.panel2.Controls.Add(this.txtFolioOrden);
             this.panel2.Controls.Add(this.txtRecibe);
@@ -587,6 +590,7 @@
             this.panel2.Controls.Add(this.btnEliminar);
             this.panel2.Controls.Add(this.txtEntrega);
             this.panel2.Controls.Add(this.label3);
+            this.panel2.Controls.Add(this.btnImprimir);
             this.panel2.Controls.Add(this.btnActualizar);
             this.panel2.Controls.Add(this.btnNuevo);
             this.panel2.Controls.Add(this.label2);
@@ -667,6 +671,18 @@
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(0, 21);
             this.label15.TabIndex = 134;
+            // 
+            // btnNuevoProveedor
+            // 
+            this.btnNuevoProveedor.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnNuevoProveedor.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnNuevoProveedor.Location = new System.Drawing.Point(444, 93);
+            this.btnNuevoProveedor.Name = "btnNuevoProveedor";
+            this.btnNuevoProveedor.Size = new System.Drawing.Size(93, 28);
+            this.btnNuevoProveedor.TabIndex = 118;
+            this.btnNuevoProveedor.Text = "GESTIONAR";
+            this.btnNuevoProveedor.UseVisualStyleBackColor = true;
+            this.btnNuevoProveedor.Click += new System.EventHandler(this.btnNuevoProveedor_Click);
             // 
             // Compras
             // 
@@ -751,5 +767,6 @@
         private Label label14;
         private Label label15;
         private Button btnRegistros;
+        private Button btnNuevoProveedor;
     }
 }

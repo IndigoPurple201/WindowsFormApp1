@@ -50,6 +50,7 @@ namespace WinFormsApp1
             LlenarBoxTipo();
             LlenarBoxMarca();
             LlenarBoxEstatus();
+            LlenarBoxProveedor();
             ConfigurarNumSerie(boxNumSerie);
             ConfigurarBoxActivo(boxActivo);
             ConfigurarBoxActivoSistemas(boxActSistemas);
@@ -66,7 +67,7 @@ namespace WinFormsApp1
             btnAceptar.Enabled = !bloquear;
             btnCancelar.Enabled = !bloquear;
             btnNuevoMarca.Enabled = !bloquear;
-            //btnNuevoTipo.Enabled = !bloquear;
+            btnNuevoProveedor.Enabled = !bloquear;
             boxDidecon.Enabled = !bloquear;
             boxTipo.Enabled = !bloquear;
             boxTipo.Enabled = !bloquear;
@@ -451,6 +452,13 @@ namespace WinFormsApp1
             marca.ShowDialog();
         }
 
+        private void btnNuevoProveedor_Click(object sender, EventArgs e)
+        {
+            Proveedor proveedor = new Proveedor();
+            proveedor.ProveedorAgregado += LlenarBoxProveedor;
+            proveedor.ShowDialog();
+        }
+
         private void btnNuevoModelo_Click(object sender, EventArgs e)
         {
             string marca = boxMarca.SelectedItem.ToString();
@@ -585,6 +593,31 @@ namespace WinFormsApp1
             catch (Exception ex)
             {
                 MessageBox.Show("Error al cargar los datos: " + ex.Message);
+            }
+        }
+
+        private void LlenarBoxProveedor()
+        {
+            try
+            {
+                using (SqlConnection connection = conexionSQL.ObtenerConexion())
+                {
+                    connection.Open();
+                    string query = "SELECT Descripcion AS descripcion FROM Proveedor_Compra;";
+                    using (SqlCommand cmd = new SqlCommand(query, connection))
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        boxProveedor.Items.Clear();
+                        while (reader.Read())
+                        {
+                            boxProveedor.Items.Add(reader["descripcion"].ToString());
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
             }
         }
 

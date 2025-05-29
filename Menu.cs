@@ -101,5 +101,11 @@ namespace WinFormsApp1
                 }
             }
         }
+
+        private void pROVEEDORESToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Proveedor proveedor = new Proveedor();
+            proveedor.ShowDialog();
+        }
     }
 }

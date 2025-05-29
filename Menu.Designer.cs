@@ -41,6 +41,7 @@
             this.menuServicios = new System.Windows.Forms.ToolStripMenuItem();
             this.menuSalir = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pROVEEDORESToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -78,7 +79,7 @@
             // 
             this.toolHardware.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.toolHardware.Name = "toolHardware";
-            this.toolHardware.Size = new System.Drawing.Size(180, 22);
+            this.toolHardware.Size = new System.Drawing.Size(152, 22);
             this.toolHardware.Text = "HARDWARE";
             this.toolHardware.Click += new System.EventHandler(this.toolHardware_Click);
             // 
@@ -86,7 +87,7 @@
             // 
             this.toolPeriferico.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.toolPeriferico.Name = "toolPeriferico";
-            this.toolPeriferico.Size = new System.Drawing.Size(180, 22);
+            this.toolPeriferico.Size = new System.Drawing.Size(152, 22);
             this.toolPeriferico.Text = "PERIFERICOS";
             this.toolPeriferico.Click += new System.EventHandler(this.toolPeriferico_Click);
             // 
@@ -94,7 +95,7 @@
             // 
             this.toolCompras.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.toolCompras.Name = "toolCompras";
-            this.toolCompras.Size = new System.Drawing.Size(180, 22);
+            this.toolCompras.Size = new System.Drawing.Size(152, 22);
             this.toolCompras.Text = "COMPRAS";
             this.toolCompras.Click += new System.EventHandler(this.toolCompras_Click);
             // 
@@ -103,7 +104,8 @@
             this.menuCatalogos.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolDependencias,
             this.toolMarcas,
-            this.toolModelos});
+            this.toolModelos,
+            this.pROVEEDORESToolStripMenuItem});
             this.menuCatalogos.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.menuCatalogos.Name = "menuCatalogos";
             this.menuCatalogos.Size = new System.Drawing.Size(113, 25);
@@ -113,7 +115,7 @@
             // 
             this.toolDependencias.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.toolDependencias.Name = "toolDependencias";
-            this.toolDependencias.Size = new System.Drawing.Size(170, 22);
+            this.toolDependencias.Size = new System.Drawing.Size(180, 22);
             this.toolDependencias.Text = "DEPENDENCIAS";
             this.toolDependencias.Click += new System.EventHandler(this.toolDependencias_Click);
             // 
@@ -121,7 +123,7 @@
             // 
             this.toolMarcas.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.toolMarcas.Name = "toolMarcas";
-            this.toolMarcas.Size = new System.Drawing.Size(170, 22);
+            this.toolMarcas.Size = new System.Drawing.Size(180, 22);
             this.toolMarcas.Text = "MARCAS";
             this.toolMarcas.Click += new System.EventHandler(this.toolMarca_Click);
             // 
@@ -129,7 +131,7 @@
             // 
             this.toolModelos.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.toolModelos.Name = "toolModelos";
-            this.toolModelos.Size = new System.Drawing.Size(170, 22);
+            this.toolModelos.Size = new System.Drawing.Size(180, 22);
             this.toolModelos.Text = "MODELOS";
             this.toolModelos.Click += new System.EventHandler(this.toolModelo_Click);
             // 
@@ -167,6 +169,14 @@
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
             // 
+            // pROVEEDORESToolStripMenuItem
+            // 
+            this.pROVEEDORESToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pROVEEDORESToolStripMenuItem.Name = "pROVEEDORESToolStripMenuItem";
+            this.pROVEEDORESToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.pROVEEDORESToolStripMenuItem.Text = "PROVEEDORES";
+            this.pROVEEDORESToolStripMenuItem.Click += new System.EventHandler(this.pROVEEDORESToolStripMenuItem_Click);
+            // 
             // Menu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -202,5 +212,6 @@
         private PictureBox pictureBox1;
         private ToolStripMenuItem menuServicios;
         private ToolStripMenuItem toolCompras;
+        private ToolStripMenuItem pROVEEDORESToolStripMenuItem;
     }
 }

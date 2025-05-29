@@ -1,5 +1,7 @@
-﻿using CrystalDecisions.ReportAppServer.CommonControls;
+﻿using CrystalDecisions.CrystalReports.Engine;
+using CrystalDecisions.ReportAppServer.CommonControls;
 using CrystalDecisions.ReportAppServer.DataDefModel;
+using CrystalDecisions.Shared;
 using Microsoft.Data.SqlClient;
 using Microsoft.ReportingServices.Diagnostics.Internal;
 using System;
@@ -330,8 +332,62 @@ namespace WinFormsApp1
                             }
                             MessageBox.Show("Registro actualizado correctamente.", "Confirmación", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             LimpiarControles();
-                            BloquearControles(panel1, true, btnNuevo);
+                            BloquearControles(panel2, true, btnNuevo);
 
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error: " + ex.Message);
+                        return;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("No se ha seleccionado ningun servicio para actualizar");
+                }
+            }
+        }
+
+        private void btnActualizar2_Click(object sender, EventArgs e)
+        {
+            DialogResult confirmacion = MessageBox.Show("¿Está seguro que desea acutalizar el registro?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (confirmacion == DialogResult.Yes)
+            {
+                if (!string.IsNullOrEmpty(txtFolioDetalle.Text))
+                {
+                    string queryUpdate = "";
+                    try 
+                    {
+                        using (SqlConnection connection = conexionSQL.ObtenerConexion())
+                        {
+                            connection.Open();
+                            queryUpdate = @"
+                            UPDATE DetalleCompra SET
+                                idOrdenCompra = @nuevoIdOrdenCompra,
+                                Descripcion = @nuevoDescripcion,
+                                cantidad = @nuevoCantidad,
+                                medida = @nuevoMedida,
+                                precio = @nuevoPrecio,
+                                total = @nuevoTotal
+                                WHERE idDetalle = @idDetalle
+                            ;";
+                            using (SqlCommand cmdUpdate = new SqlCommand(queryUpdate,connection))
+                            {
+                                cmdUpdate.Parameters.AddWithValue("@nuevoIdOrdenCompra", boxCompra.Text.Trim());
+                                cmdUpdate.Parameters.AddWithValue("@nuevoDescripcion", string.IsNullOrWhiteSpace(txtDescripcion.Text) ? DBNull.Value : (object)txtDescripcion.Text.Trim());
+                                cmdUpdate.Parameters.AddWithValue("@nuevoCantidad", string.IsNullOrWhiteSpace(txtCantidad.Text) ? DBNull.Value : (object)Convert.ToInt32(txtCantidad.Text.Trim()));
+                                cmdUpdate.Parameters.AddWithValue("@nuevoMedida", string.IsNullOrWhiteSpace(txtMedida.Text) ? DBNull.Value : (object)txtMedida.Text.Trim());
+                                cmdUpdate.Parameters.AddWithValue("@nuevoPrecio", string.IsNullOrWhiteSpace(txtPrecio.Text) ? DBNull.Value : (object)Convert.ToDecimal(txtPrecio.Text.Trim()));
+                                cmdUpdate.Parameters.AddWithValue("@nuevoTotal", string.IsNullOrWhiteSpace(txtTotal.Text) ? DBNull.Value : (object)Convert.ToDecimal(txtTotal.Text.Trim()));
+                                cmdUpdate.Parameters.AddWithValue("@idDetalle", txtFolioDetalle.Text.Trim());
+                                cmdUpdate.ExecuteNonQuery();
+                            }
+                            MessageBox.Show("Registro actualizado correctamente.", "Confirmación", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            LimpiarControles();
+                            LimpiarControles2();
+                            BloquearControles(panel1, true, btnNuevo2);
+                            dgvDetalles.Rows.Clear();
                         }
                     }
                     catch (Exception ex)
@@ -358,11 +414,12 @@ namespace WinFormsApp1
             else
             {
                 int idOrdenCompra = Convert.ToInt32(txtOrden.Text.Trim());
-                try 
+                try
                 {
                     using (SqlConnection connection = conexionSQL.ObtenerConexion())
                     {
                         connection.Open();
+
                         string queryCheck = "SELECT COUNT(*) FROM DetalleCompra WHERE idOrdenCompra = @idOrdenCompra;";
                         using (SqlCommand cmdCheck = new SqlCommand(queryCheck, connection))
                         {
@@ -392,6 +449,44 @@ namespace WinFormsApp1
                 LimpiarControles();
                 LlenarBoxCompras();
                 BloquearControles(panel1, true, btnNuevo);
+                dgvDetalles.Rows.Clear();
+            }
+        }
+
+        private void btnEliminar2_Click(object sender, EventArgs e)
+        {
+            DialogResult confirmacion = MessageBox.Show("¿Está seguro de que desea eliminar lo(s) registros(s) seleccionado(s)?",
+                                            "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (confirmacion != DialogResult.Yes)
+            {
+                return;
+            }
+            else
+            {
+                int idOrdenCompra = Convert.ToInt32(txtOrden.Text.Trim());
+                try
+                {
+                    using (SqlConnection connection = conexionSQL.ObtenerConexion())
+                    {
+                        connection.Open();
+                        string query = "DELETE FROM DetalleCompra WHERE idDetalle = @idDetalle;";
+                        using (SqlCommand cmd = new SqlCommand(query,connection))
+                        {
+                            cmd.Parameters.AddWithValue("@idDetalle", txtFolioDetalle.Text.Trim());
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: " + ex.Message);
+                }
+                MessageBox.Show("Registro eliminado correctamente.", "Confirmación", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                LimpiarControles();
+                LimpiarControles2();
+                LlenarBoxCompras();
+                BloquearControles(panel2, true, btnNuevo2);
+                dgvDetalles.Rows.Clear();
             }
         }
 
@@ -417,8 +512,9 @@ namespace WinFormsApp1
                             insertCmd.ExecuteNonQuery();
                         }
                         MessageBox.Show("Detalles de compra registrada correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        LimpiarControles();
+                        LimpiarControles2();
                         BloquearControles(panel1, true, btnNuevo2 );
+                        dgvDetalles.Rows.Clear();
                     }
                 }
                 catch (Exception ex)
@@ -536,6 +632,8 @@ namespace WinFormsApp1
                 btnEliminar.Enabled = !bloquear;
                 btnBuscar.Enabled = !bloquear;
                 btnRegistros.Enabled = !bloquear;
+                btnImprimir.Enabled = !bloquear;
+                btnNuevoProveedor.Enabled = !bloquear;
             }
             else if (origen == btnNuevo2)
             {
@@ -590,7 +688,10 @@ namespace WinFormsApp1
         private void btnNuevo_Click(object sender, EventArgs e)
         {
             BloquearControles(panel2, false, btnNuevo);
-            ObtenerSiguienteNumero();
+            if (string.IsNullOrEmpty(txtFolioOrden.Text))
+            {
+                ObtenerSiguienteNumero();
+            }
             txtOrden.Enabled = false;
             btnActualizar.Enabled = false;
             btnEliminar.Enabled = false;
@@ -602,6 +703,9 @@ namespace WinFormsApp1
             BloquearControles(panel1, false, btnNuevo2);
             ObtenerSiguienteNumero2();
             txtFolioDetalle.Enabled = false;
+            btnActualizar2.Enabled = false;
+            btnEliminar2.Enabled = false;
+            dgvDetalles.Rows.Clear();
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
@@ -614,9 +718,11 @@ namespace WinFormsApp1
 
         private void btnCancelar2_Click(object sender, EventArgs e)
         {
+            LimpiarControles();
             LimpiarControles2();
             BloquearControles(panel1, true, btnNuevo2);
             txtFolioDetalle.Enabled = false;
+            dgvDetalles.Rows.Clear();
         }
 
         private void panelBarra_Paint(object sender, PaintEventArgs e)
@@ -721,8 +827,79 @@ namespace WinFormsApp1
 
         private void btnImprimir_Click(object sender, EventArgs e)
         {
+            try
+            {
+                using (SqlConnection connection = conexionSQL.ObtenerConexion())
+                {
+                    connection.Open();
+                    string idOrdenCompra = txtOrden.Text.Trim();
+
+                    if (string.IsNullOrWhiteSpace(idOrdenCompra))
+                    {
+                        MessageBox.Show("Por favor, ingrese un ID de orden de compra válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    string query = @"
+                    SELECT
+                        DetalleCompra.idOrdenCompra, DetalleCompra.descripcion, DetalleCompra.cantidad, DetalleCompra.medida, DetalleCompra.precio, DetalleCompra.total,
+                        OrdenCompra.idOrdenCompra, OrdenCompra.Fecha, OrdenCompra.Entrega, OrdenCompra.Recibe, OrdenCompra.FolioCompras,
+                        Proveedor_Compra.Descripcion,
+                        dependencias.id_dependencia, dependencias.descripcion
+                    FROM
+                        inventarios.dbo.DetalleCompra DetalleCompra,
+                        inventarios.dbo.OrdenCompra OrdenCompra,
+                        inventarios.dbo.Proveedor_Compra Proveedor_Compra,
+                        inventarios.dbo.dependencias dependencias
+                    WHERE
+                        DetalleCompra.idOrdenCompra = OrdenCompra.idOrdenCompra AND
+                        OrdenCompra.idProveedor = Proveedor_Compra.idProveedor AND
+                        OrdenCompra.idDepto = dependencias.id_dependencia AND
+                        OrdenCompra.idOrdenCompra = @idOrdenCompra
+                    ORDER BY
+                        dependencias.id_dependencia ASC;
+                    ";
+
+                    SqlCommand cmd = new SqlCommand(query, connection);
+                    cmd.Parameters.AddWithValue("@idOrdenCompra", 279);
+
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+
+                    ReportDocument report = new ReportDocument();
+                    string basePath = AppDomain.CurrentDomain.BaseDirectory;
+                    string rutaReporte = Path.Combine(basePath, "Reportes", "rptOrdenCompra.rpt");
+
+                    if (!File.Exists(rutaReporte))
+                    {
+                        MessageBox.Show("⚠️ El archivo de reporte no se encontró:\n" + rutaReporte, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    report.Load(rutaReporte);
+                    report.SetDataSource(dt);
+
+                    Form visor = new Form();
+                    CrystalDecisions.Windows.Forms.CrystalReportViewer visorCrystal = new CrystalDecisions.Windows.Forms.CrystalReportViewer
+                    {
+                        Dock = DockStyle.Fill,
+                        ReportSource = report
+                    };
+
+                    visor.Controls.Add(visorCrystal);
+                    visor.WindowState = FormWindowState.Maximized;
+                    visor.ShowDialog();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al imprimir: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
         }
+
 
         private bool validarCampos1()
         {
@@ -793,6 +970,7 @@ namespace WinFormsApp1
                         CargarDatosPorFolio(servicioSeleccionado);
                         btnActualizar.Enabled = true;
                         btnEliminar.Enabled = true;
+                        btnAceptar.Enabled = false;
                     }
                 }
             }
@@ -807,7 +985,10 @@ namespace WinFormsApp1
                     string servicioSeleccionado = buscarCompras.ServicioSeleccionado;
                     if (!string.IsNullOrEmpty(servicioSeleccionado))
                     {
-                        return;
+                        CargarDatosPorFolio2(servicioSeleccionado);
+                        btnActualizar2.Enabled = true;
+                        btnEliminar2.Enabled = true;
+                        btnAceptar2.Enabled = false;
                     }
                 }
             }
@@ -885,6 +1066,121 @@ namespace WinFormsApp1
             {
                 MessageBox.Show("Error al cargar los datos: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void CargarDatosPorFolio2(string servicioSeleccionado)
+        {
+            try 
+            {
+                string query1 = "";
+                string query2 = "";
+                using (SqlConnection connection = conexionSQL.ObtenerConexion())
+                {
+                    connection.Open();
+                    query1 = @"
+                            SELECT idDetalle AS Numero, 
+                                idOrdenCompra AS 'Orden Compra', 
+                                Descripcion, cantidad AS Cantidad, 
+                                medida AS Medida, 
+                                precio AS Precio, 
+                                total AS Total 
+                            FROM DetalleCompra
+                            WHERE idDetalle = @idDetalle;
+                            ;";
+                    using (SqlCommand cmd = new SqlCommand(query1,connection))
+                    {
+                        cmd.Parameters.AddWithValue("@idDetalle", servicioSeleccionado);
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                boxCompra.SelectedIndex = boxCompra.FindStringExact(reader["Orden Compra"].ToString());
+                                txtFolioDetalle.Text = reader["Numero"].ToString();
+                                txtDescripcion.Text = reader["Descripcion"].ToString();
+                                txtCantidad.Text = reader["Cantidad"].ToString();
+                                txtMedida.Text = reader["Medida"].ToString();
+                                txtPrecio.Text = reader["Precio"].ToString();
+                                txtTotal.Text = reader["Total"].ToString();
+                            }
+                            else
+                            {
+                                MessageBox.Show("No se encontraron datos para el folio seleccionado.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
+                        }
+                    }
+
+                    query2 = @"SELECT OrdenCompra.idOrdenCompra,
+                                OrdenCompra.FolioCompras,
+                                OrdenCompra.fecha,
+                                OrdenCompra.idProveedor,
+                                OrdenCompra.iddepto,
+                                OrdenCompra.entrega,
+                                OrdenCompra.recibe
+                            FROM DetalleCompra
+                            JOIN OrdenCompra ON DetalleCompra.idOrdenCompra = DetalleCompra.idOrdenCompra
+                            WHERE DetalleCompra.idDetalle = @idDetalle
+                    ;";
+                    using (SqlCommand cmd = new SqlCommand(query2, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@idDetalle", servicioSeleccionado);
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                txtOrden.Text = reader["idOrdenCompra"].ToString();
+                                txtFolioOrden.Text = reader["FolioCompras"].ToString();
+                                dateTimePicker1.Value = Convert.ToDateTime(reader["fecha"]);
+                                txtEntrega.Text = reader["entrega"].ToString();
+                                txtRecibe.Text = reader["recibe"].ToString();
+
+                                int idProveedor = Convert.ToInt32(reader["idProveedor"]);
+                                int idDepartamento = Convert.ToInt32(reader["iddepto"]);
+                                reader.Close();
+
+                                string nombreProveedor = "";
+                                using (SqlCommand cmdProveedor = new SqlCommand("SELECT Descripcion FROM Proveedor_Compra WHERE idProveedor = @idProveedor;", connection))
+                                {
+                                    cmdProveedor.Parameters.AddWithValue("@idProveedor", idProveedor);
+                                    var resultProveedor = cmdProveedor.ExecuteScalar();
+                                    if (resultProveedor != null)
+                                    {
+                                        nombreProveedor = resultProveedor.ToString();
+                                    }
+                                }
+
+                                string nombreDepartamento = "";
+                                using (SqlCommand cmdDepartamento = new SqlCommand("SELECT descripcion FROM dependencias WHERE id_dependencia = @id_dependencia;", connection))
+                                {
+                                    cmdDepartamento.Parameters.AddWithValue("@id_dependencia", idDepartamento);
+                                    var resultDepartamento = cmdDepartamento.ExecuteScalar();
+                                    if (resultDepartamento != null)
+                                    {
+                                        nombreDepartamento = resultDepartamento.ToString();
+                                    }
+                                }
+
+                                boxProveedor.SelectedIndex = boxProveedor.FindStringExact(nombreProveedor);
+                                boxDepartamento.SelectedIndex = boxDepartamento.FindStringExact(nombreDepartamento);
+                            }
+                            else
+                            {
+                                MessageBox.Show("No se encontraron datos para el folio seleccionado.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar los datos: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnNuevoProveedor_Click(object sender, EventArgs e)
+        {
+            Proveedor proveedor = new Proveedor();
+            proveedor.ProveedorAgregado += LlenarBoxProveedor;
+            proveedor.ShowDialog();
         }
     }
 }

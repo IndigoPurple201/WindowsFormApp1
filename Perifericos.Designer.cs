@@ -67,6 +67,7 @@
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.btnBuscar = new System.Windows.Forms.Button();
             this.btnActualizar = new System.Windows.Forms.Button();
+            this.btnNuevoProveedor = new System.Windows.Forms.Button();
             this.panelBarra.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.buttonSalir)).BeginInit();
             this.SuspendLayout();
@@ -359,7 +360,7 @@
             this.boxValorFactura.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.boxValorFactura.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.boxValorFactura.FormattingEnabled = true;
-            this.boxValorFactura.Location = new System.Drawing.Point(174, 275);
+            this.boxValorFactura.Location = new System.Drawing.Point(174, 301);
             this.boxValorFactura.Name = "boxValorFactura";
             this.boxValorFactura.Size = new System.Drawing.Size(181, 23);
             this.boxValorFactura.TabIndex = 80;
@@ -369,7 +370,7 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(42, 277);
+            this.label7.Location = new System.Drawing.Point(37, 299);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(128, 21);
             this.label7.TabIndex = 79;
@@ -380,18 +381,17 @@
             this.boxProveedor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.boxProveedor.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.boxProveedor.FormattingEnabled = true;
-            this.boxProveedor.Location = new System.Drawing.Point(174, 301);
+            this.boxProveedor.Location = new System.Drawing.Point(173, 275);
             this.boxProveedor.Name = "boxProveedor";
             this.boxProveedor.Size = new System.Drawing.Size(181, 23);
             this.boxProveedor.TabIndex = 82;
             this.boxProveedor.TextChanged += new System.EventHandler(this.boxProveedor_TextChanged);
-            this.boxProveedor.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.boxProveedor_KeyPress);
             // 
             // label11
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(66, 302);
+            this.label11.Location = new System.Drawing.Point(67, 277);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(100, 21);
             this.label11.TabIndex = 81;
@@ -488,11 +488,24 @@
             this.btnActualizar.UseVisualStyleBackColor = true;
             this.btnActualizar.Click += new System.EventHandler(this.btnActualizar_Click);
             // 
+            // btnNuevoProveedor
+            // 
+            this.btnNuevoProveedor.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnNuevoProveedor.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnNuevoProveedor.Location = new System.Drawing.Point(359, 279);
+            this.btnNuevoProveedor.Name = "btnNuevoProveedor";
+            this.btnNuevoProveedor.Size = new System.Drawing.Size(84, 20);
+            this.btnNuevoProveedor.TabIndex = 91;
+            this.btnNuevoProveedor.Text = "GESTIONAR\r\n";
+            this.btnNuevoProveedor.UseVisualStyleBackColor = true;
+            this.btnNuevoProveedor.Click += new System.EventHandler(this.btnNuevoProveedor_Click);
+            // 
             // Perifericos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(666, 478);
+            this.Controls.Add(this.btnNuevoProveedor);
             this.Controls.Add(this.btnActualizar);
             this.Controls.Add(this.btnBuscar);
             this.Controls.Add(this.dateTimePicker1);
@@ -582,6 +595,6 @@
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
         private System.Windows.Forms.Button btnBuscar;
         private System.Windows.Forms.Button btnActualizar;
-
+        private Button btnNuevoProveedor;
     }
 }

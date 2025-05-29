@@ -296,7 +296,7 @@ namespace WinFormsApp1
                         parpadeoTimer.Stop();
                         bordeOriginal = Color.Black; // Restaurar borde
                         this.Invalidate(); // Redibujar
-                        parpadeoActivo = false; // Permitir que se active de nuevo si es necesario
+                        parpadeoActivo = false;
                     }
                     else
                     {

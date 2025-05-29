@@ -45,6 +45,7 @@ namespace WinFormsApp1
             LlenarBoxDepartamento();
             LlenarBoxTipo();
             LlenarBoxEstatus();
+            LlenarBoxProveedor();
 
             BloquearControles(true);
 
@@ -468,6 +469,31 @@ namespace WinFormsApp1
             }
         }
 
+        private void LlenarBoxProveedor()
+        {
+            try 
+            {
+                using (SqlConnection connection = conexionSQL.ObtenerConexion())
+                {
+                    connection.Open();
+                    string query = "SELECT Descripcion AS descripcion FROM Proveedor_Compra;";
+                    using (SqlCommand cmd = new SqlCommand(query, connection))
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        boxProveedor.Items.Clear();
+                        while (reader.Read())
+                        {
+                            boxProveedor.Items.Add(reader["descripcion"].ToString());
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+
         private void boxMarca_SelectedIndexChanged(object sender, EventArgs e)
         {
             LlenarBoXModelo();
@@ -612,6 +638,7 @@ namespace WinFormsApp1
             btnCancelar.Enabled = !bloquear; // "Cancelar" solo se habilita cuando los controles están activos
             btnNuevoMarca.Enabled = !bloquear;
             btnNuevoDepartamento.Enabled = !bloquear;
+            btnNuevoProveedor.Enabled = !bloquear;
             //btnNuevoTipo.Enabled = !bloquear;
             btnBuscar.Enabled = !bloquear;
             if (btnActualizar.Enabled = true)
@@ -1232,6 +1259,13 @@ namespace WinFormsApp1
             Dependencias dependencias = new Dependencias();
             dependencias.DependenciaAgregada += LlenarBoxDepartamento;
             dependencias.ShowDialog();
+        }
+
+        private void btnNuevoProveedor_Click(object sender, EventArgs e)
+        {
+            Proveedor proveedor = new Proveedor();
+            proveedor.ProveedorAgregado += LlenarBoxProveedor;
+            proveedor.ShowDialog();
         }
 
         private void panelBarra_Paint(object sender, PaintEventArgs e)

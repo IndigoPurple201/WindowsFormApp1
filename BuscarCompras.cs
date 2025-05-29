@@ -218,7 +218,16 @@ namespace WinFormsApp1
                 MessageBox.Show("Por favor, seleccione una fila.");
                 return;
             }
-            ServicioSeleccionado = dgvBuscarCompras.SelectedRows[0].Cells["Orden Compra"].Value.ToString();
+
+            if (tipoFiltro == "ORDEN")
+            {
+                ServicioSeleccionado = dgvBuscarCompras.SelectedRows[0].Cells["Orden Compra"].Value.ToString();
+            }
+            else if (tipoFiltro == "DETALLES")
+            {
+                ServicioSeleccionado = dgvBuscarCompras.SelectedRows[0].Cells["NUMERO"].Value.ToString();
+            }
+
             if (!string.IsNullOrEmpty(ServicioSeleccionado))
             {
                 this.DialogResult = DialogResult.OK;
