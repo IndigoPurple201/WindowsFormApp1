@@ -829,7 +829,50 @@ namespace WinFormsApp1
         {
             try
             {
+                using (SqlConnection connection = conexionSQL.ObtenerConexion())
+                {
+                    connection.Open();
+                    string idOrdenCompra = txtOrden.Text.Trim();
+                    string queryId = "SELECT idOrdenCompra FROM OrdenCompra WHERE idOrdenCompra = @idOrdenCompra;";
+                    SqlCommand cmd = new SqlCommand(queryId,connection);
+                    cmd.Parameters.AddWithValue("@idOrdenCompra", idOrdenCompra);
+                    idOrdenCompra = cmd.ExecuteScalar()?.ToString();
+                    if (string.IsNullOrEmpty(idOrdenCompra))
+                    {
+                        MessageBox.Show("No se encontró el id departamento seleccionado");
+                        return;
+                    }
 
+                    string query = $"SELECT DetalleCompra.idOrdenCompra, DetalleCompra.descripcion, DetalleCompra.cantidad, DetalleCompra.medida, DetalleCompra.precio, DetalleCompra.total, OrdenCompra.idOrdenCompra, OrdenCompra.Fecha, OrdenCompra.Entrega, OrdenCompra.Recibe, OrdenCompra.FolioCompras, Proveedor_Compra.Descripcion, dependencias.id_dependencia, dependencias.descripcion FROM inventarios.dbo.DetalleCompra DetalleCompra, inventarios.dbo.OrdenCompra OrdenCompra, inventarios.dbo.Proveedor_Compra Proveedor_Compra, inventarios.dbo.dependencias dependencias WHERE DetalleCompra.idOrdenCompra = OrdenCompra.idOrdenCompra AND OrdenCompra.idProveedor = Proveedor_Compra.idProveedor AND OrdenCompra.idDepto = dependencias.id_dependencia AND OrdenCompra.idOrdenCompra = '{idOrdenCompra}'ORDER BY dependencias.id_dependencia ASC;";
+                    SqlDataAdapter da = new SqlDataAdapter(query,connection);
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+                    ReportDocument report = new ReportDocument();
+                    string basePath = AppDomain.CurrentDomain.BaseDirectory;
+                    string reportPath = Path.Combine(basePath, "Reportes", "rptOrdenCompra.rpt");
+                    if (!File.Exists(reportPath))
+                    {
+                        MessageBox.Show("⚠️ El archivo de reporte no se encontró:\n" + reportPath, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+                    report.Load(reportPath);
+                    report.SetDataSource(dt);
+
+                    foreach (CrystalDecisions.CrystalReports.Engine.Table table in report.Database.Tables)
+                    {
+                        var logonInfo = table.LogOnInfo;
+                        logonInfo.ConnectionInfo.IntegratedSecurity = true; // o configura user/password si no hay dominio
+                        table.ApplyLogOnInfo(logonInfo);
+                    }
+
+                    Form visor = new Form();
+                    CrystalDecisions.Windows.Forms.CrystalReportViewer visorCrystal = new CrystalDecisions.Windows.Forms.CrystalReportViewer();
+                    visorCrystal.Dock = DockStyle.Fill;
+                    visorCrystal.ReportSource = report;
+                    visor.Controls.Add(visorCrystal);
+                    visor.WindowState = FormWindowState.Maximized;
+                    visor.ShowDialog();
+                }
             }
             catch (Exception ex)
             {
