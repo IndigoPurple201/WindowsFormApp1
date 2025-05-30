@@ -829,69 +829,7 @@ namespace WinFormsApp1
         {
             try
             {
-                using (SqlConnection connection = conexionSQL.ObtenerConexion())
-                {
-                    connection.Open();
-                    string idOrdenCompra = txtOrden.Text.Trim();
 
-                    if (string.IsNullOrWhiteSpace(idOrdenCompra))
-                    {
-                        MessageBox.Show("Por favor, ingrese un ID de orden de compra válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-                    }
-
-                    string query = @"
-                    SELECT
-                        DetalleCompra.idOrdenCompra, DetalleCompra.descripcion, DetalleCompra.cantidad, DetalleCompra.medida, DetalleCompra.precio, DetalleCompra.total,
-                        OrdenCompra.idOrdenCompra, OrdenCompra.Fecha, OrdenCompra.Entrega, OrdenCompra.Recibe, OrdenCompra.FolioCompras,
-                        Proveedor_Compra.Descripcion,
-                        dependencias.id_dependencia, dependencias.descripcion
-                    FROM
-                        inventarios.dbo.DetalleCompra DetalleCompra,
-                        inventarios.dbo.OrdenCompra OrdenCompra,
-                        inventarios.dbo.Proveedor_Compra Proveedor_Compra,
-                        inventarios.dbo.dependencias dependencias
-                    WHERE
-                        DetalleCompra.idOrdenCompra = OrdenCompra.idOrdenCompra AND
-                        OrdenCompra.idProveedor = Proveedor_Compra.idProveedor AND
-                        OrdenCompra.idDepto = dependencias.id_dependencia AND
-                        OrdenCompra.idOrdenCompra = @idOrdenCompra
-                    ORDER BY
-                        dependencias.id_dependencia ASC;
-                    ";
-
-                    SqlCommand cmd = new SqlCommand(query, connection);
-                    cmd.Parameters.AddWithValue("@idOrdenCompra", 279);
-
-                    SqlDataAdapter da = new SqlDataAdapter(cmd);
-                    DataTable dt = new DataTable();
-                    da.Fill(dt);
-
-                    ReportDocument report = new ReportDocument();
-                    string basePath = AppDomain.CurrentDomain.BaseDirectory;
-                    string rutaReporte = Path.Combine(basePath, "Reportes", "rptOrdenCompra.rpt");
-
-                    if (!File.Exists(rutaReporte))
-                    {
-                        MessageBox.Show("⚠️ El archivo de reporte no se encontró:\n" + rutaReporte, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return;
-                    }
-
-                    report.Load(rutaReporte);
-                    report.SetDataSource(dt);
-
-                    Form visor = new Form();
-                    CrystalDecisions.Windows.Forms.CrystalReportViewer visorCrystal = new CrystalDecisions.Windows.Forms.CrystalReportViewer
-                    {
-                        Dock = DockStyle.Fill,
-                        ReportSource = report
-                    };
-
-                    visor.Controls.Add(visorCrystal);
-                    visor.WindowState = FormWindowState.Maximized;
-                    visor.ShowDialog();
-
-                }
             }
             catch (Exception ex)
             {
