@@ -18,6 +18,7 @@ namespace WinFormsApp1
         {
             InitializeComponent();
             this.formularioConectar = conectar;
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
         }
 
         private void Menu_Load(object sender, EventArgs e)
