@@ -10,6 +10,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ReferencePath>C:\Program Files (x86)\SAP BusinessObjects\Crystal Reports for .NET Framework 4.0\Common\SAP BusinessObjects Enterprise XI 4.0\win64_x64\dotnet\</ReferencePath>
     <ApplicationIcon>escudo_de_armas_de_saltillo_coahuila__1__Ql9_icon.ico</ApplicationIcon>
+    <AssemblyName>NuevoInventario</AssemblyName>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -99,6 +100,24 @@
 
   <ItemGroup>
     <None Update="conexion.udl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Imagenes\14034319.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Imagenes\escudo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Imagenes\Escudo_de_Armas_de_Saltillo_Coahuila.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Imagenes\left-arrow-icon-black-arrow-to-the-left-isolated-on-white-background-red-large-forward-or-left-pointing-solid-long-arrow-icon-sketched-as-symbol-vector-2-removebg-preview-2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Imagenes\left-arrow-icon-black-arrow-to-the-left-isolated-on-white-background-red-large-forward-or-left-pointing-solid-long-arrow-icon-sketched-as-symbol-vector-2-removebg-preview.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Imagenes\left-arrow-icon-black-arrow-to-the-left-isolated-on-white-background-red-large-forward-or-left-pointing-solid-long-arrow-icon-sketched-as-symbol-vector-2.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Reportes\rptCpu_depto_detalle.rpt">

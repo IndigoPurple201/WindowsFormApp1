@@ -116,6 +116,8 @@ namespace WinFormsApp1
                 txtFolio.Visible = false;
                 boxDepartamentos.Visible = true;
                 boxDepartamentos.Enabled = false;
+                boxDepartamentos.SelectedIndex = -1;
+                txtFolio.Clear();
             }
         }
 
@@ -128,6 +130,7 @@ namespace WinFormsApp1
                 boxDepartamentos.Visible = true;
                 boxDepartamentos.Enabled = true;
                 cargarDepartamentos();
+                txtFolio.Clear();
             }
         }
 
@@ -139,6 +142,7 @@ namespace WinFormsApp1
                 txtFolio.Visible = true;
                 boxDepartamentos.Visible = false;
                 txtFolio.Focus();
+                boxDepartamentos.SelectedIndex = -1;
             }
         }
 
